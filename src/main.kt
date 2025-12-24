@@ -10,8 +10,8 @@ fun main(){
     println(hasDuplicates) // true
     println(emotions.distinct())
     println(emotions.toSet())
-    /*for (i in emotions){
+    for (i in emotions){
         println("item $i")
-    }*/
+    }
 
 }
