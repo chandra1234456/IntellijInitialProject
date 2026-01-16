@@ -1,12 +1,9 @@
-import kotlin.io.println
-import java.text.SimpleDateFormat
-import java.util.Locale.getDefault
 
 
-suspend fun main() {
+fun main() {
     println("Hello Coroutines")
-    val list = mutableListOf("Hello", "Hiii",2,4,1.05,4.050,4.60)
-    val listTwo = mutableListOf<Any>("Hello", "Hiii",2,4,1.05,4.050,4.60)
+    val list = mutableListOf("Hello", "Hiii", 2, 4, 1.05, 4.050, 4.60)
+    val listTwo = mutableListOf<Any>("Hello", "Hiii", 2, 4, 1.05, 4.050, 4.60)
     listItem(list)
     listItemTwo(listTwo)
     performTask(
@@ -14,22 +11,27 @@ suspend fun main() {
             println("Callback received receivedResult: $receivedResult")
 
         }, onReceived = { receivedResult ->
-         println("Callback received receivedResult: $receivedResult")
+            println("Callback received receivedResult: $receivedResult")
 
         }
     )
-    val price = 100
-    val qty = 3
-    val total = price * qty
-    coroutines()
-    val c1 = 'a'+1
+    val c1 = 'a' + 1
     val c2 = 'a' + 25
     val c3 = 'E' - 2
     println("c1 $c1")
     println("c2 $c2")
     println("c3 $c3")
 }
-
+/*fun cubes(nums :Int)= sequence {
+    repeat(nums){
+        yield(it*it*it)
+    }
+}
+fun main(){
+    cubes(10).forEach{
+        println(it)
+    }
+}*/
 
 
 fun listItemTwo(listTwo: MutableList<Any>) {
@@ -42,7 +44,7 @@ fun <T> listItem(list: List<T>) {
     }
 }
 
-fun performTask(onComplete: (result: String) -> Unit,onReceived:(receivedResult: String)-> Unit) {
+fun performTask(onComplete: (result: String) -> Unit, onReceived: (receivedResult: String) -> Unit) {
     // Perform some long-running or asynchronous work
     println("onComplete Task started...")
     // ... when finished ...
@@ -53,19 +55,7 @@ fun performTask(onComplete: (result: String) -> Unit,onReceived:(receivedResult:
     onReceived(received)
 }
 
-suspend fun coroutines(){
-      println("Current Thread:: ${Thread.currentThread().name}")
-    val inputFormat = SimpleDateFormat("dd/MM/yyyy", getDefault())
-    val outputFormat = SimpleDateFormat("dd-MM-yyyy", getDefault())
 
-    val formattedDob = try {
-        val date = inputFormat.parse("06/08/1999")
-        outputFormat.format(date!!)
-    } catch (_: Exception) {
-        null  // or handle gracefully
-    }
-      println("$formattedDob")
-}
 
 
 

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Basics Interview Questions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #3a3f58;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #ddd;
+        }
+
+        .question-container {
+            background-color: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .question-container:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #4a6fa5;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .question:hover {
+            background-color: #3d5a80;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            background-color: #f9f9f9;
+            border-left: 4px solid #4a6fa5;
+        }
+
+        .answer.show {
+            padding: 25px;
+            max-height: 1000px;
+        }
+
+        .answer-content {
+            line-height: 1.7;
+        }
+
+        .answer-content h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .answer-content p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .answer-content ul, .answer-content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .answer-content li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .highlight {
+            background-color: #e8f4fc;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background-color: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #3d5a80;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .question {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+
+            .answer.show {
+                padding: 20px;
+            }
+
+            .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Android Basics Interview Questions</h1>
+        <p class="subtitle">Essential questions for Android developer interviews with detailed answers</p>
+    </header>
+
+    <div class="controls">
+        <button class="btn" id="showAll">Expand All Answers</button>
+        <button class="btn" id="hideAll">Collapse All Answers</button>
+    </div>
+
+    <div class="question-container">
+        <div class="question" data-id="1">
+            <span>1. What is Android?</span>
+            <button class="toggle-btn">+</button>
+        </div>
+        <div class="answer" id="answer1">
+            <div class="answer-content">
+                <p><span class="highlight">Android</span> is an open-source, Linux-based operating system designed primarily for touchscreen mobile devices such as smartphones and tablets.</p>
+                <h3>Key Characteristics:</h3>
+                <ul>
+                    <li><span class="highlight">Open Source</span>: Android's source code is released under open-source licenses, allowing developers to modify and distribute the software</li>
+                    <li><span class="highlight">Linux-based Kernel</span>: Provides core system services like security, memory management, process management, and device drivers</li>
+                    <li><span class="highlight">Developed by Google</span>: Originally developed by Android Inc., which Google bought in 2005</li>
+                    <li><span class="highlight">App Ecosystem</span>: Applications are primarily written in Java/Kotlin and distributed through Google Play Store</li>
+                    <li><span class="highlight">Multi-touch Support</span>: Native support for multi-touch gestures</li>
+                    <li><span class="highlight">Multitasking</span>: Supports true multitasking of applications</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question" data-id="2">
+            <span>2. What is Android SDK?</span>
+            <button class="toggle-btn">+</button>
+        </div>
+        <div class="answer" id="answer2">
+            <div class="answer-content">
+                <p>The <span class="highlight">Android SDK (Software Development Kit)</span> is a collection of tools, libraries, and documentation that developers use to create applications for the Android platform.</p>
+                <h3>Main Components of Android SDK:</h3>
+                <ul>
+                    <li><span class="highlight">Android Studio</span>: The official Integrated Development Environment (IDE) for Android development</li>
+                    <li><span class="highlight">Android Debug Bridge (ADB)</span>: A command-line tool for communicating with an Android device</li>
+                    <li><span class="highlight">Android Emulator</span>: A virtual mobile device that runs on your computer to test applications</li>
+                    <li><span class="highlight">SDK Tools</span>: Build tools, profilers, and other utilities</li>
+                    <li><span class="highlight">SDK Platform Tools</span>: Platform-dependent tools for developing and debugging</li>
+                    <li><span class="highlight">Android Platform</span>: A version of the Android operating system</li>
+                    <li><span class="highlight">System Images</span>: Needed for the emulator to run different versions of Android</li>
+                    <li><span class="highlight">Support Libraries</span>: Backward-compatible versions of Android framework APIs</li>
+                </ul>
+                <p>Developers use the SDK to write apps in Java, Kotlin, or C++ and test them on emulators or real devices.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question" data-id="3">
+            <span>3. What is Android NDK?</span>
+            <button class="toggle-btn">+</button>
+        </div>
+        <div class="answer" id="answer3">
+            <div class="answer-content">
+                <p>The <span class="highlight">Android NDK (Native Development Kit)</span> is a toolset that allows developers to implement parts of their Android apps using native-code languages like C and C++.</p>
+                <h3>When to Use NDK:</h3>
+                <ul>
+                    <li><span class="highlight">Performance-Critical Code</span>: For CPU-intensive operations like physics simulations, signal processing</li>
+                    <li><span class="highlight">Reuse Existing Libraries</span>: To reuse C/C++ libraries in Android applications</li>
+                    <li><span class="highlight">Low-Level Operations</span>: For operations that require direct hardware access</li>
+                    <li><span class="highlight">Game Development</span>: For game engines and graphics-intensive applications</li>
+                </ul>
+                <h3>NDK vs SDK:</h3>
+                <ul>
+                    <li><span class="highlight">SDK</span>: Uses Java/Kotlin, easier to develop, managed memory, platform-independent bytecode</li>
+                    <li><span class="highlight">NDK</span>: Uses C/C++, more complex, manual memory management, platform-dependent native code</li>
+                </ul>
+                <p>Most Android apps don't need the NDK. The SDK is sufficient for typical applications. NDK is used only when necessary for performance reasons or to reuse existing native code.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question" data-id="4">
+            <span>4. What is the Android Runtime (ART)?</span>
+            <button class="toggle-btn">+</button>
+        </div>
+        <div class="answer" id="answer4">
+            <div class="answer-content">
+                <p><span class="highlight">ART (Android Runtime)</span> is the managed runtime used by applications and some system services on Android. It replaced Dalvik (the original runtime) starting from Android 5.0 (Lollipop).</p>
+                <h3>Key Features of ART:</h3>
+                <ul>
+                    <li><span class="highlight">Ahead-of-Time (AOT) Compilation</span>: Compiles apps during installation rather than at runtime</li>
+                    <li><span class="highlight">Improved Performance</span>: Better execution performance and battery optimization</li>
+                    <li><span class="highlight">Garbage Collection Improvements</span>: More efficient garbage collection with less pause time</li>
+                    <li><span class="highlight">Development and Debugging Features</span>: Support for sampling profiler, detailed diagnostic exceptions, and crash reporting</li>
+                </ul>
+                <h3>ART vs Dalvik:</h3>
+                <ul>
+                    <li><span class="highlight">Dalvik</span>: Used Just-in-Time (JIT) compilation, compiled bytecode at runtime</li>
+                    <li><span class="highlight">ART</span>: Uses Ahead-of-Time (AOT) compilation, compiles to native machine code during app installation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question" data-id="5">
+            <span>5. What are the key components of an Android application?</span>
+            <button class="toggle-btn">+</button>
+        </div>
+        <div class="answer" id="answer5">
+            <div class="answer-content">
+                <p>Android applications are composed of several essential components that define the app's structure and functionality:</p>
+                <h3>Main Components:</h3>
+                <ul>
+                    <li><span class="highlight">Activities</span>: Represent a single screen with a user interface (e.g., login screen, home screen)</li>
+                    <li><span class="highlight">Services</span>: Run in the background to perform long-running operations or work for remote processes</li>
+                    <li><span class="highlight">Broadcast Receivers</span>: Respond to system-wide broadcast announcements (e.g., low battery, screen off)</li>
+                    <li><span class="highlight">Content Providers</span>: Manage a shared set of app data that can be stored in the file system, SQLite database, or on the web</li>
+                    <li><span class="highlight">Intents</span>: Messaging objects used to request an action from another app component</li>
+                    <li><span class="highlight">Fragments</span>: Represent a portion of user interface in an Activity, allowing modular design</li>
+                    <li><span class="highlight">Manifest File</span>: Describes essential information about the app to the Android system</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <div class="question" data-id="6">
+            <span>6. What is the Android Manifest file?</span>
+            <button class="toggle-btn">+</button>
+        </div>
+        <div class="answer" id="answer6">
+            <div class="answer-content">
+                <p>The <span class="highlight">AndroidManifest.xml</span> file is a crucial file in every Android app that provides essential information about the application to the Android system.</p>
+                <h3>Information Contained in Manifest:</h3>
+                <ul>
+                    <li><span class="highlight">Package Name</span>: Unique application identifier</li>
+                    <li><span class="highlight">App Components</span>: Declares all Activities, Services, Broadcast Receivers, and Content Providers</li>
+                    <li><span class="highlight">Permissions</span>: Lists permissions the app needs to function (e.g., camera access, internet)</li>
+                    <li><span class="highlight">Minimum API Level</span>: The minimum Android API level required</li>
+                    <li><span class="highlight">Target API Level</span>: The API level the app is designed for</li>
+                    <li><span class="highlight">Hardware/Software Features</span>: Declares any hardware or software features the app requires</li>
+                    <li><span class="highlight">App Metadata</span>: Icon, label, theme, and other metadata</li>
+                </ul>
+                <p>The Android system must see information in the manifest before it can run any of the app's code.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Android Basics Interview Questions | Created for learning purposes</p>
+        <p>Toggle questions to view answers. Use buttons to expand/collapse all answers at once.</p>
+    </footer>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const questions = document.querySelectorAll('.question');
+        const showAllBtn = document.getElementById('showAll');
+        const hideAllBtn = document.getElementById('hideAll');
+
+        // Toggle individual question
+        questions.forEach(question => {
+            question.addEventListener('click', function() {
+                const answerId = this.getAttribute('data-id');
+                const answer = document.getElementById(`answer${answerId}`);
+                const toggleBtn = this.querySelector('.toggle-btn');
+
+                answer.classList.toggle('show');
+
+                if (answer.classList.contains('show')) {
+                    toggleBtn.textContent = '-';
+                } else {
+                    toggleBtn.textContent = '+';
+                }
+            });
+        });
+
+        // Show all answers
+        showAllBtn.addEventListener('click', function() {
+            document.querySelectorAll('.answer').forEach(answer => {
+                answer.classList.add('show');
+            });
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.textContent = '-';
+            });
+        });
+
+        // Hide all answers
+        hideAllBtn.addEventListener('click', function() {
+            document.querySelectorAll('.answer').forEach(answer => {
+                answer.classList.remove('show');
+            });
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.textContent = '+';
+            });
+        });
+    });
+</script>
+</body>
+</html>

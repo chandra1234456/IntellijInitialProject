@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow, StateFlow, SharedFlow - Android Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .question {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-left: 4px solid #3498db;
+        }
+        .answer {
+            margin-top: 5px;
+            padding: 10px;
+            background-color: #ffffff;
+            border-left: 4px solid #2ecc71;
+        }
+        pre {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+<h1>Flow, StateFlow, SharedFlow - Android Interview Questions</h1>
+
+<h2>Basic Questions</h2>
+
+<div class="question">
+    1. What is Kotlin Flow?
+</div>
+<div class="answer">
+    Flow is a <strong>cold asynchronous data stream</strong> that emits multiple values sequentially.
+    It is built on Kotlin coroutines.
+</div>
+
+<div class="question">
+    2. Difference between Flow and LiveData?
+</div>
+<div class="answer">
+    - Flow is <strong>cold</strong>, LiveData is <strong>hot</strong><br>
+    - Flow supports more operators and coroutines<br>
+    - LiveData is lifecycle-aware; Flow needs <code>collect</code> with lifecycleScope
+</div>
+
+<div class="question">
+    3. What is cold and hot stream?
+</div>
+<div class="answer">
+    <strong>Cold stream:</strong> Produces values only when collected (Flow)<br>
+    <strong>Hot stream:</strong> Produces values regardless of collectors (LiveData, StateFlow, SharedFlow)
+</div>
+
+<h2>StateFlow Questions</h2>
+
+<div class="question">
+    4. What is StateFlow?
+</div>
+<div class="answer">
+    StateFlow is a <strong>hot, observable state holder</strong> flow that always has a current value.
+    Ideal for <strong>UI state management</strong>.
+</div>
+
+<div class="question">
+    5. Difference between StateFlow and LiveData?
+</div>
+<div class="answer">
+    - StateFlow is part of Kotlin Coroutines<br>
+    - StateFlow is always hot and has a default value<br>
+    - LiveData is lifecycle-aware; StateFlow requires lifecycleScope for collection
+</div>
+
+<div class="question">
+    6. How to create StateFlow?
+</div>
+<div class="answer">
+        <pre>
+private val _state = MutableStateFlow(0)
+val state: StateFlow<Int> = _state
+
+// Update
+_state.value = 1
+
+// Collect
+lifecycleScope.launch {
+    state.collect { value ->
+        println(value)
+    }
+}
+        </pre>
+</div>
+
+<h2>SharedFlow Questions</h2>
+
+<div class="question">
+    7. What is SharedFlow?
+</div>
+<div class="answer">
+    SharedFlow is a <strong>hot flow</strong> that allows multiple collectors to receive the same emitted values.
+    Unlike StateFlow, it does not require an initial value.
+</div>
+
+<div class="question">
+    8. Difference between StateFlow and SharedFlow?
+</div>
+<div class="answer">
+    | Feature | StateFlow | SharedFlow |
+    |---------|-----------|------------|
+    | Hot / Cold | Hot | Hot |
+    | Initial value | Required | Optional |
+    | Replay | 1 (last value) | Configurable |
+    | Use case | State holder (UI) | Event bus, multiple emissions |
+</div>
+
+<div class="question">
+    9. How to create SharedFlow?
+</div>
+<div class="answer">
+        <pre>
+private val _events = MutableSharedFlow<String>()
+val events: SharedFlow<String> = _events
+
+// Emit
+lifecycleScope.launch {
+    _events.emit("Hello")
+}
+
+// Collect
+lifecycleScope.launch {
+    events.collect { value ->
+        println(value)
+    }
+}
+        </pre>
+</div>
+
+<h2>Intermediate / Scenario Questions</h2>
+
+<div class="question">
+    10. When to use StateFlow vs SharedFlow?
+</div>
+<div class="answer">
+    - StateFlow: holds <strong>UI state</strong> that needs the latest value<br>
+    - SharedFlow: <strong>one-time events</strong> like navigation, toast, snackbar
+</div>
+
+<div class="question">
+    11. How to convert Flow to StateFlow?
+</div>
+<div class="answer">
+        <pre>
+val flow: Flow<Int> = repository.getNumbers()
+val stateFlow = flow.stateIn(
+    scope = viewModelScope,
+    started = SharingStarted.Lazily,
+    initialValue = 0
+)
+        </pre>
+</div>
+
+<div class="question">
+    12. How to share Flow between multiple collectors?
+</div>
+<div class="answer">
+    Use <code>shareIn</code> or <code>StateFlow</code> / <code>SharedFlow</code> to make cold flow hot
+</div>
+
+<h2>Practice Questions</h2>
+
+<div class="question">
+    13. Create a Flow that emits numbers from 1 to 5 with a 1-second delay.
+</div>
+<div class="answer">
+        <pre>
+fun numberFlow(): Flow<Int> = flow {
+    for (i in 1..5) {
+        delay(1000)
+        emit(i)
+    }
+}
+        </pre>
+</div>
+
+<div class="question">
+    14. Use StateFlow to hold a counter and increment it.
+</div>
+<div class="answer">
+        <pre>
+private val _counter = MutableStateFlow(0)
+val counter: StateFlow<Int> = _counter
+
+fun increment() {
+    _counter.value += 1
+}
+        </pre>
+</div>
+
+<div class="question">
+    15. Use SharedFlow to send a one-time event like a Toast.
+</div>
+<div class="answer">
+        <pre>
+private val _toastEvent = MutableSharedFlow<String>()
+val toastEvent: SharedFlow<String> = _toastEvent
+
+fun showToast(message: String) {
+    viewModelScope.launch {
+        _toastEvent.emit(message)
+    }
+}
+        </pre>
+</div>
+
+<div class="question">
+    16. Difference between <code>collect</code> and <code>collectLatest</code>?
+</div>
+<div class="answer">
+    - <code>collect</code>: collects all emissions sequentially<br>
+    - <code>collectLatest</code>: cancels previous collector when new value emitted
+</div>
+
+<div class="question">
+    17. How to cancel a Flow collection in ViewModel?
+</div>
+<div class="answer">
+    Use <code>viewModelScope.launch</code> and cancel the Job if needed.
+</div>
+
+</body>
+</html>

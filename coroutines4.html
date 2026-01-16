@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kotlin Coroutines – Interview Ready Example</title>
+</head>
+<body>
+
+<h1>Kotlin Coroutines – Interview Ready Demonstration</h1>
+
+<p>
+    This example demonstrates:
+<ul>
+    <li>Correct coroutine code</li>
+    <li>Proper dispatcher selection</li>
+    <li>Cancellation handling</li>
+    <li>Structured concurrency</li>
+</ul>
+</p>
+
+<hr>
+
+<h2>1. Problem Scenario</h2>
+<p>
+    You need to:
+<ul>
+    <li>Fetch data from a network</li>
+    <li>Process it in parallel</li>
+    <li>Cancel work if the user leaves the screen</li>
+</ul>
+</p>
+
+<hr>
+
+<h2>2. Complete Code</h2>
+
+<pre><code>
+import kotlinx.coroutines.*
+
+suspend fun fetchUser(): String {
+    delay(2000)
+    return "User Data"
+}
+
+suspend fun fetchPosts(): String {
+    delay(3000)
+    return "User Posts"
+}
+
+fun main() = runBlocking {
+
+    val parentJob = launch(Dispatchers.IO) {
+
+        val userDeferred = async {
+            fetchUser()
+        }
+
+        val postsDeferred = async {
+            fetchPosts()
+        }
+
+        val user = userDeferred.await()
+        val posts = postsDeferred.await()
+
+        withContext(Dispatchers.Default) {
+            println("Processing data...")
+        }
+
+        withContext(Dispatchers.Main) {
+            println("$user + $posts")
+        }
+    }
+
+    delay(2500)
+    parentJob.cancel()
+    println("Parent coroutine cancelled")
+}
+</code></pre>
+
+<hr>
+
+<h2>3. Dispatcher Choice – Interview Explanation</h2>
+
+<p><b>Dispatchers.IO</b></p>
+<ul>
+    <li>Used for network or disk operations</li>
+    <li>Optimized for blocking IO tasks</li>
+    <li>Prevents blocking the main thread</li>
+</ul>
+
+<p><b>Dispatchers.Default</b></p>
+<ul>
+    <li>Used for CPU-intensive work</li>
+    <li>Example: data processing or calculations</li>
+    <li>Uses a shared pool based on CPU cores</li>
+</ul>
+
+<p><b>Dispatchers.Main</b></p>
+<ul>
+    <li>Used for UI updates</li>
+    <li>Ensures UI is updated safely</li>
+</ul>
+
+<p>
+    <b>Interview Tip:</b>
+    Always explain <i>why</i> a dispatcher is chosen, not just <i>which</i> one.
+</p>
+
+<hr>
+
+<h2>4. Cancellation – Interview Explanation</h2>
+
+<p>
+    In this example:
+<ul>
+    <li>The parent coroutine is cancelled after 2.5 seconds</li>
+    <li>Both child coroutines (<code>async</code>) are cancelled automatically</li>
+</ul>
+</p>
+
+<p>
+    Key interview points:
+<ul>
+    <li>Coroutines support <b>cooperative cancellation</b></li>
+    <li><code>delay()</code> is cancellable</li>
+    <li>No thread is blocked during cancellation</li>
+</ul>
+</p>
+
+<hr>
+
+<h2>5. Structured Concurrency – Interview Explanation</h2>
+
+<p>
+    Structured concurrency means:
+<ul>
+    <li>Child coroutines belong to a parent</li>
+    <li>When the parent is cancelled, children are cancelled</li>
+    <li>No background task is left running accidentally</li>
+</ul>
+</p>
+
+<p>
+    In this code:
+<ul>
+    <li><code>launch</code> creates the parent coroutine</li>
+    <li><code>async</code> coroutines are its children</li>
+    <li>Cancellation flows automatically</li>
+</ul>
+</p>
+
+<p>
+    <b>Interview Phrase to Use:</b><br>
+    "Structured concurrency guarantees lifecycle safety and prevents orphan coroutines."
+</p>
+
+<hr>
+
+<h2>6. Final Interview Summary</h2>
+
+<p>
+    If you explain this confidently, interviewers conclude:
+<ul>
+    <li>You understand coroutine basics</li>
+    <li>You choose correct dispatchers</li>
+    <li>You handle cancellation properly</li>
+    <li>You follow structured concurrency</li>
+</ul>
+</p>
+
+<p>
+    <b>Result:</b> 👉 <b>Strong Interview-Ready Level</b>
+</p>
+
+</body>
+</html>

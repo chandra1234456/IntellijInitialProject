@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kotlin Coroutines – Scenario Based Sample Answers</title>
+</head>
+<body>
+
+<h1>Scenario-Based Kotlin Coroutines – Sample Answers</h1>
+
+<h2>Scenario 1: Network Call on Background Thread</h2>
+<pre><code>
+suspend fun fetchUser(): String {
+    delay(2000)
+    return "User Data"
+}
+
+fun main() = runBlocking {
+    withContext(Dispatchers.IO) {
+        val result = fetchUser()
+        withContext(Dispatchers.Main) {
+            println(result)
+        }
+    }
+}
+</code></pre>
+
+<hr>
+
+<h2>Scenario 2: Parallel API Calls</h2>
+<pre><code>
+suspend fun getProfile(): String {
+    delay(1000)
+    return "Profile"
+}
+
+suspend fun getPosts(): String {
+    delay(1500)
+    return "Posts"
+}
+
+fun main() = runBlocking {
+    val profile = async { getProfile() }
+    val posts = async { getPosts() }
+
+    println("${profile.await()} + ${posts.await()}")
+}
+</code></pre>
+
+<hr>
+
+<h2>Scenario 3: Cancel Long Running Task</h2>
+<pre><code>
+fun main() = runBlocking {
+    val job = launch {
+        repeat(10) {
+            delay(500)
+            println("Downloading $it")
+        }
+    }
+
+    delay(2000)
+    job.cancel()
+    println("Download cancelled")
+}
+</code></pre>
+
+<hr>
+
+<h2>Scenario 4: Exception Handling</h2>
+<pre><code>
+fun main() = runBlocking {
+    val handler = CoroutineExceptionHandler { _, exception ->
+        println("Caught: ${exception.message}")
+    }
+
+    launch(handler) {
+        throw RuntimeException("Something went wrong")
+    }
+}
+</code></pre>
+
+<hr>
+
+<h2>Scenario 5: Structured Concurrency</h2>
+<pre><code>
+fun main() = runBlocking {
+    val parent = launch {
+        launch {
+            delay(1000)
+            println("Child 1")
+        }
+        launch {
+            delay(2000)
+            println("Child 2")
+        }
+    }
+
+    delay(500)
+    parent.cancel()
+    println("Parent cancelled")
+}
+</code></pre>
+
+<hr>
+
+<h2>Scenario 6: Switching Threads</h2>
+<pre><code>
+fun main() = runBlocking {
+    withContext(Dispatchers.Default) {
+        val result = (1..1_000_000).sum()
+        withContext(Dispatchers.Main) {
+            println("Result: $result")
+        }
+    }
+}
+</code></pre>
+
+<hr>
+
+<h2>Scenario 7: Timeout Handling</h2>
+<pre><code>
+fun main() = runBlocking {
+    val result = withTimeoutOrNull(3000) {
+        delay(5000)
+        "Success"
+    }
+    println(result ?: "Timeout occurred")
+}
+</code></pre>
+
+<hr>
+
+<h2>Scenario 8: Flow Example</h2>
+<pre><code>
+fun numberFlow() = flow {
+    repeat(5) {
+        emit(it)
+        delay(1000)
+    }
+}
+
+fun main() = runBlocking {
+    numberFlow().collect {
+        println(it)
+    }
+}
+</code></pre>
+
+<hr>
+
+<h2>Scenario 9: Lifecycle-Aware Coroutine (Android)</h2>
+<pre><code>
+viewModelScope.launch {
+    delay(2000)
+    println("Data loaded safely")
+}
+</code></pre>
+<p>
+    Explanation: <code>viewModelScope</code> automatically cancels coroutines when
+    ViewModel is cleared, preventing memory leaks.
+</p>
+
+<hr>
+
+<h2>Scenario 10: Thread vs Coroutine</h2>
+<pre><code>
+fun main() = runBlocking {
+    repeat(10_000) {
+        launch {
+            delay(1000)
+            print(".")
+        }
+    }
+}
+</code></pre>
+
+<p>
+    <b>Explanation:</b><br>
+    Coroutines are lightweight, use fewer resources, and can scale to thousands
+    unlike threads which are expensive and limited.
+</p>
+
+</body>
+</html>

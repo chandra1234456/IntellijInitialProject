@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kotlin Coroutines – Scenario Based Questions</title>
+</head>
+<body>
+
+<h1>Scenario-Based Kotlin Coroutines Program Questions</h1>
+
+<h2>Scenario 1: Network Call on Background Thread</h2>
+<p>
+    You are building an Android app. You need to fetch user data from a network API.
+</p>
+<p><b>Task:</b></p>
+<ul>
+    <li>Write a <code>suspend fun</code> that simulates a network call using <code>delay()</code></li>
+    <li>Call it from a coroutine running on <code>Dispatchers.IO</code></li>
+    <li>Print the result on the Main thread</li>
+</ul>
+
+<hr>
+
+<h2>Scenario 2: Parallel API Calls</h2>
+<p>
+    An app needs to fetch user profile and user posts at the same time.
+</p>
+<p><b>Task:</b></p>
+<ul>
+    <li>Create two suspend functions</li>
+    <li>Run them in parallel using <code>async</code></li>
+    <li>Wait for both results and print them together</li>
+</ul>
+
+<hr>
+
+<h2>Scenario 3: Cancel Long Running Task</h2>
+<p>
+    A file download is running, but the user leaves the screen.
+</p>
+<p><b>Task:</b></p>
+<ul>
+    <li>Launch a coroutine that runs a loop with <code>delay()</code></li>
+    <li>Cancel the coroutine after 2 seconds</li>
+    <li>Handle cancellation properly</li>
+</ul>
+
+<hr>
+
+<h2>Scenario 4: Exception Handling</h2>
+<p>
+    A coroutine throws an exception during execution.
+</p>
+<p><b>Task:</b></p>
+<ul>
+    <li>Create a coroutine using <code>launch</code></li>
+    <li>Throw an exception inside it</li>
+    <li>Handle it using <code>CoroutineExceptionHandler</code></li>
+</ul>
+
+<hr>
+
+<h2>Scenario 5: Structured Concurrency</h2>
+<p>
+    You start multiple child coroutines inside a parent coroutine.
+</p>
+<p><b>Task:</b></p>
+<ul>
+    <li>Launch two child coroutines</li>
+    <li>Cancel the parent coroutine</li>
+    <li>Observe what happens to child coroutines</li>
+</ul>
+
+<hr>
+
+<h2>Scenario 6: Switching Threads</h2>
+<p>
+    You are doing heavy computation and then updating UI.
+</p>
+<p><b>Task:</b></p>
+<ul>
+    <li>Start computation on <code>Dispatchers.Default</code></li>
+    <li>Switch to <code>Dispatchers.Main</code> using <code>withContext</code></li>
+</ul>
+
+<hr>
+
+<h2>Scenario 7: Timeout Handling</h2>
+<p>
+    A network call should not run longer than 3 seconds.
+</p>
+<p><b>Task:</b></p>
+<ul>
+    <li>Use <code>withTimeout</code> or <code>withTimeoutOrNull</code></li>
+    <li>Handle timeout gracefully</li>
+</ul>
+
+<hr>
+
+<h2>Scenario 8: Flow vs Suspend</h2>
+<p>
+    You need to emit multiple values over time.
+</p>
+<p><b>Task:</b></p>
+<ul>
+    <li>Create a <code>Flow</code> that emits numbers every second</li>
+    <li>Collect it inside a coroutine</li>
+</ul>
+
+<hr>
+
+<h2>Scenario 9: Lifecycle-Aware Coroutine (Android)</h2>
+<p>
+    You want a coroutine to stop automatically when the screen is destroyed.
+</p>
+<p><b>Task:</b></p>
+<ul>
+    <li>Use <code>lifecycleScope</code> or <code>viewModelScope</code></li>
+    <li>Explain why it prevents memory leaks</li>
+</ul>
+
+<hr>
+
+<h2>Scenario 10: Compare Thread vs Coroutine</h2>
+<p>
+    You need to run 10,000 background tasks.
+</p>
+<p><b>Task:</b></p>
+<ul>
+    <li>Explain why coroutines are better than threads</li>
+    <li>Write a small example using <code>repeat()</code> and <code>launch</code></li>
+</ul>
+
+</body>
+</html>

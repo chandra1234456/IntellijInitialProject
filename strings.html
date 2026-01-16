@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android String Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        ul {
+            list-style-type: square;
+        }
+        .problem {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .answer {
+            margin-top: 5px;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<h1>Android String Interview Questions & Problems</h1>
+
+<h2>Basic Questions</h2>
+<ul>
+    <li>What is the difference between <code>String</code>, <code>StringBuilder</code>, and <code>StringBuffer</code> in Android?</li>
+    <li>How are Strings stored in memory in Android?</li>
+    <li>Explain string immutability in Java and its impact on Android apps.</li>
+    <li>How do you compare two strings in Android?</li>
+    <li>How do you convert a <code>String</code> to <code>int</code>, <code>float</code>, or <code>boolean</code>?</li>
+</ul>
+
+<h2>Common String Problems</h2>
+<div class="problem">
+    <strong>Problem 1:</strong> Reverse a string in Android.
+    <div class="answer">
+        You can use <code>StringBuilder("text").reverse().toString()</code> or a manual loop.
+    </div>
+</div>
+
+<div class="problem">
+    <strong>Problem 2:</strong> Check if a string is a palindrome.
+    <div class="answer">
+        Compare the string with its reverse. If they are equal, it's a palindrome.
+    </div>
+</div>
+
+<div class="problem">
+    <strong>Problem 3:</strong> Count the number of vowels and consonants in a string.
+    <div class="answer">
+        Loop through the string and check if each character is a vowel or consonant.
+    </div>
+</div>
+
+<div class="problem">
+    <strong>Problem 4:</strong> Remove all whitespaces from a string.
+    <div class="answer">
+        Use <code>str.replaceAll("\\s+", "")</code>.
+    </div>
+</div>
+
+<div class="problem">
+    <strong>Problem 5:</strong> Find the first non-repeating character in a string.
+    <div class="answer">
+        Use a <code>HashMap</code> to count character occurrences and return the first with count 1.
+    </div>
+</div>
+
+<div class="problem">
+    <strong>Problem 6:</strong> Check if two strings are anagrams.
+    <div class="answer">
+        Sort both strings and compare them, or use a frequency array to count characters.
+    </div>
+</div>
+
+<div class="problem">
+    <strong>Problem 7:</strong> Convert a string to uppercase and lowercase.
+    <div class="answer">
+        Use <code>str.toUpperCase()</code> and <code>str.toLowerCase()</code>.
+    </div>
+</div>
+
+<div class="problem">
+    <strong>Problem 8:</strong> Remove duplicate characters from a string.
+    <div class="answer">
+        Use a <code>LinkedHashSet</code> to maintain order and remove duplicates.
+    </div>
+</div>
+
+<div class="problem">
+    <strong>Problem 9:</strong> Count occurrences of a substring in a string.
+    <div class="answer">
+        Loop with <code>indexOf()</code> and count matches, or use regex.
+    </div>
+</div>
+
+<div class="problem">
+    <strong>Problem 10:</strong> Check if a string contains only digits.
+    <div class="answer">
+        Use <code>str.matches("\\d+")</code>.
+    </div>
+</div>
+</body>
+</html>

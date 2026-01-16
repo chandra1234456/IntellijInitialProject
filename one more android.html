@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Android Interview Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+        }
+
+        :root {
+            --primary: #3a3f58;
+            --secondary: #4a6fa5;
+            --accent: #32a852;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --gray: #6c757d;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #a5d6ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .header-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 180px;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            background: white;
+            color: var(--dark);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .tab-btn.active {
+            background: var(--secondary);
+            color: white;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        /* Content Sections */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+
+        /* Question Cards */
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--secondary);
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-header {
+            padding: 20px;
+            background: #f8fafc;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-number {
+            background: var(--secondary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--dark);
+            flex: 1;
+        }
+
+        .toggle-icon {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .answer-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            background: #fefefe;
+        }
+
+        .answer-content.expanded {
+            padding: 25px;
+            max-height: 1000px;
+        }
+
+        .answer-content p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .highlight {
+            background: #e8f4fc;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--primary);
+            display: inline-block;
+            margin: 2px 0;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .note {
+            background: #fff9e6;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Interview Tips */
+        .tips-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .tip-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent);
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: var(--dark);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: var(--gray);
+            border-top: 1px solid #dee2e6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .question-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .header-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Android Developer Interview Guide</h1>
+        <p class="tagline">Master the fundamentals of Android development with detailed explanations and examples</p>
+        <div class="header-info">
+            <div class="info-card">
+                <h3>20+ Questions</h3>
+                <p>Comprehensive Coverage</p>
+            </div>
+            <div class="info-card">
+                <h3>4 Categories</h3>
+                <p>Structured Learning</p>
+            </div>
+            <div class="info-card">
+                <h3>Code Examples</h3>
+                <p>Practical Implementation</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" data-tab="basics">Android Basics</button>
+        <button class="tab-btn" data-tab="components">Components</button>
+        <button class="tab-btn" data-tab="advanced">Advanced Topics</button>
+        <button class="tab-btn" data-tab="tips">Interview Tips</button>
+    </div>
+
+    <!-- Basics Tab -->
+    <div id="basics" class="tab-content active">
+        <h2 class="section-title">Android Fundamentals</h2>
+
+        <div class="question-grid">
+            <!-- Question 1 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">1</div>
+                    <div class="question-text">What is Android?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <p><span class="highlight">Android</span> is an open-source, Linux-based operating system developed by Google for mobile devices.</p>
+
+                    <div class="note">
+                        <strong>Key Points:</strong> Created in 2003, acquired by Google in 2005, first commercial version in 2008.
+                    </div>
+
+                    <p><strong>Architecture Layers:</strong></p>
+                    <ol>
+                        <li><span class="highlight">Linux Kernel</span> - Hardware abstraction layer</li>
+                        <li><span class="highlight">Hardware Abstraction Layer (HAL)</span> - Standard interfaces</li>
+                        <li><span class="highlight">Android Runtime (ART)</span> - Executes Dalvik bytecode</li>
+                        <li><span class="highlight">Native C/C++ Libraries</span> - Core system components</li>
+                        <li><span class="highlight">Java API Framework</span> - App building blocks</li>
+                        <li><span class="highlight">System Apps</span> - Pre-installed applications</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">2</div>
+                    <div class="question-text">What is Android SDK?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <p><span class="highlight">Android SDK (Software Development Kit)</span> is a collection of tools for building Android apps.</p>
+
+                    <div class="code-block">
+                        // SDK includes:
+                        - Android Studio IDE
+                        - Android Debug Bridge (ADB)
+                        - Android Emulator
+                        - SDK Tools & Platform Tools
+                        - API Libraries
+                        - Documentation
+                    </div>
+
+                    <p><strong>Key Components:</strong></p>
+                    <ul>
+                        <li><span class="highlight">Build Tools</span> - Compile resources and code</li>
+                        <li><span class="highlight">Platform Tools</span> - ADB, fastboot</li>
+                        <li><span class="highlight">Emulator</span> - Virtual Android device</li>
+                        <li><span class="highlight">Support Libraries</span> - Backward compatibility</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">3</div>
+                    <div class="question-text">What is Android NDK?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <p><span class="highlight">Android NDK (Native Development Kit)</span> allows you to implement parts of your app using native-code languages (C and C++).</p>
+
+                    <p><strong>When to use NDK:</strong></p>
+                    <ul>
+                        <li>CPU-intensive operations (games, physics simulations)</li>
+                        <li>Reuse existing C/C++ libraries</li>
+                        <li>Low-level hardware operations</li>
+                        <li>Performance-critical code sections</li>
+                    </ul>
+
+                    <div class="code-block">
+                        // Example: Simple JNI function
+                        extern "C" JNIEXPORT jstring JNICALL
+                        Java_com_example_app_MainActivity_stringFromJNI(
+                        JNIEnv* env,
+                        jobject /* this */) {
+                        return env->NewStringUTF("Hello from C++");
+                        }
+                    </div>
+
+                    <div class="note">
+                        <strong>Note:</strong> Most apps don't need NDK. Use it only when you need native performance or to reuse existing C/C++ code.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">4</div>
+                    <div class="question-text">What is the difference between Dalvik and ART?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <table style="width:100%; border-collapse: collapse; margin: 15px 0;">
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 10px; text-align: left;">Feature</th>
+                            <th style="padding: 10px; text-align: left;">Dalvik</th>
+                            <th style="padding: 10px; text-align: left;">ART</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;"><strong>Compilation</strong></td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Just-In-Time (JIT)</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Ahead-Of-Time (AOT)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;"><strong>Performance</strong></td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Slower (compiles at runtime)</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Faster (compiled during install)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;"><strong>Battery</strong></td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">More consumption</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Optimized</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;"><strong>Storage</strong></td>
+                            <td style="padding: 10px;">Less storage needed</td>
+                            <td style="padding: 10px;">More storage (pre-compiled)</td>
+                        </tr>
+                    </table>
+
+                    <p><strong>ART Advantages:</strong></p>
+                    <ul>
+                        <li>Better performance (apps launch faster)</li>
+                        <li>Improved battery life</li>
+                        <li>Enhanced garbage collection</li>
+                        <li>Better debugging support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Components Tab -->
+    <div id="components" class="tab-content">
+        <h2 class="section-title">Android Components</h2>
+
+        <div class="question-grid">
+            <!-- Question 5 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">5</div>
+                    <div class="question-text">What are the four main components of Android?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <p>Android apps are built using four fundamental components:</p>
+
+                    <ol>
+                        <li><span class="highlight">Activities</span> - Single screen with UI</li>
+                        <li><span class="highlight">Services</span> - Background operations</li>
+                        <li><span class="highlight">Broadcast Receivers</span> - System-wide announcements</li>
+                        <li><span class="highlight">Content Providers</span> - Data sharing between apps</li>
+                    </ol>
+
+                    <div class="code-block">
+                        // Activity Example
+                        public class MainActivity extends AppCompatActivity {
+                        @Override
+                        protected void onCreate(Bundle savedInstanceState) {
+                        super.onCreate(savedInstanceState);
+                        setContentView(R.layout.activity_main);
+                        }
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">6</div>
+                    <div class="question-text">What is the Android Manifest file?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <p><span class="highlight">AndroidManifest.xml</span> is the configuration file that describes essential information about your app to the Android system.</p>
+
+                    <div class="code-block">
+                        <!-- Manifest Example -->
+                        &lt;manifest package="com.example.app"&gt;
+                        &lt;uses-permission android:name="android.permission.INTERNET"/&gt;
+
+                        &lt;application
+                        android:icon="@mipmap/ic_launcher"
+                        android:label="@string/app_name"&gt;
+
+                        &lt;activity android:name=".MainActivity"&gt;
+                        &lt;intent-filter&gt;
+                        &lt;action android:name="android.intent.action.MAIN"/&gt;
+                        &lt;category android:name="android.intent.category.LAUNCHER"/&gt;
+                        &lt;/intent-filter&gt;
+                        &lt;/activity&gt;
+                        &lt;/application&gt;
+                        &lt;/manifest&gt;
+                    </div>
+
+                    <p><strong>Contains:</strong></p>
+                    <ul>
+                        <li>Package name and version</li>
+                        <li>App components (activities, services, etc.)</li>
+                        <li>Permissions required</li>
+                        <li>Minimum and target SDK versions</li>
+                        <li>Hardware/software features required</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">7</div>
+                    <div class="question-text">What are Intents in Android?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <p><span class="highlight">Intents</span> are messaging objects used to request an action from another app component.</p>
+
+                    <p><strong>Two types of Intents:</strong></p>
+
+                    <p><span class="highlight">1. Explicit Intents</span> - Specify the exact component to start</p>
+                    <div class="code-block">
+                        // Explicit Intent Example
+                        Intent intent = new Intent(this, SecondActivity.class);
+                        startActivity(intent);
+                    </div>
+
+                    <p><span class="highlight">2. Implicit Intents</span> - Declare a general action to perform</p>
+                    <div class="code-block">
+                        // Implicit Intent Example
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("https://www.example.com"));
+                        startActivity(intent);
+                    </div>
+
+                    <p><strong>Common Intent Actions:</strong></p>
+                    <ul>
+                        <li>ACTION_VIEW - Display data to user</li>
+                        <li>ACTION_SEND - Send data to another app</li>
+                        <li>ACTION_DIAL - Open dialer with number</li>
+                        <li>ACTION_CALL - Initiate phone call</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">8</div>
+                    <div class="question-text">What is the difference between Service and IntentService?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <table style="width:100%; border-collapse: collapse; margin: 15px 0;">
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 10px; text-align: left;">Aspect</th>
+                            <th style="padding: 10px; text-align: left;">Service</th>
+                            <th style="padding: 10px; text-align: left;">IntentService</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;"><strong>Thread</strong></td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Runs on main thread</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Worker thread</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;"><strong>Multiple Requests</strong></td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Handle manually</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Queued automatically</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;"><strong>Stopping</strong></td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Manual stop required</td>
+                            <td style="padding: 10px; border-bottom: 1px solid #dee2e6;">Stops automatically</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;"><strong>Use Case</strong></td>
+                            <td style="padding: 10px;">Music player, download manager</td>
+                            <td style="padding: 10px;">Short background tasks</td>
+                        </tr>
+                    </table>
+
+                    <div class="note">
+                        <strong>Note:</strong> IntentService is deprecated in API 30. Use WorkManager or JobIntentService instead.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Topics Tab -->
+    <div id="advanced" class="tab-content">
+        <h2 class="section-title">Advanced Android Topics</h2>
+
+        <div class="question-grid">
+            <!-- Question 9 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">9</div>
+                    <div class="question-text">What is ViewModel and LiveData?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <p><span class="highlight">ViewModel</span> - Stores and manages UI-related data in a lifecycle conscious way.</p>
+                    <p><span class="highlight">LiveData</span> - Observable data holder class that respects lifecycle.</p>
+
+                    <div class="code-block">
+                        // ViewModel with LiveData Example
+                        public class UserViewModel extends ViewModel {
+                        private MutableLiveData<String> userName = new MutableLiveData<>();
+
+                        public LiveData<String> getUserName() {
+                            return userName;
+                            }
+
+                            public void setUserName(String name) {
+                            userName.setValue(name);
+                            }
+                            }
+
+                            // In Activity
+                            UserViewModel model = ViewModelProviders.of(this).get(UserViewModel.class);
+                            model.getUserName().observe(this, name -> {
+                            // Update UI with new name
+                            textView.setText(name);
+                            });
+                    </div>
+
+                    <p><strong>Benefits:</strong></p>
+                    <ul>
+                        <li>Survives configuration changes (rotation)</li>
+                        <li>No memory leaks (auto cleanup)</li>
+                        <li>Lifecycle awareness</li>
+                        <li>Data persistence</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">10</div>
+                    <div class="question-text">What is Dependency Injection in Android?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <p><span class="highlight">Dependency Injection (DI)</span> is a technique where objects receive their dependencies from external sources rather than creating them internally.</p>
+
+                    <p><strong>Common DI frameworks:</strong></p>
+                    <ul>
+                        <li>Dagger 2 - Most popular, compile-time DI</li>
+                        <li>Hilt - Built on Dagger, simplified for Android</li>
+                        <li>Koin - Kotlin-friendly, lightweight</li>
+                    </ul>
+
+                    <div class="code-block">
+                        // Without DI
+                        class Car {
+                        private Engine engine = new Engine(); // Direct dependency
+                        }
+
+                        // With DI
+                        class Car {
+                        private Engine engine;
+
+                        // Dependency injected via constructor
+                        public Car(Engine engine) {
+                        this.engine = engine;
+                        }
+                        }
+                    </div>
+
+                    <p><strong>Benefits:</strong></p>
+                    <ul>
+                        <li>Better code reusability</li>
+                        <li>Easier testing (mock dependencies)</li>
+                        <li>Loose coupling</li>
+                        <li>Centralized configuration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Question 11 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">11</div>
+                    <div class="question-text">What is Jetpack Compose?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <p><span class="highlight">Jetpack Compose</span> is Android's modern toolkit for building native UI declaratively.</p>
+
+                    <div class="code-block">
+                        // Compose UI Example
+                        @Composable
+                        fun Greeting(name: String) {
+                        Column(
+                        modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                        ) {
+                        Text(
+                        text = "Hello, $name!",
+                        fontSize = 24.sp,
+                        color = MaterialTheme.colorScheme.primary
+                        )
+                        Button(onClick = { /* Handle click */ }) {
+                        Text("Click me")
+                        }
+                        }
+                        }
+                    </div>
+
+                    <p><strong>Advantages over XML:</strong></p>
+                    <ul>
+                        <li>Declarative UI</li>
+                        <li>Less code</li>
+                        <li>Live preview</li>
+                        <li>Kotlin-based</li>
+                        <li>State management built-in</li>
+                    </ul>
+
+                    <div class="note">
+                        <strong>Note:</strong> Compose is the future of Android UI development. New projects should consider using it.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 12 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">12</div>
+                    <div class="question-text">What is the difference between API levels?</div>
+                    <div class="toggle-icon">+</div>
+                </div>
+                <div class="answer-content">
+                    <p>Android <span class="highlight">API levels</span> represent different versions of Android with varying features and capabilities.</p>
+
+                    <p><strong>Key API Levels:</strong></p>
+                    <ul>
+                        <li><span class="highlight">API 21 (Lollipop)</span> - Material Design, ART runtime</li>
+                        <li><span class="highlight">API 23 (Marshmallow)</span> - Runtime permissions</li>
+                        <li><span class="highlight">API 26 (Oreo)</span> - Notification channels, background limits</li>
+                        <li><span class="highlight">API 28 (Pie)</span> - Biometric authentication</li>
+                        <li><span class="highlight">API 29 (Android 10)</span> - Scoped storage, dark theme</li>
+                        <li><span class="highlight">API 30 (Android 11)</span> - One-time permissions</li>
+                        <li><span class="highlight">API 31+ (Android 12+)</span> - Material You, privacy dashboard</li>
+                    </ul>
+
+                    <div class="note">
+                        <strong>Best Practice:</strong> Target latest API, support older APIs using compatibility libraries. Check current distribution on official Android dashboard.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interview Tips Tab -->
+    <div id="tips" class="tab-content">
+        <h2 class="section-title">Interview Preparation Tips</h2>
+
+        <div class="tips-container">
+            <div class="tip-card">
+                <h3>📚 Study the Fundamentals</h3>
+                <p>Master the core Android concepts: Activities, Services, Broadcast Receivers, Content Providers, Intents, Fragments, and the Application lifecycle.</p>
+            </div>
+
+            <div class="tip-card">
+                <h3>💻 Practice Coding Problems</h3>
+                <p>Be prepared for live coding sessions. Practice common algorithms, data structures, and Android-specific problems.</p>
+            </div>
+
+            <div class="tip-card">
+                <h3>🏗️ Know Architecture Patterns</h3>
+                <p>Understand MVVM, MVP, MVI, and Clean Architecture. Be able to explain why you'd choose one over another.</p>
+            </div>
+
+            <div class="tip-card">
+                <h3>🔧 Be Ready for Technical Questions</h3>
+                <p>Prepare for questions on:
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Memory management and leaks</li>
+                    <li>Threading (AsyncTask vs RxJava vs Coroutines)</li>
+                    <li>Performance optimization</li>
+                    <li>Testing (Unit tests, UI tests)</li>
+                </ul>
+                </p>
+            </div>
+
+            <div class="tip-card">
+                <h3>📱 Have Projects Ready to Discuss</h3>
+                <p>Be prepared to discuss your portfolio projects in detail: challenges faced, architecture decisions, and lessons learned.</p>
+            </div>
+
+            <div class="tip-card">
+                <h3>❓ Ask Intelligent Questions</h3>
+                <p>Prepare questions about the company's tech stack, development processes, team structure, and challenges they're facing.</p>
+            </div>
+
+            <h3 style="margin-top: 30px; color: var(--primary);">Common Interview Questions to Prepare:</h3>
+            <ul style="margin-left: 20px; margin-top: 15px; line-height: 1.8;">
+                <li>Explain the Android application lifecycle</li>
+                <li>What is the difference between Serializable and Parcelable?</li>
+                <li>How does RecyclerView work internally?</li>
+                <li>What are Coroutines and how do they differ from RxJava?</li>
+                <li>How do you handle different screen sizes?</li>
+                <li>Explain proguard and R8</li>
+                <li>What are Android Jetpack components?</li>
+                <li>How do you implement offline support?</li>
+                <li>What is Data Binding and View Binding?</li>
+                <li>How do you secure API keys in Android apps?</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-primary" id="expandAll">
+            <span>📖 Expand All</span>
+        </button>
+        <button class="btn btn-secondary" id="collapseAll">
+            <span>📕 Collapse All</span>
+        </button>
+        <button class="btn btn-primary" id="printBtn">
+            <span>🖨️ Print Guide</span>
+        </button>
+    </div>
+
+    <footer>
+        <p>Android Interview Guide • Created for Learning and Interview Preparation</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">Topics: Android Basics • SDK • NDK • Components • Architecture • Advanced Topics</p>
+        <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">Click on questions to expand answers. Use tabs to navigate categories.</p>
+    </footer>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tab Navigation
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+
+                // Update active tab button
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Show active tab content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // Question Toggle
+        const questionHeaders = document.querySelectorAll('.question-header');
+
+        questionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const answer = header.nextElementSibling;
+                const icon = header.querySelector('.toggle-icon');
+
+                answer.classList.toggle('expanded');
+
+                if (answer.classList.contains('expanded')) {
+                    icon.textContent = '−';
+                } else {
+                    icon.textContent = '+';
+                }
+            });
+        });
+
+        // Expand All Answers
+        document.getElementById('expandAll').addEventListener('click', () => {
+            document.querySelectorAll('.answer-content').forEach(answer => {
+                answer.classList.add('expanded');
+            });
+            document.querySelectorAll('.toggle-icon').forEach(icon => {
+                icon.textContent = '−';
+            });
+        });
+
+        // Collapse All Answers
+        document.getElementById('collapseAll').addEventListener('click', () => {
+            document.querySelectorAll('.answer-content').forEach(answer => {
+                answer.classList.remove('expanded');
+            });
+            document.querySelectorAll('.toggle-icon').forEach(icon => {
+                icon.textContent = '+';
+            });
+        });
+
+        // Print Functionality
+        document.getElementById('printBtn').addEventListener('click', () => {
+            window.print();
+        });
+
+        // Auto-expand first question in each section
+        setTimeout(() => {
+            document.querySelectorAll('.question-card:first-child .answer-content').forEach(answer => {
+                answer.classList.add('expanded');
+            });
+            document.querySelectorAll('.question-card:first-child .toggle-icon').forEach(icon => {
+                icon.textContent = '−';
+            });
+        }, 500);
+    });
+</script>
+</body>
+</html>

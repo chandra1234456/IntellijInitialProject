@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hilt Interview Questions - Android</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .question {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-left: 4px solid #3498db;
+        }
+        .answer {
+            margin-top: 5px;
+            padding: 10px;
+            background-color: #ffffff;
+            border-left: 4px solid #2ecc71;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        pre {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Hilt Interview Questions - Android</h1>
+
+<h2>Basic Hilt / DI Questions</h2>
+
+<div class="question">
+    1. What is Hilt?
+</div>
+<div class="answer">
+    Hilt is a <strong>dependency injection (DI) library</strong> built on top of Dagger that simplifies DI in Android apps.
+</div>
+
+<div class="question">
+    2. Why use Hilt?
+</div>
+<div class="answer">
+    - Reduces boilerplate code<br>
+    - Easier setup than Dagger<br>
+    - Manages object creation automatically<br>
+    - Handles Android lifecycle safely
+</div>
+
+<div class="question">
+    3. Difference between Hilt and Dagger?
+</div>
+<div class="answer">
+    - Hilt is a <strong>wrapper over Dagger</strong><br>
+    - Hilt provides <strong>predefined components</strong> for Android<br>
+    - Dagger requires <strong>manual component setup</strong>
+</div>
+
+<div class="question">
+    4. What problem does Dependency Injection solve?
+</div>
+<div class="answer">
+    - Removes tight coupling<br>
+    - Improves testability<br>
+    - Makes code easier to maintain
+</div>
+
+<h2>Hilt Annotations</h2>
+
+<div class="question">
+    5. What is <code>@HiltAndroidApp</code>?
+</div>
+<div class="answer">
+    - Applied to <code>Application</code> class<br>
+    - Triggers Hilt code generation<br>
+    - Creates the Application-level component<br>
+    <pre>
+@HiltAndroidApp
+class MyApp : Application()
+        </pre>
+</div>
+
+<div class="question">
+    6. What is <code>@AndroidEntryPoint</code>?
+</div>
+<div class="answer">
+    - Used on Android classes (Activity, Fragment, Service)<br>
+    - Allows Hilt to inject dependencies
+</div>
+
+<div class="question">
+    7. What is <code>@Inject</code>?
+</div>
+<div class="answer">
+    - Used to tell Hilt how to create an object<br>
+    - Can be used on constructors, fields, or methods
+</div>
+
+<div class="question">
+    8. What is <code>@Module</code>?
+</div>
+<div class="answer">
+    - Used to provide dependencies that cannot be constructor-injected (e.g., Retrofit, Room)
+</div>
+
+<div class="question">
+    9. Difference between <code>@Provides</code> and <code>@Binds</code>?
+</div>
+<div class="answer">
+    <table border="1" cellpadding="5" cellspacing="0">
+        <tr><th>@Provides</th><th>@Binds</th></tr>
+        <tr><td>Uses method body</td><td>Abstract method</td></tr>
+        <tr><td>More flexible</td><td>Faster, less boilerplate</td></tr>
+        <tr><td>Used for object creation</td><td>Used for interfaces</td></tr>
+    </table>
+</div>
+
+<h2>Hilt Components & Scopes</h2>
+
+<div class="question">
+    10. What are Hilt components?
+</div>
+<div class="answer">
+    They define the <strong>lifetime of dependencies</strong>.<br>
+    <table border="1" cellpadding="5" cellspacing="0">
+        <tr><th>Component</th><th>Lifetime</th></tr>
+        <tr><td>SingletonComponent</td><td>App</td></tr>
+        <tr><td>ActivityComponent</td><td>Activity</td></tr>
+        <tr><td>ViewModelComponent</td><td>ViewModel</td></tr>
+        <tr><td>FragmentComponent</td><td>Fragment</td></tr>
+    </table>
+</div>
+
+<div class="question">
+    11. What is <code>@Singleton</code>?
+</div>
+<div class="answer">
+    Creates one instance for the entire app. Lives as long as the application.
+</div>
+
+<div class="question">
+    12. How do you inject ViewModel using Hilt?
+</div>
+<div class="answer">
+        <pre>
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val repo: MainRepository
+) : ViewModel()
+        </pre>
+</div>
+
+<h2>Advanced / Scenario-Based Questions</h2>
+
+<div class="question">
+    13. How to inject Retrofit using Hilt?
+</div>
+<div class="answer">
+        <pre>
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://api.example.com/")
+            .build()
+    }
+}
+        </pre>
+</div>
+
+<div class="question">
+    14. How to inject an interface?
+</div>
+<div class="answer">
+    Use <code>@Binds</code><br>
+    <pre>
+@Binds
+abstract fun bindRepo(
+    repoImpl: RepoImpl
+): Repo
+        </pre>
+</div>
+
+<div class="question">
+    15. What is Qualifier in Hilt?
+</div>
+<div class="answer">
+    Used when multiple implementations of the same type exist.<br>
+    <pre>
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class IoDispatcher
+        </pre>
+</div>
+
+<div class="question">
+    16. How do you test with Hilt?
+</div>
+<div class="answer">
+    - Use <code>@HiltAndroidTest</code><br>
+    - Replace modules using <code>@TestInstallIn</code>
+</div>
+
+<div class="question">
+    17. Can we use Hilt without Android?
+</div>
+<div class="answer">
+    ❌ No. Hilt is Android-specific. Use Dagger for pure Kotlin/Java.
+</div>
+
+<div class="question">
+    18. When NOT to use Hilt?
+</div>
+<div class="answer">
+    - Very small apps<br>
+    - Simple projects<br>
+    - When manual object creation is enough
+</div>
+
+<div class="question">
+    19. Explain Hilt in one line
+</div>
+<div class="answer">
+    "Hilt is a dependency injection framework that simplifies Dagger usage for Android by handling components and lifecycle automatically."
+</div>
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kotlin Coroutines – Coding Assignments with Interview Explanations</title>
+</head>
+<body>
+
+<h1>Kotlin Coroutines – Coding Assignments</h1>
+<p>
+    Each assignment includes:
+<ul>
+    <li><b>Problem Statement</b></li>
+    <li><b>Coding Task</b></li>
+    <li><b>Interview Expected Explanation</b></li>
+</ul>
+</p>
+
+<hr>
+
+<h2>Assignment 1: Network Call on Background Thread</h2>
+
+<h3>Problem Statement</h3>
+<p>
+    You are developing an application that fetches data from a remote server.
+    The network call must not block the main thread.
+</p>
+
+<h3>Coding Task</h3>
+<ul>
+    <li>Create a <code>suspend fun</code> that simulates a network call</li>
+    <li>Execute it on <code>Dispatchers.IO</code></li>
+    <li>Print the result</li>
+</ul>
+
+<h3>Interview Expected Explanation</h3>
+<p>
+    In interviews, the key expectation is understanding that:
+<ul>
+    <li>Network operations are IO-bound</li>
+    <li><code>Dispatchers.IO</code> is optimized for blocking IO tasks</li>
+    <li><code>suspend fun</code> allows non-blocking suspension without freezing threads</li>
+</ul>
+Mention that coroutines keep the app responsive while waiting for results.
+</p>
+
+<hr>
+
+<h2>Assignment 2: Parallel API Calls</h2>
+
+<h3>Problem Statement</h3>
+<p>
+    An application must load user profile and user posts at the same time to
+    reduce waiting time.
+</p>
+
+<h3>Coding Task</h3>
+<ul>
+    <li>Create two suspend functions</li>
+    <li>Run them in parallel using <code>async</code></li>
+    <li>Combine the results</li>
+</ul>
+
+<h3>Interview Expected Explanation</h3>
+<p>
+    Interviewers expect you to explain:
+<ul>
+    <li><code>async</code> is used for concurrent tasks that return values</li>
+    <li><code>await()</code> suspends without blocking the thread</li>
+    <li>Parallel execution improves performance compared to sequential calls</li>
+</ul>
+</p>
+
+<hr>
+
+<h2>Assignment 3: Cancelling a Long-Running Task</h2>
+
+<h3>Problem Statement</h3>
+<p>
+    A file download should stop if the user leaves the screen.
+</p>
+
+<h3>Coding Task</h3>
+<ul>
+    <li>Launch a coroutine that runs repeatedly</li>
+    <li>Cancel it after a delay</li>
+</ul>
+
+<h3>Interview Expected Explanation</h3>
+<p>
+    The interviewer wants to hear:
+<ul>
+    <li>Coroutines support <b>cooperative cancellation</b></li>
+    <li><code>delay()</code> is cancellable</li>
+    <li>Cancellation avoids wasted resources and memory leaks</li>
+</ul>
+</p>
+
+<hr>
+
+<h2>Assignment 4: Exception Handling in Coroutines</h2>
+
+<h3>Problem Statement</h3>
+<p>
+    A coroutine throws an exception during execution.
+</p>
+
+<h3>Coding Task</h3>
+<ul>
+    <li>Launch a coroutine</li>
+    <li>Throw an exception</li>
+    <li>Handle it properly</li>
+</ul>
+
+<h3>Interview Expected Explanation</h3>
+<p>
+    Key interview points:
+<ul>
+    <li><code>launch</code> exceptions are handled immediately</li>
+    <li><code>CoroutineExceptionHandler</code> handles uncaught exceptions</li>
+    <li><code>async</code> exceptions are caught on <code>await()</code></li>
+</ul>
+</p>
+
+<hr>
+
+<h2>Assignment 5: Structured Concurrency</h2>
+
+<h3>Problem Statement</h3>
+<p>
+    Multiple background tasks are started under a parent task.
+</p>
+
+<h3>Coding Task</h3>
+<ul>
+    <li>Launch a parent coroutine</li>
+    <li>Launch child coroutines inside it</li>
+    <li>Cancel the parent</li>
+</ul>
+
+<h3>Interview Expected Explanation</h3>
+<p>
+    Interviewers expect:
+<ul>
+    <li>Understanding of parent–child relationship</li>
+    <li>When parent is cancelled, children are cancelled automatically</li>
+    <li>This prevents orphan background tasks</li>
+</ul>
+</p>
+
+<hr>
+
+<h2>Assignment 6: Switching Threads</h2>
+
+<h3>Problem Statement</h3>
+<p>
+    Heavy computation should not run on the main thread.
+</p>
+
+<h3>Coding Task</h3>
+<ul>
+    <li>Run computation on <code>Dispatchers.Default</code></li>
+    <li>Switch context using <code>withContext</code></li>
+</ul>
+
+<h3>Interview Expected Explanation</h3>
+<p>
+    Expected explanation:
+<ul>
+    <li><code>Dispatchers.Default</code> is optimized for CPU-intensive work</li>
+    <li><code>withContext</code> switches threads safely</li>
+    <li>No new coroutine is launched, context is just changed</li>
+</ul>
+</p>
+
+<hr>
+
+<h2>Assignment 7: Timeout Handling</h2>
+
+<h3>Problem Statement</h3>
+<p>
+    A network request should fail if it takes too long.
+</p>
+
+<h3>Coding Task</h3>
+<ul>
+    <li>Use <code>withTimeout</code> or <code>withTimeoutOrNull</code></li>
+</ul>
+
+<h3>Interview Expected Explanation</h3>
+<p>
+    Interviewers look for:
+<ul>
+    <li>Timeout avoids infinite waiting</li>
+    <li><code>withTimeout</code> throws exception</li>
+    <li><code>withTimeoutOrNull</code> fails safely</li>
+</ul>
+</p>
+
+<hr>
+
+<h2>Assignment 8: Flow for Multiple Values</h2>
+
+<h3>Problem Statement</h3>
+<p>
+    You need to emit values continuously over time.
+</p>
+
+<h3>Coding Task</h3>
+<ul>
+    <li>Create a <code>Flow</code></li>
+    <li>Emit values periodically</li>
+    <li>Collect them</li>
+</ul>
+
+<h3>Interview Expected Explanation</h3>
+<p>
+    Key explanation:
+<ul>
+    <li>Flow is a cold asynchronous stream</li>
+    <li>Values are emitted only when collected</li>
+    <li>Better than suspend functions for multiple values</li>
+</ul>
+</p>
+
+<hr>
+
+<h2>Assignment 9: Lifecycle-Aware Coroutines (Android)</h2>
+
+<h3>Problem Statement</h3>
+<p>
+    Background work should stop automatically when the UI is destroyed.
+</p>
+
+<h3>Coding Task</h3>
+<ul>
+    <li>Use <code>viewModelScope</code> or <code>lifecycleScope</code></li>
+</ul>
+
+<h3>Interview Expected Explanation</h3>
+<p>
+    Expected answer:
+<ul>
+    <li>Lifecycle-aware scopes cancel coroutines automatically</li>
+    <li>Prevents memory leaks</li>
+    <li>Follows structured concurrency</li>
+</ul>
+</p>
+
+<hr>
+
+<h2>Assignment 10: Coroutines vs Threads</h2>
+
+<h3>Problem Statement</h3>
+<p>
+    You need to run thousands of background tasks efficiently.
+</p>
+
+<h3>Coding Task</h3>
+<ul>
+    <li>Launch many coroutines</li>
+    <li>Explain why coroutines are preferred</li>
+</ul>
+
+<h3>Interview Expected Explanation</h3>
+<p>
+    Interviewers expect:
+<ul>
+    <li>Coroutines are lightweight</li>
+    <li>Threads are expensive and limited</li>
+    <li>Coroutines suspend without blocking threads</li>
+</ul>
+</p>
+
+</body>
+</html>

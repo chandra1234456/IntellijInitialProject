@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .question {
+            background-color: #ecf0f1;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .answer {
+            background-color: #ffffff;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #2ecc71;
+            border-radius: 4px;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .command {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Git Interview Questions</h1>
+
+<h2>📚 Git Fundamentals</h2>
+
+<div class="question">
+    <strong>1. What is Git?</strong>
+</div>
+<div class="answer">
+    Git is a <strong>distributed version control system</strong> that tracks changes in source code during software development.
+    Created by Linus Torvalds in 2005 for Linux kernel development.
+</div>
+
+<div class="question">
+    <strong>2. Difference between Git and GitHub?</strong>
+</div>
+<div class="answer">
+    <strong>Git:</strong> Version control system (software you install locally).<br>
+    <strong>GitHub:</strong> Cloud-based hosting service for Git repositories (platform).
+</div>
+
+<div class="question">
+    <strong>3. What are the three main areas in Git?</strong>
+</div>
+<div class="answer">
+    1. <strong>Working Directory</strong> - Where you modify files<br>
+    2. <strong>Staging Area (Index)</strong> - Where you prepare commits<br>
+    3. <strong>Repository (Git Directory)</strong> - Where Git stores metadata and commits
+</div>
+
+<div class="question">
+    <strong>4. Explain the basic Git workflow</strong>
+</div>
+<div class="answer">
+    1. Modify files in <strong>working directory</strong><br>
+    2. Stage changes: <code class="command">git add</code><br>
+    3. Commit changes: <code class="command">git commit</code><br>
+    4. Push to remote: <code class="command">git push</code>
+</div>
+
+<h2>🔄 Git Commands & Operations</h2>
+
+<div class="question">
+    <strong>5. How to initialize a Git repository?</strong>
+</div>
+<div class="answer">
+    <code>git init</code>
+    Creates a new .git directory in your project.
+</div>
+
+<div class="question">
+    <strong>6. Difference between git fetch and git pull?</strong>
+</div>
+<div class="answer">
+    <strong>git fetch:</strong> Downloads changes from remote but doesn't merge<br>
+    <strong>git pull:</strong> Downloads changes and merges into current branch (fetch + merge)
+    <code>git fetch origin
+git pull origin master</code>
+</div>
+
+<div class="question">
+    <strong>7. What is git clone?</strong>
+</div>
+<div class="answer">
+    Creates a copy of an existing repository.
+    <code>git clone https://github.com/user/repo.git</code>
+</div>
+
+<div class="question">
+    <strong>8. How to check Git status?</strong>
+</div>
+<div class="answer">
+    <code>git status</code>
+    Shows: modified files, staged files, untracked files.
+</div>
+
+<div class="question">
+    <strong>9. How to view commit history?</strong>
+</div>
+<div class="answer">
+        <code>git log
+git log --oneline
+git log --graph --all</code>
+</div>
+
+<h2>🌿 Branching & Merging</h2>
+
+<div class="question">
+    <strong>10. How to create and switch branches?</strong>
+</div>
+<div class="answer">
+        <code>git branch feature-branch    # Create branch
+git checkout feature-branch  # Switch to branch
+# OR combine:
+git checkout -b feature-branch</code>
+</div>
+
+<div class="question">
+    <strong>11. Difference between git merge and git rebase?</strong>
+</div>
+<div class="answer">
+    <strong>Merge:</strong> Creates a new commit that combines two branches<br>
+    <strong>Rebase:</strong> Moves branch to tip of another branch (linear history)
+    <code>git merge feature-branch
+git rebase master</code>
+</div>
+
+<div class="question">
+    <strong>12. What is a merge conflict?</strong>
+</div>
+<div class="answer">
+    When Git cannot automatically resolve differences between two commits.
+    You must manually resolve conflicts in affected files.
+</div>
+
+<div class="question">
+    <strong>13. How to resolve merge conflicts?</strong>
+</div>
+<div class="answer">
+    1. Open conflicted files<br>
+    2. Look for <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> markers<br>
+    3. Resolve conflicts manually<br>
+    4. Stage resolved files: <code>git add</code><br>
+    5. Commit: <code>git commit</code>
+</div>
+
+<h2>🔧 Advanced Git</h2>
+
+<div class="question">
+    <strong>14. What is git stash?</strong>
+</div>
+<div class="answer">
+    Temporarily saves uncommitted changes.
+    <code>git stash          # Save changes
+git stash list     # View stashes
+git stash pop      # Apply and remove stash
+git stash apply    # Apply but keep stash</code>
+</div>
+
+<div class="question">
+    <strong>15. How to undo commits?</strong>
+</div>
+<div class="answer">
+        <code>git reset --soft HEAD~1   # Undo commit, keep changes staged
+git reset --mixed HEAD~1  # Undo commit, keep changes unstaged
+git reset --hard HEAD~1   # Undo commit, discard changes
+git revert &lt;commit-hash&gt;  # Create new commit that undoes changes</code>
+</div>
+
+<div class="question">
+    <strong>16. What is .gitignore file?</strong>
+</div>
+<div class="answer">
+    Specifies files/folders Git should ignore.
+    <code># .gitignore example
+node_modules/
+*.log
+.env
+.DS_Store</code>
+</div>
+
+<div class="question">
+    <strong>17. What is git cherry-pick?</strong>
+</div>
+<div class="answer">
+    Applies a specific commit from one branch to another.
+    <code>git cherry-pick &lt;commit-hash&gt;</code>
+</div>
+
+<div class="question">
+    <strong>18. Difference between HEAD, master, and origin?</strong>
+</div>
+<div class="answer">
+    <strong>HEAD:</strong> Pointer to current commit/branch<br>
+    <strong>master/main:</strong> Default branch name<br>
+    <strong>origin:</strong> Default remote repository name
+</div>
+
+<h2>🚀 Git Workflows & Best Practices</h2>
+
+<div class="question">
+    <strong>19. What is Git Flow?</strong>
+</div>
+<div class="answer">
+    Popular branching model with:
+    <ul>
+        <li><code>master</code> - Production code</li>
+        <li><code>develop</code> - Integration branch</li>
+        <li><code>feature/*</code> - New features</li>
+        <li><code>release/*</code> - Release preparation</li>
+        <li><code>hotfix/*</code> - Quick production fixes</li>
+    </ul>
+</div>
+
+<div class="question">
+    <strong>20. What is a pull request (PR)?</strong>
+</div>
+<div class="answer">
+    Request to merge changes from one branch to another.
+    Enables code review before merging.
+</div>
+
+<div class="question">
+    <strong>21. What is squashing commits?</strong>
+</div>
+<div class="answer">
+    Combining multiple commits into one.
+    <code>git rebase -i HEAD~3  # Interactive rebase last 3 commits</code>
+</div>
+
+<div class="question">
+    <strong>22. How to check differences between files?</strong>
+</div>
+<div class="answer">
+        <code>git diff                  # Unstaged changes
+git diff --staged        # Staged changes
+git diff branch1..branch2 # Between branches
+git diff HEAD~3..HEAD    # Last 3 commits</code>
+</div>
+
+<div class="question">
+    <strong>23. How to rename a branch?</strong>
+</div>
+<div class="answer">
+        <code>git branch -m old-name new-name          # Local
+git push origin --delete old-name       # Delete old remote
+git push origin -u new-name             # Push new branch</code>
+</div>
+
+<div class="question">
+    <strong>24. What is git tag?</strong>
+</div>
+<div class="answer">
+    Marks specific points in history (usually releases).
+    <code>git tag v1.0.0                    # Lightweight tag
+git tag -a v1.0.0 -m "Release"  # Annotated tag
+git push origin v1.0.0           # Push tag to remote</code>
+</div>
+
+<h2>🔍 Common Interview Scenarios</h2>
+
+<div class="question">
+    <strong>25. You committed to wrong branch. What to do?</strong>
+</div>
+<div class="answer">
+        <code># On wrong branch
+git log --oneline  # Get commit hash
+git reset HEAD~1   # Remove commit from wrong branch
+git stash          # Save changes
+git checkout correct-branch
+git stash pop
+git add .
+git commit -m "Message"</code>
+</div>
+
+<div class="question">
+    <strong>26. How to find which commit introduced a bug?</strong>
+</div>
+<div class="answer">
+    Use <code>git bisect</code>:
+    <code>git bisect start
+git bisect bad        # Current commit is bad
+git bisect good v1.0  # v1.0 was good
+# Git checks out middle commit, you test it
+git bisect good/bad   # Mark as good or bad
+# Repeat until Git finds the bad commit
+git bisect reset      # End bisect session</code>
+</div>
+
+<div class="question">
+    <strong>27. How to recover deleted branch?</strong>
+</div>
+<div class="answer">
+        <code># Find commit hash
+git reflog
+# Restore branch
+git checkout -b branch-name &lt;commit-hash&gt;</code>
+</div>
+
+<div class="question">
+    <strong>28. How to update forked repository?</strong>
+</div>
+<div class="answer">
+        <code># Add upstream remote
+git remote add upstream https://github.com/original/repo.git
+# Fetch upstream changes
+git fetch upstream
+# Merge into your branch
+git checkout master
+git merge upstream/master
+# Push to your fork
+git push origin master</code>
+</div>
+
+<div style="margin-top: 40px; padding: 20px; background-color: #e8f4fc; border-radius: 5px;">
+    <h3>💡 Git Best Practices</h3>
+    <ul>
+        <li>Write meaningful commit messages</li>
+        <li>Commit small, logical changes</li>
+        <li>Pull before you push</li>
+        <li>Use .gitignore properly</li>
+        <li>Review changes before committing (<code>git diff</code>)</li>
+        <li>Create branches for new features</li>
+    </ul>
+</div>
+</body>
+</html>

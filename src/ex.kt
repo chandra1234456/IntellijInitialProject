@@ -1,3 +1,4 @@
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 fun main() {
@@ -49,12 +50,13 @@ fun primeNumber(input:Int){
         println("Please Enter a Number")
     }
 }
-
 fun Int.isPrime(): Boolean {
-    for (i in 2 until this - 1) {
-        if (this % 2 == 0) {
+    if (this < 2) return false // 0 and 1 are not prime
+    for (i in 2..sqrt(this.toDouble()).toInt()) {
+        if (this % i == 0) {
             return false
         }
     }
     return true
 }
+
