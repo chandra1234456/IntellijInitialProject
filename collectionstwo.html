@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android Kotlin Collections Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f7f9fc;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .question {
+            background-color: #eef2f7;
+            border-left: 5px solid #4caf50;
+            padding: 10px;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+        .answer {
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+        pre {
+            background-color: #ffffff;
+            padding: 10px;
+            border-left: 5px solid #2196f3;
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #2196f3;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Android-Focused Kotlin Collections – Interview Questions</h1>
+
+<h2>1️⃣ Why are Kotlin collections preferred in Android?</h2>
+<div class="question">
+    Explain why Kotlin collections are commonly used in Android development.
+</div>
+<div class="answer">
+    They are type-safe, concise, immutable by default, reduce boilerplate, and work seamlessly with Android APIs.
+</div>
+
+---
+
+<h2>2️⃣ Difference between List and MutableList in Android?</h2>
+<div class="question">
+    Which should be used in RecyclerView?
+</div>
+<div class="answer">
+    Use <strong>List</strong> for exposing data to UI and <strong>MutableList</strong> internally for updates.
+</div>
+
+<pre>
+private val items = mutableListOf<Item>()
+fun getItems(): List<Item> = items
+</pre>
+
+---
+
+<h2>3️⃣ How do collections help in RecyclerView?</h2>
+<pre>
+val adapterList: List<User> = users.filter { it.isActive }
+adapter.submitList(adapterList)
+</pre>
+
+---
+
+<h2>4️⃣ Difference between ArrayList and MutableList?</h2>
+<table>
+    <tr>
+        <th>ArrayList</th>
+        <th>MutableList</th>
+    </tr>
+    <tr>
+        <td>Java implementation</td>
+        <td>Kotlin interface</td>
+    </tr>
+    <tr>
+        <td>Platform dependent</td>
+        <td>Platform independent</td>
+    </tr>
+</table>
+
+---
+
+<h2>5️⃣ What is DiffUtil and how collections help?</h2>
+<div class="question">
+    Why immutable lists are recommended with DiffUtil?
+</div>
+<div class="answer">
+    DiffUtil compares old and new lists efficiently. Immutable lists prevent unexpected mutations.
+</div>
+
+---
+
+<h2>6️⃣ How to avoid NullPointerException with collections?</h2>
+<pre>
+val list: List<String>? = null
+val size = list?.size ?: 0
+</pre>
+
+---
+
+<h2>7️⃣ What is filter() used for in Android?</h2>
+<pre>
+val visibleItems = items.filter { it.isVisible }
+</pre>
+
+---
+
+<h2>8️⃣ Difference between map() and forEach()?</h2>
+<table>
+    <tr>
+        <th>map()</th>
+        <th>forEach()</th>
+    </tr>
+    <tr>
+        <td>Returns new list</td>
+        <td>No return value</td>
+    </tr>
+    <tr>
+        <td>Used for transformation</td>
+        <td>Used for side effects</td>
+    </tr>
+</table>
+
+---
+
+<h2>9️⃣ What is a Sequence and when to use it?</h2>
+<div class="question">
+    Why sequences are useful for large datasets?
+</div>
+<div class="answer">
+    Sequences use lazy evaluation, improving performance and memory usage.
+</div>
+
+<pre>
+items.asSequence()
+     .filter { it.isActive }
+     .map { it.name }
+     .toList()
+</pre>
+
+---
+
+<h2>🔟 How to group items for Sectioned RecyclerView?</h2>
+<pre>
+val grouped = users.groupBy { it.role }
+</pre>
+
+---
+
+<h2>1️⃣1️⃣ What is associateBy() used for?</h2>
+<pre>
+val userMap = users.associateBy { it.id }
+</pre>
+
+---
+
+<h2>1️⃣2️⃣ How to sort data for UI?</h2>
+<pre>
+val sortedList = users.sortedBy { it.name }
+</pre>
+
+---
+
+<h2>1️⃣3️⃣ How to remove duplicates?</h2>
+<pre>
+val uniqueUsers = users.distinct()
+</pre>
+
+---
+
+<h2>1️⃣4️⃣ What collection is best for caching?</h2>
+<div class="answer">
+    Use <strong>Map</strong> for fast key-based lookup.
+</div>
+
+<pre>
+val cache = mutableMapOf<Int, User>()
+</pre>
+
+---
+
+<h2>1️⃣5️⃣ Best practice for exposing collections from ViewModel?</h2>
+<div class="question">
+    How should data be exposed to UI?
+</div>
+<div class="answer">
+    Expose immutable collections via LiveData or StateFlow.
+</div>
+
+<pre>
+val users: LiveData<List<User>>
+</pre>
+
+---
+
+<h2>📌 Android Interview Summary</h2>
+<div class="question">
+    Prefer immutable collections, use functional operators, and choose the right collection for performance.
+</div>
+
+<h2>🧠 Easy Memory Trick</h2>
+<div class="question">
+    RecyclerView → List
+    Internal logic → MutableList
+    Large data → Sequence
+    Fast lookup → Map
+</div>
+
+</body>
+</html>

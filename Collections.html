@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kotlin Collections Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        h3 {
+            color: #34495e;
+        }
+        pre {
+            background-color: #ffffff;
+            padding: 10px;
+            border-left: 5px solid #3498db;
+            overflow-x: auto;
+        }
+        .question {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-left: 5px solid #e67e22;
+            margin: 15px 0;
+        }
+        .answer {
+            margin-left: 10px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Kotlin Collections – Interview Questions & Answers</h1>
+
+<h2>1️⃣ What are Collections in Kotlin?</h2>
+<div class="question">
+    Collections are used to store and manipulate groups of objects.
+</div>
+<div class="answer">
+<pre>
+Kotlin provides:
+- List
+- Set
+- Map
+</pre>
+</div>
+
+---
+
+<h2>2️⃣ What is the difference between List, Set, and Map?</h2>
+<table>
+    <tr>
+        <th>Collection</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>List</td>
+        <td>Ordered collection, allows duplicates</td>
+    </tr>
+    <tr>
+        <td>Set</td>
+        <td>Unordered collection, no duplicates</td>
+    </tr>
+    <tr>
+        <td>Map</td>
+        <td>Key-value pairs, keys must be unique</td>
+    </tr>
+</table>
+
+---
+
+<h2>3️⃣ Difference between Mutable and Immutable Collections?</h2>
+<div class="question">
+    Immutable collections cannot be modified, mutable collections can.
+</div>
+
+<pre>
+val list = listOf(1, 2, 3)          // Immutable
+val mutableList = mutableListOf(1, 2, 3) // Mutable
+</pre>
+
+---
+
+<h2>4️⃣ What is the default collection type in Kotlin?</h2>
+<div class="question">
+    Kotlin uses read-only interfaces by default.
+</div>
+<pre>
+val list = listOf("A", "B") // Read-only
+</pre>
+
+---
+
+<h2>5️⃣ Difference between Array and List?</h2>
+<table>
+    <tr>
+        <th>Array</th>
+        <th>List</th>
+    </tr>
+    <tr>
+        <td>Fixed size</td>
+        <td>Dynamic size</td>
+    </tr>
+    <tr>
+        <td>Mutable elements</td>
+        <td>Read-only or mutable</td>
+    </tr>
+    <tr>
+        <td>Low-level structure</td>
+        <td>High-level collection</td>
+    </tr>
+</table>
+
+---
+
+<h2>6️⃣ What is a MutableList?</h2>
+<pre>
+val numbers = mutableListOf(1, 2, 3)
+numbers.add(4)
+numbers.remove(2)
+</pre>
+
+---
+
+<h2>7️⃣ What is the difference between HashSet and Set?</h2>
+<div class="question">
+    Set is an interface, HashSet is an implementation.
+</div>
+
+---
+
+<h2>8️⃣ How to iterate over a collection?</h2>
+<pre>
+val list = listOf("A", "B", "C")
+
+for (item in list) {
+    println(item)
+}
+</pre>
+
+---
+
+<h2>9️⃣ What are higher-order functions in collections?</h2>
+<div class="question">
+    Functions that take lambdas as parameters.
+</div>
+
+<pre>
+val nums = listOf(1, 2, 3, 4)
+
+val even = nums.filter { it % 2 == 0 }
+val squared = nums.map { it * it }
+</pre>
+
+---
+
+<h2>🔟 Difference between map() and flatMap()?</h2>
+<pre>
+val list = listOf(listOf(1,2), listOf(3,4))
+
+println(list.map { it })
+println(list.flatMap { it })
+</pre>
+
+---
+
+<h2>1️⃣1️⃣ What is filter()?</h2>
+<pre>
+val nums = listOf(1, 2, 3, 4)
+val result = nums.filter { it > 2 }
+</pre>
+
+---
+
+<h2>1️⃣2️⃣ What is associateBy()?</h2>
+<pre>
+val users = listOf("Ajay", "Vivek")
+val map = users.associateBy { it.length }
+</pre>
+
+---
+
+<h2>1️⃣3️⃣ What is the difference between List and Sequence?</h2>
+<table>
+    <tr>
+        <th>List</th>
+        <th>Sequence</th>
+    </tr>
+    <tr>
+        <td>Eager evaluation</td>
+        <td>Lazy evaluation</td>
+    </tr>
+    <tr>
+        <td>Consumes more memory</td>
+        <td>More efficient for large data</td>
+    </tr>
+</table>
+
+---
+
+<h2>1️⃣4️⃣ What is a Map in Kotlin?</h2>
+<pre>
+val map = mapOf(
+    "id" to 1,
+    "name" to "Ajay"
+)
+</pre>
+
+---
+
+<h2>1️⃣5️⃣ Can Kotlin collections be null?</h2>
+<pre>
+val list: List<Int>? = null
+</pre>
+
+---
+
+<h2>📌 Interview One-Line Summary</h2>
+<div class="question">
+    Kotlin collections are powerful, type-safe, immutable by default, and support functional programming.
+</div>
+
+<h2>🧠 Easy Memory Trick</h2>
+<div class="question">
+    List → Order matters
+    Set → Uniqueness matters
+    Map → Key matters
+</div>
+
+</body>
+</html>

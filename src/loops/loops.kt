@@ -33,7 +33,6 @@ fun removeDuplicatesHashSet(arr: Array<Int>): IntArray {
     for (num in arr) {
         set.add(num)
     }
-
     return set.toIntArray()
 }
 fun removeDuplicatesNew(arr: Array<Int>): IntArray {
@@ -70,10 +69,7 @@ fun removeDuplicatesOne(arr: Array<Int>): IntArray {
 }
 
 
-
-
 fun removeDuplicates(duplicates: Array<Int>): IntArray {
-    val result = ArrayList<Int>()
     for (i in duplicates.indices){
        // i + 1 until size Next elements Find duplicates
        for (j in i + 1 until duplicates.size){

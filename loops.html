@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kotlin For Loops – With Use Cases</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.7;
+            margin: 20px;
+            background-color: #ffffff;
+        }
+        h1 {
+            color: #1a5276;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+        }
+        p {
+            margin: 8px 0;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 12px;
+            border-left: 5px solid #3498db;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        .usecase {
+            background: #eef6fb;
+            padding: 10px;
+            border-left: 4px solid #2ecc71;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>For Loops in Kotlin (With Use Cases)</h1>
+
+<h2>1. Basic Range Loop</h2>
+<div class="usecase">
+    <strong>Use Case:</strong> Printing numbers, generating IDs, running a task fixed number of times.
+</div>
+<p>This loop runs from 1 to 5 (inclusive).</p>
+<pre><code>for (i in 1..5) {
+    println(i)
+}</code></pre>
+
+<h2>2. Loop with <code>until</code> (Exclusive End)</h2>
+<div class="usecase">
+    <strong>Use Case:</strong> Iterating array indexes where last index should be excluded.
+</div>
+<p>Stops before reaching 5.</p>
+<pre><code>for (i in 0 until 5) {
+    println(i)
+}</code></pre>
+
+<h2>3. Loop with Step</h2>
+<div class="usecase">
+    <strong>Use Case:</strong> Skipping values like printing odd numbers or sampling data.
+</div>
+<p>Increments by 2 each time.</p>
+<pre><code>for (i in 1..10 step 2) {
+    println(i)
+}</code></pre>
+
+<h2>4. Reverse Loop (<code>downTo</code>)</h2>
+<div class="usecase">
+    <strong>Use Case:</strong> Countdown timers, reverse traversal.
+</div>
+<p>Counts backwards from 10 to 1.</p>
+<pre><code>for (i in 10 downTo 1) {
+    println(i)
+}</code></pre>
+
+<h2>5. Loop Through an Array or List</h2>
+<div class="usecase">
+    <strong>Use Case:</strong> Reading user data, processing lists of values.
+</div>
+<p>Iterates through all elements in a list.</p>
+<pre><code>val numbers = listOf(10, 20, 30)
+
+for (num in numbers) {
+    println(num)
+}</code></pre>
+
+<h2>6. Loop with Index</h2>
+<div class="usecase">
+    <strong>Use Case:</strong> When both position and value are required (e.g., ranking systems).
+</div>
+<p>Accesses elements using index.</p>
+<pre><code>for (i in numbers.indices) {
+    println("Index $i = ${numbers[i]}")
+}</code></pre>
+
+<h3>Using <code>withIndex()</code></h3>
+<p>More readable and preferred Kotlin style.</p>
+<pre><code>for ((index, value) in numbers.withIndex()) {
+    println("Index $index = $value")
+}</code></pre>
+
+<h2>7. Loop Through a String</h2>
+<div class="usecase">
+    <strong>Use Case:</strong> Character validation, password checks, text processing.
+</div>
+<p>Each character is accessed one by one.</p>
+<pre><code>for (ch in "Kotlin") {
+    println(ch)
+}</code></pre>
+
+<h2>8. Nested For Loops</h2>
+<div class="usecase">
+    <strong>Use Case:</strong> Tables, matrix operations, comparing combinations.
+</div>
+<p>One loop inside another.</p>
+<pre><code>for (i in 1..3) {
+    for (j in 1..2) {
+        println("i=$i, j=$j")
+    }
+}</code></pre>
+
+<h2>9. Using <code>repeat()</code></h2>
+<div class="usecase">
+    <strong>Use Case:</strong> Running a task multiple times without needing an index.
+</div>
+<p>Executes block 5 times.</p>
+<pre><code>repeat(5) {
+    println("Hello")
+}</code></pre>
+
+<h2>10. Break and Continue</h2>
+<div class="usecase">
+    <strong>Use Case:</strong> Skipping unwanted values or stopping early when a condition is met.
+</div>
+<p>
+    <strong>break</strong> → stops loop<br>
+    <strong>continue</strong> → skips current iteration
+</p>
+<pre><code>for (i in 1..10) {
+    if (i == 5) break
+    if (i % 2 == 0) continue
+    println(i)
+}</code></pre>
+
+</body>
+</html>

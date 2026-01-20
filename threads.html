@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android Threads Interview & Scenario-Based Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .scenario {
+            background: #f4f6f7;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Android Threads – Interview & Scenario-Based Questions</h1>
+
+<h2>Basic Threading Interview Questions</h2>
+<ul>
+    <li>What is a Thread in Android?</li>
+    <li>Why is it not allowed to perform long-running operations on the main thread?</li>
+    <li>What happens if you perform a network operation on the main thread?</li>
+    <li>What is the difference between a process and a thread in Android?</li>
+    <li>How do you create a thread in Android?</li>
+    <li>What is the Android Main (UI) Thread?</li>
+    <li>What is ANR (Application Not Responding)?</li>
+    <li>How does Android handle thread scheduling?</li>
+</ul>
+
+<h2>Thread vs Other Concurrency Tools</h2>
+<ul>
+    <li>Difference between Thread and Runnable?</li>
+    <li>Difference between Thread and AsyncTask (deprecated)?</li>
+    <li>Difference between Thread and Handler?</li>
+    <li>Difference between Thread and ExecutorService?</li>
+    <li>Difference between Thread and Coroutines?</li>
+</ul>
+
+<h2>Handler & Looper Questions</h2>
+<ul>
+    <li>What is a Handler in Android?</li>
+    <li>What is Looper?</li>
+    <li>How does Handler communicate with the main thread?</li>
+    <li>Can a background thread have a Looper?</li>
+    <li>What is MessageQueue?</li>
+</ul>
+
+<h2>Synchronization & Safety</h2>
+<ul>
+    <li>What is thread safety?</li>
+    <li>What is synchronization in Android?</li>
+    <li>How do you prevent race conditions?</li>
+    <li>What is the use of the synchronized keyword?</li>
+    <li>What is deadlock?</li>
+</ul>
+
+<h2>Scenario-Based Questions</h2>
+
+<div class="scenario">
+    <strong>Scenario 1:</strong><br>
+    Your app freezes when loading data from an API.
+    <ul>
+        <li>What could be the reason?</li>
+        <li>How would you fix this issue?</li>
+    </ul>
+</div>
+
+<div class="scenario">
+    <strong>Scenario 2:</strong><br>
+    You want to update the UI after downloading a file in a background thread.
+    <ul>
+        <li>How will you update the UI safely?</li>
+        <li>Which Android components would you use?</li>
+    </ul>
+</div>
+
+<div class="scenario">
+    <strong>Scenario 3:</strong><br>
+    Multiple threads are updating a shared variable.
+    <ul>
+        <li>What problem can occur?</li>
+        <li>How will you solve it?</li>
+    </ul>
+</div>
+
+<div class="scenario">
+    <strong>Scenario 4:</strong><br>
+    A background thread continues running even after an Activity is destroyed.
+    <ul>
+        <li>Why is this dangerous?</li>
+        <li>How can you stop or manage the thread lifecycle?</li>
+    </ul>
+</div>
+
+<div class="scenario">
+    <strong>Scenario 5:</strong><br>
+    You need to execute multiple background tasks sequentially.
+    <ul>
+        <li>Which threading mechanism would you use?</li>
+        <li>Why not use multiple threads?</li>
+    </ul>
+</div>
+
+<h2>Advanced Scenario Questions</h2>
+<ul>
+    <li>How would you handle threading in a Service?</li>
+    <li>How do you cancel a running thread?</li>
+    <li>What happens if the app goes to the background while a thread is running?</li>
+    <li>How do coroutines improve thread management?</li>
+    <li>How would you debug threading issues?</li>
+</ul>
+
+<h2>Real-Time Use Cases</h2>
+<ul>
+    <li>Downloading files</li>
+    <li>Database operations</li>
+    <li>Image processing</li>
+    <li>Network calls</li>
+    <li>Background logging</li>
+</ul>
+
+</body>
+</html>

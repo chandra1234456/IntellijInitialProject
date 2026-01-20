@@ -113,5 +113,102 @@
         Use <code>str.matches("\\d+")</code>.
     </div>
 </div>
+
+
+<h2>Kotlin Dollar Sign ($) Use Cases</h2>
+
+<h3>🔹 Name</h3>
+<p><strong>$</strong> is called the <strong>Dollar sign</strong></p>
+
+<h3>🔹 Main Use in Kotlin: String Templates (String Interpolation)</h3>
+
+<h4>1️⃣ Access a variable inside a String</h4>
+<pre>
+val name = "Ajay"
+println("Hello $name")
+</pre>
+<p><strong>Output:</strong></p>
+<pre>Hello Ajay</pre>
+<div class="tip">
+    Purpose: Inserts variable value directly into a string.<br>
+    No need for <code>+</code> concatenation.
+</div>
+
+<h4>2️⃣ Access an expression using ${}</h4>
+<pre>
+val a = 10
+val b = 20
+println("Sum is ${a + b}")
+</pre>
+<p><strong>Output:</strong></p>
+<pre>Sum is 30</pre>
+<div class="tip">
+    Purpose: Used when you need calculation or function calls.
+</div>
+
+<h4>3️⃣ Call a function inside a string</h4>
+<pre>
+fun getAge() = 25
+println("Age is ${getAge()}")
+</pre>
+
+<h4>4️⃣ Access object properties</h4>
+<pre>
+val user = User("Ajay")
+println("Name: ${user.name}")
+</pre>
+
+<h3>🔹 Printing $ Itself (Escape Character)</h3>
+<pre>
+println("Price is \$100")
+</pre>
+<p><strong>Output:</strong></p>
+<pre>Price is $100</pre>
+<div class="tip">
+    Purpose: <code>\</code> escapes <code>$</code> so Kotlin doesn’t treat it as a variable.
+</div>
+
+<h3>🔹 $ in Regex (brief)</h3>
+<pre>
+val regex = Regex("abc$")
+</pre>
+<p><strong>Meaning:</strong> <code>$</code> → end of string</p>
+
+<h3>🔹 Summary Table</h3>
+<table>
+    <tr>
+        <th>Aspect</th>
+        <th>Explanation</th>
+    </tr>
+    <tr>
+        <td>Name</td>
+        <td>Dollar sign</td>
+    </tr>
+    <tr>
+        <td>Main Use</td>
+        <td>String templates</td>
+    </tr>
+    <tr>
+        <td>$variable</td>
+        <td>Insert variable</td>
+    </tr>
+    <tr>
+        <td>${expression}</td>
+        <td>Insert calculation / function</td>
+    </tr>
+    <tr>
+        <td>\$</td>
+        <td>Print dollar sign</td>
+    </tr>
+    <tr>
+        <td>Regex $</td>
+        <td>End of string</td>
+    </tr>
+</table>
+
+<div class="tip">
+    🧠 Easy Memory Trick: <br>
+    <strong>$ = “put value here”</strong>
+</div>
 </body>
 </html>

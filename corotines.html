@@ -76,5 +76,338 @@
     <li>How do you avoid memory leaks with coroutines?</li>
 </ul>
 
+<h3>🔥 Coroutine Scopes – Interview Summary</h3>
+
+<table>
+    <thead>
+    <tr>
+        <th>Scope</th>
+        <th>Where Used</th>
+        <th>Cancelled When</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>viewModelScope</td>
+        <td>ViewModel</td>
+        <td>onCleared()</td>
+    </tr>
+    <tr>
+        <td>lifecycleScope</td>
+        <td>Activity / Fragment</td>
+        <td>onDestroy()</td>
+    </tr>
+    <tr>
+        <td>repeatOnLifecycle</td>
+        <td>UI + Flow</td>
+        <td>STOPPED</td>
+    </tr>
+    <tr>
+        <td>CoroutineScope()</td>
+        <td>Custom</td>
+        <td>Manual</td>
+    </tr>
+    <tr>
+        <td>runBlocking</td>
+        <td>main / tests</td>
+        <td>Blocking</td>
+    </tr>
+    <tr>
+        <td>coroutineScope</td>
+        <td>suspend fun</td>
+        <td>Children finish</td>
+    </tr>
+    <tr>
+        <td>supervisorScope</td>
+        <td>Parallel tasks</td>
+        <td>Parent</td>
+    </tr>
+    <tr>
+        <td>MainScope()</td>
+        <td>UI classes</td>
+        <td>Manual</td>
+    </tr>
+    <tr>
+        <td class="danger">GlobalScope ❌</td>
+        <td>—</td>
+        <td>Never</td>
+    </tr>
+    </tbody>
+</table>
+<td>—  ---------------------------------------------------------------------------------                                                 -</td>
+
+<div class="box">
+    <strong>withContext</strong> switches dispatcher without launching a new coroutine,
+    suspends the current coroutine, and returns the result once completed.
+</div>
+
+<h3>❓ Common Interview Follow-ups</h3>
+
+<div class="qa">
+    <p><strong>Q:</strong> Does <code>withContext</code> block the thread?</p>
+    <p>✔ No, it suspends the coroutine.</p>
+
+    <p><strong>Q:</strong> When NOT to use <code>withContext</code>?</p>
+    <p>✔ When you need parallel execution → use <code>async</code>.</p>
+
+    <p><strong>Q:</strong> Can we use <code>withContext(Dispatchers.Main)</code>?</p>
+    <p>✔ Yes, to return to the UI thread.</p>
+</div>
+
+<h3>🎯 Quick Rule to Remember</h3>
+
+<table>
+    <thead>
+    <tr>
+        <th>Task</th>
+        <th>Use</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Thread switching</td>
+        <td><code>withContext</code></td>
+    </tr>
+    <tr>
+        <td>Parallel work</td>
+        <td><code>async</code></td>
+    </tr>
+    <tr>
+        <td>Fire &amp; forget</td>
+        <td><code>launch</code></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="qa">
+    <strong>1️⃣ What is a Coroutine Dispatcher?</strong><br>
+    A dispatcher decides which thread or thread pool a coroutine runs on.
+</div>
+
+<div class="qa">
+    <strong>2️⃣ How many main dispatchers are there?</strong><br>
+    Four commonly used dispatchers:
+    <ul>
+        <li>Dispatchers.Main</li>
+        <li>Dispatchers.IO</li>
+        <li>Dispatchers.Default</li>
+        <li>Dispatchers.Unconfined (rare)</li>
+    </ul>
+</div>
+
+<div class="qa">
+    <strong>3️⃣ Difference between Dispatchers.IO and Dispatchers.Default?</strong>
+    <table>
+        <thead>
+        <tr>
+            <th>IO</th>
+            <th>Default</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Blocking work</td>
+            <td>CPU-intensive work</td>
+        </tr>
+        <tr>
+            <td>Network, DB</td>
+            <td>Calculations</td>
+        </tr>
+        <tr>
+            <td>Large thread pool</td>
+            <td>Limited threads</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="qa">
+    <strong>4️⃣ What happens if you run a network call on Dispatchers.Main?</strong><br>
+    UI freezes → ANR (Application Not Responding).
+</div>
+
+<div class="qa">
+    <strong>5️⃣ When should you use Dispatchers.Default?</strong><br>
+    For CPU-heavy tasks like:
+    <ul>
+        <li>Sorting</li>
+        <li>Parsing JSON</li>
+        <li>Encryption</li>
+        <li>Calculations</li>
+    </ul>
+</div>
+
+<div class="qa">
+    <strong>6️⃣ What is Dispatchers.Unconfined?</strong><br>
+    It starts in the current thread and resumes in any thread after suspension.<br>
+    🚫 Avoid in production.
+</div>
+
+<div class="qa">
+    <strong>7️⃣ Can we change dispatcher inside a coroutine?</strong><br>
+    Yes, using <code>withContext</code>.
+</div>
+
+<div class="qa">
+    <strong>8️⃣ Does withContext create a new coroutine?</strong><br>
+    No. It suspends the current coroutine and switches the thread.
+</div>
+
+<div class="qa">
+    <strong>9️⃣ What dispatcher does viewModelScope.launch {} use by default?</strong><br>
+    Dispatchers.Main
+</div>
+
+<div class="qa">
+    <strong>🔟 What happens if you don’t specify a dispatcher?</strong><br>
+    The coroutine inherits the parent’s dispatcher.
+</div>
+
+<h2>🔥 BONUS (Very Common)</h2>
+
+<div class="qa">
+    <strong>Why is Dispatchers.IO not unlimited?</strong><br>
+    To avoid resource exhaustion; it expands up to a safe limit and reuses threads.
+</div>
+
+<h2>🎯 One-Page Memory Trick</h2>
+
+<div class="memory">
+    <strong>Main</strong> → UI<br>
+    <strong>IO</strong> → Network / DB<br>
+    <strong>Default</strong> → CPU<br>
+    <strong>Unconfined</strong> → Don’t use
+</div>
+
+<h2>🧠 Rapid-Fire Follow-ups (Practice)</h2>
+
+<div class="rapid">
+    Can IO replace Default? ❌<br>
+    Is Main dispatcher blocking? ❌<br>
+    Does delay block thread? ❌<br>
+    Does Thread.sleep block? ✅
+</div>
+<h2>🔥 Tricky Coroutine Interview Scenarios (Senior Level)</h2>
+
+<p>Read the scenario → think → then see the answer.</p>
+
+<div class="scenario">
+    <strong>1️⃣ UI Freeze Scenario</strong><br><br>
+    <strong>Scenario:</strong> API call inside <code>viewModelScope.launch {}</code> without dispatcher → UI freezes.<br><br>
+    <strong>Why?</strong><br>
+    viewModelScope uses <code>Dispatchers.Main</code> by default.
+    Network call runs on Main → ANR.
+    <div class="fix">
+        ✔ Fix: <code>withContext(Dispatchers.IO) { apiCall() }</code>
+    </div>
+</div>
+
+<div class="scenario">
+    <strong>2️⃣ Parallel vs Sequential Confusion</strong><br><br>
+    <strong>Scenario:</strong>
+    <code>val a = getA()</code><br>
+    <code>val b = getB()</code><br><br>
+    <strong>Problem?</strong><br>
+    Runs sequentially, not parallel.
+    <div class="fix">
+        ✔ Fix: Use <code>async</code> for parallel work.
+    </div>
+</div>
+
+<div class="scenario">
+    <strong>3️⃣ Coroutine Not Executing</strong><br><br>
+    <strong>Scenario:</strong> <code>launch { delay(1000); println("Hi") }</code> inside <code>main()</code><br><br>
+    <strong>Answer:</strong><br>
+    No CoroutineScope; JVM exits immediately.
+    <div class="fix">
+        ✔ Fix: Use <code>runBlocking</code>
+    </div>
+</div>
+
+<div class="scenario">
+    <strong>4️⃣ Child Coroutine Crash</strong><br><br>
+    <strong>Scenario:</strong> One child coroutine fails → all siblings cancel.<br><br>
+    <strong>Why?</strong><br>
+    Default structured concurrency behavior.
+    <div class="fix">
+        ✔ Fix: Use <code>supervisorScope { }</code>
+    </div>
+</div>
+
+<div class="scenario">
+    <strong>5️⃣ Exception Not Caught</strong><br><br>
+    <strong>Scenario:</strong> Exception inside <code>launch</code> not caught by try-catch.<br><br>
+    <strong>Answer:</strong><br>
+    <code>launch</code> is fire-and-forget.
+    <div class="fix">
+        ✔ Fix: Use <code>CoroutineExceptionHandler</code> or <code>async + await</code>
+    </div>
+</div>
+
+<div class="scenario">
+    <strong>6️⃣ Memory Leak Scenario</strong><br><br>
+    <strong>Scenario:</strong> Coroutine continues after Activity destroyed.<br><br>
+    <strong>Answer:</strong><br>
+    Used <code>GlobalScope</code>.
+    <div class="fix">
+        ✔ Fix: Use <code>lifecycleScope.launch { }</code>
+    </div>
+</div>
+
+<div class="scenario">
+    <strong>7️⃣ Cancellation Not Working</strong><br><br>
+    <strong>Scenario:</strong> Job cancelled but coroutine keeps running.<br><br>
+    <strong>Answer:</strong><br>
+    No suspension points or blocking code.
+    <div class="fix">
+        ✔ Fix: Use <code>delay()</code> or check <code>isActive</code>
+    </div>
+</div>
+
+<div class="scenario">
+    <strong>8️⃣ Wrong Dispatcher Used</strong><br><br>
+    <strong>Scenario:</strong> Heavy JSON parsing on <code>Dispatchers.IO</code> slows app.<br><br>
+    <strong>Answer:</strong><br>
+    CPU-heavy work should use <code>Dispatchers.Default</code>.
+</div>
+
+<div class="scenario">
+    <strong>9️⃣ Flow Collection Bug</strong><br><br>
+    <strong>Scenario:</strong> Flow collects multiple times after rotation.<br><br>
+    <strong>Answer:</strong><br>
+    Collector not lifecycle-aware.
+    <div class="fix">
+        ✔ Fix: <code>repeatOnLifecycle(Lifecycle.State.STARTED)</code>
+    </div>
+</div>
+
+<div class="scenario">
+    <strong>🔟 withContext Misuse</strong><br><br>
+    <strong>Scenario:</strong> Developer uses <code>launch(Dispatchers.IO)</code> everywhere.<br><br>
+    <strong>Problem?</strong><br>
+    Unnecessary coroutines; breaks structured concurrency.
+    <div class="fix">
+        ✔ Fix: Prefer <code>withContext(Dispatchers.IO)</code>
+    </div>
+</div>
+
+<h2>🔥 SUPER TRICKY BONUS</h2>
+
+<div class="bonus">
+    <strong>What happens here?</strong><br><br>
+    <code>
+        runBlocking {<br>
+        &nbsp;&nbsp;launch { delay(1000) }<br>
+        &nbsp;&nbsp;println("Done")<br>
+        }
+    </code><br><br>
+    <strong>Answer:</strong><br>
+    Prints after delay because <code>runBlocking</code> waits for all children.
+</div>
+
+<div class="one-liner">
+    🎯 Interview One-Liner (MEMORIZE)<br><br>
+    Coroutines follow structured concurrency: parent waits for children, cancellation propagates, and dispatcher decides thread — not execution order.
+</div>
 </body>
 </html>
