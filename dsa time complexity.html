@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time & Space Complexity - O(1)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            line-height: 1.7;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #1f3c88;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 40px;
+        }
+        h3 {
+            color: #34495e;
+        }
+        .section {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #eef2ff;
+            padding: 10px;
+            border-left: 4px solid #1f3c88;
+            margin-top: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #1f3c88;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Time & Space Complexity - O(1) Explained</h1>
+
+<div class="section">
+    <h2>What is Time Complexity?</h2>
+    <p>Time Complexity tells us how the running time increases as input size (n) increases.</p>
+    <ul>
+        <li>We ignore actual seconds.</li>
+        <li>We ignore system speed.</li>
+        <li>We focus on growth rate.</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>O(1) Time Complexity</h2>
+    <p>O(1) means constant time. The operation takes the same time regardless of input size.</p>
+
+    <h3>Example 1: Accessing Array Element</h3>
+    <pre>
+val arr = intArrayOf(10, 20, 30, 40)
+println(arr[2])
+    </pre>
+    <p>Direct index access takes constant time → O(1)</p>
+
+    <h3>Example 2: Simple Assignment</h3>
+    <pre>
+var x = 5
+    </pre>
+    <p>Single operation → O(1)</p>
+
+    <h3>Example 3: Swap Two Numbers</h3>
+    <pre>
+var a = 5
+var b = 10
+val temp = a
+a = b
+b = temp
+    </pre>
+    <p>Fixed number of steps → O(1)</p>
+
+    <div class="highlight">
+        If there are no loops or recursion, it is usually O(1).
+    </div>
+</div>
+
+<div class="section">
+    <h2>O(1) Space Complexity</h2>
+    <p>O(1) Space means constant extra memory usage regardless of input size.</p>
+
+    <h3>Example 1: Find Maximum</h3>
+    <pre>
+fun findMax(arr: IntArray): Int {
+    var max = arr[0]
+    for (i in arr.indices) {
+        if (arr[i] > max) {
+            max = arr[i]
+        }
+    }
+    return max
+}
+    </pre>
+    <p>Time = O(n) but Space = O(1) because only one variable is used.</p>
+
+    <h3>Example 2: Reverse Array In-Place</h3>
+    <pre>
+fun reverse(arr: IntArray) {
+    var start = 0
+    var end = arr.size - 1
+
+    while (start < end) {
+        val temp = arr[start]
+        arr[start] = arr[end]
+        arr[end] = temp
+        start++
+        end--
+    }
+}
+    </pre>
+    <p>No new array created → Space = O(1)</p>
+
+    <h3>Example of NOT O(1) Space</h3>
+    <pre>
+val newArr = IntArray(n)
+    </pre>
+    <p>Creates new array of size n → Space = O(n)</p>
+</div>
+
+<div class="section">
+    <h2>Quick Rules to Identify O(1)</h2>
+
+    <h3>Time is O(1) if:</h3>
+    <ul>
+        <li>No loops</li>
+        <li>No recursion</li>
+        <li>No input-size dependent operations</li>
+        <li>Direct access</li>
+    </ul>
+
+    <h3>Space is O(1) if:</h3>
+    <ul>
+        <li>No new arrays created</li>
+        <li>No new lists created</li>
+        <li>Only fixed number of variables used</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>Summary Table</h2>
+
+    <table>
+        <tr>
+            <th>Code Type</th>
+            <th>Time Complexity</th>
+            <th>Space Complexity</th>
+        </tr>
+        <tr>
+            <td>Array index access</td>
+            <td>O(1)</td>
+            <td>O(1)</td>
+        </tr>
+        <tr>
+            <td>Simple swap</td>
+            <td>O(1)</td>
+            <td>O(1)</td>
+        </tr>
+        <tr>
+            <td>Single loop</td>
+            <td>O(n)</td>
+            <td>O(1)</td>
+        </tr>
+        <tr>
+            <td>Nested loop</td>
+            <td>O(n²)</td>
+            <td>O(1)</td>
+        </tr>
+        <tr>
+            <td>Create new array of size n</td>
+            <td>O(n)</td>
+            <td>O(n)</td>
+        </tr>
+    </table>
+</div>
+
+<div class="section">
+    <h2>Interview Tip</h2>
+    <div class="highlight">
+        Very common interview question: "Can you optimize space to O(1)?"
+        <br><br>
+        That means: Do not create extra arrays. Modify original data structure.
+    </div>
+</div>
+
+</body>
+</html>

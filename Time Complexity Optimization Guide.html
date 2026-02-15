@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Complexity Optimization Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            line-height: 1.7;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #1f3c88;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 40px;
+        }
+        h3 {
+            color: #34495e;
+        }
+        .section {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #eef2ff;
+            padding: 10px;
+            border-left: 4px solid #1f3c88;
+            margin-top: 10px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>How to Identify & Reduce Time Complexity</h1>
+
+<div class="section">
+    <h2>Step 1: How to Identify Time Complexity</h2>
+
+    <h3>1️⃣ Count the Loops</h3>
+    <ul>
+        <li>No loop → O(1)</li>
+        <li>One loop → O(n)</li>
+        <li>Two nested loops → O(n²)</li>
+        <li>Three nested loops → O(n³)</li>
+    </ul>
+
+    <h3>2️⃣ Check if Loop Depends on Input Size</h3>
+    <pre>
+for (i in 0 until arr.size)
+    </pre>
+    <p>If arr.size = n → Loop runs n times → O(n)</p>
+
+    <h3>3️⃣ Check for Recursion</h3>
+    <p>Each recursive call adds to complexity.</p>
+
+    <h3>4️⃣ Check Expensive Operations Inside Loop</h3>
+    <pre>
+if (list.contains(x))
+    </pre>
+    <p>If contains() is O(n) and used inside loop → O(n²)</p>
+</div>
+
+<div class="section">
+    <h2>Step 2: How to Reduce Time Complexity</h2>
+
+    <h3>Remove Nested Loops</h3>
+    <pre>
+for (i in arr.indices) {
+    for (j in arr.indices) {
+        if (arr[i] == arr[j]) {
+            println("Duplicate")
+        }
+    }
+}
+    </pre>
+    <p>Time = O(n²)</p>
+
+    <h3>Optimized Using Set</h3>
+    <pre>
+val set = mutableSetOf<Int>()
+
+for (num in arr) {
+    if (set.contains(num)) {
+        println("Duplicate")
+    }
+    set.add(num)
+}
+    </pre>
+    <p>Time = O(n)</p>
+
+    <div class="highlight">
+        Replace nested loops with HashSet or HashMap when possible.
+    </div>
+</div>
+
+<div class="section">
+    <h2>Business Example Optimization</h2>
+
+    <h3>Check if Two Arrays Have Common Element</h3>
+
+    <h4>Brute Force (O(n²))</h4>
+    <pre>
+for (i in arr1) {
+    for (j in arr2) {
+        if (i == j) return true
+    }
+}
+    </pre>
+
+    <h4>Optimized (O(n))</h4>
+    <pre>
+val set = arr1.toHashSet()
+
+for (num in arr2) {
+    if (set.contains(num)) return true
+}
+    </pre>
+</div>
+
+<div class="section">
+    <h2>How Interviewers Think</h2>
+    <ul>
+        <li>Can you identify complexity?</li>
+        <li>Can you remove nested loops?</li>
+        <li>Can you use better data structure?</li>
+        <li>Can you trade space for time?</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>Golden Optimization Rules</h2>
+    <ul>
+        <li>Replace nested loops with HashMap / HashSet</li>
+        <li>Sort once, then use Binary Search</li>
+        <li>Precompute values outside loop</li>
+        <li>Avoid repeated calculations</li>
+        <li>Choose correct data structure</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>Important Self-Check Questions (With Answers)</h2>
+
+    <h3>1️⃣ What is n?</h3>
+    <p>
+        <strong>Answer:</strong> n represents the input size.
+        <br>
+        Example:
+        If array has 100 elements → n = 100
+        <br>
+        Always identify what grows when input grows.
+    </p>
+
+    <h3>2️⃣ How many times does this run?</h3>
+    <p>
+        <strong>Answer:</strong> Count how many times the loop executes.
+        <br>
+        If loop runs from 0 to n → O(n)
+        <br>
+        If nested loop runs n × n → O(n²)
+    </p>
+
+    <h3>3️⃣ Is there loop inside loop?</h3>
+    <p>
+        <strong>Answer:</strong> Yes → usually O(n²)
+        <br>
+        Example:
+    </p>
+    <pre>
+for (i in arr) {
+    for (j in arr) {
+        println(i + j)
+    }
+}
+    </pre>
+
+    <h3>4️⃣ Is there searching inside loop?</h3>
+    <p>
+        <strong>Answer:</strong> If using contains() inside loop,
+        and contains() takes O(n), then total becomes O(n²).
+        <br>
+        Replace list with HashSet to reduce lookup to O(1).
+    </p>
+
+    <h3>5️⃣ Can I reduce lookup time to O(1)?</h3>
+    <p>
+        <strong>Answer:</strong>
+        Use:
+    <ul>
+        <li>HashSet for fast search</li>
+        <li>HashMap for key-value lookup</li>
+        <li>Array index access</li>
+    </ul>
+    These provide O(1) average lookup time.
+    </p>
+
+    <div class="highlight">
+        Always think: Can I replace searching with hashing?
+    </div>
+</div>
+
+</body>
+</html>

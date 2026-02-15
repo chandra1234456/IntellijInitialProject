@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotlin String & Sorting Problems</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .problem-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        ol li {
+            margin-bottom: 15px;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<h1>Kotlin Practice Problems</h1>
+
+<div class="problem-section">
+    <h2>String Problems</h2>
+    <ol>
+        <li>Reverse a string. <br>Example: Input <code>"Kotlin"</code> → Output <code>"niltoK"</code></li>
+        <li>Check if a string is a palindrome. <br>Example: Input <code>"madam"</code> → Output <code>true</code></li>
+        <li>Count the number of vowels in a string. <br>Example: Input <code>"Hello World"</code> → Output <code>3</code></li>
+        <li>Count total characters in a string excluding spaces. <br>Example: Input <code>"Hello Kotlin"</code> → Output <code>11</code></li>
+        <li>Convert a string to uppercase and lowercase.</li>
+        <li>Find the first non-repeating character in a string. <br>Example: Input <code>"swiss"</code> → Output <code>'w'</code></li>
+        <li>Remove all whitespaces from a string. <br>Example: Input <code>"Kotlin is fun"</code> → Output <code>"Kotlinisfun"</code></li>
+        <li>Replace all occurrences of a character with another. <br>Example: Input <code>"banana"</code>, replace <code>'a'</code> with <code>'o'</code> → Output <code>"bonono"</code></li>
+        <li>Count occurrences of a character in a string. <br>Example: Input <code>"programming"</code>, character <code>'g'</code> → Output <code>2</code></li>
+        <li>Check if two strings are anagrams. <br>Example: Input <code>"listen"</code> & <code>"silent"</code> → Output <code>true</code></li>
+    </ol>
+</div>
+
+<div class="problem-section">
+    <h2>Sorting Problems</h2>
+    <ol>
+        <li>Sort an array of integers in ascending order. <br>Example: Input <code>[5, 2, 9, 1, 5]</code> → Output <code>[1, 2, 5, 5, 9]</code></li>
+        <li>Sort an array of strings alphabetically. <br>Example: Input <code>["Kotlin", "Java", "Python", "C++"]</code> → Output <code>["C++", "Java", "Kotlin", "Python"]</code></li>
+        <li>Sort an array of integers in descending order. <br>Example: Input <code>[3, 8, 1, 6]</code> → Output <code>[8, 6, 3, 1]</code></li>
+        <li>Sort a list of strings by length (shortest to longest). <br>Example: Input <code>["apple", "kiwi", "banana", "fig"]</code> → Output <code>["fig", "kiwi", "apple", "banana"]</code></li>
+        <li>Sort characters in a string alphabetically. <br>Example: Input <code>"kotlin"</code> → Output <code>"iklnot"</code></li>
+        <li>Sort numbers based on the number of digits. <br>Example: Input <code>[10, 2, 300, 45]</code> → Output <code>[2, 10, 45, 300]</code></li>
+        <li>Sort even numbers ascending and odd numbers descending in an array. <br>Example: Input <code>[5, 2, 8, 3, 1]</code> → Output <code>[2, 8, 5, 3, 1]</code></li>
+        <li>Find the top K the largest elements in an array. <br>Example: Input <code>[4, 1, 7, 3, 9]</code>, K=3 → Output <code>[7, 9, 4]</code></li>
+        <li>Sort a list of objects by a property. <br>Example: Students with marks: <code>[("Alice",85),("Bob",90),("Carol",80)]</code> → Sorted by marks ascending: <code>[("Carol",80),("Alice",85),("Bob",90)]</code></li>
+        <li>Sort a 2D array row-wise or column-wise. <br>Example: Input <code>[[3,1],[2,4]]</code> → Row-wise output: <code>[[1,3],[2,4]]</code></li>
+    </ol>
+</div>
+<div class="problem-section">
+    <h2>Collections Problems</h2>
+    <ol>
+        <li>Create a list of integers and find the sum of all elements. <br>Example: Input <code>[1,2,3,4]</code> → Output <code>10</code></li>
+        <li>Find the largest and smallest element in a list. <br>Example: Input <code>[10, 5, 20, 8]</code> → Output: Max=20, Min=5</li>
+        <li>Count the frequency of each element in a list. <br>Example: Input <code>[1,2,2,3,1]</code> → Output: <code>{1=2, 2=2, 3=1}</code></li>
+        <li>Remove duplicate elements from a list. <br>Example: Input <code>[1,2,2,3,1]</code> → Output <code>[1,2,3]</code></li>
+        <li>Check if a list contains a specific element. <br>Example: Input <code>[1,2,3,4]</code>, check <code>3</code> → Output <code>true</code></li>
+        <li>Merge two lists into one and remove duplicates. <br>Example: Input <code>[1,2,3]</code> + <code>[2,3,4]</code> → Output <code>[1,2,3,4]</code></li>
+        <li>Sort a map by keys and by values. <br>Example: Input <code>{"b":2,"a":1,"c":3}</code> → Sorted by keys: <code>{"a":1,"b":2,"c":3}</code></li>
+        <li>Filter a list to only include even numbers. <br>Example: Input <code>[1,2,3,4,5]</code> → Output <code>[2,4]</code></li>
+        <li>Group a list of strings by their first character. <br>Example: Input <code>["apple","banana","avocado"]</code> → Output <code>{'a': ["apple","avocado"], 'b': ["banana"]}</code></li>
+        <li>Check if two lists are equal (contain the same elements). <br>Example: Input <code>[1,2,3]</code> & <code>[3,2,1]</code> → Output <code>false</code></li>
+    </ol>
+</div>
+
+<div class="problem-section">
+    <h2>Interview Questions</h2>
+    <ol>
+        <li>Explain the difference between <code>val</code> and <code>var</code> in Kotlin.</li>
+        <li>What is a <code>data class</code> and when would you use it?</li>
+        <li>Explain the difference between <code>==</code> and <code>===</code> in Kotlin.</li>
+        <li>Write a Kotlin function to check if a number is prime.</li>
+        <li>What are <code>extension functions</code> in Kotlin? Provide an example.</li>
+        <li>Explain <code>null safety</code> and the use of <code>?</code> and <code>!!</code>.</li>
+        <li>Write a Kotlin function to remove duplicates from a list.</li>
+        <li>What is the difference between <code>List</code> and <code>MutableList</code> in Kotlin?</li>
+        <li>Explain <code>lateinit</code> and <code>lazy</code> properties in Kotlin.</li>
+        <li>Write a Kotlin program to swap two numbers without using a temporary variable.</li>
+    </ol>
+</div>
+
+<div class="problem-section">
+    <h2>Swapping Problems</h2>
+    <ol>
+        <li>Swap two integers without using a temporary variable. <br>Example: Input <code>a=5, b=10</code> → Output <code>a=10, b=5</code></li>
+        <li>Swap two strings without using a temporary variable. <br>Example: Input <code>x="Hello", y="World"</code> → Output <code>x="World", y="Hello"</code></li>
+        <li>Swap two elements in an array given their indices.</li>
+        <li>Swap first and last element of an array.</li>
+        <li>Swap adjacent elements of an array (pairwise).</li>
+    </ol>
+</div>
+
+<div class="problem-section">
+    <h2>Data Structures & Algorithms (DAS) - Basic Problems</h2>
+    <ol>
+        <li>Find the maximum and minimum in an array.</li>
+        <li>Reverse an array in-place.</li>
+        <li>Implement a stack using a list and perform push/pop operations.</li>
+        <li>Implement a queue using a list and perform enqueue/dequeue operations.</li>
+        <li>Find the factorial of a number using recursion.</li>
+        <li>Check if a number is prime.</li>
+        <li>Implement linear search on an array.</li>
+        <li>Implement binary search on a sorted array.</li>
+        <li>Find the sum of all elements in an array.</li>
+        <li>Find the second-largest element in an array.</li>
+    </ol>
+</div>
+
+</body>
+</html>
