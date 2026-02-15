@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hilt Dependency Injection - Android</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background: #f8f9fa;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        section {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        ul {
+            line-height: 1.8;
+        }
+        .code {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        .diagram {
+            text-align: center;
+            margin-top: 20px;
+        }
+        svg text {
+            font-size: 14px;
+            fill: #000;
+        }
+        .box {
+            fill: #dff1ff;
+            stroke: #2980b9;
+            stroke-width: 2;
+        }
+        .arrow {
+            stroke: #2c3e50;
+            stroke-width: 2;
+            marker-end: url(#arrowhead);
+        }
+    </style>
+</head>
+<body>
+
+<h1>Hilt Dependency Injection in Android</h1>
+
+<section>
+    <h2>1. What is Hilt?</h2>
+    <p>
+        <strong>Hilt</strong> is a dependency injection (DI) library for Android built on top of <strong>Dagger</strong>.
+        It simplifies dependency injection by providing:
+    </p>
+    <ul>
+        <li>Standard Android component integration</li>
+        <li>Less boilerplate code than Dagger</li>
+        <li>Predefined component scopes</li>
+        <li>Automatic dependency lifecycle management</li>
+    </ul>
+</section>
+
+<section>
+    <h2>2. Why Dependency Injection?</h2>
+    <ul>
+        <li>Improves code reusability</li>
+        <li>Makes testing easier</li>
+        <li>Reduces tight coupling</li>
+        <li>Improves maintainability</li>
+    </ul>
+</section>
+
+<section>
+    <h2>3. How Hilt Works Internally</h2>
+    <p>Hilt works by:</p>
+    <ul>
+        <li>Generating Dagger components at compile time</li>
+        <li>Creating a hierarchy of components tied to Android lifecycles</li>
+        <li>Providing dependencies via annotations</li>
+        <li>Injecting objects automatically where needed</li>
+    </ul>
+
+    <p><strong>Main annotations used:</strong></p>
+    <ul>
+        <li><code>@HiltAndroidApp</code> – Application-level setup</li>
+        <li><code>@AndroidEntryPoint</code> – Entry point for Android components</li>
+        <li><code>@Inject</code> – Requests dependency</li>
+        <li><code>@Module</code> + <code>@Provides</code> / <code>@Binds</code></li>
+    </ul>
+</section>
+
+<section>
+    <h2>4. Hilt Component Hierarchy (Lifecycle-based)</h2>
+
+    <div class="diagram">
+        <svg width="700" height="450">
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7"
+                        refX="10" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" />
+                </marker>
+            </defs>
+
+            <rect class="box" x="260" y="20" width="180" height="50"/>
+            <text x="300" y="50">Application</text>
+
+            <rect class="box" x="260" y="100" width="180" height="50"/>
+            <text x="295" y="130">Activity</text>
+
+            <rect class="box" x="80" y="190" width="180" height="50"/>
+            <text x="115" y="220">Fragment</text>
+
+            <rect class="box" x="440" y="190" width="180" height="50"/>
+            <text x="470" y="220">ViewModel</text>
+
+            <rect class="box" x="260" y="280" width="180" height="50"/>
+            <text x="310" y="310">Service</text>
+
+            <line class="arrow" x1="350" y1="70" x2="350" y2="100"/>
+            <line class="arrow" x1="350" y1="150" x2="170" y2="190"/>
+            <line class="arrow" x1="350" y1="150" x2="530" y2="190"/>
+            <line class="arrow" x1="350" y1="150" x2="350" y2="280"/>
+        </svg>
+    </div>
+</section>
+
+<section>
+    <h2>5. Injection Usage Example</h2>
+
+    <h3>Application Class</h3>
+    <div class="code">
+        @HiltAndroidApp
+        class MyApp : Application()
+    </div>
+
+    <h3>Repository</h3>
+    <div class="code">
+        class UserRepository @Inject constructor(
+        private val apiService: ApiService
+        )
+    </div>
+
+    <h3>ViewModel</h3>
+    <div class="code">
+        @HiltViewModel
+        class UserViewModel @Inject constructor(
+        private val repository: UserRepository
+        ) : ViewModel()
+    </div>
+
+    <h3>Activity</h3>
+    <div class="code">
+        @AndroidEntryPoint
+        class MainActivity : AppCompatActivity() {
+
+        private val viewModel: UserViewModel by viewModels()
+        }
+    </div>
+</section>
+
+<section>
+    <h2>6. Where Hilt is Used (Inject Uses)</h2>
+    <ul>
+        <li>Network clients (Retrofit, OkHttp)</li>
+        <li>Database instances (Room)</li>
+        <li>Repositories</li>
+        <li>ViewModels</li>
+        <li>UseCases / Interactors</li>
+        <li>Services & Workers</li>
+    </ul>
+</section>
+
+<section>
+    <h2>7. Pros of Hilt</h2>
+    <ul>
+        <li>Less boilerplate than Dagger</li>
+        <li>Lifecycle-aware dependency scopes</li>
+        <li>Official Google support</li>
+        <li>Easy integration with Jetpack components</li>
+        <li>Compile-time safety</li>
+    </ul>
+</section>
+
+<section>
+    <h2>8. Cons of Hilt</h2>
+    <ul>
+        <li>Learning curve for beginners</li>
+        <li>Tightly coupled with Android</li>
+        <li>Limited customization compared to pure Dagger</li>
+        <li>Build time can increase</li>
+    </ul>
+</section>
+
+<section>
+    <h2>9. Summary</h2>
+    <p>
+        Hilt simplifies dependency injection in Android by managing object creation,
+        lifecycle, and scope automatically. It is best suited for modern Android
+        applications using MVVM and Jetpack libraries.
+    </p>
+</section>
+
+</body>
+</html>

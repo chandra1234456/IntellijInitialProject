@@ -134,3 +134,9 @@ fun firstArray(array: Array<Int>) {
      //   println("index $index value $value")
     }
 }
+
+fun array(){
+    val array = arrayOf("ywegyr",1,2,4)
+    val numbers = array.filter { it is Int }
+    val string = array.filterIsInstance<String> ()
+}

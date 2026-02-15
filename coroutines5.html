@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Coroutines Interview Questions & Answers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .qa {
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .question {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .answer {
+            margin-top: 8px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Android Coroutines Interview Questions & Answers</h1>
+
+<h2>Beginner Level</h2>
+
+<div class="qa">
+    <div class="question">1. Difference between Thread and Coroutine?</div>
+    <div class="answer">
+        Threads are heavy-weight and managed by OS, while coroutines are lightweight and managed by Kotlin.
+        Coroutines are faster, consume less memory, and avoid ANR when used properly.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">2. Difference between launch and async?</div>
+    <div class="answer">
+        <b>launch</b> does not return a result and returns a Job.
+        <b>async</b> returns a Deferred object and is used when a result is needed.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">3. Explain Dispatchers.</div>
+    <div class="answer">
+        Main: UI operations<br>
+        IO: Network, database, file operations<br>
+        Default: CPU-intensive tasks like sorting and calculations
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">4. What is a suspend function?</div>
+    <div class="answer">
+        A suspend function can suspend execution without blocking a thread and can only be called from another suspend function or coroutine.
+    </div>
+</div>
+
+<h2>Intermediate Level</h2>
+
+<div class="qa">
+    <div class="question">5. Sequential vs Parallel API calls?</div>
+    <div class="answer">
+        Sequential calls run one after another.
+        Parallel calls use async/await to execute simultaneously.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">6. Why is GlobalScope discouraged?</div>
+    <div class="answer">
+        GlobalScope lives as long as the app, causing memory leaks.
+        Use lifecycleScope or viewModelScope instead.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">7. Exception handling in coroutines?</div>
+    <div class="answer">
+        Use try-catch inside coroutine or CoroutineExceptionHandler for uncaught exceptions.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">8. Job vs Deferred?</div>
+    <div class="answer">
+        Job manages lifecycle.
+        Deferred extends Job and returns a value using await().
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">9. How to cancel a coroutine?</div>
+    <div class="answer">
+        Call job.cancel(). All child coroutines are cancelled automatically.
+    </div>
+</div>
+
+<h2>Advanced Level</h2>
+
+<div class="qa">
+    <div class="question">10. What is structured concurrency?</div>
+    <div class="answer">
+        It ensures coroutines are launched within a scope and are cancelled together, preventing leaks.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">11. Job vs SupervisorJob?</div>
+    <div class="answer">
+        Job cancels all children if one fails.
+        SupervisorJob allows other children to continue.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">12. withContext vs launch?</div>
+    <div class="answer">
+        withContext switches thread and returns result.
+        launch starts a new coroutine without blocking parent.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">13. Timeout handling?</div>
+    <div class="answer">
+        Use withTimeout or withTimeoutOrNull to cancel coroutine after a time limit.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">14. What is coroutine leak?</div>
+    <div class="answer">
+        When a coroutine outlives its lifecycle owner.
+        Prevent using lifecycleScope and viewModelScope.
+    </div>
+</div>
+
+<h2>Android-Specific</h2>
+
+<div class="qa">
+    <div class="question">15. API call in ViewModel?</div>
+    <div class="answer">
+        Use viewModelScope.launch with Dispatchers.IO and expose data via LiveData or StateFlow.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">16. Room with coroutines?</div>
+    <div class="answer">
+        Room supports suspend functions and Flow.
+        It automatically runs queries on background thread.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">17. Retry API call?</div>
+    <div class="answer">
+        Use repeat() or retry() operator in Flow to retry API calls.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">18. Combine multiple APIs?</div>
+    <div class="answer">
+        Use async-await inside coroutine scope to call APIs in parallel.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">19. Flow vs suspend?</div>
+    <div class="answer">
+        suspend returns a single value.
+        Flow emits multiple values over time.
+    </div>
+</div>
+
+<h2>Senior / Tricky</h2>
+
+<div class="qa">
+    <div class="question">20. Cold vs Hot Flow?</div>
+    <div class="answer">
+        Cold Flow starts on collection.
+        Hot Flow (StateFlow/SharedFlow) emits regardless of collectors.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">21. CoroutineContext?</div>
+    <div class="answer">
+        It defines coroutine behavior like Dispatcher, Job, and ExceptionHandler.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">22. Can coroutines cause ANR?</div>
+    <div class="answer">
+        Yes, if heavy work runs on Dispatchers.Main.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">23. delay vs Thread.sleep?</div>
+    <div class="answer">
+        delay is non-blocking.
+        Thread.sleep blocks the thread.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">24. Backpressure in Flow?</div>
+    <div class="answer">
+        Flow handles backpressure automatically using suspend functions.
+    </div>
+</div>
+
+<div class="qa">
+    <div class="question">25. Testing coroutines?</div>
+    <div class="answer">
+        Use runTest, TestDispatcher, and TestScope for coroutine testing.
+    </div>
+</div>
+
+</body>
+</html>
