@@ -1,5 +1,7 @@
 package loops
 
+import kotlin.system.measureTimeMillis
+
 
 fun main() {
     val returnString = reverseBasicString("Kotlin")
@@ -37,8 +39,30 @@ fun main() {
     println("check Anagram  :: $checkAnagram")
 
     println("Sort String Manually :: ${sortStringManually("bbbbaaaaa")}")
+    normalLoop()
 
+}
 
+fun normalLoop() {
+  /*  val time = measureTimeMillis {
+        for (i in 0 until 100000000000000) {
+           // println("printed $i value")
+        }
+    }
+    println("Time taken: $time ms")*/
+    val n: Long = 1_000_000 // small n for testing
+    val time = measureTimeMillis {
+        for (i in 0 until n) {
+            // simulate work
+            val x = i * 2
+        }
+    }
+    println("Time taken for $n iterations: $time ms")
+
+    // Extrapolate for huge n (theoretical)
+    val hugeN: Long = 100_000_000_000_000
+    val estimatedTime = time.toDouble() * hugeN / n
+    println("Estimated time for $hugeN iterations: $estimatedTime ms")
 }
 
 fun checkAnagram(string: String, string2: String): Boolean {
@@ -71,7 +95,6 @@ fun sortStringManually(str: String): String {
     // Convert back to string
     return String(charArray)
 }
-
 
 
 fun checkAnagramLength(string: String, checkAnagramString: String): Boolean {

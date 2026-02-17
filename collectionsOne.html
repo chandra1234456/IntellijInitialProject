@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Java Collections Interview Questions</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; margin-top: 25px; }
+        .question { margin-bottom: 20px; padding: 10px; border-left: 4px solid #3498db; background: #f4f6f7; }
+        .output { font-weight: bold; color: #2d3436; }
+    </style>
+</head>
+<body>
+
+<h1>Java Collections – Interview & Preparation Questions</h1>
+
+<h2>List Based Questions</h2>
+
+<div class="question">
+    1. Given a List containing [10, 20], apply swap on index 0 and 1.
+    <div class="output">Output: [20, 10]</div>
+</div>
+
+<div class="question">
+    2. Add elements 1,2,3,4 to ArrayList. Remove element at index 2.
+    <div class="output">Output: [1, 2, 4]</div>
+</div>
+
+<div class="question">
+    3. Sort List [5,3,1,4,2] in ascending order.
+    <div class="output">Output: [1, 2, 3, 4, 5]</div>
+</div>
+
+<div class="question">
+    4. Reverse List [1,2,3,4].
+    <div class="output">Output: [4, 3, 2, 1]</div>
+</div>
+
+<div class="question">
+    5. Find max element in [7,2,9,4].
+    <div class="output">Output: 9</div>
+</div>
+
+<div class="question">
+    6. Find frequency of 5 in [5,1,5,2,5].
+    <div class="output">Output: 3</div>
+</div>
+
+<div class="question">
+    7. Rotate list [1,2,3,4,5] by 2 positions right.
+    <div class="output">Output: [4, 5, 1, 2, 3]</div>
+</div>
+
+<div class="question">
+    8. Shuffle [1,2,3,4]. (Assume fixed shuffle result)
+    <div class="output">Output: [3, 1, 4, 2]</div>
+</div>
+
+<div class="question">
+    9. Convert array [10,20,30] to List and print size.
+    <div class="output">Output: 3</div>
+</div>
+
+<div class="question">
+    10. Check if list [1,2,3] contains 4.
+    <div class="output">Output: false</div>
+</div>
+
+<h2>Set Based Questions</h2>
+
+<div class="question">
+    11. Add 1,2,2,3 to HashSet.
+    <div class="output">Output: [1, 2, 3]</div>
+</div>
+
+<div class="question">
+    12. Insert elements into TreeSet [5,1,4].
+    <div class="output">Output: [1, 4, 5]</div>
+</div>
+
+<div class="question">
+    13. Find union of sets {1,2,3} and {3,4,5}.
+    <div class="output">Output: [1, 2, 3, 4, 5]</div>
+</div>
+
+<div class="question">
+    14. Find intersection of sets {1,2,3} and {2,3,4}.
+    <div class="output">Output: [2, 3]</div>
+</div>
+
+<div class="question">
+    15. Check if LinkedHashSet maintains insertion order for [3,1,2].
+    <div class="output">Output: [3, 1, 2]</div>
+</div>
+
+<h2>Map Based Questions</h2>
+
+<div class="question">
+    16. Insert (1,A), (2,B), (1,C) into HashMap.
+    <div class="output">Output: {1=C, 2=B}</div>
+</div>
+
+<div class="question">
+    17. Retrieve value for key 2 from {1=A,2=B,3=C}.
+    <div class="output">Output: B</div>
+</div>
+
+<div class="question">
+    18. Iterate over LinkedHashMap with entries inserted as 3,C 1,A 2,B.
+    <div class="output">Output: 3=C, 1=A, 2=B</div>
+</div>
+
+<div class="question">
+    19. Insert 3,1,2 into TreeMap.
+    <div class="output">Output: {1=..., 2=..., 3=...}</div>
+</div>
+
+<div class="question">
+    20. Count frequency of characters in "aabbc".
+    <div class="output">Output: {a=2, b=2, c=1}</div>
+</div>
+
+<h2>Queue & Deque Questions</h2>
+
+<div class="question">
+    21. Offer 10,20,30 into Queue and poll once.
+    <div class="output">Output: 10 removed, Queue: [20, 30]</div>
+</div>
+
+<div class="question">
+    22. Use PriorityQueue with elements 5,1,3.
+    <div class="output">Output: Poll order → 1, 3, 5</div>
+</div>
+
+<div class="question">
+    23. AddFirst 1, AddLast 2 into Deque.
+    <div class="output">Output: [1, 2]</div>
+</div>
+
+<h2>Conceptual & Advanced Questions</h2>
+
+<div class="question">
+    24. What happens when modifying ArrayList during iteration?
+    <div class="output">Output: ConcurrentModificationException</div>
+</div>
+
+<div class="question">
+    25. Difference between Comparable and Comparator sorting.
+    <div class="output">Output: Comparable → natural order; Comparator → custom order</div>
+</div>
+
+<div class="question">
+    26. Time complexity of get() in ArrayList.
+    <div class="output">Output: O(1)</div>
+</div>
+
+<div class="question">
+    27. Time complexity of search in HashSet (average case).
+    <div class="output">Output: O(1)</div>
+</div>
+
+<div class="question">
+    28. Convert List [1,2,3] to synchronized list.
+    <div class="output">Output: Thread-safe List</div>
+</div>
+
+<div class="question">
+    29. Use Collections.min on [4,8,2,6].
+    <div class="output">Output: 2</div>
+</div>
+
+<div class="question">
+    30. Swap elements at index 1 and 3 in [10,20,30,40].
+    <div class="output">Output: [10, 40, 30, 20]</div>
+</div>
+
+</body>
+</html>
