@@ -27,6 +27,10 @@ fun main(){
       val noDuplicates = removeDuplicates(duplicates)
       println("Removed Duplicates ${noDuplicates.joinToString()}")
       println("Removed Duplicates HASH ${removeDuplicatesHashSet(array).joinToString()}")
+
+      arrangeZerosLast(arrayListOf(0,1,0,2,2,4,5,5))
+      printTheListValue(arrayListOf(0,1,2,3,4,5,6,7,8,9,10))
+      sumOfOne1DArray(arrayListOf(1,2,3,4))
 }
 fun removeDuplicatesHashSet(arr: Array<Int>): IntArray {
     val set = HashSet<Int>()
@@ -139,4 +143,80 @@ fun array(){
     val array = arrayOf("ywegyr",1,2,4)
     val numbers = array.filter { it is Int }
     val string = array.filterIsInstance<String> ()
+}
+
+fun arrangeZerosLast(list: ArrayList<Int>) {
+    val zeroList = ArrayList<Int>()
+    val nonZeroList = ArrayList<Int>()
+
+    for (item in list) {
+        if (item == 0) zeroList.add(item)
+        else nonZeroList.add(item)
+    }
+
+    list.clear()
+    list.addAll(nonZeroList)
+    list.addAll(zeroList)
+
+    println("Zero List: ${zeroList.joinToString()}")
+    println("Actual List: ${list.joinToString()}")
+}
+
+fun printTheListValue(list: ArrayList<Int>){
+    println("-------------Arraylist Functions--------------")
+
+    for (i in 1 until list.size){
+        print(list[i])
+    }
+    println("")
+    println("---------------------------")
+    for (i in 1 until list.lastIndex){
+        print(list[i])
+    }
+    println("")
+    println("---------------------------")
+    for (i in list.indices-1){ //it will remove position of that element
+        print(list[i])
+    }
+    println("")
+    println("---------------------------")
+   // for (i in start downTo end step n) {
+    /*i = start
+    while i >= end:
+    body
+    i = i - step*/
+    /*list.size - 1 = 9 → start at index 9
+    downTo 1 → stop at index 1 (inclusive)
+    step 3 → subtract 3 from i each time*/
+    //TODO BACKWARD LOOP
+    for (i in list.size-1 downTo 0 step 3){
+        print(list[i])
+    }
+    println("")
+    println("---------------------------")
+    //TODO FORWARD LOOP
+    for (i in 0 until list.size step 3) {
+        print(list[i])
+    }
+    println("")
+    println("---------------------------")
+
+}
+fun removeVowels(S: String): String {
+    val vowels = setOf('a', 'e', 'i', 'o', 'u')
+    return S.filter { it !in vowels }
+}
+fun removeVowelsNot(S: String): String {
+    val vowels = setOf('a', 'e', 'i', 'o', 'u')
+    return S.filterNot { it in vowels }
+}
+fun sumOfOne1DArray(arrayListOf: ArrayList<Int>) {
+    val runningSum = ArrayList<Int>()
+    var sum = 0
+    for(i in arrayListOf){
+        sum +=i
+        runningSum.add(sum)
+       // print(sum)
+    }
+    print(runningSum.joinToString())
 }

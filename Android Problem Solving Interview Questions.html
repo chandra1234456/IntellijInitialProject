@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android Problem Solving Interview Questions</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin:40px;
+            background:#f4f6f8;
+            line-height:1.6;
+        }
+        h1{
+            text-align:center;
+            color:#2c3e50;
+        }
+        h2{
+            color:#1a73e8;
+            margin-top:30px;
+        }
+        .section{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:8px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.1);
+        }
+        ol{
+            padding-left:20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Android Problem Solving Interview Questions</h1>
+
+<div class="section">
+    <h2>1. Basic Android Thinking Questions</h2>
+    <ol>
+        <li>What happens internally when an Android app is launched from the launcher?</li>
+        <li>Why must UI updates happen on the main thread? What problems occur if they run on a background thread?</li>
+        <li>How would you prevent an app from crashing due to NullPointerException in production?</li>
+        <li>What is the difference between compile-time error, runtime crash, and ANR?</li>
+        <li>If an Activity is rotated, what exactly happens to the Activity instance?</li>
+        <li>Why does Android destroy and recreate Activities during configuration changes?</li>
+        <li>If your app crashes only on low RAM devices, how would you debug it?</li>
+        <li>What is the difference between dp, sp, and px and when should each be used?</li>
+        <li>How would you design an app to support different screen sizes efficiently?</li>
+        <li>Why should long-running tasks not run inside onCreate()?</li>
+    </ol>
+</div>
+
+<div class="section">
+    <h2>2. Android Lifecycle Problem Questions</h2>
+    <ol start="11">
+        <li>An Activity starts a network call, but the user rotates the screen. What problems might happen?</li>
+        <li>How would you prevent duplicate API calls after screen rotation?</li>
+        <li>A video is playing in an Activity and the screen rotates. How would you continue playback smoothly?</li>
+        <li>What lifecycle method would you use to save UI state?</li>
+        <li>How would you restore the scroll position of a RecyclerView after rotation?</li>
+    </ol>
+</div>
+
+<div class="section">
+    <h2>3. Threading & Performance Problems</h2>
+    <ol start="16">
+        <li>Your app freezes for 5 seconds when opening a screen. How would you investigate it?</li>
+        <li>What tools would you use to detect ANR issues?</li>
+        <li>Suppose an image download takes 10 seconds. How would you ensure the UI remains responsive?</li>
+        <li>How would you cancel a background task when the user leaves the screen?</li>
+        <li>How do you avoid memory leaks caused by background threads?</li>
+    </ol>
+</div>
+
+<div class="section">
+    <h2>4. Memory & Optimization Questions</h2>
+    <ol start="21">
+        <li>Why do Context leaks happen in Android?</li>
+        <li>How can a static reference cause a memory leak?</li>
+        <li>An app crashes with OutOfMemoryError while loading images. How would you fix it?</li>
+        <li>How would you detect memory leaks in a production app?</li>
+        <li>Why should you avoid loading large images directly into memory?</li>
+    </ol>
+</div>
+
+<div class="section">
+    <h2>5. RecyclerView Problem Solving</h2>
+    <ol start="26">
+        <li>Why might a RecyclerView scroll lag or stutter?</li>
+        <li>What happens if you don't implement ViewHolder pattern correctly?</li>
+        <li>A RecyclerView shows wrong data when scrolling fast. Why?</li>
+        <li>How would you implement pagination (infinite scrolling)?</li>
+        <li>How do you efficiently update only changed items in RecyclerView?</li>
+    </ol>
+</div>
+
+<div class="section">
+    <h2>6. Architecture Thinking Questions</h2>
+    <ol start="31">
+        <li>Why is putting all logic inside Activity considered bad practice?</li>
+        <li>What problems does MVVM architecture solve?</li>
+        <li>When should you use Repository pattern?</li>
+        <li>Why are ViewModels lifecycle-aware?</li>
+        <li>What happens to ViewModel when Activity is rotated?</li>
+    </ol>
+</div>
+
+<div class="section">
+    <h2>7. Debugging Real Problems</h2>
+    <ol start="36">
+        <li>Your API works in Postman but fails in the Android app. What steps would you take?</li>
+        <li>An app works fine in debug build but crashes in release build. Why could this happen?</li>
+        <li>A feature works on Android 13 but crashes on Android 10. How would you debug it?</li>
+        <li>How would you trace a crash reported in Play Store console?</li>
+        <li>If users report random crashes but you cannot reproduce them, what would you do?</li>
+    </ol>
+</div>
+
+<div class="section">
+    <h2>8. Advanced Problem Thinking</h2>
+    <ol start="41">
+        <li>How would you design an offline-first Android app?</li>
+        <li>Suppose your app must load 1 million items efficiently, how would you design the UI?</li>
+        <li>How would you reduce app startup time?</li>
+        <li>What strategies would you use to reduce APK size?</li>
+        <li>How would you secure sensitive user data in an Android app?</li>
+    </ol>
+</div>
+
+</body>
+</html>

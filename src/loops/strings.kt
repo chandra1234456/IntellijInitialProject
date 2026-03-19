@@ -20,6 +20,8 @@ fun main() {
     val words = sentence.split(" ")
     val countTheWords = reverseWords(sentence)
     println(sentence.filter { !it.isWhitespace() })
+    compressAString("aaabbcc")
+    removeDuplicateCharacters("aaabbcc")
 }
 
 fun reverseWord(string: String) {
@@ -49,7 +51,7 @@ fun reverseArrayValues(reversArray: Array<Int>) {
 }
 
 fun reverseStringValue(value: String): String {
-    if (!value.isNullOrBlank()) {
+    if (value.isNotBlank()) {
         // length → count
         //  lastIndex → position
         val length = value.length
@@ -62,4 +64,48 @@ fun reverseStringValue(value: String): String {
         return "String Should Not Empty or null"
     }
     return ""
+}
+fun compressAString(input: String) {
+    if (input.isEmpty()) {
+        println("Compressed String: ")
+        return
+    }
+
+    var compressedString = ""
+    var count = 1
+
+    for (i in 1 until input.length) {
+        if (input[i] == input[i - 1]) {
+            count++
+        } else {
+            compressedString += input[i - 1].toString() + count
+            count = 1
+        }
+    }
+
+    // Add last character group
+    compressedString += input.last().toString() + count
+
+    println("Compressed String: $compressedString")
+}
+/*fun removeDuplicateCharacters(input: String) {
+    val result = input.toSet().joinToString("")
+    println("Removed Characters $result")
+}
+fun removeDuplicateCharacters(input: String) {
+    println("Removed Characters ${input.distinct().joinToString("")}")
+}*/
+
+fun removeDuplicateCharacters(input: String) {
+    val seen = mutableSetOf<Char>()
+    val result = StringBuilder()
+
+    for (char in input) {
+        if (char !in seen) {
+            seen.add(char)
+            result.append(char)
+        }
+    }
+
+    println("Removed Characters $result")
 }
