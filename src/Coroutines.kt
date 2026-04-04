@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
 //launch ---  Fire & forget ------Job
 
 //runBlocking blocks the main thread until all coroutines inside it finish.
-suspend fun main(){ //= runBlocking {
+/*suspend fun main(){ //= runBlocking {
     //launch is not a top-level function
     //It must be called inside a CoroutineScope
     //main() finishes immediately → program exits → coroutine never runs
@@ -60,7 +60,7 @@ suspend fun main(){ //= runBlocking {
     testSupervisorScope()
 
 
-}
+}*/
 //"End" is not printed because GlobalScope.launch is asynchronous and the parent function finishes before the delay completes, so the coroutine is cancelled when the process ends.
 /*@OptIn(DelicateCoroutinesApi::class)
 suspend fun data() {
