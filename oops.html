@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android OOP Interview Q&A</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --bg: #0a0e1a;
+          --surface: #111827;
+          --card: #161f30;
+          --border: #1e2d45;
+          --accent: #00e5ff;
+          --accent2: #a78bfa;
+          --accent3: #34d399;
+          --warn: #fb923c;
+          --text: #e2e8f0;
+          --muted: #64748b;
+          --code-bg: #0d1117;
+          --code-border: #1e2d45;
+          --green: #22c55e;
+          --red: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+          background: var(--bg);
+          color: var(--text);
+          font-family: 'Syne', sans-serif;
+          min-height: 100vh;
+          overflow-x: hidden;
+        }
+
+        /* Background grid */
+        body::before {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+          background-size: 40px 40px;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+        /* HEADER */
+        header {
+          padding: 60px 0 40px;
+          text-align: center;
+          position: relative;
+        }
+
+        .badge {
+          display: inline-block;
+          background: rgba(0,229,255,0.1);
+          border: 1px solid rgba(0,229,255,0.3);
+          color: var(--accent);
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          padding: 6px 18px;
+          border-radius: 100px;
+          margin-bottom: 24px;
+          font-family: 'JetBrains Mono', monospace;
+          animation: fadeDown 0.5s ease;
+        }
+
+        header h1 {
+          font-size: clamp(32px, 6vw, 64px);
+          font-weight: 800;
+          line-height: 1.1;
+          animation: fadeDown 0.6s ease;
+        }
+
+        .title-android { color: var(--accent3); }
+        .title-oop { color: var(--accent); }
+
+        header p {
+          margin-top: 16px;
+          color: var(--muted);
+          font-size: 16px;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+          animation: fadeDown 0.7s ease;
+        }
+
+        .stats-row {
+          display: flex;
+          justify-content: center;
+          gap: 32px;
+          margin-top: 36px;
+          flex-wrap: wrap;
+          animation: fadeDown 0.8s ease;
+        }
+
+        .stat {
+          text-align: center;
+        }
+        .stat .num {
+          font-size: 28px;
+          font-weight: 800;
+          color: var(--accent);
+          font-family: 'JetBrains Mono', monospace;
+        }
+        .stat .lbl {
+          font-size: 11px;
+          color: var(--muted);
+          text-transform: uppercase;
+          letter-spacing: 1.5px;
+          margin-top: 2px;
+        }
+
+        /* TABS */
+        .tabs {
+          display: flex;
+          gap: 8px;
+          margin: 48px 0 32px;
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 6px;
+          overflow-x: auto;
+          animation: fadeUp 0.6s ease;
+        }
+
+        .tab {
+          flex: 1;
+          min-width: 120px;
+          padding: 10px 16px;
+          border: none;
+          border-radius: 8px;
+          background: transparent;
+          color: var(--muted);
+          font-family: 'Syne', sans-serif;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+          white-space: nowrap;
+          text-align: center;
+        }
+
+        .tab.active {
+          background: var(--accent);
+          color: #000;
+        }
+
+        .tab:hover:not(.active) {
+          color: var(--text);
+          background: var(--border);
+        }
+
+        /* SECTIONS */
+        .section { display: none; }
+        .section.active { display: block; animation: fadeUp 0.4s ease; }
+
+        /* Q&A CARDS */
+        .qa-card {
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          margin-bottom: 20px;
+          overflow: hidden;
+          transition: border-color 0.2s;
+        }
+
+        .qa-card:hover { border-color: rgba(0,229,255,0.3); }
+
+        .qa-header {
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+          padding: 22px 24px;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .q-num {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 11px;
+          font-weight: 700;
+          color: #000;
+          background: var(--accent);
+          padding: 3px 8px;
+          border-radius: 6px;
+          min-width: 32px;
+          text-align: center;
+          margin-top: 2px;
+          flex-shrink: 0;
+        }
+
+        .q-num.purple { background: var(--accent2); }
+        .q-num.green { background: var(--accent3); }
+        .q-num.orange { background: var(--warn); }
+
+        .q-text {
+          font-size: 16px;
+          font-weight: 700;
+          color: var(--text);
+          flex: 1;
+          line-height: 1.4;
+        }
+
+        .chevron {
+          color: var(--muted);
+          font-size: 18px;
+          transition: transform 0.3s;
+          flex-shrink: 0;
+          margin-top: 2px;
+        }
+
+        .qa-card.open .chevron { transform: rotate(180deg); color: var(--accent); }
+
+        .qa-body {
+          display: none;
+          padding: 0 24px 24px;
+          border-top: 1px solid var(--border);
+          margin: 0 24px;
+        }
+
+        .qa-card.open .qa-body { display: block; }
+
+        .answer-text {
+          color: #94a3b8;
+          font-size: 14px;
+          line-height: 1.8;
+          margin: 16px 0 12px;
+          font-family: 'Syne', sans-serif;
+        }
+
+        .answer-text strong { color: var(--accent); font-weight: 700; }
+
+        /* DEFINITION LIST */
+        .def-list { margin: 12px 0; }
+        .def-item {
+          display: flex;
+          gap: 12px;
+          padding: 8px 0;
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+          font-size: 14px;
+        }
+        .def-item:last-child { border-bottom: none; }
+        .def-term {
+          color: var(--accent2);
+          font-weight: 700;
+          min-width: 130px;
+          font-size: 13px;
+        }
+        .def-desc { color: #94a3b8; line-height: 1.6; }
+
+        /* CODE BLOCK */
+        pre {
+          background: var(--code-bg);
+          border: 1px solid var(--code-border);
+          border-left: 3px solid var(--accent);
+          border-radius: 10px;
+          padding: 20px;
+          overflow-x: auto;
+          margin: 14px 0;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 13px;
+          line-height: 1.7;
+          position: relative;
+        }
+
+        pre.purple { border-left-color: var(--accent2); }
+        pre.green { border-left-color: var(--accent3); }
+        pre.orange { border-left-color: var(--warn); }
+
+        .code-label {
+          display: inline-block;
+          background: rgba(0,229,255,0.1);
+          color: var(--accent);
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          padding: 3px 10px;
+          border-radius: 4px;
+          margin-bottom: 10px;
+        }
+        .code-label.purple { background: rgba(167,139,250,0.1); color: var(--accent2); }
+        .code-label.green { background: rgba(52,211,153,0.1); color: var(--accent3); }
+        .code-label.orange { background: rgba(251,146,60,0.1); color: var(--warn); }
+
+        /* Syntax highlighting */
+        .kw { color: #ff79c6; }
+        .cls { color: #50fa7b; }
+        .fn { color: #8be9fd; }
+        .str { color: #f1fa8c; }
+        .cmt { color: #6272a4; font-style: italic; }
+        .num { color: #bd93f9; }
+        .ann { color: #ffb86c; }
+        .typ { color: #8be9fd; }
+
+        /* OUTPUT BOX */
+        .output-box {
+          background: #0d1117;
+          border: 1px solid #1e2d45;
+          border-left: 3px solid var(--accent3);
+          border-radius: 8px;
+          padding: 14px 18px;
+          margin: 10px 0;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px;
+          color: var(--accent3);
+          line-height: 1.8;
+        }
+
+        .output-box .out-label {
+          color: var(--muted);
+          font-size: 10px;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+          display: block;
+        }
+
+        /* PILLAR CARDS */
+        .pillars {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+          margin: 16px 0;
+        }
+
+        @media (max-width: 600px) {
+          .pillars { grid-template-columns: 1fr; }
+        }
+
+        .pillar-card {
+          background: rgba(255,255,255,0.03);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 18px;
+        }
+
+        .pillar-card h4 {
+          font-size: 14px;
+          font-weight: 800;
+          margin-bottom: 6px;
+        }
+
+        .pillar-card p {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.6;
+        }
+
+        .pillar-card.c1 { border-left: 3px solid var(--accent); }
+        .pillar-card.c1 h4 { color: var(--accent); }
+        .pillar-card.c2 { border-left: 3px solid var(--accent2); }
+        .pillar-card.c2 h4 { color: var(--accent2); }
+        .pillar-card.c3 { border-left: 3px solid var(--accent3); }
+        .pillar-card.c3 h4 { color: var(--accent3); }
+        .pillar-card.c4 { border-left: 3px solid var(--warn); }
+        .pillar-card.c4 h4 { color: var(--warn); }
+
+        /* PROBLEM SECTION */
+        .problem-card {
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          margin-bottom: 28px;
+          overflow: hidden;
+        }
+
+        .problem-header {
+          background: linear-gradient(135deg, rgba(0,229,255,0.07), rgba(167,139,250,0.07));
+          border-bottom: 1px solid var(--border);
+          padding: 20px 24px;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        }
+
+        .diff-badge {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 10px;
+          font-weight: 700;
+          padding: 4px 10px;
+          border-radius: 6px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        .diff-easy { background: rgba(52,211,153,0.15); color: var(--accent3); border: 1px solid rgba(52,211,153,0.3); }
+        .diff-medium { background: rgba(251,146,60,0.15); color: var(--warn); border: 1px solid rgba(251,146,60,0.3); }
+        .diff-hard { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+
+        .problem-title {
+          font-size: 16px;
+          font-weight: 800;
+          flex: 1;
+        }
+
+        .problem-body { padding: 20px 24px; }
+
+        .problem-desc {
+          color: #94a3b8;
+          font-size: 14px;
+          line-height: 1.8;
+          margin-bottom: 16px;
+        }
+
+        .section-label {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: var(--muted);
+          margin-bottom: 8px;
+          margin-top: 16px;
+        }
+
+        /* FOOTER */
+        footer {
+          text-align: center;
+          padding: 48px 0 32px;
+          color: var(--muted);
+          font-size: 13px;
+          font-family: 'JetBrains Mono', monospace;
+        }
+
+        footer span { color: var(--accent); }
+
+        /* ANIMATIONS */
+        @keyframes fadeDown {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <div class="badge">📱 Android Interview Prep</div>
+        <h1><span class="title-android">Android</span> × <span class="title-oop">OOP</span><br>Interview Guide</h1>
+        <p>Core Object-Oriented Programming concepts for Android / Kotlin interviews with real code examples</p>
+        <div class="stats-row">
+            <div class="stat"><div class="num">20+</div><div class="lbl">Questions</div></div>
+            <div class="stat"><div class="num">4</div><div class="lbl">OOP Pillars</div></div>
+            <div class="stat"><div class="num">10</div><div class="lbl">Code Problems</div></div>
+            <div class="stat"><div class="num">Kotlin</div><div class="lbl">Language</div></div>
+        </div>
+    </header>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('concepts')">🧠 Core Concepts</button>
+        <button class="tab" onclick="switchTab('encap')">🔒 Encapsulation</button>
+        <button class="tab" onclick="switchTab('inherit')">🧬 Inheritance</button>
+        <button class="tab" onclick="switchTab('poly')">🔀 Polymorphism</button>
+        <button class="tab" onclick="switchTab('abstract')">🎭 Abstraction</button>
+        <button class="tab" onclick="switchTab('problems')">💻 Problems</button>
+    </div>
+
+    <!-- ==================== CORE CONCEPTS ==================== -->
+    <div id="concepts" class="section active">
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num">Q1</span>
+                <span class="q-text">What is Object-Oriented Programming (OOP)? What are its four pillars?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <p class="answer-text">OOP is a programming paradigm based on the concept of <strong>objects</strong> — self-contained units that bundle data (properties) and behavior (methods). It organises software design around data rather than functions and logic.</p>
+                <div class="pillars">
+                    <div class="pillar-card c1">
+                        <h4>Encapsulation</h4>
+                        <p>Bundling data and methods; hiding internal state via access modifiers.</p>
+                    </div>
+                    <div class="pillar-card c2">
+                        <h4>Inheritance</h4>
+                        <p>Deriving new classes from existing ones, enabling code reuse.</p>
+                    </div>
+                    <div class="pillar-card c3">
+                        <h4>Polymorphism</h4>
+                        <p>Same interface, many forms — method overriding & overloading.</p>
+                    </div>
+                    <div class="pillar-card c4">
+                        <h4>Abstraction</h4>
+                        <p>Hiding complex implementation details behind simple interfaces.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num">Q2</span>
+                <span class="q-text">What is the difference between a Class and an Object?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <div class="def-list">
+                    <div class="def-item"><span class="def-term">Class</span><span class="def-desc">A blueprint/template that defines properties and behaviors. It doesn't occupy memory by itself.</span></div>
+                    <div class="def-item"><span class="def-term">Object</span><span class="def-desc">An instance of a class created at runtime. It occupies memory and holds actual data values.</span></div>
+                </div>
+                <div class="code-label">Kotlin Example</div>
+                <pre><span class="cmt">// Class = Blueprint</span>
+<span class="kw">class</span> <span class="cls">Car</span>(
+    <span class="kw">val</span> brand: <span class="typ">String</span>,
+    <span class="kw">val</span> speed: <span class="typ">Int</span>
+) {
+    <span class="kw">fun</span> <span class="fn">drive</span>() = println(<span class="str">"$brand is driving at $speed km/h"</span>)
+}
+
+<span class="cmt">// Objects = Instances</span>
+<span class="kw">val</span> car1 = <span class="cls">Car</span>(<span class="str">"Toyota"</span>, <span class="num">120</span>)
+<span class="kw">val</span> car2 = <span class="cls">Car</span>(<span class="str">"BMW"</span>, <span class="num">200</span>)
+car1.drive()  <span class="cmt">// Toyota is driving at 120 km/h</span>
+car2.drive()  <span class="cmt">// BMW is driving at 200 km/h</span></pre>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num">Q3</span>
+                <span class="q-text">What is a Constructor? Explain primary and secondary constructors in Kotlin.</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <p class="answer-text">A constructor initialises an object when it's created. Kotlin has <strong>primary constructors</strong> (in the class header) and <strong>secondary constructors</strong> (inside the class body using <code>constructor</code> keyword).</p>
+                <div class="code-label">Kotlin Example</div>
+                <pre><span class="kw">class</span> <span class="cls">Person</span>(
+    <span class="kw">val</span> name: <span class="typ">String</span>,       <span class="cmt">// Primary constructor</span>
+    <span class="kw">val</span> age: <span class="typ">Int</span>
+) {
+    <span class="kw">init</span> {
+        println(<span class="str">"Person created: $name, age $age"</span>)
+    }
+
+    <span class="cmt">// Secondary constructor</span>
+    <span class="kw">constructor</span>(name: <span class="typ">String</span>) : <span class="kw">this</span>(name, <span class="num">0</span>) {
+        println(<span class="str">"Age defaulted to 0"</span>)
+    }
+}
+
+<span class="kw">val</span> p1 = <span class="cls">Person</span>(<span class="str">"Alice"</span>, <span class="num">25</span>)
+<span class="kw">val</span> p2 = <span class="cls">Person</span>(<span class="str">"Bob"</span>)      <span class="cmt">// Uses secondary constructor</span></pre>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num">Q4</span>
+                <span class="q-text">What is the difference between val and var in Kotlin? How does it relate to OOP?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <div class="def-list">
+                    <div class="def-item"><span class="def-term">val</span><span class="def-desc">Immutable reference — cannot be reassigned after initialisation (like Java's <code>final</code>). Encourages encapsulation.</span></div>
+                    <div class="def-item"><span class="def-term">var</span><span class="def-desc">Mutable reference — can be reassigned. Should be used with care to maintain encapsulation.</span></div>
+                </div>
+                <div class="code-label">Kotlin Example</div>
+                <pre><span class="kw">class</span> <span class="cls">User</span> {
+    <span class="kw">val</span> id: <span class="typ">Int</span> = <span class="num">1001</span>          <span class="cmt">// Immutable</span>
+    <span class="kw">var</span> username: <span class="typ">String</span> = <span class="str">"john"</span>  <span class="cmt">// Mutable</span>
+}
+<span class="kw">val</span> u = <span class="cls">User</span>()
+<span class="cmt">// u.id = 999        // ERROR: val cannot be reassigned</span>
+u.username = <span class="str">"jane"</span>   <span class="cmt">// OK</span></pre>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num">Q5</span>
+                <span class="q-text">What are Access Modifiers in Kotlin/Android?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <div class="def-list">
+                    <div class="def-item"><span class="def-term">public</span><span class="def-desc">Default in Kotlin. Accessible everywhere.</span></div>
+                    <div class="def-item"><span class="def-term">private</span><span class="def-desc">Accessible only within the same class/file.</span></div>
+                    <div class="def-item"><span class="def-term">protected</span><span class="def-desc">Accessible within class and its subclasses.</span></div>
+                    <div class="def-item"><span class="def-term">internal</span><span class="def-desc">Accessible within the same module (Kotlin-specific).</span></div>
+                </div>
+                <div class="code-label">Kotlin Example</div>
+                <pre><span class="kw">class</span> <span class="cls">BankAccount</span> {
+    <span class="kw">private var</span> balance: <span class="typ">Double</span> = <span class="num">0.0</span>
+    <span class="kw">internal val</span> accountId = <span class="str">"ACC001"</span>
+    <span class="kw">protected open fun</span> <span class="fn">getInterest</span>(): <span class="typ">Double</span> = <span class="num">0.05</span>
+
+    <span class="kw">fun</span> <span class="fn">deposit</span>(amount: <span class="typ">Double</span>) {
+        <span class="kw">if</span> (amount > <span class="num">0</span>) balance += amount  <span class="cmt">// controlled access</span>
+    }
+
+    <span class="kw">fun</span> <span class="fn">getBalance</span>(): <span class="typ">Double</span> = balance
+}</pre>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==================== ENCAPSULATION ==================== -->
+    <div id="encap" class="section">
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num green">Q1</span>
+                <span class="q-text">What is Encapsulation? How is it achieved in Kotlin?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <p class="answer-text">Encapsulation is the practice of <strong>bundling data and methods</strong> together and <strong>restricting direct access</strong> to internal state. In Kotlin, it's achieved using private properties with public getters/setters, or Kotlin's built-in property accessor syntax.</p>
+                <div class="code-label green">Kotlin Example</div>
+                <pre class="green"><span class="kw">class</span> <span class="cls">Employee</span> {
+    <span class="kw">private var</span> _salary: <span class="typ">Double</span> = <span class="num">0.0</span>
+
+    <span class="cmt">// Custom getter/setter</span>
+    <span class="kw">var</span> salary: <span class="typ">Double</span>
+        <span class="kw">get</span>() = _salary
+        <span class="kw">set</span>(value) {
+            <span class="kw">if</span> (value >= <span class="num">0</span>) _salary = value
+            <span class="kw">else</span> println(<span class="str">"Invalid salary"</span>)
+        }
+
+    <span class="kw">private var</span> _name: <span class="typ">String</span> = <span class="str">""</span>
+    <span class="kw">val</span> name: <span class="typ">String</span> get() = _name.uppercase()
+
+    <span class="kw">fun</span> <span class="fn">setName</span>(name: <span class="typ">String</span>) {
+        <span class="kw">if</span> (name.isNotBlank()) _name = name
+    }
+}
+
+<span class="kw">val</span> emp = <span class="cls">Employee</span>()
+emp.setName(<span class="str">"alice"</span>)
+emp.salary = <span class="num">50000.0</span>
+println(emp.name)    <span class="cmt">// ALICE</span>
+println(emp.salary)  <span class="cmt">// 50000.0</span>
+emp.salary = <span class="num">-100.0</span> <span class="cmt">// Invalid salary</span></pre>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num green">Q2</span>
+                <span class="q-text">What is a data class in Kotlin and how does it support encapsulation?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <p class="answer-text">A <strong>data class</strong> automatically generates <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code>, <code>copy()</code>, and <code>componentN()</code> functions. It promotes encapsulation by making all primary constructor properties <code>val</code> (immutable) by convention.</p>
+                <div class="code-label green">Kotlin Example</div>
+                <pre class="green"><span class="kw">data class</span> <span class="cls">UserProfile</span>(
+    <span class="kw">val</span> id: <span class="typ">Int</span>,
+    <span class="kw">val</span> name: <span class="typ">String</span>,
+    <span class="kw">val</span> email: <span class="typ">String</span>
+)
+
+<span class="kw">val</span> user1 = <span class="cls">UserProfile</span>(<span class="num">1</span>, <span class="str">"Alice"</span>, <span class="str">"alice@mail.com"</span>)
+<span class="kw">val</span> user2 = user1.copy(name = <span class="str">"Bob"</span>)   <span class="cmt">// new object, original unchanged</span>
+println(user1)  <span class="cmt">// UserProfile(id=1, name=Alice, email=alice@mail.com)</span>
+println(user1 == user2)  <span class="cmt">// false</span></pre>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num green">Q3</span>
+                <span class="q-text">What is the difference between a data class and a regular class in Android?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <div class="def-list">
+                    <div class="def-item"><span class="def-term">data class</span><span class="def-desc">Auto-generates equals, hashCode, toString, copy. Best for model/DTO objects (e.g. API responses, Room entities).</span></div>
+                    <div class="def-item"><span class="def-term">regular class</span><span class="def-desc">Full control. Used for ViewModels, Repositories, Services, and classes with complex business logic.</span></div>
+                    <div class="def-item"><span class="def-term">sealed class</span><span class="def-desc">Restricted hierarchy — great for representing states (Loading, Success, Error) in MVVM architecture.</span></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==================== INHERITANCE ==================== -->
+    <div id="inherit" class="section">
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num purple">Q1</span>
+                <span class="q-text">What is Inheritance? How does Kotlin handle it differently from Java?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <p class="answer-text">Inheritance lets a class <strong>acquire properties and methods from another class</strong>. In Kotlin, all classes are <strong>final by default</strong> — you must explicitly mark them <code>open</code> to allow inheritance. In Java, classes are open by default.</p>
+                <div class="code-label purple">Kotlin Example</div>
+                <pre class="purple"><span class="kw">open class</span> <span class="cls">Animal</span>(<span class="kw">val</span> name: <span class="typ">String</span>) {
+    <span class="kw">open fun</span> <span class="fn">speak</span>() = println(<span class="str">"$name makes a sound"</span>)
+}
+
+<span class="kw">class</span> <span class="cls">Dog</span>(name: <span class="typ">String</span>) : <span class="cls">Animal</span>(name) {
+    <span class="kw">override fun</span> <span class="fn">speak</span>() = println(<span class="str">"$name says: Woof!"</span>)
+}
+
+<span class="kw">class</span> <span class="cls">Cat</span>(name: <span class="typ">String</span>) : <span class="cls">Animal</span>(name) {
+    <span class="kw">override fun</span> <span class="fn">speak</span>() = println(<span class="str">"$name says: Meow!"</span>)
+}
+
+<span class="kw">val</span> animals: <span class="typ">List</span>&lt;<span class="cls">Animal</span>&gt; = listOf(<span class="cls">Dog</span>(<span class="str">"Rex"</span>), <span class="cls">Cat</span>(<span class="str">"Whiskers"</span>))
+animals.forEach { it.speak() }
+<span class="cmt">// Rex says: Woof!</span>
+<span class="cmt">// Whiskers says: Meow!</span></pre>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num purple">Q2</span>
+                <span class="q-text">What is the difference between open, abstract, and sealed classes in Kotlin?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <div class="def-list">
+                    <div class="def-item"><span class="def-term">open class</span><span class="def-desc">Can be subclassed and instantiated directly.</span></div>
+                    <div class="def-item"><span class="def-term">abstract class</span><span class="def-desc">Cannot be instantiated directly. May contain abstract (unimplemented) functions that subclasses must implement.</span></div>
+                    <div class="def-item"><span class="def-term">sealed class</span><span class="def-desc">Restricted hierarchy — all subclasses must be in the same file. Perfect for representing UI states (Loading / Success / Error).</span></div>
+                </div>
+                <div class="code-label purple">Sealed Class — Android Use Case</div>
+                <pre class="purple"><span class="kw">sealed class</span> <span class="cls">Result</span>&lt;<span class="kw">out</span> T&gt; {
+    <span class="kw">data class</span> <span class="cls">Success</span>&lt;T&gt;(<span class="kw">val</span> data: T) : <span class="cls">Result</span>&lt;T&gt;()
+    <span class="kw">data class</span> <span class="cls">Error</span>(<span class="kw">val</span> message: <span class="typ">String</span>) : <span class="cls">Result</span>&lt;<span class="typ">Nothing</span>&gt;()
+    <span class="kw">object</span> <span class="cls">Loading</span> : <span class="cls">Result</span>&lt;<span class="typ">Nothing</span>&gt;()
+}
+
+<span class="cmt">// In ViewModel / UI</span>
+<span class="kw">when</span> (<span class="kw">val</span> result = fetchUser()) {
+    <span class="kw">is</span> <span class="cls">Result.Success</span> -> showUser(result.data)
+    <span class="kw">is</span> <span class="cls">Result.Error</span>   -> showError(result.message)
+    <span class="kw">is</span> <span class="cls">Result.Loading</span> -> showLoader()
+}</pre>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num purple">Q3</span>
+                <span class="q-text">What is super keyword and how is it used in Android?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <p class="answer-text">The <strong>super</strong> keyword calls a parent class's methods or constructors. In Android, it's commonly used in Activity/Fragment lifecycle methods.</p>
+                <div class="code-label purple">Android Lifecycle Example</div>
+                <pre class="purple"><span class="kw">class</span> <span class="cls">MainActivity</span> : <span class="cls">AppCompatActivity</span>() {
+
+    <span class="ann">@Override</span>
+    <span class="kw">override fun</span> <span class="fn">onCreate</span>(savedInstanceState: <span class="typ">Bundle?</span>) {
+        <span class="kw">super</span>.onCreate(savedInstanceState)  <span class="cmt">// MUST call parent</span>
+        setContentView(R.layout.activity_main)
+    }
+
+    <span class="ann">@Override</span>
+    <span class="kw">override fun</span> <span class="fn">onResume</span>() {
+        <span class="kw">super</span>.onResume()
+        <span class="cmt">// your code runs after parent's onResume</span>
+    }
+}</pre>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==================== POLYMORPHISM ==================== -->
+    <div id="poly" class="section">
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num orange">Q1</span>
+                <span class="q-text">What is Polymorphism? Explain compile-time vs runtime polymorphism.</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <p class="answer-text">Polymorphism means <strong>"many forms"</strong> — the ability to process objects differently based on their type.</p>
+                <div class="def-list">
+                    <div class="def-item"><span class="def-term">Compile-time</span><span class="def-desc">Method overloading — same method name, different parameters. Resolved at compile time.</span></div>
+                    <div class="def-item"><span class="def-term">Runtime</span><span class="def-desc">Method overriding — subclass provides specific implementation. Resolved at runtime via dynamic dispatch.</span></div>
+                </div>
+                <div class="code-label orange">Overloading (Compile-time)</div>
+                <pre class="orange"><span class="kw">class</span> <span class="cls">Calculator</span> {
+    <span class="kw">fun</span> <span class="fn">add</span>(a: <span class="typ">Int</span>, b: <span class="typ">Int</span>) = a + b
+    <span class="kw">fun</span> <span class="fn">add</span>(a: <span class="typ">Double</span>, b: <span class="typ">Double</span>) = a + b
+    <span class="kw">fun</span> <span class="fn">add</span>(a: <span class="typ">Int</span>, b: <span class="typ">Int</span>, c: <span class="typ">Int</span>) = a + b + c
+}
+<span class="kw">val</span> calc = <span class="cls">Calculator</span>()
+println(calc.add(<span class="num">1</span>, <span class="num">2</span>))          <span class="cmt">// 3</span>
+println(calc.add(<span class="num">1.5</span>, <span class="num">2.5</span>))     <span class="cmt">// 4.0</span>
+println(calc.add(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>))      <span class="cmt">// 6</span></pre>
+                <div class="code-label orange">Overriding (Runtime)</div>
+                <pre class="orange"><span class="kw">open class</span> <span class="cls">Shape</span> {
+    <span class="kw">open fun</span> <span class="fn">area</span>(): <span class="typ">Double</span> = <span class="num">0.0</span>
+}
+<span class="kw">class</span> <span class="cls">Circle</span>(<span class="kw">val</span> r: <span class="typ">Double</span>) : <span class="cls">Shape</span>() {
+    <span class="kw">override fun</span> <span class="fn">area</span>() = Math.PI * r * r
+}
+<span class="kw">class</span> <span class="cls">Rectangle</span>(<span class="kw">val</span> w: <span class="typ">Double</span>, <span class="kw">val</span> h: <span class="typ">Double</span>) : <span class="cls">Shape</span>() {
+    <span class="kw">override fun</span> <span class="fn">area</span>() = w * h
+}
+<span class="kw">val</span> shapes: <span class="typ">List</span>&lt;<span class="cls">Shape</span>&gt; = listOf(<span class="cls">Circle</span>(<span class="num">5.0</span>), <span class="cls">Rectangle</span>(<span class="num">4.0</span>, <span class="num">6.0</span>))
+shapes.forEach { println(<span class="str">"Area: ${"%.2f".format(it.area())}"</span>) }</pre>
+                <div class="output-box"><span class="out-label">Output</span>Area: 78.54<br>Area: 24.00</div>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num orange">Q2</span>
+                <span class="q-text">What is the difference between Interface and Abstract Class in Kotlin?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <div class="def-list">
+                    <div class="def-item"><span class="def-term">Interface</span><span class="def-desc">Defines a contract. No state by default. A class can implement multiple interfaces. Methods can have default implementations in Kotlin.</span></div>
+                    <div class="def-item"><span class="def-term">Abstract Class</span><span class="def-desc">Can have state (fields). Only single inheritance. Can have constructor. Mix of abstract and concrete methods.</span></div>
+                </div>
+                <div class="code-label orange">Interface Example</div>
+                <pre class="orange"><span class="kw">interface</span> <span class="cls">Clickable</span> {
+    <span class="kw">fun</span> <span class="fn">onClick</span>()
+    <span class="kw">fun</span> <span class="fn">onLongClick</span>() = println(<span class="str">"Default long click"</span>)  <span class="cmt">// default impl</span>
+}
+
+<span class="kw">interface</span> <span class="cls">Swipeable</span> {
+    <span class="kw">fun</span> <span class="fn">onSwipe</span>(direction: <span class="typ">String</span>)
+}
+
+<span class="cmt">// Multiple interface implementation</span>
+<span class="kw">class</span> <span class="cls">CardView</span> : <span class="cls">Clickable</span>, <span class="cls">Swipeable</span> {
+    <span class="kw">override fun</span> <span class="fn">onClick</span>() = println(<span class="str">"Card clicked"</span>)
+    <span class="kw">override fun</span> <span class="fn">onSwipe</span>(dir: <span class="typ">String</span>) = println(<span class="str">"Swiped $dir"</span>)
+}</pre>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==================== ABSTRACTION ==================== -->
+    <div id="abstract" class="section">
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num">Q1</span>
+                <span class="q-text">What is Abstraction and how is it used in Android Architecture?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <p class="answer-text">Abstraction hides complexity by exposing only what's necessary. In Android's <strong>MVVM architecture</strong>, the Repository pattern is a great example — the ViewModel doesn't care if data comes from a network or database.</p>
+                <div class="code-label">Android Repository Pattern</div>
+                <pre><span class="cmt">// Abstract interface — hides implementation</span>
+<span class="kw">interface</span> <span class="cls">UserRepository</span> {
+    <span class="kw">suspend fun</span> <span class="fn">getUser</span>(id: <span class="typ">Int</span>): <span class="cls">User</span>
+    <span class="kw">suspend fun</span> <span class="fn">saveUser</span>(user: <span class="cls">User</span>)
+}
+
+<span class="cmt">// Concrete implementation (hidden from ViewModel)</span>
+<span class="kw">class</span> <span class="cls">UserRepositoryImpl</span>(
+    <span class="kw">private val</span> api: <span class="cls">ApiService</span>,
+    <span class="kw">private val</span> db: <span class="cls">UserDao</span>
+) : <span class="cls">UserRepository</span> {
+    <span class="kw">override suspend fun</span> <span class="fn">getUser</span>(id: <span class="typ">Int</span>): <span class="cls">User</span> {
+        <span class="kw">return</span> db.getUser(id) ?: api.fetchUser(id).also { db.insert(it) }
+    }
+    <span class="kw">override suspend fun</span> <span class="fn">saveUser</span>(user: <span class="cls">User</span>) = db.insert(user)
+}
+
+<span class="cmt">// ViewModel only knows the interface</span>
+<span class="kw">class</span> <span class="cls">UserViewModel</span>(<span class="kw">private val</span> repo: <span class="cls">UserRepository</span>) : <span class="cls">ViewModel</span>() {
+    <span class="kw">fun</span> <span class="fn">loadUser</span>(id: <span class="typ">Int</span>) { <span class="cmt">/* repo.getUser(id) */</span> }
+}</pre>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num">Q2</span>
+                <span class="q-text">What are object and companion object in Kotlin?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <div class="def-list">
+                    <div class="def-item"><span class="def-term">object</span><span class="def-desc">Singleton pattern — only one instance is created. Used for utilities, managers, constants.</span></div>
+                    <div class="def-item"><span class="def-term">companion object</span><span class="def-desc">Like Java's static members — associated with the class, not instances. Used for factory methods and constants.</span></div>
+                </div>
+                <div class="code-label">Kotlin Example</div>
+                <pre><span class="cmt">// Singleton</span>
+<span class="kw">object</span> <span class="cls">NetworkManager</span> {
+    <span class="kw">fun</span> <span class="fn">connect</span>() = println(<span class="str">"Connected"</span>)
+}
+<span class="cls">NetworkManager</span>.connect()
+
+<span class="cmt">// Companion Object (Factory pattern)</span>
+<span class="kw">class</span> <span class="cls">Fragment</span> {
+    <span class="kw">companion object</span> {
+        <span class="kw">const val</span> TAG = <span class="str">"MyFragment"</span>
+
+        <span class="kw">fun</span> <span class="fn">newInstance</span>(userId: <span class="typ">Int</span>): <span class="cls">Fragment</span> {
+            <span class="kw">return</span> <span class="cls">Fragment</span>().apply {
+                arguments = Bundle().apply { putInt(<span class="str">"user_id"</span>, userId) }
+            }
+        }
+    }
+}
+<span class="kw">val</span> frag = <span class="cls">Fragment</span>.newInstance(<span class="num">42</span>)</pre>
+            </div>
+        </div>
+
+        <div class="qa-card">
+            <div class="qa-header" onclick="toggle(this)">
+                <span class="q-num">Q3</span>
+                <span class="q-text">What is Dependency Injection and how does it apply OOP principles?</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="qa-body">
+                <p class="answer-text">DI is providing dependencies from outside rather than creating them inside a class. It uses <strong>abstraction</strong> (interfaces), <strong>encapsulation</strong> (hidden implementation), and enables loose coupling. Hilt/Dagger is the standard in Android.</p>
+                <div class="code-label">Without DI (tightly coupled)</div>
+                <pre><span class="kw">class</span> <span class="cls">LoginViewModel</span> {
+    <span class="kw">private val</span> repo = <span class="cls">UserRepositoryImpl</span>()  <span class="cmt">// ❌ hardcoded</span>
+}</pre>
+                <div class="code-label">With DI (loosely coupled)</div>
+                <pre><span class="kw">class</span> <span class="cls">LoginViewModel</span>(
+    <span class="kw">private val</span> repo: <span class="cls">UserRepository</span>  <span class="cmt">// ✅ injected interface</span>
+) : <span class="cls">ViewModel</span>() {
+    <span class="kmt">// works with any UserRepository implementation</span>
+    <span class="kmt">// easy to mock in unit tests</span>
+}</pre>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==================== PROBLEMS ==================== -->
+    <div id="problems" class="section">
+
+        <!-- Problem 1 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <span class="diff-badge diff-easy">Easy</span>
+                <span class="problem-title">Problem 1: Implement a Stack using OOP</span>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Design a generic Stack class with push, pop, peek, and isEmpty operations using encapsulation principles.</p>
+                <div class="section-label">Solution</div>
+                <div class="code-label">Kotlin</div>
+                <pre><span class="kw">class</span> <span class="cls">Stack</span>&lt;T&gt; {
+    <span class="kw">private val</span> items = <span class="fn">mutableListOf</span>&lt;T&gt;()
+
+    <span class="kw">fun</span> <span class="fn">push</span>(item: T) = items.add(item)
+
+    <span class="kw">fun</span> <span class="fn">pop</span>(): T {
+        <span class="kw">if</span> (isEmpty()) <span class="kw">throw</span> <span class="cls">EmptyStackException</span>()
+        <span class="kw">return</span> items.removeAt(items.size - <span class="num">1</span>)
+    }
+
+    <span class="kw">fun</span> <span class="fn">peek</span>(): T {
+        <span class="kw">if</span> (isEmpty()) <span class="kw">throw</span> <span class="cls">EmptyStackException</span>()
+        <span class="kw">return</span> items.last()
+    }
+
+    <span class="kw">fun</span> <span class="fn">isEmpty</span>() = items.isEmpty()
+    <span class="kw">fun</span> <span class="fn">size</span>() = items.size
+
+    <span class="kw">override fun</span> <span class="fn">toString</span>() = items.toString()
+}
+
+<span class="cmt">// Usage</span>
+<span class="kw">val</span> stack = <span class="cls">Stack</span>&lt;<span class="typ">Int</span>&gt;()
+stack.push(<span class="num">10</span>)
+stack.push(<span class="num">20</span>)
+stack.push(<span class="num">30</span>)
+println(stack.peek())  <span class="cmt">// 30</span>
+println(stack.pop())   <span class="cmt">// 30</span>
+println(stack)         <span class="cmt">// [10, 20]</span></pre>
+                <div class="output-box"><span class="out-label">Output</span>30<br>30<br>[10, 20]</div>
+            </div>
+        </div>
+
+        <!-- Problem 2 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <span class="diff-badge diff-easy">Easy</span>
+                <span class="problem-title">Problem 2: Singleton Logger using object</span>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Create a Logger singleton that maintains a log history and can be used across the app without multiple instances.</p>
+                <div class="code-label">Kotlin</div>
+                <pre><span class="kw">object</span> <span class="cls">AppLogger</span> {
+    <span class="kw">private val</span> logs = <span class="fn">mutableListOf</span>&lt;<span class="typ">String</span>&gt;()
+
+    <span class="kw">fun</span> <span class="fn">log</span>(tag: <span class="typ">String</span>, message: <span class="typ">String</span>) {
+        <span class="kw">val</span> entry = <span class="str">"[$tag] $message"</span>
+        logs.add(entry)
+        println(entry)
+    }
+
+    <span class="kw">fun</span> <span class="fn">getLogs</span>(): <span class="typ">List</span>&lt;<span class="typ">String</span>&gt; = logs.toList()
+
+    <span class="kw">fun</span> <span class="fn">clear</span>() = logs.clear()
+}
+
+<span class="cmt">// Usage anywhere in the app</span>
+<span class="cls">AppLogger</span>.log(<span class="str">"MainActivity"</span>, <span class="str">"Activity created"</span>)
+<span class="cls">AppLogger</span>.log(<span class="str">"ViewModel"</span>, <span class="str">"Data loaded"</span>)
+println(<span class="cls">AppLogger</span>.getLogs().size)  <span class="cmt">// 2</span></pre>
+                <div class="output-box"><span class="out-label">Output</span>[MainActivity] Activity created<br>[ViewModel] Data loaded<br>2</div>
+            </div>
+        </div>
+
+        <!-- Problem 3 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <span class="diff-badge diff-medium">Medium</span>
+                <span class="problem-title">Problem 3: Shape Hierarchy with Abstract Class</span>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Build a shape hierarchy using abstract class and polymorphism to calculate area and perimeter.</p>
+                <div class="code-label">Kotlin</div>
+                <pre><span class="kw">abstract class</span> <span class="cls">Shape</span>(<span class="kw">val</span> color: <span class="typ">String</span>) {
+    <span class="kw">abstract fun</span> <span class="fn">area</span>(): <span class="typ">Double</span>
+    <span class="kw">abstract fun</span> <span class="fn">perimeter</span>(): <span class="typ">Double</span>
+    <span class="kw">open fun</span> <span class="fn">describe</span>() =
+        println(<span class="str">"$color ${this::class.simpleName}: area=${"%.2f".format(area())}, perimeter=${"%.2f".format(perimeter())}"</span>)
+}
+
+<span class="kw">class</span> <span class="cls">Circle</span>(<span class="kw">val</span> radius: <span class="typ">Double</span>, color: <span class="typ">String</span>) : <span class="cls">Shape</span>(color) {
+    <span class="kw">override fun</span> <span class="fn">area</span>() = Math.PI * radius * radius
+    <span class="kw">override fun</span> <span class="fn">perimeter</span>() = <span class="num">2</span> * Math.PI * radius
+}
+
+<span class="kw">class</span> <span class="cls">Rectangle</span>(<span class="kw">val</span> w: <span class="typ">Double</span>, <span class="kw">val</span> h: <span class="typ">Double</span>, color: <span class="typ">String</span>) : <span class="cls">Shape</span>(color) {
+    <span class="kw">override fun</span> <span class="fn">area</span>() = w * h
+    <span class="kw">override fun</span> <span class="fn">perimeter</span>() = <span class="num">2</span> * (w + h)
+}
+
+<span class="kw">class</span> <span class="cls">Triangle</span>(<span class="kw">val</span> a: <span class="typ">Double</span>, <span class="kw">val</span> b: <span class="typ">Double</span>, <span class="kw">val</span> c: <span class="typ">Double</span>, color: <span class="typ">String</span>) : <span class="cls">Shape</span>(color) {
+    <span class="kw">override fun</span> <span class="fn">area</span>(): <span class="typ">Double</span> {
+        <span class="kw">val</span> s = (a + b + c) / <span class="num">2</span>
+        <span class="kw">return</span> Math.sqrt(s * (s-a) * (s-b) * (s-c))
+    }
+    <span class="kw">override fun</span> <span class="fn">perimeter</span>() = a + b + c
+}
+
+<span class="kw">val</span> shapes = listOf(
+    <span class="cls">Circle</span>(<span class="num">5.0</span>, <span class="str">"Red"</span>),
+    <span class="cls">Rectangle</span>(<span class="num">4.0</span>, <span class="num">6.0</span>, <span class="str">"Blue"</span>),
+    <span class="cls">Triangle</span>(<span class="num">3.0</span>, <span class="num">4.0</span>, <span class="num">5.0</span>, <span class="str">"Green"</span>)
+)
+shapes.forEach { it.describe() }
+println(<span class="str">"Total area: ${"%.2f".format(shapes.sumOf { it.area() })}"</span>)</pre>
+                <div class="output-box"><span class="out-label">Output</span>Red Circle: area=78.54, perimeter=31.42<br>Blue Rectangle: area=24.00, perimeter=20.00<br>Green Triangle: area=6.00, perimeter=12.00<br>Total area: 108.54</div>
+            </div>
+        </div>
+
+        <!-- Problem 4 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <span class="diff-badge diff-medium">Medium</span>
+                <span class="problem-title">Problem 4: Builder Pattern for Android AlertDialog</span>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Implement the Builder design pattern (commonly used in Android's AlertDialog, Retrofit, OkHttp) to construct complex objects step by step.</p>
+                <div class="code-label">Kotlin</div>
+                <pre><span class="kw">data class</span> <span class="cls">AlertConfig</span>(
+    <span class="kw">val</span> title: <span class="typ">String</span>,
+    <span class="kw">val</span> message: <span class="typ">String</span>,
+    <span class="kw">val</span> positiveButton: <span class="typ">String</span>,
+    <span class="kw">val</span> negativeButton: <span class="typ">String?</span>,
+    <span class="kw">val</span> isCancelable: <span class="typ">Boolean</span>
+) {
+    <span class="kw">class</span> <span class="cls">Builder</span> {
+        <span class="kw">private var</span> title = <span class="str">""</span>
+        <span class="kw">private var</span> message = <span class="str">""</span>
+        <span class="kw">private var</span> positiveButton = <span class="str">"OK"</span>
+        <span class="kw">private var</span> negativeButton: <span class="typ">String?</span> = <span class="kw">null</span>
+        <span class="kw">private var</span> isCancelable = <span class="kw">true</span>
+
+        <span class="kw">fun</span> <span class="fn">title</span>(t: <span class="typ">String</span>) = apply { title = t }
+        <span class="kw">fun</span> <span class="fn">message</span>(m: <span class="typ">String</span>) = apply { message = m }
+        <span class="kw">fun</span> <span class="fn">positiveButton</span>(b: <span class="typ">String</span>) = apply { positiveButton = b }
+        <span class="kw">fun</span> <span class="fn">negativeButton</span>(b: <span class="typ">String</span>) = apply { negativeButton = b }
+        <span class="kw">fun</span> <span class="fn">cancelable</span>(c: <span class="typ">Boolean</span>) = apply { isCancelable = c }
+        <span class="kw">fun</span> <span class="fn">build</span>() = <span class="cls">AlertConfig</span>(title, message, positiveButton, negativeButton, isCancelable)
+    }
+}
+
+<span class="kw">val</span> config = <span class="cls">AlertConfig</span>.<span class="cls">Builder</span>()
+    .title(<span class="str">"Delete Item"</span>)
+    .message(<span class="str">"Are you sure you want to delete?"</span>)
+    .positiveButton(<span class="str">"Delete"</span>)
+    .negativeButton(<span class="str">"Cancel"</span>)
+    .cancelable(<span class="kw">false</span>)
+    .build()
+
+println(config)</pre>
+                <div class="output-box"><span class="out-label">Output</span>AlertConfig(title=Delete Item, message=Are you sure you want to delete?, positiveButton=Delete, negativeButton=Cancel, isCancelable=false)</div>
+            </div>
+        </div>
+
+        <!-- Problem 5 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <span class="diff-badge diff-medium">Medium</span>
+                <span class="problem-title">Problem 5: Observer Pattern (LiveData-style)</span>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Implement the Observer pattern — the foundation of Android's LiveData and reactive UI updates.</p>
+                <div class="code-label">Kotlin</div>
+                <pre><span class="cmt">// Observer interface</span>
+<span class="kw">interface</span> <span class="cls">Observer</span>&lt;T&gt; {
+    <span class="kw">fun</span> <span class="fn">onChanged</span>(value: T)
+}
+
+<span class="cmt">// Observable (simplified LiveData)</span>
+<span class="kw">class</span> <span class="cls">MutableLiveData</span>&lt;T&gt; {
+    <span class="kw">private val</span> observers = <span class="fn">mutableListOf</span>&lt;<span class="cls">Observer</span>&lt;T&gt;&gt;()
+    <span class="kw">private var</span> _value: T? = <span class="kw">null</span>
+
+    <span class="kw">var</span> value: T?
+        <span class="kw">get</span>() = _value
+        <span class="kw">set</span>(newVal) {
+            _value = newVal
+            notifyObservers()
+        }
+
+    <span class="kw">fun</span> <span class="fn">observe</span>(observer: <span class="cls">Observer</span>&lt;T&gt;) = observers.add(observer)
+
+    <span class="kw">private fun</span> <span class="fn">notifyObservers</span>() {
+        _value?.let { v -> observers.forEach { it.onChanged(v) } }
+    }
+}
+
+<span class="cmt">// Usage</span>
+<span class="kw">val</span> usernameLiveData = <span class="cls">MutableLiveData</span>&lt;<span class="typ">String</span>&gt;()
+
+usernameLiveData.observe(<span class="kw">object</span> : <span class="cls">Observer</span>&lt;<span class="typ">String</span>&gt; {
+    <span class="kw">override fun</span> <span class="fn">onChanged</span>(value: <span class="typ">String</span>) = println(<span class="str">"UI updated: $value"</span>)
+})
+
+usernameLiveData.value = <span class="str">"Alice"</span>
+usernameLiveData.value = <span class="str">"Bob"</span></pre>
+                <div class="output-box"><span class="out-label">Output</span>UI updated: Alice<br>UI updated: Bob</div>
+            </div>
+        </div>
+
+        <!-- Problem 6 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <span class="diff-badge diff-hard">Hard</span>
+                <span class="problem-title">Problem 6: Strategy Pattern for Sorting</span>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Implement the Strategy design pattern to switch sorting algorithms at runtime — demonstrating polymorphism and abstraction.</p>
+                <div class="code-label">Kotlin</div>
+                <pre><span class="cmt">// Strategy interface</span>
+<span class="kw">interface</span> <span class="cls">SortStrategy</span> {
+    <span class="kw">fun</span> <span class="fn">sort</span>(list: <span class="typ">MutableList</span>&lt;<span class="typ">Int</span>&gt;): <span class="typ">List</span>&lt;<span class="typ">Int</span>&gt;
+}
+
+<span class="kw">class</span> <span class="cls">BubbleSort</span> : <span class="cls">SortStrategy</span> {
+    <span class="kw">override fun</span> <span class="fn">sort</span>(list: <span class="typ">MutableList</span>&lt;<span class="typ">Int</span>&gt;): <span class="typ">List</span>&lt;<span class="typ">Int</span>&gt; {
+        <span class="kw">for</span> (i <span class="kw">in</span> list.indices) {
+            <span class="kw">for</span> (j <span class="kw">in</span> <span class="num">0</span> until list.size - i - <span class="num">1</span>) {
+                <span class="kw">if</span> (list[j] > list[j + <span class="num">1</span>]) {
+                    <span class="kw">val</span> tmp = list[j]; list[j] = list[j+<span class="num">1</span>]; list[j+<span class="num">1</span>] = tmp
+                }
+            }
+        }
+        <span class="kw">return</span> list
+    }
+}
+
+<span class="kw">class</span> <span class="cls">QuickSort</span> : <span class="cls">SortStrategy</span> {
+    <span class="kw">override fun</span> <span class="fn">sort</span>(list: <span class="typ">MutableList</span>&lt;<span class="typ">Int</span>&gt;): <span class="typ">List</span>&lt;<span class="typ">Int</span>&gt; {
+        <span class="kw">if</span> (list.size <= <span class="num">1</span>) <span class="kw">return</span> list
+        <span class="kw">val</span> pivot = list[list.size / <span class="num">2</span>]
+        <span class="kw">val</span> left = list.filter { it < pivot }.toMutableList()
+        <span class="kw">val</span> mid = list.filter { it == pivot }
+        <span class="kw">val</span> right = list.filter { it > pivot }.toMutableList()
+        <span class="kw">return</span> sort(left) + mid + sort(right)
+    }
+}
+
+<span class="cmt">// Context class</span>
+<span class="kw">class</span> <span class="cls">Sorter</span>(<span class="kw">var</span> strategy: <span class="cls">SortStrategy</span>) {
+    <span class="kw">fun</span> <span class="fn">sort</span>(list: <span class="typ">MutableList</span>&lt;<span class="typ">Int</span>&gt;) = strategy.sort(list)
+}
+
+<span class="kw">val</span> data = mutableListOf(<span class="num">64</span>, <span class="num">34</span>, <span class="num">25</span>, <span class="num">12</span>, <span class="num">22</span>, <span class="num">11</span>, <span class="num">90</span>)
+<span class="kw">val</span> sorter = <span class="cls">Sorter</span>(<span class="cls">BubbleSort</span>())
+println(sorter.sort(data.toMutableList()))  <span class="cmt">// Bubble</span>
+sorter.strategy = <span class="cls">QuickSort</span>()
+println(sorter.sort(data.toMutableList()))  <span class="cmt">// Quick</span></pre>
+                <div class="output-box"><span class="out-label">Output</span>[11, 12, 22, 25, 34, 64, 90]<br>[11, 12, 22, 25, 34, 64, 90]</div>
+            </div>
+        </div>
+
+        <!-- Problem 7 -->
+        <div class="problem-card">
+            <div class="problem-header">
+                <span class="diff-badge diff-hard">Hard</span>
+                <span class="problem-title">Problem 7: Generic Repository with Sealed State</span>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Build a type-safe generic repository that wraps results in a sealed class — a real-world Android MVVM pattern.</p>
+                <div class="code-label">Kotlin</div>
+                <pre><span class="cmt">// Sealed class for UI state</span>
+<span class="kw">sealed class</span> <span class="cls">UiState</span>&lt;<span class="kw">out</span> T&gt; {
+    <span class="kw">object</span> <span class="cls">Idle</span> : <span class="cls">UiState</span>&lt;<span class="typ">Nothing</span>&gt;()
+    <span class="kw">object</span> <span class="cls">Loading</span> : <span class="cls">UiState</span>&lt;<span class="typ">Nothing</span>&gt;()
+    <span class="kw">data class</span> <span class="cls">Success</span>&lt;T&gt;(<span class="kw">val</span> data: T) : <span class="cls">UiState</span>&lt;T&gt;()
+    <span class="kw">data class</span> <span class="cls">Error</span>(<span class="kw">val</span> message: <span class="typ">String</span>) : <span class="cls">UiState</span>&lt;<span class="typ">Nothing</span>&gt;()
+}
+
+<span class="cmt">// Generic base repository</span>
+<span class="kw">abstract class</span> <span class="cls">BaseRepository</span> {
+    <span class="kw">protected suspend fun</span> &lt;T&gt; <span class="fn">safeApiCall</span>(
+        apiCall: <span class="kw">suspend</span> () -> T
+    ): <span class="cls">UiState</span>&lt;T&gt; {
+        <span class="kw">return try</span> {
+            <span class="cls">UiState</span>.<span class="cls">Success</span>(apiCall())
+        } <span class="kw">catch</span> (e: <span class="typ">Exception</span>) {
+            <span class="cls">UiState</span>.<span class="cls">Error</span>(e.message ?: <span class="str">"Unknown error"</span>)
+        }
+    }
+}
+
+<span class="kw">data class</span> <span class="cls">User</span>(<span class="kw">val</span> id: <span class="typ">Int</span>, <span class="kw">val</span> name: <span class="typ">String</span>)
+
+<span class="kw">class</span> <span class="cls">UserRepository</span> : <span class="cls">BaseRepository</span>() {
+    <span class="kw">suspend fun</span> <span class="fn">getUser</span>(id: <span class="typ">Int</span>): <span class="cls">UiState</span>&lt;<span class="cls">User</span>&gt; = safeApiCall {
+        <span class="kw">if</span> (id > <span class="num">0</span>) <span class="cls">User</span>(id, <span class="str">"User_$id"</span>)
+        <span class="kw">else throw</span> <span class="cls">IllegalArgumentException</span>(<span class="str">"Invalid ID"</span>)
+    }
+}
+
+<span class="cmt">// In ViewModel / UI</span>
+<span class="kw">suspend fun</span> <span class="fn">main</span>() {
+    <span class="kw">val</span> repo = <span class="cls">UserRepository</span>()
+    <span class="kw">when</span> (<span class="kw">val</span> state = repo.getUser(<span class="num">5</span>)) {
+        <span class="kw">is</span> <span class="cls">UiState</span>.<span class="cls">Success</span> -> println(<span class="str">"Got user: ${state.data.name}"</span>)
+        <span class="kw">is</span> <span class="cls">UiState</span>.<span class="cls">Error</span>   -> println(<span class="str">"Error: ${state.message}"</span>)
+        <span class="kw">else</span> -> {}
+    }
+}</pre>
+                <div class="output-box"><span class="out-label">Output</span>Got user: User_5</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    <p>Made with ❤️ for Android Developers &nbsp;·&nbsp; <span>OOP</span> × <span>Kotlin</span> × <span>Android</span></p>
+</footer>
+
+<script>
+    function switchTab(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function toggle(header) {
+      const card = header.parentElement;
+      card.classList.toggle('open');
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecyclerView Interview Q&A</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        .section {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .qa {
+            margin-bottom: 12px;
+        }
+        .question {
+            font-weight: bold;
+        }
+        .answer {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>RecyclerView & Pagination Interview Q&A</h1>
+
+<div class="section">
+    <h2>📌 RecyclerView Basics</h2>
+
+    <div class="qa">
+        <div class="question">What is RecyclerView?</div>
+        <div class="answer">RecyclerView is a flexible and efficient view for displaying large datasets by recycling item views.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What are main components of RecyclerView?</div>
+        <div class="answer">Adapter, ViewHolder, LayoutManager, and ItemDecoration.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What is ViewHolder pattern?</div>
+        <div class="answer">It stores view references to avoid repeated findViewById calls, improving performance.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">Difference between ListView and RecyclerView?</div>
+        <div class="answer">RecyclerView is more flexible, supports multiple layouts, animations, and uses ViewHolder by default.</div>
+    </div>
+
+</div>
+
+<div class="section">
+    <h2>🚀 RecyclerView Optimization</h2>
+
+    <div class="qa">
+        <div class="question">How do you optimize RecyclerView performance?</div>
+        <div class="answer">
+            Use ViewHolder efficiently, enable setHasFixedSize(true), use DiffUtil, avoid nested layouts,
+            and use pagination for large data.
+        </div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What is DiffUtil?</div>
+        <div class="answer">DiffUtil calculates differences between two lists and updates only changed items instead of refreshing entire list.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What is setHasFixedSize(true)?</div>
+        <div class="answer">It improves performance when RecyclerView size doesn’t change, avoiding unnecessary layout calculations.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">How to avoid lag in RecyclerView?</div>
+        <div class="answer">
+            Use lightweight layouts, avoid heavy operations in onBindViewHolder,
+            load images with libraries like Glide, and use background threads.
+        </div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What causes RecyclerView jank?</div>
+        <div class="answer">
+            Large images, complex layouts, frequent notifyDataSetChanged calls,
+            and doing heavy work on main thread.
+        </div>
+    </div>
+
+</div>
+
+<div class="section">
+    <h2>📄 Pagination</h2>
+
+    <div class="qa">
+        <div class="question">What is pagination?</div>
+        <div class="answer">Pagination is loading data in chunks instead of all at once to improve performance and reduce memory usage.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">How do you implement pagination in RecyclerView?</div>
+        <div class="answer">
+            Add scroll listener to detect end of list and load next page,
+            or use Paging 3 library for automatic pagination.
+        </div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What is Paging 3 library?</div>
+        <div class="answer">
+            It is a Jetpack library that helps load paginated data from network or database efficiently using Flow and coroutines.
+        </div>
+    </div>
+
+    <div class="qa">
+        <div class="question">Difference between manual pagination and Paging 3?</div>
+        <div class="answer">
+            Manual pagination requires handling scroll and API calls manually,
+            while Paging 3 handles caching, loading states, and errors automatically.
+        </div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What is LoadState in Paging?</div>
+        <div class="answer">LoadState represents loading, success, or error states during pagination.</div>
+    </div>
+
+</div>
+
+<div class="section">
+    <h2>💡 Scenario-Based Questions</h2>
+
+    <div class="qa">
+        <div class="question">RecyclerView scrolling is lagging. What will you do?</div>
+        <div class="answer">
+            Optimize layouts, use DiffUtil, reduce overdraw, compress images,
+            and move heavy work off the main thread.
+        </div>
+    </div>
+
+    <div class="qa">
+        <div class="question">How do you handle duplicate data in pagination?</div>
+        <div class="answer">
+            Use unique IDs, filter duplicates, or rely on Paging 3 which handles it internally.
+        </div>
+    </div>
+
+    <div class="qa">
+        <div class="question">How do you show loading in pagination?</div>
+        <div class="answer">
+            Add a loading item at the end of list or use Paging LoadStateAdapter.
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

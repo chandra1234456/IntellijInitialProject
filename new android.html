@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Android Interview Prep: Core Q&A</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f7fc;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.5;
+            color: #1e2a3a;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #0f2b3d, #1f6392);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            color: #2c5a6e;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .badge {
+            background: #e9ecef;
+            display: inline-block;
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1f6392;
+            margin-top: 0.8rem;
+        }
+
+        /* filter chips */
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .chip {
+            background: white;
+            border: 1px solid #cddfe7;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #1e4663;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .chip.active, .chip:hover {
+            background: #1f6392;
+            border-color: #1f6392;
+            color: white;
+            box-shadow: 0 4px 8px rgba(31,99,146,0.2);
+        }
+
+        /* grid layout for cards */
+        .topics-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .topic-section {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03), 0 6px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: all 0.2s;
+            border: 1px solid #eef2f8;
+        }
+
+        .topic-header {
+            background: #f8fafd;
+            padding: 1.2rem 1.8rem;
+            border-bottom: 2px solid #e2edf2;
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .topic-header h2 {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #0a3b4f;
+            letter-spacing: -0.2px;
+        }
+
+        .topic-count {
+            background: #e2eef4;
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1f6392;
+        }
+
+        .qa-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .qa-item {
+            border-bottom: 1px solid #eef2f8;
+            transition: background 0.1s;
+        }
+
+        .qa-item:last-child {
+            border-bottom: none;
+        }
+
+        .question {
+            padding: 1.2rem 1.8rem;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1a4356;
+            cursor: pointer;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .question:hover {
+            background: #f9fbfe;
+        }
+
+        .question-text {
+            flex: 1;
+        }
+
+        .toggle-icon {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #6c8e9e;
+            transition: transform 0.2s;
+        }
+
+        .answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            background: #fefefe;
+            border-top: 0px solid #e2edf2;
+        }
+
+        .answer.open {
+            max-height: 800px;   /* enough for long answers */
+            border-top: 1px solid #eef2f8;
+        }
+
+        .answer-content {
+            padding: 1.2rem 1.8rem 1.5rem 2.5rem;
+            color: #2c4b5e;
+            font-size: 0.95rem;
+            background: #fdfdfd;
+            border-left: 4px solid #80c0d8;
+            margin: 0.5rem 1rem 1rem 1.8rem;
+            border-radius: 14px;
+            box-shadow: inset 0 0 0 1px #ffffff30, 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .answer-content p {
+            margin-bottom: 0.75rem;
+        }
+
+        .answer-content code {
+            background: #eef3f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #145c7a;
+        }
+
+        .answer-content ul {
+            margin-left: 1.4rem;
+            margin-top: 0.4rem;
+            margin-bottom: 0.6rem;
+        }
+
+        hr {
+            margin: 0.5rem 0;
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6a8e9e;
+            border-top: 1px solid #dce5ec;
+            padding-top: 1.8rem;
+        }
+
+        @media (max-width: 680px) {
+            .topic-header h2 { font-size: 1.25rem; }
+            .question { padding: 1rem; }
+            .answer-content { margin-left: 0.5rem; margin-right: 0.5rem; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📱 Android Developer Interview</h1>
+        <p> • Core concepts • Architecture • Play Store & beyond</p>
+        <div class="badge">🔥 60+ essential questions & detailed answers</div>
+    </div>
+
+    <div class="chips" id="filterChips">
+        <button class="chip active" data-filter="all">All topics</button>
+        <button class="chip" data-filter="fundamentals">📘 Fundamentals</button>
+        <button class="chip" data-filter="architecture">🧠 Architecture</button>
+        <button class="chip" data-filter="jetpack">🧩 Jetpack</button>
+        <button class="chip" data-filter="kotlin">⚙️ Kotlin & Coroutines</button>
+        <button class="chip" data-filter="networking">🌐 Networking</button>
+        <button class="chip" data-filter="performance">⚡ Performance</button>
+        <button class="chip" data-filter="ui">🎨 UI/Compose</button>
+        <button class="chip" data-filter="security">🔐 Security</button>
+        <button class="chip" data-filter="testing">🧪 Testing</button>
+        <button class="chip" data-filter="playstore">🚀 Play Store</button>
+        <button class="chip" data-filter="behavioral">💬 Behavioral</button>
+    </div>
+
+    <div class="topics-grid" id="topicsContainer">
+        <!-- All sections will be populated via JS but for robust we'll embed structured HTML with data-topic -->
+    </div>
+    <footer>
+        ⚡ Pro tip: focus on "why" behind choices, Clean Architecture, Coroutines + Flow, and real-world release experience.
+        <br>🔍 Click any question to reveal in-depth answer.
+    </footer>
+</div>
+
+<script>
+    // ----- Comprehensive Q&A database (curated for ~3 years experience) -----
+    const qaData = [
+        // Fundamentals
+        { topic: "fundamentals", q: "What is the Android Activity lifecycle? Explain each callback.", a: "<p><strong>Activity lifecycle</strong> defines states: <code>onCreate()</code> (initialization), <code>onStart()</code> (visible), <code>onResume()</code> (interaction), <code>onPause()</code> (partial visibility), <code>onStop()</code> (hidden), <code>onDestroy()</code> (finish). <code>onRestart()</code> occurs after stop. Key: save state in <code>onSaveInstanceState</code>, restore in <code>onCreate</code>/<code>onRestoreInstanceState</code>. For 3y experience, discuss configuration changes and ViewModel survival.</p>" },
+        { topic: "fundamentals", q: "Difference between Activity vs Fragment.", a: "<p><strong>Activity</strong>: represents a single screen, entry point, manages window. <strong>Fragment</strong>: reusable UI portion, lives inside an Activity, has its own lifecycle dependent on host. Fragments enable modular UI, backstack management, and tablet adaptivity.</p>" },
+        { topic: "fundamentals", q: "What are Intents? Types?", a: "<p><strong>Intent</strong> messaging object to request action from another component. <strong>Explicit intent</strong> specifies target component (start Activity/Service). <strong>Implicit intent</strong> declares action (VIEW, SEND) and system resolves via intent-filter. Important for inter-app communication.</p>" },
+        { topic: "fundamentals", q: "What is the AndroidManifest.xml used for?", a: "<p>Declares app components (activities, services, receivers), permissions, hardware features, app metadata, and the application ID. Essential for system to understand capabilities and entry points (launcher activity).</p>" },
+        { topic: "fundamentals", q: "Difference between Service, IntentService, and Foreground Service.", a: "<p><strong>Service</strong> runs on main thread (careful with long ops). <strong>IntentService</strong> (deprecated) used background queue. Now recommend <code>WorkManager</code> or <code>CoroutineWorker</code>. <strong>Foreground Service</strong> shows persistent notification, used for active tasks (music player, location). Required for Android 8+ long-running tasks.</p>" },
+        { topic: "fundamentals", q: "What are Broadcast Receivers?", a: "<p>Components that listen for system-wide or app-specific broadcast events (e.g., battery low, connectivity change). Register via manifest or context. For 3y, discuss lifecycle limits (Android 8+ restrictions on implicit broadcasts).</p>" },
+
+        // Architecture
+        { topic: "architecture", q: "Explain MVVM and why it's preferred.", a: "<p><strong>MVVM</strong> (Model-View-ViewModel): View (Activity/Fragment) observes ViewModel (exposes LiveData/Flow). ViewModel holds UI-related data and survives configuration changes, reducing coupling. Preferred due to separation of concerns, testability, and integration with Jetpack components like LiveData and Room.</p>" },
+        { topic: "architecture", q: "Difference between MVC, MVP, and MVVM.", a: "<p><strong>MVC</strong> (Controller handles logic, View is passive) leads to massive controllers. <strong>MVP</strong> (Presenter acts as middle-man, View interface) better testability. <strong>MVVM</strong> (ViewModel + observable data) reduces boilerplate, lifecycle aware, best with modern Android Jetpack.</p>" },
+        { topic: "architecture", q: "What is Clean Architecture in Android?", a: "<p>Separation into layers: <strong>data</strong>, <strong>domain</strong> (use cases), <strong>presentation</strong>. Dependency rule: inner layers don't know outer layers. Enables testability, framework independence, and maintainability. For 3y, illustrate with UseCases and Repository pattern.</p>" },
+        { topic: "architecture", q: "How do you structure a scalable Android app?", a: "<p>Modularization by feature, Clean Architecture + MVVM, single responsibility, dependency injection (Dagger/Hilt). Separate data sources (local/remote) via Repository pattern. Use shared feature modules and core modules for utilities.</p>" },
+        { topic: "architecture", q: "What are UseCases / Interactors?", a: "<p>UseCases represent single action (business logic) in domain layer. Encapsulate reusable logic (e.g., GetUserProfileUseCase). They orchestrate repositories, improve testability, and keep ViewModels lean.</p>" },
+
+        // Jetpack
+        { topic: "jetpack", q: "What is Android Jetpack?", a: "<p>Suite of libraries to follow best practices, reduce boilerplate, and handle backward compatibility. Includes Components: ViewModel, LiveData, Room, Navigation, WorkManager, Compose, etc.</p>" },
+        { topic: "jetpack", q: "Explain LiveData.", a: "<p>Observable data holder that respects lifecycle (Activity/Fragment). Updates only active observers, avoiding memory leaks. Often combined with ViewModel for reactive UI. Alternative: StateFlow.</p>" },
+        { topic: "jetpack", q: "What is ViewModel and why use it?", a: "<p>Stores UI-related data across configuration changes (rotation). Separates data logic from lifecycle. Never references views directly. Works with LiveData or Flow, survives process death with SavedStateHandle.</p>" },
+        { topic: "jetpack", q: "What is Room?", a: "<p>SQLite abstraction with compile-time verification. Annotations: @Entity (table), @Dao (data access), @Database. Supports Coroutines Flow, RxJava. Reduces boilerplate and SQL errors.</p>" },
+        { topic: "jetpack", q: "Difference between LiveData vs Flow vs StateFlow.", a: "<p><strong>LiveData</strong>: lifecycle-aware, but lacks operators. <strong>Flow</strong>: cold stream, rich operators, not lifecycle-aware by default. <strong>StateFlow</strong>: hot flow, holds current state, lifecycle-aware via repeatOnLifecycle. Modern apps prefer StateFlow + Flows for more flexibility.</p>" },
+        { topic: "jetpack", q: "What is Navigation Component?", a: "<p>Framework for in-app navigation, handles fragment/activity transitions, safe args, deep linking, and visual navigation graph. Reduces manual fragment transaction bugs.</p>" },
+
+        // Kotlin & Coroutines
+        { topic: "kotlin", q: "Why use Kotlin over Java?", a: "<p>Null safety, extension functions, coroutines (lightweight concurrency), data classes, smart casts, higher-order functions, and less boilerplate. Interoperability with Java, modern Android APIs prefer Kotlin.</p>" },
+        { topic: "kotlin", q: "What are Coroutines?", a: "<p>Asynchronous programming framework for managing background tasks. Lightweight threads with structured concurrency. Suspend functions allow non-blocking calls, easier than callbacks/RxJava.</p>" },
+        { topic: "kotlin", q: "Difference between launch and async.", a: "<p><code>launch</code>: fire-and-forget, returns Job. <code>async</code>: returns Deferred<T>, can await result. Use async when you need result (parallel decomposition). Both are coroutine builders.</p>" },
+        { topic: "kotlin", q: "What is Dispatcher?", a: "<p>Determines thread for coroutine execution: <code>Dispatchers.Main</code> (UI), <code>IO</code> (network/disk), <code>Default</code> (CPU-intensive). Proper dispatcher avoids ANRs.</p>" },
+        { topic: "kotlin", q: "Explain Flow and StateFlow.", a: "<p><strong>Flow</strong>: cold asynchronous stream that emits values sequentially. Operators like map, filter, collect. <strong>StateFlow</strong>: hot, observable state holder (similar to LiveData). Common in MVI or shared state.</p>" },
+        { topic: "kotlin", q: "How do you handle exceptions in coroutines?", a: "<p>Use <code>try/catch</code> inside suspend functions, or <code>CoroutineExceptionHandler</code> (for global). For <code>async</code>, catch via <code>await()</code>. Structured concurrency propagates cancellation. For ViewModel, expose sealed class states.</p>" },
+
+        // Networking
+        { topic: "networking", q: "How do you call APIs in Android?", a: "<p>Typical stack: Retrofit (type-safe HTTP client) + Moshi/Gson + Coroutines (suspend functions) or Callbacks. Use Interceptors for auth/logging, handle errors with sealed classes.</p>" },
+        { topic: "networking", q: "What is Retrofit?", a: "<p>Square library to turn HTTP API into Java/Kotlin interfaces. Supports converters (Gson, Moshi), coroutines suspend, RxJava. Generates dynamic proxies. Standard choice for networking.</p>" },
+        { topic: "networking", q: "Difference between Retrofit vs Volley.", a: "<p>Retrofit: declarative, built on OkHttp, better for REST, coroutine support. Volley: older, automatic request queuing and caching, but less type-safe and verbose. Retrofit is preferred for modern apps.</p>" },
+        { topic: "networking", q: "What is Serialization (Gson/Moshi)?", a: "<p>Conversion between JSON objects and Kotlin data classes. Moshi is modern, supports Kotlin reflectionless, more efficient. Both used with Retrofit for parsing API responses.</p>" },
+        { topic: "networking", q: "How do you handle API errors and retries?", a: "<p>Use Retrofit with custom CallAdapter, sealed class wrapper (Success/Error/NetworkError). Retry with OkHttp Interceptor or coroutine retry operator. Show user-friendly errors, handle token refresh.</p>" },
+
+        // Performance
+        { topic: "performance", q: "Difference between Main Thread vs Background Thread.", a: "<p>Main thread (UI thread) handles UI rendering and user interaction. Long operations block UI causing ANR. Background threads perform heavy work (network, database). Use coroutines or executors.</p>" },
+        { topic: "performance", q: "What causes ANR (Application Not Responding)?", a: "<p>Main thread blocked >5 secs (input dispatching) or >10 secs (broadcast receiver). Common causes: network on main, disk I/O, heavy computation, deadlocks. Fix by offloading to background.</p>" },
+        { topic: "performance", q: "How do you optimize app performance?", a: "<p>Reduce overdraw, use ViewBinding, lazy loading, efficient RecyclerView (ViewHolder, diffUtil), memory profiling, avoid leaks, use baseline profiles, reduce APK size, startup optimization with App Startup library.</p>" },
+        { topic: "performance", q: "What is Handler / Looper?", a: "<p>Handler: queue and process messages (Runnables). Looper: runs message loop for thread. Main thread has Looper. For 3y, know that Handlers can cause memory leaks if not static + weak references.</p>" },
+        { topic: "performance", q: "Explain memory leaks and how to avoid them.", a: "<p>Objects referenced unintentionally after lifecycle ends (e.g., Activity held by static reference, inner class handler). Avoid: use ViewModel, weak references, lifecycle callbacks, remove listeners, avoid non-static inner classes.</p>" },
+
+        // UI & Compose
+        { topic: "ui", q: "What is Jetpack Compose?", a: "<p>Modern declarative UI toolkit using Kotlin. Build UI with composable functions, state-driven, eliminates XML. Recomposition updates only changed parts. Interop with Views.</p>" },
+        { topic: "ui", q: "Difference between Compose vs XML layouts.", a: "<p>XML: imperative, findViewById/ViewBinding, manual updates. Compose: declarative, describe UI based on state, less boilerplate, powerful animations, and previews. Compose reduces bugs due to state hoisting.</p>" },
+        { topic: "ui", q: "What are RecyclerView optimizations?", a: "<p>Set fixed size, use stable ids, DiffUtil for incremental updates, nested scrolling disabled when needed, ViewHolder pattern, prefetch, and setHasFixedSize(true).</p>" },
+        { topic: "ui", q: "What is ConstraintLayout?", a: "<p>Flexible layout that reduces nesting. Uses constraints (relative positioning) for complex UIs. Improves performance over nested LinearLayouts. Flat hierarchy.</p>" },
+        { topic: "ui", q: "How do you support multiple screen sizes?", a: "<p>Use ConstraintLayout, dimens resources (sw-xxxdp), sliding pane layout, fragments, or Compose adaptive layouts. Provide alternative layouts (layout-w600dp). Test on various screen sizes.</p>" },
+
+        // Security
+        { topic: "security", q: "How do you secure API keys?", a: "<p>Never hardcode in source code. Use local.properties + BuildConfig fields (not fully safe), or better: secrets gradle plugin, or backend proxy. Use Android Keystore for runtime keys. For production, use remote config / services.</p>" },
+        { topic: "security", q: "What is Proguard / R8?", a: "<p>Code shrinker, obfuscator, and optimizer. Removes unused code, renames classes/methods, reduces APK size. R8 is default in Android Studio. Keep necessary rules via proguard-rules.pro.</p>" },
+        { topic: "security", q: "How to store sensitive data securely?", a: "<p>Use EncryptedSharedPreferences or Android Keystore. For tokens, store in EncryptedSharedPreferences. Avoid SharedPreferences plain text. For large data, use Room with SQLCipher.</p>" },
+        { topic: "security", q: "What is Android Keystore?", a: "<p>System-level container for cryptographic keys, prevents extraction from app process. Used for generating and storing private keys. Integrates with biometric auth.</p>" },
+
+        // Testing
+        { topic: "testing", q: "What is unit testing in Android?", a: "<p>Testing smallest code units (e.g., UseCases, ViewModels, Repositories) in isolation. Run on JVM, fast. Use JUnit4/5, MockK/Mockito. No Android dependencies required.</p>" },
+        { topic: "testing", q: "What is JUnit / Espresso?", a: "<p>JUnit: unit testing framework. Espresso: UI testing library for View interactions, assertions, and actions (click, type). For Compose, use ComposeTestRule.</p>" },
+        { topic: "testing", q: "Difference between Unit tests vs Instrumentation tests.", a: "<p>Unit tests run on local JVM, fast, mocked Android dependencies. Instrumentation tests run on device/emulator, slower, test integration (Activity, Database, File system).</p>" },
+        { topic: "testing", q: "How do you test ViewModels?", a: "<p>Instantiate ViewModel with mocked repository, observe LiveData/StateFlow using <code>Observer</code> or Turbine library. Use <code>runTest</code> for coroutines, assert states. Instantiate with <code>ViewModelProvider</code> or constructor injection.</p>" },
+
+        // Play Store & Release
+        { topic: "playstore", q: "Steps to publish an app on Google Play Store.", a: "<p>1. Create developer account ($25). 2. Prepare AAB (Android App Bundle). 3. Fill store listing (title, description, screenshots). 4. Set content rating, pricing. 5. Upload AAB to Play Console. 6. Rollout (internal/alpha/beta/production).</p>" },
+        { topic: "playstore", q: "What is a signed APK / AAB?", a: "<p><strong>Signed</strong> means cryptographic signature using a private key, ensures app integrity and author identity. <strong>AAB</strong> (Android App Bundle) is publishing format that generates optimized APKs per device, reducing size.</p>" },
+        { topic: "playstore", q: "What is App Bundle (AAB)?", a: "<p>Upload format used by Google Play. Play generates split APKs for specific device configurations (ABI, language, screen density). Smaller download sizes, mandatory for new apps since Aug 2021.</p>" },
+        { topic: "playstore", q: "Explain Play Store policies.", a: "<p>Privacy: disclosure of data collection, limited use of permissions, ad fraud, impersonation, malware, and user data protection. Need to comply with Families policy if targeting children.</p>" },
+        { topic: "playstore", q: "What is App Versioning?", a: "<p><code>versionCode</code> (integer, increasing) for internal updates. <code>versionName</code> (user-facing string, e.g., \"1.2.0\"). Must increase versionCode for each release.</p>" },
+        { topic: "playstore", q: "What is Staged rollout?", a: "<p>Gradually release update to a percentage of users (e.g., 10% then 50% then 100%). Monitor crashes/ANRs, pause if issues arise. Minimizes risk.</p>" },
+
+        // Behavioral
+        { topic: "behavioral", q: "Describe a challenging bug you fixed.", a: "<p>Example: memory leak caused by anonymous Handler in Activity. Refactored to static inner class with WeakReference, moved to ViewModel, resolved leak. Another: race condition in coroutines solved by mutex and structured concurrency.</p>" },
+        { topic: "behavioral", q: "How do you handle app crashes in production?", a: "<p>Use Crashlytics / Sentry. Reproduce, analyze logs, fix, release hotfix. Enable ANR reporting. Write automated regression test, use remote rollback if possible.</p>" },
+        { topic: "behavioral", q: "Experience with CI/CD pipelines?", a: "<p>GitHub Actions or Bitrise: automate build, unit tests, UI tests, and upload to Play Store (using Gradle Play Publisher). Enforce code quality checks, lint.</p>" },
+        { topic: "behavioral", q: "How do you improve app performance?", a: "<p>Profile with Android Studio Profiler, Baseline Profiles, reduce view hierarchy, lazy loading images (Coil/Glide), optimize database queries, use coroutines for I/O, and memory analysis with LeakCanary.</p>" }
+    ];
+
+    // build sections grouped by topic label
+    const topicsConfig = [
+        { id: "fundamentals", label: "📘 Android Fundamentals", icon: "📘" },
+        { id: "architecture", label: "🧠 Architecture & Design", icon: "🧠" },
+        { id: "jetpack", label: "🧩 Jetpack Components", icon: "🧩" },
+        { id: "kotlin", label: "⚙️ Kotlin & Coroutines", icon: "⚙️" },
+        { id: "networking", label: "🌐 Networking", icon: "🌐" },
+        { id: "performance", label: "⚡ Multithreading & Performance", icon: "⚡" },
+        { id: "ui", label: "🎨 UI & Jetpack Compose", icon: "🎨" },
+        { id: "security", label: "🔐 Security", icon: "🔐" },
+        { id: "testing", label: "🧪 Testing", icon: "🧪" },
+        { id: "playstore", label: "🚀 Play Store & Release", icon: "🚀" },
+        { id: "behavioral", label: "💬 Behavioral / Experience", icon: "💬" }
+    ];
+
+    function buildDOM() {
+        const container = document.getElementById("topicsContainer");
+        container.innerHTML = "";
+        for (let topic of topicsConfig) {
+            const questionsForTopic = qaData.filter(item => item.topic === topic.id);
+            if (questionsForTopic.length === 0) continue;
+
+            const sectionDiv = document.createElement("div");
+            sectionDiv.className = "topic-section";
+            sectionDiv.setAttribute("data-topic-id", topic.id);
+
+            const headerDiv = document.createElement("div");
+            headerDiv.className = "topic-header";
+            headerDiv.innerHTML = `<h2>${topic.label}</h2><span class="topic-count">${questionsForTopic.length} Q&A</span>`;
+
+            const qaListDiv = document.createElement("div");
+            qaListDiv.className = "qa-list";
+
+            questionsForTopic.forEach((item, idx) => {
+                const qaItem = document.createElement("div");
+                qaItem.className = "qa-item";
+
+                const questionDiv = document.createElement("div");
+                questionDiv.className = "question";
+                questionDiv.setAttribute("data-qa-idx", `${topic.id}-${idx}`);
+                questionDiv.innerHTML = `<div class="question-text">❓ ${item.q}</div><div class="toggle-icon">▼</div>`;
+
+                const answerDiv = document.createElement("div");
+                answerDiv.className = "answer";
+                answerDiv.innerHTML = `<div class="answer-content">${item.a}</div>`;
+
+                questionDiv.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const isOpen = answerDiv.classList.contains("open");
+                    // close others if desired? we keep independent but UX fine
+                    if (isOpen) {
+                        answerDiv.classList.remove("open");
+                        questionDiv.querySelector(".toggle-icon").textContent = "▼";
+                    } else {
+                        answerDiv.classList.add("open");
+                        questionDiv.querySelector(".toggle-icon").textContent = "▲";
+                    }
+                });
+
+                qaItem.appendChild(questionDiv);
+                qaItem.appendChild(answerDiv);
+                qaListDiv.appendChild(qaItem);
+            });
+
+            sectionDiv.appendChild(headerDiv);
+            sectionDiv.appendChild(qaListDiv);
+            container.appendChild(sectionDiv);
+        }
+    }
+
+    // filtering logic
+    function initFiltering() {
+        const chips = document.querySelectorAll(".chip");
+        const sections = document.querySelectorAll(".topic-section");
+        function filterSections(activeFilter) {
+            sections.forEach(section => {
+                const topicId = section.getAttribute("data-topic-id");
+                if (activeFilter === "all" || activeFilter === topicId) {
+                    section.style.display = "";
+                } else {
+                    section.style.display = "none";
+                }
+            });
+        }
+        chips.forEach(chip => {
+            chip.addEventListener("click", () => {
+                const filter = chip.getAttribute("data-filter");
+                chips.forEach(c => c.classList.remove("active"));
+                chip.classList.add("active");
+                filterSections(filter);
+            });
+        });
+        filterSections("all");
+    }
+
+    buildDOM();
+    initFiltering();
+</script>
+</body>
+</html>

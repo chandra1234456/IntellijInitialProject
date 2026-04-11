@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android CI/CD Interview Q&A</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .section {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .qa {
+            margin-bottom: 12px;
+        }
+        .question {
+            font-weight: bold;
+        }
+        .answer {
+            margin-left: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Android CI/CD Interview Questions & Answers</h1>
+
+<div class="section">
+    <h2>Basic</h2>
+
+    <div class="qa">
+        <div class="question">What is CI/CD?</div>
+        <div class="answer">CI/CD stands for Continuous Integration and Continuous Delivery/Deployment. It automates building, testing, and releasing apps to ensure faster and reliable delivery.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">Difference between CI, CD, and Deployment?</div>
+        <div class="answer">CI integrates code changes frequently. Continuous Delivery ensures code is always ready to release. Continuous Deployment automatically releases code to production.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What is Gradle?</div>
+        <div class="answer">Gradle is the build system used in Android to compile code, manage dependencies, and generate APK/AAB files.</div>
+    </div>
+
+</div>
+
+<div class="section">
+    <h2>Intermediate</h2>
+
+    <div class="qa">
+        <div class="question">How do you automate Android builds?</div>
+        <div class="answer">Using tools like Jenkins or GitHub Actions, configure pipelines to run Gradle commands (e.g., ./gradlew assembleDebug) on code push.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">How do you manage secrets?</div>
+        <div class="answer">Store secrets in CI tools (environment variables or secret managers) instead of hardcoding them in code.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What is signing config?</div>
+        <div class="answer">Signing config is used to sign Android apps with a keystore before releasing them to the Play Store.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">How do you run tests in CI?</div>
+        <div class="answer">Run unit tests using ./gradlew test and UI tests using ./gradlew connectedAndroidTest or Firebase Test Lab.</div>
+    </div>
+
+</div>
+
+<div class="section">
+    <h2>Advanced</h2>
+
+    <div class="qa">
+        <div class="question">How do you optimize build times?</div>
+        <div class="answer">Use Gradle caching, parallel builds, build variants optimization, and avoid unnecessary dependencies.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What is caching in CI/CD?</div>
+        <div class="answer">Caching stores dependencies and build outputs to avoid re-downloading or rebuilding, improving speed.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">How do you deploy to Play Store?</div>
+        <div class="answer">Use tools like Fastlane or Google Play Developer API to automate APK/AAB upload and release.</div>
+    </div>
+
+</div>
+
+<div class="section">
+    <h2>Scenario-Based</h2>
+
+    <div class="qa">
+        <div class="question">How to fix a failing build?</div>
+        <div class="answer">Check logs, identify errors, reproduce locally, fix issues, and re-run pipeline.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">How do you handle flaky tests?</div>
+        <div class="answer">Stabilize tests, add retries, isolate failures, and mock dependencies.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">How do you secure keystore files?</div>
+        <div class="answer">Encrypt and store them securely in CI tools or secret storage, not in the repository.</div>
+    </div>
+
+</div>
+
+<div class="section">
+    <h2>Tool-Specific</h2>
+
+    <div class="qa">
+        <div class="question">What is Fastlane?</div>
+        <div class="answer">Fastlane automates build, test, and deployment tasks like uploading apps to Play Store.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">Role of Docker?</div>
+        <div class="answer">Docker ensures consistent build environments across machines in CI/CD pipelines.</div>
+    </div>
+
+    <div class="qa">
+        <div class="question">What is Firebase App Distribution?</div>
+        <div class="answer">It allows distributing pre-release Android apps to testers easily during CI/CD.</div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balachandra Dasari – Android Developer Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+          font-family: 'Source Sans 3', sans-serif;
+          font-size: 13.5px;
+          color: #1e293b;
+          background: #f1f5f9;
+          line-height: 1.5;
+        }
+
+        .page {
+          background: #ffffff;
+          width: 794px;
+          margin: 32px auto;
+          padding: 48px 52px 44px;
+          box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+        }
+
+        /* ── HEADER ── */
+        .header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 24px;
+          padding-bottom: 18px;
+          border-bottom: 2.5px solid #1d4ed8;
+          margin-bottom: 18px;
+        }
+
+        .header-left h1 {
+          font-family: 'Lora', serif;
+          font-size: 30px;
+          font-weight: 700;
+          color: #0f172a;
+          letter-spacing: -0.3px;
+          line-height: 1.1;
+        }
+
+        .header-left .title {
+          font-size: 14px;
+          font-weight: 600;
+          color: #1d4ed8;
+          margin-top: 4px;
+          letter-spacing: 0.4px;
+        }
+
+        .header-right {
+          text-align: right;
+          font-size: 12.5px;
+          color: #475569;
+          line-height: 1.9;
+          flex-shrink: 0;
+        }
+
+        .header-right a { color: #1d4ed8; text-decoration: none; }
+
+        /* ── SECTION ── */
+        .section { margin-bottom: 14px; }
+
+        .section-title {
+          font-family: 'Lora', serif;
+          font-size: 12px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1.8px;
+          color: #1d4ed8;
+          padding-bottom: 4px;
+          border-bottom: 1px solid #bfdbfe;
+          margin-bottom: 10px;
+        }
+
+        /* ── SUMMARY ── */
+        .summary p {
+          color: #334155;
+          font-size: 13px;
+          line-height: 1.7;
+        }
+
+        /* ── SKILLS ── */
+        .skills-table { width: 100%; border-collapse: collapse; }
+        .skills-table tr td { padding: 3px 0; vertical-align: top; }
+        .skills-table .skill-label {
+          font-weight: 700;
+          color: #0f172a;
+          font-size: 12.5px;
+          width: 120px;
+          padding-right: 10px;
+          white-space: nowrap;
+        }
+        .skills-table .skill-value {
+          color: #475569;
+          font-size: 12.5px;
+        }
+
+        /* ── EXPERIENCE ── */
+        .job { margin-bottom: 12px; }
+
+        .job-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          margin-bottom: 1px;
+        }
+
+        .job-title {
+          font-weight: 700;
+          font-size: 13.5px;
+          color: #0f172a;
+        }
+
+        .job-dates {
+          font-size: 12px;
+          color: #64748b;
+          font-style: italic;
+          flex-shrink: 0;
+          margin-left: 12px;
+        }
+
+        .job-company {
+          font-size: 12.5px;
+          color: #1d4ed8;
+          font-weight: 600;
+          margin-bottom: 5px;
+        }
+
+        .job-location {
+          color: #94a3b8;
+          font-weight: 400;
+          font-size: 12px;
+          margin-left: 6px;
+        }
+
+        ul.bullets {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        ul.bullets li {
+          position: relative;
+          padding-left: 14px;
+          font-size: 12.5px;
+          color: #334155;
+          line-height: 1.6;
+          margin-bottom: 2px;
+        }
+
+        ul.bullets li::before {
+          content: "▸";
+          position: absolute;
+          left: 0;
+          color: #1d4ed8;
+          font-size: 10px;
+          top: 2px;
+        }
+
+        /* ── PROJECTS ── */
+        .project { margin-bottom: 10px; }
+
+        .project-header {
+          display: flex;
+          align-items: baseline;
+          flex-wrap: wrap;
+          gap: 6px;
+          margin-bottom: 4px;
+        }
+
+        .project-name {
+          font-weight: 700;
+          font-size: 13px;
+          color: #0f172a;
+        }
+
+        .project-sep { color: #cbd5e1; font-size: 12px; }
+
+        .project-tech {
+          font-size: 12px;
+          color: #1d4ed8;
+          font-style: italic;
+        }
+
+        /* ── EDUCATION ── */
+        .edu-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+        }
+
+        .edu-degree {
+          font-weight: 700;
+          font-size: 13px;
+          color: #0f172a;
+        }
+
+        .edu-year {
+          font-size: 12px;
+          color: #64748b;
+          font-style: italic;
+        }
+
+        .edu-school {
+          font-size: 12.5px;
+          color: #475569;
+          margin-top: 1px;
+        }
+
+        /* ── CERTIFICATIONS ── */
+        .certs-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 4px 24px;
+        }
+
+        .cert-item {
+          font-size: 12.5px;
+          color: #334155;
+          padding-left: 14px;
+          position: relative;
+          line-height: 1.6;
+        }
+
+        .cert-item::before {
+          content: "▸";
+          position: absolute;
+          left: 0;
+          color: #1d4ed8;
+          font-size: 10px;
+          top: 2px;
+        }
+
+        .cert-item strong { color: #0f172a; font-weight: 700; }
+        .cert-item span { color: #94a3b8; }
+
+        /* ── PRINT ── */
+        @media print {
+          body { background: white; }
+          .page { margin: 0; padding: 36px 44px; box-shadow: none; width: 100%; }
+          a { color: #1d4ed8 !important; }
+        }
+
+        @media (max-width: 840px) {
+          .page { width: 100%; margin: 0; padding: 28px 20px; }
+          .header { flex-direction: column; }
+          .header-right { text-align: left; }
+          .certs-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <h1>Balachandra Dasari</h1>
+            <div class="title">Android Developer</div>
+        </div>
+        <div class="header-right">
+            +91 9542063668 &nbsp;|&nbsp; chandradasari400@gmail.com<br>
+            <a href="#">linkedin.com/in/arjunsharma-dev</a> &nbsp;|&nbsp; <a href="#">https://github.com/chandra1234456</a><br>
+            Bengaluru, India
+        </div>
+    </div>
+
+    <!-- PROFESSIONAL SUMMARY -->
+    <div class="section summary">
+        <div class="section-title">Professional Summary</div>
+        <p>Results-driven Android Developer with 3+ years of hands-on experience building scalable, high-performance mobile applications using Kotlin and Java. Proven expertise in MVVM architecture, Jetpack Compose, REST API integration, and Firebase services. Successfully published 1 app on the Google Play Store. Passionate about clean code, performance optimization, and delivering seamless user experiences that drive measurable business impact.</p>
+    </div>
+
+    <!-- TECHNICAL SKILLS -->
+    <div class="section">
+        <div class="section-title">Technical Skills</div>
+        <table class="skills-table">
+            <tr>
+                <td class="skill-label">Languages</td>
+                <td class="skill-value">Kotlin (primary), Java, XML, SQL(Basic Knowledge),</td>
+            </tr>
+            <tr>
+                <td class="skill-label">Android SDK</td>
+                <td class="skill-value">Jetpack (ViewModel, LiveData, Room, Navigation, WorkManager, DataStore, Paging 3)</td>
+            </tr>
+            <tr>
+                <td class="skill-label">UI / UX</td>
+                <td class="skill-value">Jetpack Compose, Material Design 3, ConstraintLayout, RecyclerView, ViewBinding</td>
+            </tr>
+            <tr>
+                <td class="skill-label">Architecture</td>
+                <td class="skill-value">MVVM, Clean Architecture, Repository Pattern, MVI, Hilt / Dagger 2</td>
+            </tr>
+            <tr>
+                <td class="skill-label">Networking</td>
+                <td class="skill-value">Retrofit, OkHttp, REST APIs, Kotlin Coroutines, Flow</td>
+            </tr>
+            <tr>
+                <td class="skill-label">Firebase</td>
+                <td class="skill-value">Firestore, Realtime DB, Authentication, FCM, Crashlytics, Analytics</td>
+            </tr>
+            <tr>
+                <td class="skill-label">Tools / CI-CD</td>
+                <td class="skill-value">Android Studio, Git, GitHub Actions, Gradle, Figma, Postman</td>
+            </tr>
+            <tr>
+                <td class="skill-label">Testing</td>
+                <td class="skill-value">JUnit 4, Mockito, Espresso, UI Automator, Firebase Test Lab</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- WORK EXPERIENCE -->
+    <div class="section">
+        <div class="section-title">Work Experience</div>
+
+        <!-- Company -->
+        <div class="job">
+            <div class="job-header">
+                <span class="job-title">Android Developer</span>
+                <span class="job-dates">Jan 2020 – Present</span>
+            </div>
+
+            <div class="job-company">
+                Enterprise Banking Projects (IDBI & Federal Bank) <span class="job-location">— India</span>
+            </div>
+
+            <ul class="bullets">
+                <li>Worked on multiple enterprise banking Android applications for financial institutions including loan processing, self-help group management, and micro loan systems.</li>
+                <li>Developed and delivered production-ready applications used in real banking workflows with secure data handling and REST API integration.</li>
+                <li>Implemented MVVM architecture using Kotlin, LiveData, ViewModel, and Room database for scalable and maintainable codebases.</li>
+                <li>Integrated Retrofit-based APIs for secure communication with backend banking services.</li>
+                <li>Followed Material Design guidelines to build intuitive and user-friendly financial application interfaces.</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- PROJECTS -->
+    <div class="section">
+        <div class="section-title">Key Projects</div>
+
+        <!-- IDBI LOS -->
+        <div class="project">
+            <div class="project-header">
+                <span class="project-name">IDBI LOS — Loan Origination System</span>
+                <span class="project-sep">|</span>
+                <span class="project-tech">Kotlin, MVVM, Retrofit, LiveData, Room, Material Design,Firebase Crashlytics</span>
+            </div>
+            <ul class="bullets">
+                <li>Developed a Loan Origination System to streamline loan application processing, approval workflows, and document management for banking operations.</li>
+                <li>Designed architecture using MVVM and LiveData for efficient data handling. </li>
+                <li>Integrated secure REST APIs using Retrofit for real-time loan processing and backend communication.</li>
+                <li>Deployed in production environment supporting internal banking staff for daily loan operations.</li>
+            </ul>
+        </div>
+
+        <!-- IDBI SHG -->
+        <div class="project">
+            <div class="project-header">
+                <span class="project-name">IDBI SHG — Self Help Group App</span>
+                <span class="project-sep">|</span>
+                <span class="project-tech">Java, Kotlin, MVVM, Retrofit, LiveData,Firebase Crashlytics</span>
+            </div>
+            <ul class="bullets">
+                <li>Built a Self Help Group management system for tracking member contributions, loans, and financial reporting.</li>
+                <li>Implemented MVVM architecture for structured and scalable data handling.</li>
+                <li>Integrated REST APIs using Retrofit for syncing group and member data with backend systems.</li>
+                <li>Delivered a production-ready application used for financial management operations.</li>
+            </ul>
+        </div>
+
+        <!-- Federal Loan -->
+        <div class="project">
+            <div class="project-header">
+                <span class="project-name">Federal Micro Lap & Individual Loan App (MSME)</span>
+                <span class="project-sep">|</span>
+                <span class="project-tech">Java, Kotlin, MVVM, Retrofit,StateFlow,caching, Room, SQLite, Firebase Crashlytics</span>
+            </div>
+            <ul class="bullets">
+                <li>Developed micro-loan and individual loan applications for financial operations and customer management.</li>
+                <li>Implemented offline-first architecture using Room and SQLite for uninterrupted usage.</li>
+                <li>Integrated Firebase services for notifications and real-time updates.</li>
+                <li>Deployed production-ready apps supporting real banking workflows and financial operations.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="section">
+        <div class="section-title">Featured Projects</div>
+
+        <!-- Expense Tracker -->
+        <div class="project">
+            <div class="project-header">
+                <span class="project-name">Expense Tracker — Personal Finance App</span>
+                <span class="project-sep">|</span>
+                <span class="project-tech">Kotlin, Jetpack Compose, MVVM, Room, Hilt, MPAndroidChart</span>
+            </div>
+            <ul class="bullets">
+                <li>Built a production-ready expense tracking app with offline support using Room database and MVVM architecture.</li>
+                <li>Implemented category-based expense management with real-time updates and a clean, modern UI using Jetpack Compose.</li>
+                <li>Integrated data visualization (monthly and category-wise charts) to provide actionable financial insights.</li>
+                <li>Added biometric authentication for secure app access and enhanced user privacy.</li>
+            </ul>
+            <span class="project-sep">|</span>
+            <a href="https://github.com/yourrepo"> Expense Tracker GitHub</a>
+        </div>
+
+        <!-- Reminder App -->
+        <div class="project">
+            <div class="project-header">
+                <span class="project-name">Smart Reminder — Productivity App</span>
+                <span class="project-sep">|</span>
+                <span class="project-tech">Kotlin, WorkManager, AlarmManager, MVVM, Material Design</span>
+            </div>
+            <ul class="bullets">
+                <li>Developed a reliable reminder application with scheduled notifications using WorkManager and AlarmManager.</li>
+                <li>Ensured consistent reminder delivery across device reboots and background restrictions (Doze mode).</li>
+                <li>Implemented recurring reminders (daily/weekly) and user-friendly scheduling interface.</li>
+                <li>Designed a lightweight and responsive UI following Material Design principles.</li>
+            </ul>
+            <span class="project-sep">|</span>
+            <a href="https://github.com/yourrepo">Smart Reminder GitHub</a>
+        </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+        <div class="section-title">Education</div>
+        <div class="edu-row">
+            <span class="edu-degree">B.Tech in Electronic and Communication &amp; Engineering</span>
+            <span class="edu-year">2016 – 2020</span>
+        </div>
+        <div class="edu-school">Pace Institute of Technologies And Sciences &nbsp;|&nbsp; CGPA: 8.4 / 10</div>
+    </div>
+
+    <!-- HIGHLIGHTS -->
+    <div class="section">
+        <div class="section-title">Key Highlights</div>
+        <div class="certs-grid">
+            <div class="cert-item">3+ Years Experience in Android Development</div>
+            <div class="cert-item">Strong knowledge of Kotlin, MVVM, Room, Jetpack Compose</div>
+            <div class="cert-item">Experience in building offline-first mobile applications</div>
+            <div class="cert-item">Focused on clean architecture and scalable apps</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
