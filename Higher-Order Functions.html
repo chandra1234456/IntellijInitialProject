@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kotlin Higher-Order Functions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background: #f4f6f8;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .box {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0,0,0,0.1);
+        }
+        code {
+            display: block;
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-top: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🧠 Higher-Order Functions (HOFs) – Kotlin Interview Guide</h1>
+
+<div class="box">
+    <h2>✅ What is a Higher-Order Function?</h2>
+    <p>A Higher-Order Function is a function that:</p>
+    <ul>
+        <li>Takes another function as a parameter OR</li>
+        <li>Returns another function</li>
+    </ul>
+</div>
+
+<div class="box">
+    <h2>🔹 Basic Example</h2>
+    <code>
+        fun operate(a: Int, b: Int, operation: (Int, Int) -> Int): Int {
+        return operation(a, b)
+        }
+
+        val result = operate(5, 3) { x, y -> x + y }  // 8
+    </code>
+</div>
+
+<div class="box">
+    <h2>🔹 Function Types</h2>
+    <code>(Int, Int) -> Int</code>
+    <ul>
+        <li>Parameters → (Int, Int)</li>
+        <li>Return Type → Int</li>
+    </ul>
+</div>
+
+<div class="box">
+    <h2>🔥 Common HOFs in Kotlin</h2>
+
+    <h3>map()</h3>
+    <code>nums.map { it * 2 }</code>
+
+    <h3>filter()</h3>
+    <code>nums.filter { it > 1 }</code>
+
+    <h3>forEach()</h3>
+    <code>nums.forEach { println(it) }</code>
+
+    <h3>reduce()</h3>
+    <code>nums.reduce { acc, i -> acc + i }</code>
+
+    <h3>fold()</h3>
+    <code>nums.fold(10) { acc, i -> acc + i }</code>
+
+    <h3>any / all / none</h3>
+    <code>
+        nums.any { it > 2 }
+        nums.all { it > 0 }
+        nums.none { it < 0 }
+    </code>
+</div>
+
+<div class="box">
+    <h2>🔥 Lambda Expressions</h2>
+    <code>
+        val add = { a: Int, b: Int -> a + b }
+        println(add(2, 3))
+    </code>
+</div>
+
+<div class="box">
+    <h2>🔥 Trailing Lambda</h2>
+    <code>operate(2, 3) { x, y -> x + y }</code>
+</div>
+
+<div class="box">
+    <h2>🚀 Returning a Function</h2>
+    <code>
+        fun multiplier(factor: Int): (Int) -> Int {
+        return { number -> number * factor }
+        }
+
+        val double = multiplier(2)
+        println(double(5))
+    </code>
+</div>
+
+<div class="box">
+    <h2>🧩 Inline Functions</h2>
+    <code>
+        inline fun calculate(a: Int, b: Int, op: (Int, Int) -> Int): Int {
+        return op(a, b)
+        }
+    </code>
+
+    <p>✔ Avoids lambda object creation<br>
+        ✔ Improves performance</p>
+</div>
+
+<div class="box">
+    <h2>⚡ noinline & crossinline</h2>
+    <code>
+        inline fun example(
+        noinline normal: () -> Unit,
+        crossinline cross: () -> Unit
+        )
+    </code>
+    <ul>
+        <li>noinline → prevents inlining</li>
+        <li>crossinline → prevents non-local return</li>
+    </ul>
+</div>
+
+<div class="box">
+    <h2>🔥 Interview Questions</h2>
+
+    <h3>Q1. What is a Higher-Order Function?</h3>
+    <p>A function that takes or returns another function.</p>
+
+    <h3>Q2. Benefits of HOF?</h3>
+    <ul>
+        <li>Code reusability</li>
+        <li>Cleaner code</li>
+        <li>Functional programming support</li>
+    </ul>
+
+    <h3>Q3. map vs forEach</h3>
+    <table>
+        <tr>
+            <th>map</th>
+            <th>forEach</th>
+        </tr>
+        <tr>
+            <td>Returns new list</td>
+            <td>Returns Unit</td>
+        </tr>
+        <tr>
+            <td>Transformation</td>
+            <td>Side effects</td>
+        </tr>
+    </table>
+
+    <h3>Q4. Inline function?</h3>
+    <p>Improves performance by avoiding lambda object creation.</p>
+
+    <h3>Q5. Closure?</h3>
+    <p>Lambda capturing outer variables.</p>
+
+    <code>
+        var sum = 0
+        nums.forEach { sum += it }
+    </code>
+
+    <h3>Q6. reduce vs fold</h3>
+    <ul>
+        <li>reduce → no initial value</li>
+        <li>fold → has initial value</li>
+    </ul>
+</div>
+
+<div class="box">
+    <h2>🎯 Coding Example</h2>
+    <code>
+        val result = listOf(1, 2, 3, 4)
+        .filter { it % 2 == 0 }
+        .map { it * it }
+        .sum()
+    </code>
+</div>
+
+<div class="box">
+    <h2>🏁 Key Takeaways</h2>
+    <ul>
+        <li>HOF = function using function</li>
+        <li>Lambda = short function syntax</li>
+        <li>Inline = performance optimization</li>
+        <li>map/filter = most used</li>
+    </ul>
+</div>
+
+</body>
+</html>

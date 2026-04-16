@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Interview Prep</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .section {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        code {
+            background: #eee;
+            padding: 5px;
+            display: block;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        ul {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Android Interview Preparation</h1>
+
+<div class="section">
+    <h2>🧠 ViewModel</h2>
+
+    <h3>Basic</h3>
+    <p><b>Q1. What is a ViewModel?</b><br>
+        A lifecycle-aware component that stores and manages UI-related data.</p>
+
+    <p><b>Q2. Why use ViewModel?</b></p>
+    <ul>
+        <li>Avoid data loss on rotation</li>
+        <li>Separate UI & business logic</li>
+        <li>Improve testability</li>
+    </ul>
+
+    <p><b>Q3. Does it survive process death?</b><br>
+        No, only configuration changes. Use SavedStateHandle.</p>
+
+    <h3>Intermediate</h3>
+    <p><b>Difference:</b> ViewModel vs AndroidViewModel</p>
+    <ul>
+        <li>ViewModel → no context</li>
+        <li>AndroidViewModel → has Application context</li>
+    </ul>
+
+    <h3>Advanced</h3>
+    <p><b>Can it leak memory?</b> Yes, if holding Activity reference.</p>
+    <p><b>Clearing:</b> onCleared()</p>
+</div>
+
+<div class="section">
+    <h2>📡 LiveData</h2>
+
+    <p><b>What is LiveData?</b><br>
+        Lifecycle-aware observable data holder.</p>
+
+    <p><b>setValue vs postValue</b></p>
+    <ul>
+        <li>setValue → main thread</li>
+        <li>postValue → background thread</li>
+    </ul>
+
+    <p><b>Problems</b></p>
+    <ul>
+        <li>No backpressure</li>
+        <li>Limited operators</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>🌊 Kotlin Flow</h2>
+
+    <p><b>What is Flow?</b><br>
+        Cold asynchronous stream.</p>
+
+    <p><b>Cold Stream?</b> Starts only when collected.</p>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Flow</th>
+            <th>LiveData</th>
+        </tr>
+        <tr>
+            <td>Lifecycle aware</td>
+            <td>No</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>Type</td>
+            <td>Cold</td>
+            <td>Hot</td>
+        </tr>
+    </table>
+</div>
+
+<div class="section">
+    <h2>🔥 StateFlow</h2>
+
+    <p><b>What is StateFlow?</b><br>
+        Hot flow holding current state.</p>
+
+    <p><b>Key Points</b></p>
+    <ul>
+        <li>Always has value</li>
+        <li>Best for UI state</li>
+        <li>Thread-safe</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>⚡ SharedFlow</h2>
+
+    <p><b>What is SharedFlow?</b><br>
+        Hot flow for events.</p>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>StateFlow</th>
+            <th>SharedFlow</th>
+        </tr>
+        <tr>
+            <td>State</td>
+            <td>Yes</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>Use Case</td>
+            <td>UI State</td>
+            <td>Events</td>
+        </tr>
+    </table>
+</div>
+
+<div class="section">
+    <h2>💡 Scenarios</h2>
+
+    <p><b>StateFlow vs SharedFlow</b></p>
+    <ul>
+        <li>StateFlow → UI state</li>
+        <li>SharedFlow → events</li>
+    </ul>
+
+    <p><b>Convert Flow to LiveData</b></p>
+    <code>flow.asLiveData()</code>
+
+    <p><b>Collect Flow safely</b></p>
+    <code>
+        lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
+        flow.collect { }
+        }
+        }
+    </code>
+</div>
+
+<div class="section">
+    <h2>🎯 Coding</h2>
+
+    <p><b>StateFlow Example</b></p>
+    <code>
+        private val _state = MutableStateFlow(0)
+        val state: StateFlow&lt;Int&gt; = _state
+    </code>
+
+    <p><b>SharedFlow Example</b></p>
+    <code>
+        private val _events = MutableSharedFlow&lt;String&gt;()
+        val events = _events.asSharedFlow()
+    </code>
+</div>
+
+<div class="section">
+    <h2>🧩 Key Takeaways</h2>
+    <ul>
+        <li>StateFlow = State</li>
+        <li>SharedFlow = Events</li>
+        <li>Flow = Streams</li>
+    </ul>
+</div>
+
+</body>
+</html>

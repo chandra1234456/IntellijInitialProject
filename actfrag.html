@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f6f8;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .section {
+            background: #ffffff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0,0,0,0.1);
+        }
+        code {
+            display: block;
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📱 Android Interview Questions</h1>
+
+<div class="section">
+    <h2>🧠 Activity Lifecycle</h2>
+
+    <h3>Q1. What are Activity lifecycle methods?</h3>
+    <p>onCreate → onStart → onResume → onPause → onStop → onDestroy</p>
+
+    <h3>Q2. When is onPause() called?</h3>
+    <p>When activity is partially visible or another activity comes in front.</p>
+
+    <h3>Q3. Difference between onStop() and onDestroy()?</h3>
+    <p>onStop → activity not visible<br>
+        onDestroy → activity is finishing or destroyed</p>
+
+    <h3>Q4. What is onSaveInstanceState()?</h3>
+    <p>Used to save UI state before destruction.</p>
+</div>
+
+<div class="section">
+    <h2>🧩 Fragment Lifecycle</h2>
+
+    <h3>Q1. Fragment lifecycle flow?</h3>
+    <p>onAttach → onCreate → onCreateView → onViewCreated → onStart → onResume</p>
+
+    <h3>Q2. Difference between Activity & Fragment lifecycle?</h3>
+    <p>Fragment has additional view lifecycle methods.</p>
+
+    <h3>Q3. onCreateView vs onViewCreated?</h3>
+    <p>onCreateView → inflate layout<br>
+        onViewCreated → initialize UI</p>
+
+    <h3>Q4. Why use Fragment?</h3>
+    <ul>
+        <li>Reusable UI</li>
+        <li>Better modularity</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>🔗 Intents</h2>
+
+    <h3>Q1. What is an Intent?</h3>
+    <p>Messaging object used to communicate between components.</p>
+
+    <h3>Q2. Types of Intent?</h3>
+    <ul>
+        <li>Explicit → target component specified</li>
+        <li>Implicit → system decides component</li>
+    </ul>
+
+    <h3>Q3. Example of Explicit Intent</h3>
+    <code>
+        Intent(this, SecondActivity::class.java)
+    </code>
+
+    <h3>Q4. Example of Implicit Intent</h3>
+    <code>
+        Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com"))
+    </code>
+
+    <h3>Q5. What is Intent Filter?</h3>
+    <p>Defines which intents an app can respond to.</p>
+</div>
+
+<div class="section">
+    <h2>🔄 Tasks & Back Stack</h2>
+
+    <h3>Q1. What is Back Stack?</h3>
+    <p>A stack of activities managed by Android.</p>
+
+    <h3>Q2. What happens when back button is pressed?</h3>
+    <p>Current activity is popped and previous is resumed.</p>
+
+    <h3>Q3. What is launchMode?</h3>
+    <ul>
+        <li>standard</li>
+        <li>singleTop</li>
+        <li>singleTask</li>
+        <li>singleInstance</li>
+    </ul>
+
+    <h3>Q4. What is taskAffinity?</h3>
+    <p>Defines which task an activity belongs to.</p>
+</div>
+
+<div class="section">
+    <h2>🌍 Context</h2>
+
+    <h3>Q1. What is Context?</h3>
+    <p>Provides access to application resources and system services.</p>
+
+    <h3>Q2. Types of Context?</h3>
+    <ul>
+        <li>Application Context</li>
+        <li>Activity Context</li>
+    </ul>
+
+    <h3>Q3. Difference between Application & Activity Context?</h3>
+    <p>
+        Application → global, long-lived<br>
+        Activity → tied to UI lifecycle
+    </p>
+
+    <h3>Q4. When to use Application Context?</h3>
+    <ul>
+        <li>Singletons</li>
+        <li>Database</li>
+    </ul>
+
+    <h3>Q5. Memory leak example?</h3>
+    <p>Holding Activity context in static variable.</p>
+
+</div>
+
+</body>
+</html>

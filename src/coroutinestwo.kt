@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
+import kotlin.concurrent.thread
 
 /*
 suspend fun main() = supervisorScope {
@@ -45,7 +46,8 @@ fun main() {
     // fetchProductDetails()
     // safeDataFetch()
     //dispatcherDemo()
-    cancellableTask()
+   // cancellableTask()
+    millionThread()
 }
 
 fun cancellableTask() = runBlocking {
@@ -213,5 +215,14 @@ fun multipleTasks() = runBlocking {
 
     println("All coroutines launched!")
 }
+
+fun millionThread() = runBlocking{
+     (1..1000000).forEach {
+         thread(start = true) {
+             print(it)
+             Thread.sleep(1000L)
+         }
+     }
+ }
 
 

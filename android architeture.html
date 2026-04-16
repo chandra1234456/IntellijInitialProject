@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Application Architecture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f6f8;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .section {
+            background: #ffffff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0,0,0,0.1);
+        }
+        ul {
+            margin-top: 5px;
+        }
+        code {
+            display: block;
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 8px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🧠 Android Application Architecture</h1>
+
+<div class="section">
+    <h2>🏗️ Why Architecture is Important?</h2>
+    <ul>
+        <li>Separation of concerns</li>
+        <li>Easier testing</li>
+        <li>Maintainability</li>
+        <li>Scalability</li>
+        <li>Better team collaboration</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>📚 Common Architecture Patterns</h2>
+
+    <h3>🔹 MVC (Model-View-Controller)</h3>
+    <ul>
+        <li>Model → Data</li>
+        <li>View → UI</li>
+        <li>Controller → Logic</li>
+    </ul>
+    <p><b>Problem:</b> Activity becomes God class</p>
+
+    <h3>🔹 MVP (Model-View-Presenter)</h3>
+    <ul>
+        <li>Model → Data</li>
+        <li>View → Interface</li>
+        <li>Presenter → Logic</li>
+    </ul>
+    <p><b>Pros:</b> Easy testing<br>
+        <b>Cons:</b> Boilerplate code</p>
+
+    <h3>🔹 MVVM (Model-View-ViewModel)</h3>
+    <ul>
+        <li>Model → Data layer</li>
+        <li>View → UI</li>
+        <li>ViewModel → UI state</li>
+    </ul>
+
+    <code>
+        View → ViewModel → Repository → Data Source
+        ↓
+        LiveData / StateFlow
+        ↓
+        View
+    </code>
+
+    <p><b>Advantages:</b></p>
+    <ul>
+        <li>Lifecycle-aware</li>
+        <li>Less boilerplate</li>
+        <li>Works with Kotlin Flow</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>🧩 Modern Android Architecture</h2>
+
+    <h3>Layers</h3>
+
+    <h4>1️⃣ UI Layer</h4>
+    <ul>
+        <li>Activity / Fragment / Compose</li>
+        <li>Observes data</li>
+    </ul>
+
+    <h4>2️⃣ Domain Layer</h4>
+    <ul>
+        <li>Business logic</li>
+        <li>Use cases</li>
+    </ul>
+
+    <h4>3️⃣ Data Layer</h4>
+    <ul>
+        <li>Repository</li>
+        <li>API / Database</li>
+    </ul>
+
+    <code>
+        UI → ViewModel → UseCase → Repository → API/DB
+    </code>
+</div>
+
+<div class="section">
+    <h2>📦 Key Components</h2>
+
+    <ul>
+        <li><b>ViewModel:</b> Holds UI state</li>
+        <li><b>LiveData / StateFlow:</b> Observables</li>
+        <li><b>Repository:</b> Data handler</li>
+        <li><b>UseCase:</b> Business logic</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>🔥 Clean Architecture</h2>
+
+    <h3>Layers</h3>
+    <ul>
+        <li>Presentation Layer → UI + ViewModel</li>
+        <li>Domain Layer → UseCases</li>
+        <li>Data Layer → Repository</li>
+    </ul>
+
+    <p><b>Rule:</b></p>
+    <code>UI → Domain → Data</code>
+</div>
+
+<div class="section">
+    <h2>⚡ MVVM + Clean Architecture Example</h2>
+
+    <h3>ViewModel</h3>
+    <code>
+        class UserViewModel(
+        private val getUsersUseCase: GetUsersUseCase
+        ) : ViewModel() {
+
+        val users = MutableStateFlow&lt;List&lt;User&gt;&gt;(emptyList())
+
+        fun loadUsers() {
+        viewModelScope.launch {
+        users.value = getUsersUseCase()
+        }
+        }
+        }
+    </code>
+
+    <h3>UseCase</h3>
+    <code>
+        class GetUsersUseCase(
+        private val repository: UserRepository
+        ) {
+        suspend operator fun invoke(): List&lt;User&gt; {
+        return repository.getUsers()
+        }
+        }
+    </code>
+
+    <h3>Repository</h3>
+    <code>
+        class UserRepository(
+        private val api: ApiService
+        ) {
+        suspend fun getUsers(): List&lt;User&gt; = api.getUsers()
+        }
+    </code>
+
+</div>
+
+<div class="section">
+    <h2>🎯 Interview Questions</h2>
+
+    <p><b>Q1. What is MVVM?</b><br>
+        Separates UI, logic, and data.</p>
+
+    <p><b>Q2. What is Repository?</b><br>
+        Abstraction over data sources.</p>
+
+    <p><b>Q3. Why ViewModel?</b><br>
+        Handles UI state and survives rotation.</p>
+
+    <p><b>Q4. What is Clean Architecture?</b><br>
+        Layered separation of concerns.</p>
+
+    <p><b>Q5. Why UseCase?</b><br>
+        Encapsulates business logic.</p>
+</div>
+
+<div class="section">
+    <h2>⚠️ Common Mistakes</h2>
+    <ul>
+        <li>Business logic in Activity ❌</li>
+        <li>Direct API calls in UI ❌</li>
+        <li>No repository ❌</li>
+        <li>Ignoring lifecycle ❌</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>🏁 Summary</h2>
+    <ul>
+        <li>MVC → outdated</li>
+        <li>MVP → verbose</li>
+        <li>MVVM → standard</li>
+        <li>Clean Architecture → best practice</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h2>💡 Pro Tips</h2>
+    <ul>
+        <li>MVVM + StateFlow = Expected</li>
+        <li>Clean Architecture = Bonus</li>
+        <li>Repository + UseCase = Strong answer</li>
+    </ul>
+</div>
+
+</body>
+</html>
