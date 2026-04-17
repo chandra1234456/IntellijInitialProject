@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVVM vs Clean Architecture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .box {
+            background: #eef5ff;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 15px 0;
+        }
+        code, pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 10px;
+            display: block;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .highlight {
+            background: #e8ffe8;
+            padding: 10px;
+            border-left: 5px solid #2ecc71;
+        }
+        .warning {
+            background: #ffecec;
+            padding: 10px;
+            border-left: 5px solid #e74c3c;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>MVVM vs Clean Architecture</h1>
+
+    <div class="box">
+        <strong>Short Answer:</strong> No, they are not the same. They solve different problems but are often used together.
+    </div>
+
+    <h2>🔹 What is MVVM?</h2>
+    <p><strong>MVVM (Model–View–ViewModel)</strong> is a UI architectural pattern focused on separating UI logic.</p>
+
+    <ul>
+        <li><strong>View:</strong> UI (Activity/Fragment)</li>
+        <li><strong>ViewModel:</strong> Handles UI logic & state</li>
+        <li><strong>Model:</strong> Data (API, DB, Repository)</li>
+    </ul>
+
+    <pre><code>class UserViewModel @Inject constructor(
+    private val repo: UserRepository
+) : ViewModel() {
+
+    val users = liveData {
+        emit(repo.getUsers())
+    }
+}</code></pre>
+
+    <p>👉 MVVM is mainly about <strong>how UI talks to data</strong></p>
+
+    <h2>🔹 What is Clean Architecture?</h2>
+    <p><strong>Clean Architecture</strong> is a full application architecture focusing on scalability and separation of concerns.</p>
+
+    <ul>
+        <li>Presentation Layer</li>
+        <li>Domain Layer (UseCases)</li>
+        <li>Data Layer</li>
+    </ul>
+
+    <pre><code>UI → ViewModel → UseCase → Repository → Data Source</code></pre>
+
+    <h2>🔥 Key Differences</h2>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>MVVM</th>
+            <th>Clean Architecture</th>
+        </tr>
+        <tr>
+            <td>Type</td>
+            <td>UI Pattern</td>
+            <td>Full Architecture</td>
+        </tr>
+        <tr>
+            <td>Scope</td>
+            <td>UI Layer</td>
+            <td>Entire App</td>
+        </tr>
+        <tr>
+            <td>Focus</td>
+            <td>UI Separation</td>
+            <td>Business + Data Separation</td>
+        </tr>
+        <tr>
+            <td>UseCases</td>
+            <td>No</td>
+            <td>Yes</td>
+        </tr>
+    </table>
+
+    <h2>🧠 Simple Analogy</h2>
+    <div class="box">
+        MVVM = How your screen works <br>
+        Clean Architecture = How your entire app is structured
+    </div>
+
+    <h2>🔹 How They Work Together</h2>
+
+    <pre><code>[Presentation Layer]
+   View
+     ↓
+   ViewModel (MVVM)
+
+[Domain Layer]
+   UseCase
+
+[Data Layer]
+   Repository → API / DB</code></pre>
+
+    <h2>🔥 Interview Scenarios</h2>
+
+    <ul>
+        <li><strong>Reuse logic:</strong> Use Clean Architecture</li>
+        <li><strong>Handle rotation:</strong> Use MVVM</li>
+        <li><strong>Improve testability:</strong> Use both</li>
+        <li><strong>API changes isolation:</strong> Clean Architecture</li>
+    </ul>
+
+    <h2>⚠️ Common Trap</h2>
+    <div class="warning">
+        ❌ MVVM is Clean Architecture → WRONG<br>
+        ✅ MVVM is part of Clean Architecture → CORRECT
+    </div>
+
+    <h2>💡 Interview Answer</h2>
+    <div class="highlight">
+        "MVVM and Clean Architecture are not the same. MVVM is a UI architectural pattern,
+        while Clean Architecture structures the entire application. MVVM is typically used
+        within the presentation layer of Clean Architecture."
+    </div>
+
+</div>
+</body>
+</html>

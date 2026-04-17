@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Interview Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f7fa;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .card {
+            background: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        code {
+            display: block;
+            background: #eee;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h1>OOP (Object-Oriented Programming) Interview Guide</h1>
+
+<div class="card">
+    <h2>1. What is OOP?</h2>
+    <p>
+        Object-Oriented Programming (OOP) is a programming paradigm based on objects,
+        which contain data (variables) and behavior (methods).
+    </p>
+</div>
+
+<div class="card">
+    <h2>2. Class vs Object</h2>
+    <ul>
+        <li><b>Class:</b> Blueprint/template</li>
+        <li><b>Object:</b> Instance of a class</li>
+    </ul>
+
+    <code>
+        class Car {
+        String brand;
+        int speed;
+
+        void drive() {
+        System.out.println("Car is driving");
+        }
+        }
+
+        public class Main {
+        public static void main(String[] args) {
+        Car c1 = new Car(); // Object
+        c1.brand = "BMW";
+        c1.drive();
+        }
+    </code>
+</div>
+
+<div class="card">
+    <h2>3. Four Pillars of OOP</h2>
+
+    <h3>Encapsulation</h3>
+    <p>Wrapping data and methods into a single unit.</p>
+    <code>
+        class Person {
+        private String name;
+
+        public String getName() {
+        return name;
+        }
+
+        public void setName(String name) {
+        this.name = name;
+        }
+        }
+    </code>
+
+    <h3>Abstraction</h3>
+    <p>Hiding implementation details.</p>
+    <code>
+        abstract class Animal {
+        abstract void sound();
+        }
+
+        class Dog extends Animal {
+        void sound() {
+        System.out.println("Bark");
+        }
+        }
+    </code>
+
+    <h3>Inheritance</h3>
+    <p>One class inherits another.</p>
+    <code>
+        class Vehicle {
+        void start() {
+        System.out.println("Vehicle started");
+        }
+        }
+
+        class Bike extends Vehicle {
+        }
+    </code>
+
+    <h3>Polymorphism</h3>
+    <p>Same method, different behavior.</p>
+    <code>
+        // Method Overloading
+        class MathUtils {
+        int add(int a, int b) {
+        return a + b;
+        }
+
+        int add(int a, int b, int c) {
+        return a + b + c;
+        }
+        }
+    </code>
+</div>
+
+<div class="card">
+    <h2>4. Important Interview Questions</h2>
+    <ul>
+        <li>What are the four pillars of OOP?</li>
+        <li>Difference between class and object?</li>
+        <li>What is encapsulation with real example?</li>
+        <li>Difference between abstraction and encapsulation?</li>
+        <li>What is method overloading vs overriding?</li>
+        <li>What is multiple inheritance?</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h2>5. Scenario-Based Questions</h2>
+
+    <h3>Scenario 1</h3>
+    <p>You want to hide sensitive data like salary.</p>
+    <p><b>Answer:</b> Use encapsulation with private variables.</p>
+
+    <h3>Scenario 2</h3>
+    <p>You have different payment methods (UPI, Card, Cash).</p>
+    <p><b>Answer:</b> Use polymorphism (common interface).</p>
+
+    <h3>Scenario 3</h3>
+    <p>You want common functionality for all vehicles.</p>
+    <p><b>Answer:</b> Use inheritance.</p>
+
+    <h3>Scenario 4</h3>
+    <p>You want to expose only essential features of a system.</p>
+    <p><b>Answer:</b> Use abstraction.</p>
+</div>
+
+<div class="card">
+    <h2>6. Real-World Example</h2>
+    <code>
+        interface Payment {
+        void pay();
+        }
+
+        class UPI implements Payment {
+        public void pay() {
+        System.out.println("Paid via UPI");
+        }
+        }
+
+        class CreditCard implements Payment {
+        public void pay() {
+        System.out.println("Paid via Card");
+        }
+        }
+    </code>
+</div>
+
+<div class="card">
+    <h2>7. Common Mistakes</h2>
+    <ul>
+        <li>Confusing abstraction with encapsulation</li>
+        <li>Not using access modifiers properly</li>
+        <li>Overusing inheritance instead of composition</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h2>8. Tips</h2>
+    <ul>
+        <li>Use real-world examples in interviews</li>
+        <li>Explain with diagrams if possible</li>
+        <li>Focus on "why" not just "what"</li>
+    </ul>
+</div>
+
+</body>
+</html>

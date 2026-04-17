@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVVM + Clean Architecture + Hilt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f6f8;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .card {
+            background: #fff;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        code {
+            display: block;
+            background: #eee;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Android MVVM + Clean Architecture + Hilt</h1>
+
+<div class="card">
+    <h2>1. Project Structure</h2>
+    <code>
+        com.example.app
+        │
+        ├── presentation/
+        │   ├── ui/
+        │   │   ├── MainActivity.kt
+        │   ├── viewmodel/
+        │   │   ├── UserViewModel.kt
+        │
+        ├── domain/
+        │   ├── model/
+        │   │   ├── User.kt
+        │   ├── repository/
+        │   │   ├── UserRepository.kt
+        │   ├── usecase/
+        │   │   ├── GetUsersUseCase.kt
+        │
+        ├── data/
+        │   ├── repository/
+        │   │   ├── UserRepositoryImpl.kt
+        │   ├── remote/
+        │   │   ├── ApiService.kt
+        │
+        ├── di/
+        │   ├── AppModule.kt
+        │
+        └── MyApplication.kt
+    </code>
+</div>
+
+<div class="card">
+    <h2>2. Clean Architecture Flow</h2>
+    <code>
+        UI → ViewModel → UseCase → Repository → API/DB
+    </code>
+</div>
+
+<div class="card">
+    <h2>3. Domain Layer</h2>
+
+    <h3>Repository Interface</h3>
+    <code>
+        interface UserRepository {
+        suspend fun getUsers(): List&lt;User&gt;
+        }
+    </code>
+
+    <h3>UseCase</h3>
+    <code>
+        class GetUsersUseCase @Inject constructor(
+        private val repository: UserRepository
+        ) {
+        suspend operator fun invoke(): List&lt;User&gt; {
+        return repository.getUsers()
+        }
+        }
+    </code>
+</div>
+
+<div class="card">
+    <h2>4. Data Layer</h2>
+
+    <h3>Repository Implementation</h3>
+    <code>
+        class UserRepositoryImpl @Inject constructor(
+        private val api: ApiService
+        ) : UserRepository {
+
+        override suspend fun getUsers(): List&lt;User&gt; {
+        return api.getUsers()
+        }
+        }
+    </code>
+</div>
+
+<div class="card">
+    <h2>5. Presentation Layer (MVVM)</h2>
+
+    <h3>ViewModel</h3>
+    <code>
+        @HiltViewModel
+        class UserViewModel @Inject constructor(
+        private val getUsersUseCase: GetUsersUseCase
+        ) : ViewModel() {
+
+        val users = liveData {
+        emit(getUsersUseCase())
+        }
+        }
+    </code>
+
+    <h3>Activity</h3>
+    <code>
+        @AndroidEntryPoint
+        class MainActivity : AppCompatActivity() {
+
+        private val viewModel: UserViewModel by viewModels()
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.users.observe(this) {
+        // update UI
+        }
+        }
+        }
+    </code>
+</div>
+
+<div class="card">
+    <h2>6. Hilt Integration</h2>
+
+    <h3>Application Class</h3>
+    <code>
+        @HiltAndroidApp
+        class MyApplication : Application()
+    </code>
+
+    <h3>Hilt Module</h3>
+    <code>
+        @Module
+        @InstallIn(SingletonComponent::class)
+        object AppModule {
+
+        @Provides
+        fun provideApi(): ApiService {
+        return Retrofit.Builder()
+        .baseUrl("https://api.example.com")
+        .build()
+        .create(ApiService::class.java)
+        }
+
+        @Provides
+        fun provideRepository(
+        api: ApiService
+        ): UserRepository {
+        return UserRepositoryImpl(api)
+        }
+        }
+    </code>
+</div>
+
+<div class="card">
+    <h2>7. Scenario-Based Interview Question</h2>
+
+    <h3>Problem:</h3>
+    <p>
+        Build a feature to fetch a list of users from API and display in UI
+        using MVVM + Clean Architecture + Hilt.
+    </p>
+
+    <h3>Expected Approach:</h3>
+    <ul>
+        <li>Create UseCase in domain layer</li>
+        <li>Create repository interface</li>
+        <li>Implement repository in data layer</li>
+        <li>Inject using Hilt</li>
+        <li>Call UseCase in ViewModel</li>
+        <li>Observe data in Activity/Fragment</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h2>8. Real Interview Coding Question</h2>
+
+    <h3>Question:</h3>
+    <p>
+        Design a login feature using MVVM + Clean Architecture.
+    </p>
+
+    <h3>Expected Layers:</h3>
+    <code>
+        Presentation → LoginViewModel
+        Domain → LoginUseCase
+        Data → AuthRepositoryImpl
+    </code>
+
+    <h3>Sample Code:</h3>
+    <code>
+        class LoginUseCase @Inject constructor(
+        private val repo: AuthRepository
+        ) {
+        suspend operator fun invoke(
+        username: String,
+        password: String
+        ): Boolean {
+        return repo.login(username, password)
+        }
+        }
+    </code>
+</div>
+
+<div class="card">
+    <h2>9. Common Mistakes</h2>
+    <ul>
+        <li>Putting business logic in ViewModel</li>
+        <li>Skipping domain layer</li>
+        <li>Not using interfaces</li>
+        <li>Wrong Hilt scope usage</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h2>10. Pro Tips</h2>
+    <ul>
+        <li>Always keep domain layer pure (no Android imports)</li>
+        <li>Use interfaces for flexibility</li>
+        <li>Keep ViewModel lightweight</li>
+    </ul>
+</div>
+
+</body>
+</html>

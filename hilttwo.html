@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DI Hilt Interview Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f4f6f8;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background: #eee;
+            padding: 5px;
+            display: block;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+        }
+        .card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<h1>Dependency Injection (DI) with Hilt – Interview Guide</h1>
+
+<div class="card">
+    <h2>1. What is Dependency Injection?</h2>
+    <p>
+        Dependency Injection (DI) is a design pattern where dependencies are provided to a class
+        instead of the class creating them itself.
+    </p>
+</div>
+
+<div class="card">
+    <h2>2. What is Hilt?</h2>
+    <p>
+        Hilt is a dependency injection library for Android built on top of Dagger. It reduces boilerplate
+        and simplifies DI setup.
+    </p>
+</div>
+
+<div class="card">
+    <h2>3. Why use Hilt?</h2>
+    <ul>
+        <li>Reduces boilerplate code</li>
+        <li>Lifecycle-aware components</li>
+        <li>Easy integration with Android components</li>
+        <li>Improves testability</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h2>4. Basic Example</h2>
+
+    <h3>Step 1: Add Annotation</h3>
+    <code>
+        @HiltAndroidApp
+        class MyApplication : Application()
+    </code>
+
+    <h3>Step 2: Inject Dependency</h3>
+    <code>
+        class Engine @Inject constructor()
+
+        class Car @Inject constructor(private val engine: Engine)
+    </code>
+
+    <h3>Step 3: Use in Activity</h3>
+    <code>
+        @AndroidEntryPoint
+        class MainActivity : AppCompatActivity() {
+
+        @Inject lateinit var car: Car
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        car // ready to use
+        }
+        }
+    </code>
+</div>
+
+<div class="card">
+    <h2>5. @Module and @Provides Example</h2>
+    <code>
+        @Module
+        @InstallIn(SingletonComponent::class)
+        object AppModule {
+
+        @Provides
+        fun provideEngine(): Engine {
+        return Engine()
+        }
+        }
+    </code>
+</div>
+
+<div class="card">
+    <h2>6. Scope Annotations</h2>
+    <ul>
+        <li>@Singleton</li>
+        <li>@ActivityScoped</li>
+        <li>@ViewModelScoped</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h2>7. Interview Questions</h2>
+    <ul>
+        <li>What is the difference between Dagger and Hilt?</li>
+        <li>What is @Inject used for?</li>
+        <li>What is the purpose of @Module?</li>
+        <li>What is @InstallIn?</li>
+        <li>Difference between @Provides and @Binds?</li>
+        <li>What is component hierarchy in Hilt?</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h2>8. Scenario-Based Questions</h2>
+
+    <h3>Scenario 1:</h3>
+    <p>
+        You have multiple implementations of a repository. How will you inject a specific one?
+    </p>
+    <p><b>Answer:</b> Use @Qualifier annotation.</p>
+
+    <h3>Scenario 2:</h3>
+    <p>
+        You want a single instance of a class across the app.
+    </p>
+    <p><b>Answer:</b> Use @Singleton scope.</p>
+
+    <h3>Scenario 3:</h3>
+    <p>
+        How to inject dependencies into ViewModel?
+    </p>
+    <code>
+        @HiltViewModel
+        class MyViewModel @Inject constructor(
+        private val repository: Repo
+        ) : ViewModel()
+    </code>
+
+    <h3>Scenario 4:</h3>
+    <p>
+        How to pass runtime parameters?
+    </p>
+    <p><b>Answer:</b> Use Assisted Injection.</p>
+</div>
+
+<div class="card">
+    <h2>9. Common Mistakes</h2>
+    <ul>
+        <li>Forgetting @AndroidEntryPoint</li>
+        <li>Wrong scope usage</li>
+        <li>Missing @HiltAndroidApp</li>
+        <li>Injecting before initialization</li>
+    </ul>
+</div>
+
+<div class="card">
+    <h2>10. Tips</h2>
+    <ul>
+        <li>Understand lifecycle scopes clearly</li>
+        <li>Practice real-world scenarios</li>
+        <li>Focus on modular architecture</li>
+    </ul>
+</div>
+
+</body>
+</html>
