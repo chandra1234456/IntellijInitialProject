@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dependency Injection Explained</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f5f7fa;
+            line-height: 1.6;
+        }
+        .container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 900px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background: #1e1e1e;
+            color: #00ff90;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .bad {
+            color: red;
+            font-weight: bold;
+        }
+        .good {
+            color: green;
+            font-weight: bold;
+        }
+        blockquote {
+            background: #eef;
+            padding: 10px;
+            border-left: 5px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Dependency Injection (DI)</h1>
+
+    <h2>What is Dependency?</h2>
+    <p>
+        A dependency occurs when one class needs another class to function.
+    </p>
+
+    <blockquote>
+        A class <b>depends on</b> another class when it needs it to work.
+    </blockquote>
+
+    <h2>Real Understanding</h2>
+    <p>
+        The earlier idea that "student depends on college" is misleading.
+        A student can exist independently. So dependency means
+        <b>usage, not existence</b>.
+    </p>
+
+    <hr>
+
+    <h2>Without Dependency Injection (Tightly Coupled)</h2>
+
+    <pre>
+```
+
+class Engine {
+void start() {
+System.out.println("Engine started");
+}
+}
+
+class Car {
+Engine engine = new Engine(); // Car creates Engine
+
+```
+void drive() {
+    engine.start();
+    System.out.println("Car is driving");
+}
+```
+
+} </pre>
+
+    ```
+    <p class="bad">❌ Problems:</p>
+    <ul>
+        <li>Car is tightly coupled with Engine</li>
+        <li>Hard to test</li>
+        <li>Cannot easily replace Engine</li>
+    </ul>
+
+    <hr>
+
+    <h2>With Dependency Injection (Loosely Coupled)</h2>
+
+    <pre>
+```
+
+class Engine {
+void start() {
+System.out.println("Engine started");
+}
+}
+
+class Car {
+Engine engine;
+
+```
+Car(Engine engine) {
+    this.engine = engine; // Injected from outside
+}
+
+void drive() {
+    engine.start();
+    System.out.println("Car is driving");
+}
+```
+
+} </pre>
+
+    ```
+    <p class="good">✅ Benefits:</p>
+    <ul>
+        <li>Car does NOT create Engine</li>
+        <li>Easy to replace dependencies</li>
+        <li>Better testing</li>
+        <li>Flexible and reusable code</li>
+    </ul>
+
+    <hr>
+
+    <h2>Android Example</h2>
+
+    <h3>Without DI</h3>
+    <pre>
+```
+
+class MainActivity extends AppCompatActivity {
+Database db = new Database(); // tightly coupled
+} </pre>
+
+    ```
+    <h3>With DI</h3>
+    <pre>
+```
+
+class MainActivity extends AppCompatActivity {
+Database db;
+
+```
+public MainActivity(Database db) {
+    this.db = db;
+}
+```
+
+} </pre>
+
+    ```
+    <p>
+        In real Android apps, tools like <b>Hilt</b> and <b>Dagger</b> provide dependencies automatically.
+    </p>
+
+    <hr>
+
+    <h2>Types of Dependency Injection</h2>
+    <ul>
+        <li><b>Constructor Injection</b> (Recommended)</li>
+        <li><b>Setter Injection</b></li>
+        <li><b>Field Injection</b></li>
+    </ul>
+
+    <hr>
+
+    <h2>Easy Definition</h2>
+
+    <blockquote>
+        Dependency Injection = "Don’t create objects yourself, let someone else provide them."
+    </blockquote>
+
+</div>
+
+</body>
+</html>

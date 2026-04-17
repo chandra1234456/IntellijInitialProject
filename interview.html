@@ -1,0 +1,382 @@
+<!--
+https://medium.com/@anandgaur2207/android-interview-questions-for-mid-level-developers-3-6-years-d915266ef936
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android Interview Questions (3–6 Years)</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1f3c88;
+        }
+
+        h2 {
+            color: #1565c0;
+            margin-top: 20px;
+        }
+
+        section {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        .question {
+            font-weight: bold;
+            color: #0d47a1;
+        }
+
+        .answer {
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        .code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>Android Interview Questions (3–6 Years Experience)</h1>
+
+<section>
+    <h2>1. What is MVVM?</h2>
+    <p class="answer">
+        MVVM (Model-View-ViewModel) separates concerns:
+        Model → Data layer
+        View → UI
+        ViewModel → Handles logic & provides data to UI using LiveData/StateFlow
+    </p>
+</section>
+
+<section>
+    <h2>2. MVVM vs MVP</h2>
+    <p class="answer">
+        MVVM → Uses LiveData, no direct View reference
+        MVP → Presenter directly updates View using interfaces
+        MVVM is more testable and less boilerplate
+    </p>
+</section>
+
+<section>
+    <h2>3. Repository Role</h2>
+    <p class="answer">
+        Acts as single source of truth and manages API + DB.
+    </p>
+</section>
+
+<section>
+    <h2>4. Data in Orientation Change</h2>
+    <p class="answer">
+        Use ViewModel or SavedStateHandle.
+    </p>
+</section>
+
+<section>
+    <h2>5. Dependency Injection</h2>
+    <p class="answer">
+        Objects get dependencies externally (Hilt/Dagger).
+        Improves testability and reduces coupling.
+    </p>
+</section>
+
+<section>
+    <h2>6. Clean Architecture</h2>
+    <p class="answer">
+        Layers:
+        Presentation → UI
+        Domain → Business logic
+        Data → API/DB
+        Improves maintainability.
+    </p>
+</section>
+
+<section>
+    <h2>7. LiveData</h2>
+    <p class="answer">
+        Lifecycle-aware observable data holder.
+    </p>
+</section>
+
+<section>
+    <h2>8. ViewModel</h2>
+    <p class="answer">
+        Stores UI data and survives configuration changes.
+    </p>
+</section>
+
+<section>
+    <h2>9. SQLite</h2>
+    <p class="answer">
+        Lightweight local database using SQL.
+    </p>
+</section>
+
+<section>
+    <h2>10. SQLite vs Room</h2>
+    <p class="answer">
+        SQLite → Manual queries
+        Room → Abstraction with annotations & DAO
+    </p>
+</section>
+
+<section>
+    <h2>11. Secure Room DB</h2>
+    <p class="answer">
+        Use SQLCipher and Android Keystore.
+    </p>
+</section>
+
+<section>
+    <h2>12. SharedPreferences</h2>
+    <p class="answer">
+        Pros → Simple
+        Cons → Not secure, limited storage
+    </p>
+</section>
+
+<section>
+    <h2>13. Encrypted SharedPreferences</h2>
+    <p class="answer">
+        Uses AES encryption + Keystore.
+    </p>
+</section>
+
+<section>
+    <h2>14. Kotlin Features</h2>
+    <p class="answer">
+        Null safety, coroutines, concise syntax.
+    </p>
+</section>
+
+<section>
+    <h2>15. lazy vs lateinit</h2>
+    <p class="answer">
+        lazy → val, initialized on first use
+        lateinit → var, must initialize before use
+    </p>
+</section>
+
+<section>
+    <h2>16. Extension Functions</h2>
+    <div class="code">
+        fun String.isPalindrome(): Boolean {
+        return this == this.reversed()
+        }
+    </div>
+</section>
+
+<section>
+    <h2>17. Higher-order Functions</h2>
+    <div class="code">
+        fun operate(a: Int, b: Int, op: (Int, Int) -> Int): Int {
+        return op(a, b)
+        }
+    </div>
+</section>
+
+<section>
+    <h2>18. Sealed Classes</h2>
+    <div class="code">
+        sealed class Result {
+        data class Success(val data: String): Result()
+        data class Error(val msg: String): Result()
+        }
+    </div>
+</section>
+
+<section>
+    <h2>19. Coroutines</h2>
+    <p class="answer">
+        Lightweight threads for async tasks using suspend functions.
+    </p>
+</section>
+
+<section>
+    <h2>20. Threads</h2>
+    <p class="answer">
+        Main → UI
+        IO → Network/DB
+        Default → CPU tasks
+    </p>
+</section>
+
+<section>
+    <h2>21. Dispatchers</h2>
+    <p class="answer">
+        Main → UI
+        IO → network/db
+        Default → CPU tasks
+    </p>
+</section>
+
+<section>
+    <h2>22. WorkManager vs Executors</h2>
+    <p class="answer">
+        WorkManager → persistent tasks
+        Executors → temporary tasks
+    </p>
+</section>
+
+<section>
+    <h2>23. launch vs async</h2>
+    <p class="answer">
+        launch → no result
+        async → returns result
+    </p>
+</section>
+
+<section>
+    <h2>24. App Security</h2>
+    <p class="answer">
+        Use HTTPS, encryption, ProGuard, biometrics
+    </p>
+</section>
+
+<section>
+    <h2>25. ProGuard</h2>
+    <p class="answer">
+        Obfuscates code and reduces APK size.
+    </p>
+</section>
+
+<section>
+    <h2>26. Android Keystore</h2>
+    <p class="answer">
+        Secure storage for cryptographic keys.
+    </p>
+</section>
+
+<section>
+    <h2>27. Secure Network</h2>
+    <div class="code">
+        <network-security-config>
+            <domain-config cleartextTrafficPermitted="false">
+                <domain>example.com</domain>
+            </domain-config>
+        </network-security-config>
+    </div>
+</section>
+
+<section>
+    <h2>28. Biometrics</h2>
+    <p class="answer">
+        Use BiometricPrompt API.
+    </p>
+</section>
+
+<section>
+    <h2>29. Activity Lifecycle</h2>
+    <p class="answer">
+        onCreate → init
+        onStart → visible
+        onResume → interactive
+    </p>
+</section>
+
+<section>
+    <h2>30. Activity vs Fragment</h2>
+    <p class="answer">
+        Activity → full screen
+        Fragment → reusable UI component
+    </p>
+</section>
+
+<section>
+    <h2>31. Intents</h2>
+    <p class="answer">
+        Explicit → specific component
+        Implicit → any matching app
+    </p>
+</section>
+
+<section>
+    <h2>32. Jetpack</h2>
+    <p class="answer">
+        Set of libraries like Room, Navigation, LiveData
+    </p>
+</section>
+
+<section>
+    <h2>33. Jetpack Compose</h2>
+    <div class="code">
+        @Composable
+        fun Greeting(name: String) {
+        Text("Hello $name")
+        }
+    </div>
+</section>
+
+<section>
+    <h2>34. Content Provider</h2>
+    <p class="answer">
+        Used for sharing data between apps.
+    </p>
+</section>
+
+<section>
+    <h2>35. Offline Caching</h2>
+    <p class="answer">
+        Room + Network sync + WorkManager
+    </p>
+</section>
+
+<section>
+    <h2>36. DataStore</h2>
+    <p class="answer">
+        Better than SharedPreferences, async & safe.
+    </p>
+</section>
+
+<section>
+    <h2>37. Null Safety</h2>
+    <div class="code">
+        val name: String? = null
+        val len = name?.length ?: 0
+    </div>
+</section>
+
+<section>
+    <h2>38. Inline Functions</h2>
+    <p class="answer">
+        Improve performance by avoiding object creation.
+    </p>
+</section>
+
+<section>
+    <h2>39. Suspend Functions</h2>
+    <div class="code">
+        suspend fun fetchData() { }
+    </div>
+</section>
+
+<section>
+    <h2>40. Hilt DI</h2>
+    <p class="answer">
+        Use @HiltAndroidApp, @Inject, @Module
+    </p>
+</section>
+
+</body>
+</html>

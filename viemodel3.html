@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android ViewModel + MVVM Deep Guide</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        h1, h2, h3 {
+            color: #1f3c88;
+        }
+
+        section {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.06);
+        }
+
+        .code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+
+        .diagram {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        svg text {
+            font-size: 13px;
+        }
+
+        .box {
+            fill: #e3f2fd;
+            stroke: #1565c0;
+            stroke-width: 2;
+        }
+
+        .green {
+            fill: #e8f5e9;
+            stroke: #2e7d32;
+            stroke-width: 2;
+        }
+
+        .orange {
+            fill: #fff3e0;
+            stroke: #ef6c00;
+            stroke-width: 2;
+        }
+
+        .arrow {
+            stroke: #333;
+            stroke-width: 2;
+            marker-end: url(#arrowhead);
+        }
+
+        ul {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Android ViewModel + MVVM Complete Guide</h1>
+
+<!-- MVVM FLOW -->
+<section>
+    <h2>1. MVVM Architecture Flow</h2>
+
+    <div class="diagram">
+        <svg width="800" height="200">
+
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7"
+                        refX="10" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" />
+                </marker>
+            </defs>
+
+            <rect class="box" x="30" y="60" width="120" height="60"/>
+            <text x="65" y="95">UI</text>
+
+            <rect class="box" x="190" y="60" width="140" height="60"/>
+            <text x="220" y="95">ViewModel</text>
+
+            <rect class="box" x="370" y="60" width="160" height="60"/>
+            <text x="410" y="95">Repository</text>
+
+            <rect class="box" x="580" y="60" width="140" height="60"/>
+            <text x="610" y="95">API / DB</text>
+
+            <line class="arrow" x1="150" y1="90" x2="190" y2="90"/>
+            <line class="arrow" x1="330" y1="90" x2="370" y2="90"/>
+            <line class="arrow" x1="530" y1="90" x2="580" y2="90"/>
+
+            <text x="300" y="170">UI → VM → Repository → Data Source</text>
+
+        </svg>
+    </div>
+</section>
+
+<!-- LIVE DATA VS STATE FLOW -->
+<section>
+    <h2>2. LiveData vs StateFlow</h2>
+
+    <div class="diagram">
+        <svg width="800" height="260">
+
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7"
+                        refX="10" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" />
+                </marker>
+            </defs>
+
+            <!-- LiveData -->
+            <rect class="green" x="50" y="60" width="250" height="80"/>
+            <text x="110" y="90">LiveData</text>
+            <text x="70" y="120">Lifecycle-aware (Activity/Fragment)</text>
+            <text x="70" y="140">Stops updates when UI inactive</text>
+
+            <!-- StateFlow -->
+            <rect class="orange" x="420" y="60" width="300" height="80"/>
+            <text x="520" y="90">StateFlow</text>
+            <text x="440" y="120">Kotlin Coroutines based</text>
+            <text x="440" y="140">Always emits latest state</text>
+
+            <line class="arrow" x1="300" y1="100" x2="420" y2="100"/>
+
+        </svg>
+    </div>
+
+    <ul>
+        <li><b>LiveData</b> → Android lifecycle-aware observable</li>
+        <li><b>StateFlow</b> → Kotlin coroutine-based state holder</li>
+        <li>StateFlow is more modern & powerful for Compose</li>
+    </ul>
+</section>
+
+<!-- SHARED VIEWMODEL -->
+<section>
+    <h2>3. Fragment–Activity Shared ViewModel</h2>
+
+    <div class="diagram">
+        <svg width="800" height="220">
+
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7"
+                        refX="10" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" />
+                </marker>
+            </defs>
+
+            <rect class="box" x="50" y="60" width="150" height="60"/>
+            <text x="90" y="95">Fragment A</text>
+
+            <rect class="box" x="300" y="60" width="200" height="60"/>
+            <text x="330" y="95">Shared ViewModel</text>
+
+            <rect class="box" x="580" y="60" width="150" height="60"/>
+            <text x="610" y="95">Fragment B</text>
+
+            <line class="arrow" x1="200" y1="90" x2="300" y2="90"/>
+            <line class="arrow" x1="500" y1="90" x2="580" y2="90"/>
+
+            <text x="260" y="170">requireActivity() scope → shared data</text>
+
+        </svg>
+    </div>
+
+    <p>
+        ✔ Both fragments communicate using SAME ViewModel instance
+    </p>
+</section>
+
+<!-- INTERVIEW Q&A -->
+<section>
+    <h2>4. Interview Questions (Important)</h2>
+
+    <h3>Q1: What is ViewModel?</h3>
+    <p>It is a lifecycle-aware class used to store UI-related data and survive configuration changes.</p>
+
+    <h3>Q2: Does ViewModel survive app kill?</h3>
+    <p>No. It only survives configuration changes, not process death.</p>
+
+    <h3>Q3: Difference between LiveData and StateFlow?</h3>
+    <p>LiveData is lifecycle-aware, StateFlow is coroutine-based and more modern.</p>
+
+    <h3>Q4: What is scope in ViewModel?</h3>
+    <p>Scope is the lifecycle owner (Activity/Fragment) that controls ViewModel lifetime.</p>
+
+    <h3>Q5: Why ViewModel is used?</h3>
+    <ul>
+        <li>To store UI data safely</li>
+        <li>To survive rotation</li>
+        <li>To separate UI and business logic</li>
+    </ul>
+
+    <h3>Q6: What happens on rotation?</h3>
+    <p>Activity is recreated but ViewModel remains same instance.</p>
+
+</section>
+
+<!-- SUMMARY -->
+<section>
+    <h2>5. Final Summary</h2>
+    <ul>
+        <li>MVVM separates UI, logic, and data</li>
+        <li>ViewModel survives configuration changes</li>
+        <li>LiveData = lifecycle aware</li>
+        <li>StateFlow = modern reactive state holder</li>
+        <li>Shared ViewModel enables fragment communication</li>
+    </ul>
+</section>
+
+</body>
+</html>

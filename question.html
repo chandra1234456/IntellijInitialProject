@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Q&A Page</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        .question {
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 25px;
+            color: #222;
+        }
+
+        .answer {
+            margin: 10px 0 20px 0;
+        }
+
+        ul {
+            margin-top: 5px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: Consolas, monospace;
+        }
+
+        .note {
+            margin-top: 10px;
+            padding: 8px;
+            background: #eef6ff;
+            border-left: 4px solid #2196F3;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Q1 -->
+<div class="question">Q1: Tightly Coupled?</div>
+
+<div class="answer">
+    <ul>
+        <li>Two classes are tightly coupled when one depends directly on the internal implementation of another.</li>
+        <li>If one class changes, the other class also needs modification.</li>
+        <li>This reduces flexibility and increases maintenance cost.</li>
+    </ul>
+
+    <pre><code>
+class MainActivity {
+    UserRepository repo = new UserRepository();
+
+    void loadUser() {
+        repo.getUser();
+    }
+}
+    </code></pre>
+
+    <div class="note">
+        Here, MainActivity directly creates UserRepository → strong dependency.
+    </div>
+
+    <div class="answer">
+        <strong>Problems:</strong>
+        <ul>
+            <li>Hard to test (no mocking possible)</li>
+            <li>Hard to maintain</li>
+            <li>Low reusability</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Q2 -->
+<div class="question">Q2: Loosely Coupled?</div>
+
+<div class="answer">
+    <ul>
+        <li>Components interact through interfaces instead of concrete classes.</li>
+        <li>Changes in one module do not heavily affect others.</li>
+        <li>Improves scalability and testability.</li>
+    </ul>
+
+    <pre><code>
+interface UserRepo {
+    void getUser();
+}
+
+class UserRepository implements UserRepo {
+    public void getUser() {
+        // implementation
+    }
+}
+
+class MainActivity {
+    UserRepo repo;
+
+    MainActivity(UserRepo repo) {
+        this.repo = repo;
+    }
+}
+    </code></pre>
+
+    <div class="note">
+        Now MainActivity depends on abstraction (interface), not concrete class.
+    </div>
+
+    <div class="answer">
+        <strong>Benefits:</strong>
+        <ul>
+            <li>Easier testing (mocking possible)</li>
+            <li>Better maintainability</li>
+            <li>Flexible architecture</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Extra context -->
+<div class="question">Android Context</div>
+
+<div class="answer">
+    <p>Loose coupling is commonly used in Android using:</p>
+    <ul>
+        <li>MVVM architecture</li>
+        <li>Dependency Injection (Hilt / Dagger)</li>
+        <li>Repository pattern + ViewModel separation</li>
+    </ul>
+</div>
+<div class="question">Simple Analogy</div>
+
+<div class="answer">
+    <p>Tight coupling: A TV remote that works only with one specific TV brand</p>
+    <p>Loose coupling: A universal remote that works with many TVs</p>
+
+</div>
+
+</body>
+</html>
