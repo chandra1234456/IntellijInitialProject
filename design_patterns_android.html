@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android Design Patterns</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .card {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        code {
+            background: #eee;
+            padding: 5px;
+            display: block;
+            white-space: pre-wrap;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Android Design Patterns (Interview Guide)</h1>
+
+<!-- BUILDER -->
+<div class="card">
+    <h2>1. Builder Pattern ⭐</h2>
+    <p><b>Definition:</b> Used to build complex objects step by step instead of using long constructors.</p>
+
+    <p><b>Android Example:</b> AlertDialog, Retrofit</p>
+
+    <code>
+        AlertDialog.Builder(this)
+        .setTitle("Delete")
+        .setMessage("Are you sure?")
+        .setPositiveButton("Yes", null)
+        .create()
+    </code>
+
+    <p><b>Custom Example:</b></p>
+    <code>
+        class User private constructor(
+        val name: String,
+        val age: Int
+        ) {
+        class Builder {
+        private var name = ""
+        private var age = 0
+
+        fun setName(name: String) = apply { this.name = name }
+        fun setAge(age: Int) = apply { this.age = age }
+
+        fun build() = User(name, age)
+        }
+        }
+
+        // Usage:
+        val user = User.Builder()
+        .setName("John")
+        .setAge(25)
+        .build()
+    </code>
+</div>
+
+<!-- SINGLETON -->
+<div class="card">
+    <h2>2. Singleton Pattern ⭐</h2>
+    <p><b>Definition:</b> Ensures only one instance of a class exists in the app.</p>
+
+    <p><b>Android Example:</b> Database, Retrofit instance</p>
+
+    <code>
+        object Database {
+        val name = "AppDB"
+        }
+    </code>
+
+    <p><b>Custom Example:</b></p>
+    <code>
+        object ApiClient {
+        fun getData() {
+        println("Fetching data...")
+        }
+        }
+
+        // Usage:
+        ApiClient.getData()
+    </code>
+</div>
+
+<!-- OBSERVER -->
+<div class="card">
+    <h2>3. Observer Pattern ⭐</h2>
+    <p><b>Definition:</b> One object notifies others when data changes.</p>
+
+    <p><b>Android Example:</b> LiveData, StateFlow</p>
+
+    <code>
+        viewModel.text.observe(this) { value ->
+        textView.text = value
+        }
+    </code>
+
+    <p><b>Custom Example:</b></p>
+    <code>
+        interface Observer {
+        fun update(data: String)
+        }
+
+        class DataSource {
+        private val observers = mutableListOf<Observer>()
+
+        fun addObserver(observer: Observer) {
+        observers.add(observer)
+        }
+
+        fun notifyData(data: String) {
+        observers.forEach { it.update(data) }
+        }
+        }
+    </code>
+</div>
+
+<!-- ADAPTER -->
+<div class="card">
+    <h2>4. Adapter Pattern ⭐</h2>
+    <p><b>Definition:</b> Converts one interface into another (used for lists).</p>
+
+    <p><b>Android Example:</b> RecyclerView.Adapter</p>
+
+    <code>
+        class MyAdapter : RecyclerView.Adapter<MyViewHolder>()
+    </code>
+
+    <p><b>Custom Example:</b></p>
+    <code>
+        class MediaAdapter {
+        fun playVideo(video: String) {
+        println("Playing video: $video")
+        }
+        }
+
+        class AudioPlayer {
+        fun playAudio(audio: String) {
+        println("Playing audio: $audio")
+        }
+        }
+
+        // Adapter
+        class PlayerAdapter(private val audio: AudioPlayer) {
+        fun play(video: String) {
+        audio.playAudio(video)
+        }
+        }
+    </code>
+</div>
+
+<!-- FACTORY -->
+<div class="card">
+    <h2>5. Factory Pattern ⭐</h2>
+    <p><b>Definition:</b> Creates objects without exposing creation logic.</p>
+
+    <p><b>Android Example:</b> ViewModelFactory</p>
+
+    <code>
+        class ViewModelFactory : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return MyViewModel() as T
+        }
+        }
+    </code>
+
+    <p><b>Custom Example:</b></p>
+    <code>
+        class CarFactory {
+        fun getCar(type: String): Car {
+        return when(type) {
+        "SUV" -> SUV()
+        "Sedan" -> Sedan()
+        else -> Sedan()
+        }
+        }
+        }
+    </code>
+</div>
+
+<!-- DI -->
+<div class="card">
+    <h2>6. Dependency Injection (Hilt) ⭐</h2>
+    <p><b>Definition:</b> Instead of creating objects, they are provided externally.</p>
+
+    <p><b>Android Example (Hilt):</b></p>
+
+    <code>
+        @HiltViewModel
+        class MyViewModel @Inject constructor(
+        private val repo: Repository
+        )
+    </code>
+
+    <p><b>Custom Simple Example:</b></p>
+    <code>
+        class Engine
+
+        class Car(private val engine: Engine)
+
+        fun main() {
+        val engine = Engine()
+        val car = Car(engine)
+        }
+    </code>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android Design Patterns Interview Q&A</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #f4f6f8;
+        }
+        h1 {
+            text-align: center;
+        }
+        .card {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        .question {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .answer {
+            margin-left: 10px;
+            color: #444;
+        }
+        .mcq {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        code {
+            display: block;
+            background: #eee;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Android Design Patterns - Interview Prep</h1>
+
+<!-- BUILDER -->
+<div class="card">
+    <h2>1. Builder Pattern ⭐</h2>
+
+    <div class="question">Q1: What is Builder Pattern?</div>
+    <div class="answer">Used to construct complex objects step by step instead of long constructors.</div>
+
+    <div class="question">Q2: Where is it used in Android?</div>
+    <div class="answer">AlertDialog, Retrofit, Notification Builder.</div>
+
+    <div class="question">Q3: Why use it?</div>
+    <div class="answer">Improves readability and avoids telescoping constructors.</div>
+
+    <code>
+        AlertDialog.Builder(this)
+        .setTitle("Hello")
+        .setMessage("Welcome")
+        .create()
+    </code>
+</div>
+
+<!-- SINGLETON -->
+<div class="card">
+    <h2>2. Singleton Pattern ⭐</h2>
+
+    <div class="question">Q1: What is Singleton?</div>
+    <div class="answer">A class that has only one instance throughout the app.</div>
+
+    <div class="question">Q2: Android usage?</div>
+    <div class="answer">Database, Retrofit, Repository.</div>
+
+    <div class="question">Q3: Kotlin implementation?</div>
+
+    <code>
+        object ApiClient {
+        fun callApi() {
+        println("API Called")
+        }
+        }
+    </code>
+</div>
+
+<!-- OBSERVER -->
+<div class="card">
+    <h2>3. Observer Pattern ⭐</h2>
+
+    <div class="question">Q1: What is Observer Pattern?</div>
+    <div class="answer">One object notifies others when data changes.</div>
+
+    <div class="question">Q2: Android example?</div>
+    <div class="answer">LiveData, Flow, StateFlow.</div>
+
+    <div class="question">Q3: Why important?</div>
+    <div class="answer">Automatically updates UI when data changes.</div>
+
+    <code>
+        viewModel.data.observe(this) { value ->
+        textView.text = value
+        }
+    </code>
+</div>
+
+<!-- ADAPTER -->
+<div class="card">
+    <h2>4. Adapter Pattern ⭐</h2>
+
+    <div class="question">Q1: What is Adapter Pattern?</div>
+    <div class="answer">Converts one interface into another.</div>
+
+    <div class="question">Q2: Android usage?</div>
+    <div class="answer">RecyclerView Adapter.</div>
+
+    <div class="question">Q3: Why needed?</div>
+    <div class="answer">To display data in list format.</div>
+
+    <code>
+        class MyAdapter : RecyclerView.Adapter<MyViewHolder>()
+    </code>
+</div>
+
+<!-- FACTORY -->
+<div class="card">
+    <h2>5. Factory Pattern ⭐</h2>
+
+    <div class="question">Q1: What is Factory Pattern?</div>
+    <div class="answer">Creates objects without exposing creation logic.</div>
+
+    <div class="question">Q2: Android usage?</div>
+    <div class="answer">ViewModelFactory.</div>
+
+    <code>
+        class CarFactory {
+        fun getCar(type: String): Car {
+        return when(type) {
+        "SUV" -> SUV()
+        else -> Sedan()
+        }
+        }
+        }
+    </code>
+</div>
+
+<!-- DI -->
+<div class="card">
+    <h2>6. Dependency Injection (Hilt) ⭐</h2>
+
+    <div class="question">Q1: What is DI?</div>
+    <div class="answer">Objects are provided instead of being created inside class.</div>
+
+    <div class="question">Q2: Android tool?</div>
+    <div class="answer">Hilt (recommended).</div>
+
+    <code>
+        @HiltViewModel
+        class MyViewModel @Inject constructor(
+        private val repo: Repository
+        )
+    </code>
+</div>
+
+<!-- MCQ SECTION -->
+<div class="card">
+    <h2>🧠 MCQ Practice Test</h2>
+
+    <div class="mcq">
+        Q1. Which pattern is used in RecyclerView?<br>
+        A) Singleton<br>
+        B) Adapter ⭐<br>
+        C) Factory<br>
+        D) Observer<br>
+    </div>
+
+    <div class="mcq">
+        Q2. Which pattern ensures single instance?<br>
+        A) Builder<br>
+        B) Singleton ⭐<br>
+        C) Adapter<br>
+        D) DI<br>
+    </div>
+
+    <div class="mcq">
+        Q3. LiveData follows which pattern?<br>
+        A) Observer ⭐<br>
+        B) Factory<br>
+        C) Builder<br>
+        D) Adapter<br>
+    </div>
+
+    <div class="mcq">
+        Q4. AlertDialog uses which pattern?<br>
+        A) Builder ⭐<br>
+        B) Singleton<br>
+        C) Observer<br>
+        D) Factory<br>
+    </div>
+
+    <div class="mcq">
+        Q5. Hilt is used for?<br>
+        A) UI design<br>
+        B) Dependency Injection ⭐<br>
+        C) Networking<br>
+        D) Storage<br>
+    </div>
+
+</div>
+
+</body>
+</html>

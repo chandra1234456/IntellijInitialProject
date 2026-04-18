@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kotlin Interview Questions</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        h2 { color: #2c3e50; }
+        code { background: #f4f4f4; padding: 2px 5px; }
+    </style>
+</head>
+<body>
+
+<h1>Kotlin Interview Questions</h1>
+
+<h2>🔤 Kotlin String Questions</h2>
+
+<p><b>1. Check if string contains only digits:</b><br>
+    <code>str.all { it.isDigit() }</code></p>
+
+<p><b>2. Difference between == and ===:</b><br>
+    <code>==</code> checks structural equality (content).<br>
+    <code>===</code> checks referential equality (same object).</p>
+
+<p><b>3. Reverse a string:</b><br>
+    <code>str.reversed()</code></p>
+
+<p><b>4. Output of "Kotlin".substring(1, 4):</b><br>
+    Output: <code>"otl"</code></p>
+
+<p><b>5. Remove all whitespace:</b><br>
+    <code>str.replace("\\s".toRegex(), "")</code></p>
+
+<p><b>6. Capitalize first letter:</b><br>
+    <code>str.replaceFirstChar { it.uppercase() }</code></p>
+
+<p><b>7. Split by multiple delimiters:</b><br>
+    <code>str.split(",", ";", " ")</code></p>
+
+<p><b>8. Calling trim() on null:</b><br>
+    Throws <code>NullPointerException</code>. Use safe call:<br>
+    <code>str?.trim()</code></p>
+
+<p><b>9. toCharArray() vs iterator():</b><br>
+    <code>toCharArray()</code> returns array of characters.<br>
+    <code>iterator()</code> provides sequential access.</p>
+
+<p><b>10. String formatting:</b><br>
+    <code>String.format("Hello %s", name)</code><br>
+    or<br>
+    <code>"Hello $name"</code></p>
+
+<h2>📋 Kotlin List Questions</h2>
+
+<p><b>1. listOf() vs mutableListOf():</b><br>
+    <code>listOf()</code> → immutable list.<br>
+    <code>mutableListOf()</code> → mutable list.</p>
+
+<p><b>2. Remove duplicates:</b><br>
+    <code>list.distinct()</code></p>
+
+<p><b>3. Output of listOf(1,2,3).drop(1):</b><br>
+    <code>[2, 3]</code></p>
+
+<p><b>4. Filter null values:</b><br>
+    <code>list.filterNotNull()</code></p>
+
+<p><b>5. map() vs flatMap():</b><br>
+    <code>map()</code> transforms elements.<br>
+    <code>flatMap()</code> flattens nested collections.</p>
+
+<p><b>6. Second largest number:</b><br>
+    <code>list.distinct().sortedDescending()[1]</code></p>
+
+<p><b>7. List vs MutableList vs ArrayList:</b><br>
+    List → read-only interface.<br>
+    MutableList → allows modification.<br>
+    ArrayList → resizable array implementation.</p>
+
+<p><b>8. Check if all elements satisfy condition:</b><br>
+    <code>list.all { it > 0 }</code></p>
+
+<p><b>9. Group elements by key:</b><br>
+    <code>list.groupBy { it.length }</code></p>
+
+<p><b>10. Sorting a list:</b><br>
+    <code>list.sorted()</code><br>
+    <code>list.sortedDescending()</code><br>
+    <code>list.sortedBy { it.property }</code></p>
+
+</body>
+</html>

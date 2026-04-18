@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotlin OOP Interview Questions & Answers | Comprehensive Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #1e2a3e;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+        }
+
+        header {
+            background: #2c3e66;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .toc {
+            background: #e9ecef;
+            padding: 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: #2c3e66;
+        }
+
+        .toc-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .toc-link {
+            background: white;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            color: #2c3e66;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc-link:hover {
+            background: #2c3e66;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .qa-section {
+            padding: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .qa-section h2 {
+            font-size: 1.8rem;
+            color: #2c3e66;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #3498db;
+            padding-left: 1rem;
+        }
+
+        .question-card {
+            background: #f8fafc;
+            margin-bottom: 1.5rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .question-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .question {
+            background: #ffffff;
+            padding: 1.2rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #0f172a;
+            border-bottom: 2px solid #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question .q-num {
+            background: #3498db;
+            color: white;
+            border-radius: 2rem;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.8rem;
+            margin-right: 1rem;
+        }
+
+        .answer {
+            padding: 1.2rem 1.5rem;
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .answer.show {
+            display: block;
+        }
+
+        .answer p, .answer ul, .answer pre {
+            margin-bottom: 1rem;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.3rem;
+            color: #d14;
+        }
+
+        .badge {
+            background: #e9ecef;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: normal;
+        }
+
+        footer {
+            background: #1e2a3e;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .question {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🧠 Kotlin OOP Interview Questions</h1>
+        <p>Complete answers with real Kotlin examples — Ace your next interview!</p>
+    </header>
+
+    <div class="toc">
+        <h2>📑 Quick Navigation</h2>
+        <div class="toc-grid">
+            <a href="#basics" class="toc-link">1. Basics</a>
+            <a href="#encapsulation" class="toc-link">2. Encapsulation</a>
+            <a href="#inheritance" class="toc-link">3. Inheritance</a>
+            <a href="#polymorphism" class="toc-link">4. Polymorphism</a>
+            <a href="#abstraction" class="toc-link">5. Abstraction</a>
+            <a href="#special" class="toc-link">6. Special OOP</a>
+            <a href="#advanced" class="toc-link">7. Advanced OOP</a>
+            <a href="#scenario" class="toc-link">8. Scenario Based</a>
+            <a href="#code" class="toc-link">9. Code Based</a>
+        </div>
+    </div>
+
+    <!-- All Q&A sections dynamically generated but static for completeness -->
+    <div id="basics" class="qa-section"><h2>📘 1. Basics of OOP in Kotlin</h2>
+        <div class="question-card"><div class="question"><span><span class="q-num">1</span> What is Object-Oriented Programming (OOP)?</span><span class="badge">🔰</span></div><div class="answer"><p>OOP is a programming paradigm based on "objects" containing data (fields) and code (methods). Principles: Encapsulation, Inheritance, Polymorphism, Abstraction.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">2</span> How does Kotlin support OOP principles?</span></div><div class="answer"><p>Kotlin fully supports OOP: classes & objects, inheritance (open keyword), interfaces, abstract classes, visibility modifiers, data classes, sealed classes, etc.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">3</span> What is a class in Kotlin?</span></div><div class="answer"><p>Blueprint for creating objects. Defines properties and behaviors. Example: <code>class Person(val name: String)</code></p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">4</span> What is an object in Kotlin?</span></div><div class="answer"><p>An instance of a class. Created using <code>val p = Person("Alice")</code>. Also 'object' keyword for singleton.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">5</span> Difference between class and object in Kotlin.</span></div><div class="answer"><p><code>class</code> is a definition; <code>object</code> is a singleton instance (declaration). Object can be used for static-like behavior or companion.</p><pre>class A          // just a class
+object B { fun f() }  // singleton, B.f()</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">6</span> What is a constructor in Kotlin?</span></div><div class="answer"><p>Primary constructor declared in class header: <code>class User(val name: String)</code>. Secondary constructors using <code>constructor</code> keyword.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">7</span> Primary vs secondary constructor?</span></div><div class="answer"><p>Primary: concise, part of header. Secondary: additional constructors, must delegate to primary. Primary can have default values.</p><pre>class Person(val name: String) {
+    constructor(name: String, age: Int) : this(name)
+}</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">8</span> What is init block?</span></div><div class="answer"><p>Initialization block executed after primary constructor. Used for setup logic. Multiple init blocks run in order.</p><pre>class InitOrderDemo(name: String) {
+    init { println("First: $name") }
+}</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">9</span> Can a Kotlin class exist without a constructor?</span></div><div class="answer"><p>Yes, Kotlin generates a default primary constructor with no parameters implicitly.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">10</span> What is a data class? Why used?</span></div><div class="answer"><p>Data classes hold data; automatically generate <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code>, <code>copy()</code>. Useful for POJOs/DTOs. Example: <code>data class User(val id: Int, val name: String)</code></p></div></div>
+    </div>
+
+    <div id="encapsulation" class="qa-section"><h2>🔒 2. Encapsulation</h2>
+        <div class="question-card"><div class="question"><span><span class="q-num">11</span> What is encapsulation in OOP?</span></div><div class="answer"><p>Bundling data and methods within a class, hiding internal state, exposing only necessary interfaces. Increases security & modularity.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">12</span> How does Kotlin implement encapsulation?</span></div><div class="answer"><p>Using visibility modifiers (private, protected, internal, public) and properties with custom getters/setters.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">13</span> Visibility modifiers in Kotlin?</span></div><div class="answer"><p>private (class only), protected (class + subclasses), internal (module), public (everywhere, default).</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">14</span> Explain private, protected, internal, public examples.</span></div><div class="answer"><pre>open class Base {
+    private val a = 1
+    protected val b = 2
+    internal val c = 3
+    public val d = 4
+}</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">15</span> How do getters/setters work in Kotlin?</span></div><div class="answer"><p>Properties have default getter/setter. Can customize: <code>var name: String = ""; get() = field.uppercase(); set(value) { field = value.trim() }</code></p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">16</span> How to make property read-only?</span></div><div class="answer"><p>Use <code>val</code> instead of <code>var</code>. Only getter, no setter.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">17</span> Difference between val and var for encapsulation?</span></div><div class="answer"><p><code>val</code> immutable reference (can't reassign). <code>var</code> mutable. Encapsulation: expose read-only with val, mutability via methods if needed.</p></div></div>
+    </div>
+
+    <div id="inheritance" class="qa-section"><h2>🌳 3. Inheritance</h2>
+        <div class="question-card"><div class="question"><span><span class="q-num">18</span> What is inheritance?</span></div><div class="answer"><p>Mechanism where one class derives properties and behaviors from another class (superclass). Promotes code reuse.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">19</span> How to achieve inheritance in Kotlin?</span></div><div class="answer"><p>Use <code>open</code> for superclass, then <code>class Derived : Base()</code>. All classes final by default.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">20</span> Why are classes final by default in Kotlin?</span></div><div class="answer"><p>Effective Java item: favor composition over inheritance. Prevents fragile base class problem. Forces explicit 'open'.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">21</span> What is use of open keyword?</span></div><div class="answer"><p>Marks a class or function as inheritable/overridable. Without open, cannot extend or override.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">22</span> How to override a function?</span></div><div class="answer"><p>Declare function as <code>open</code> in base, use <code>override</code> keyword in derived class.</p><pre>open class Parent { open fun greet() = "Hello" }
+class Child : Parent() { override fun greet() = "Hi" }</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">23</span> What is override keyword?</span></div><div class="answer"><p>Mandatory modifier to indicate you are overriding a member, prevents accidental overriding.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">24</span> Can we override a val with a var?</span></div><div class="answer"><p>Yes, because var provides getter + setter, val only getter. Overriding val with var is allowed (widening).</p><pre>open class A { open val x = 5 }
+class B : A() { override var x = 10 }</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">25</span> What is super keyword?</span></div><div class="answer"><p>Refers to superclass implementation. Used in overridden functions: <code>super.method()</code>.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">26</span> Can a Kotlin class inherit from multiple classes?</span></div><div class="answer"><p>No, Kotlin (like Java) supports single inheritance for classes. Multiple inheritance via interfaces.</p></div></div>
+    </div>
+
+    <div id="polymorphism" class="qa-section"><h2>🔄 4. Polymorphism</h2>
+        <div class="question-card"><div class="question"><span><span class="q-num">27</span> What is polymorphism?</span></div><div class="answer"><p>Ability of an object to take many forms. Allows methods to behave differently based on actual object type.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">28</span> Types of polymorphism in Kotlin?</span></div><div class="answer"><p>Compile-time (method overloading, operator overloading) and Runtime (method overriding).</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">29</span> What is method overriding?</span></div><div class="answer"><p>Runtime polymorphism: subclass provides specific implementation of superclass method.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">30</span> What is method overloading? Does Kotlin support?</span></div><div class="answer"><p>Multiple functions with same name but different parameters in same class. Yes, Kotlin supports overloading.</p><pre>fun add(a: Int, b: Int) = a+b
+fun add(a: Double, b: Double) = a+b</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">31</span> How Kotlin achieves runtime polymorphism?</span></div><div class="answer"><p>Using inheritance & method overriding. The JVM uses dynamic dispatch to call correct overridden method.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">32</span> Example of polymorphism.</span></div><div class="answer"><pre>open class Animal { open fun sound() = "Some sound" }
+class Dog : Animal() { override fun sound() = "Bark" }
+fun makeSound(animal: Animal) = println(animal.sound())
+// makeSound(Dog()) prints "Bark"</pre></div></div>
+    </div>
+
+    <div id="abstraction" class="qa-section"><h2>🎭 5. Abstraction</h2>
+        <div class="question-card"><div class="question"><span><span class="q-num">33</span> What is abstraction in OOP?</span></div><div class="answer"><p>Hiding implementation details and showing only essential features. Achieved via abstract classes & interfaces.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">34</span> What is abstract class in Kotlin?</span></div><div class="answer"><p>Class declared with <code>abstract</code>. Cannot be instantiated; may have abstract (no body) and concrete methods.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">35</span> Can abstract class have non-abstract methods?</span></div><div class="answer"><p>Yes, abstract classes can have fully implemented methods.</p><pre>abstract class Base { abstract fun f(); fun g() = "non-abstract" }</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">36</span> What is an interface in Kotlin?</span></div><div class="answer"><p>Contract defining methods/properties that implementing classes must provide. Can have default implementations (since Kotlin 1.0).</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">37</span> Difference: abstract class vs interface?</span></div><div class="answer"><p>Abstract class: can hold state (properties), constructor. Interface: no constructor, can have properties but no backing fields (unless override). Multiple interface inheritance allowed.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">38</span> Can interfaces contain method implementations?</span></div><div class="answer"><p>Yes, interfaces can have default implementations (concrete methods) and even properties with getters.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">39</span> Can a class implement multiple interfaces?</span></div><div class="answer"><p>Yes, Kotlin supports multiple interface implementation: <code>class C : A, B</code>.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">40</span> Resolve method conflicts from multiple interfaces?</span></div><div class="answer"><p>Use <code>super&lt;Interface&gt;.method()</code>. Override method and call specific super.</p><pre>interface A { fun foo() = "A" }
+interface B { fun foo() = "B" }
+class C : A, B { override fun foo() = super&lt;A&gt;.foo() }</pre></div></div>
+    </div>
+
+    <div id="special" class="qa-section"><h2>✨ 6. Special Kotlin OOP Concepts</h2>
+        <div class="question-card"><div class="question"><span><span class="q-num">41</span> What is a sealed class?</span></div><div class="answer"><p>Restricted class hierarchies: all subclasses known at compile time. Used for representing restricted type hierarchies (e.g., Result states).</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">42</span> Sealed class vs enum class?</span></div><div class="answer"><p>Enum: fixed set of constants, each is single instance. Sealed: subclasses can have multiple instances, each can hold different state.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">43</span> What is an enum class?</span></div><div class="answer"><p>Represents a fixed set of constants: <code>enum class Color { RED, GREEN }</code> can have properties/methods.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">44</span> What is an object declaration?</span></div><div class="answer"><p>Singleton pattern using <code>object</code> keyword: <code>object Singleton { fun doWork() }</code>. Thread-safe lazy initialization.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">45</span> What is a companion object?</span></div><div class="answer"><p>Object inside a class marked <code>companion</code>. Members can be accessed like Java static: <code>MyClass.factory()</code>.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">46</span> Companion object vs Java static?</span></div><div class="answer"><p>Companion objects are actual objects that can implement interfaces, extend classes, and be passed around. More flexible.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">47</span> What is delegation in Kotlin?</span></div><div class="answer"><p>Design pattern where object delegates responsibility to another. Kotlin has native support with <code>by</code> keyword.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">48</span> What is class delegation?</span></div><div class="answer"><p>Allows a class to delegate interface implementation to another object: <code>class Derived(b: Base) : Base by b</code>.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">49</span> Inner vs nested classes?</span></div><div class="answer"><p>Nested class is static by default (no outer reference). Inner class <code>inner class Inner</code> holds reference to outer class.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">50</span> Difference inner class and nested class?</span></div><div class="answer"><p>Inner class can access outer class members; nested class cannot without outer instance. Memory overhead for inner.</p><pre>class Outer { inner class Inner { fun getOuter() = this@Outer } }</pre></div></div>
+    </div>
+
+    <div id="advanced" class="qa-section"><h2>⚙️ 7. Advanced OOP Questions</h2>
+        <div class="question-card"><div class="question"><span><span class="q-num">51</span> Composition vs inheritance?</span></div><div class="answer"><p>Composition: "has-a" relationship (e.g., Car has Engine). More flexible than inheritance ("is-a"). Prefer composition over inheritance.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">52</span> What is dependency inversion principle (DIP)?</span></div><div class="answer"><p>High-level modules should not depend on low-level modules; both depend on abstractions. Kotlin interfaces help.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">53</span> How Kotlin supports SOLID?</span></div><div class="answer"><p>Interfaces & abstract classes for OCP, LSP via proper inheritance, ISP via smaller interfaces, DIP via abstraction.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">54</span> What is immutability and why important?</span></div><div class="answer"><p>State cannot change after creation. Thread-safe, easier reasoning. Kotlin encourages <code>val</code>, data classes with copy.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">55</span> How data classes support immutability?</span></div><div class="answer"><p>Use <code>val</code> properties in primary constructor. <code>copy()</code> creates new instances with modified values.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">56</span> What is copy function in data classes?</span></div><div class="answer"><p>Generates a copy of data class instance optionally changing some fields: <code>user.copy(name = "New")</code>.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">57</span> What are equals(), hashCode(), toString()?</span></div><div class="answer"><p>Universal methods from Any. equals for structural equality, hashCode for hash-based collections, toString for string representation.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">58</span> How generated in data classes?</span></div><div class="answer"><p>Compiler automatically generates meaningful equals/hashCode/toString based on primary constructor properties.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">59</span> What is smart casting?</span></div><div class="answer"><p>Kotlin automatically casts type after type-check: <code>if (x is String) println(x.length)</code>. Works with OOP hierarchies.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">60</span> OOP best practices in Kotlin?</span></div><div class="answer"><p>Prefer immutability, composition over inheritance, use sealed classes for restricted hierarchies, data classes for simple data, visibility modifiers.</p></div></div>
+    </div>
+
+    <div id="scenario" class="qa-section"><h2>🏗️ 8. Scenario-Based / Practical Questions</h2>
+        <div class="question-card"><div class="question"><span><span class="q-num">61</span> Design Vehicle, extend Car and Bike.</span></div><div class="answer"><pre>open class Vehicle(val brand: String) { open fun move() = "moving" }
+class Car(brand: String, val doors: Int) : Vehicle(brand) { override fun move() = "drive" }
+class Bike(brand: String) : Vehicle(brand) { override fun move() = "pedal" }</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">62</span> Model a payment system using interfaces.</span></div><div class="answer"><pre>interface Payment { fun pay(amount: Double): Boolean }
+class CreditCard : Payment { override fun pay(amount: Double) = true }
+class PayPal : Payment { override fun pay(amount: Double) = true }</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">63</span> Restrict inheritance in Kotlin?</span></div><div class="answer"><p>Mark class as <code>final</code> (default) or <code>sealed</code> for restricted subclasses within same file.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">64</span> Create a singleton in Kotlin?</span></div><div class="answer"><p>Use <code>object Singleton { ... }</code> or companion object + private constructor.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">65</span> Hierarchy using sealed classes.</span></div><div class="answer"><pre>sealed class Result
+data class Success(val data: String) : Result()
+data class Error(val msg: String) : Result()</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">66</span> Refactor inheritance-heavy code using composition.</span></div><div class="answer"><p>Instead of extending, pass dependencies: <code>class Engine { fun start() } class Car(private val engine: Engine)</code></p></div></div>
+    </div>
+
+    <div id="code" class="qa-section"><h2>💻 9. Kotlin Code-Based Questions</h2>
+        <div class="question-card"><div class="question"><span><span class="q-num">67</span> Output of program with overridden functions?</span></div><div class="answer"><pre>open class A { open fun f() = "A" }
+class B : A() { override fun f() = "B" }
+fun main() { val a: A = B(); println(a.f()) } // prints "B"</pre></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">68</span> Identify mistake in inheritance example.</span></div><div class="answer"><p>Missing <code>open</code> on superclass or function. Example: <code>class Base { fun test() } class Derived : Base() { override fun test() }</code> → error: 'test' not open.</p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">69</span> Convert Java OOP example into Kotlin.</span></div><div class="answer"><p>Java: <code>public class Dog { private String name; public Dog(String n){name=n;} }</code> → Kotlin: <code>class Dog(val name: String)</code></p></div></div>
+        <div class="question-card"><div class="question"><span><span class="q-num">70</span> Lifecycle of an object in Kotlin.</span></div><div class="answer"><p>Creation (constructor + init block) → usage → when no references, GC eligible. finalize() not recommended; use closeable or use blocks.</p></div></div>
+    </div>
+
+    <footer>
+        <p>📌 Master Kotlin OOP: Practice these concepts & write clean code. All examples are executable Kotlin snippets.</p>
+        <p style="margin-top: 0.5rem">© Interview Prep Guide — Click on any question to reveal/hide answer</p>
+    </footer>
+</div>
+
+<script>
+    // Toggle answer visibility for interactive experience
+    document.querySelectorAll('.question-card').forEach(card => {
+        const questionDiv = card.querySelector('.question');
+        const answerDiv = card.querySelector('.answer');
+        if (questionDiv && answerDiv) {
+            questionDiv.style.cursor = 'pointer';
+            questionDiv.addEventListener('click', () => {
+                answerDiv.classList.toggle('show');
+            });
+        }
+    });
+</script>
+</body>
+</html>
