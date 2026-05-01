@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Android Interview Prep — 12-Week Battle Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Martian+Mono:wght@300;400;500;600&family=Fraunces:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet"/>
+    <style>
+        /* ══════════════════════════════════════════════════════════
+           ROOT & RESET
+        ══════════════════════════════════════════════════════════ */
+        :root {
+          --ink:       #0A0A08;
+          --paper:     #F5F0E8;
+          --paper2:    #EDE8DC;
+          --paper3:    #E4DDD0;
+          --rust:      #C4421A;
+          --rust2:     #E05A30;
+          --amber:     #D4830A;
+          --sage:      #3A6B4A;
+          --slate:     #2A3F5F;
+          --lavender:  #6B5B8A;
+          --muted:     #7A7265;
+          --border:    #C8C0B0;
+          --border2:   #B0A898;
+          --white:     #FDFAF5;
+          --mono:      'Martian Mono', monospace;
+          --display:   'Clash Display', sans-serif;
+          --serif:     'Fraunces', serif;
+          --shadow:    0 2px 0 var(--border2);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+          background: var(--paper);
+          color: var(--ink);
+          font-family: var(--serif);
+          font-weight: 300;
+          line-height: 1.7;
+          overflow-x: hidden;
+        }
+
+        /* ── Grain texture overlay ── */
+        body::before {
+          content: '';
+          position: fixed; inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+          pointer-events: none;
+          z-index: 9999;
+          opacity: 0.6;
+        }
+
+        /* ── Decorative top border ── */
+        body::after {
+          content: '';
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          height: 4px;
+          background: repeating-linear-gradient(90deg,
+            var(--rust) 0px, var(--rust) 40px,
+            var(--amber) 40px, var(--amber) 80px,
+            var(--sage) 80px, var(--sage) 120px,
+            var(--slate) 120px, var(--slate) 160px,
+            var(--lavender) 160px, var(--lavender) 200px
+          );
+          z-index: 1000;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           LAYOUT
+        ══════════════════════════════════════════════════════════ */
+        .page-wrap {
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 0 32px 120px;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           HEADER / HERO
+        ══════════════════════════════════════════════════════════ */
+        header {
+          padding: 72px 0 56px;
+          border-bottom: 2px solid var(--ink);
+          margin-bottom: 64px;
+          position: relative;
+        }
+
+        .header-label {
+          font-family: var(--mono);
+          font-size: 10px;
+          font-weight: 500;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: var(--rust);
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .header-label::after {
+          content: '';
+          height: 1px;
+          flex: 1;
+          background: var(--rust);
+          opacity: 0.4;
+        }
+
+        h1 {
+          font-family: var(--display);
+          font-size: clamp(44px, 7vw, 90px);
+          font-weight: 700;
+          line-height: 0.92;
+          letter-spacing: -0.02em;
+          color: var(--ink);
+          margin-bottom: 24px;
+        }
+        h1 em {
+          font-style: italic;
+          font-family: var(--serif);
+          font-weight: 700;
+          color: var(--rust);
+        }
+
+        .hero-desc {
+          font-size: 17px;
+          color: var(--muted);
+          max-width: 580px;
+          line-height: 1.75;
+          margin-bottom: 36px;
+        }
+        .hero-desc strong { color: var(--ink); font-weight: 400; }
+
+        .hero-meta {
+          display: flex;
+          gap: 32px;
+          flex-wrap: wrap;
+        }
+        .meta-item {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+        .meta-num {
+          font-family: var(--display);
+          font-size: 36px;
+          font-weight: 700;
+          color: var(--ink);
+          line-height: 1;
+        }
+        .meta-num span { color: var(--rust); }
+        .meta-lbl {
+          font-family: var(--mono);
+          font-size: 10px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--muted);
+        }
+
+        /* Decorative corner mark */
+        .corner-mark {
+          position: absolute;
+          top: 60px;
+          right: 0;
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--border2);
+          letter-spacing: 0.08em;
+          writing-mode: vertical-rl;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           INTERVIEWER NOTE CARD
+        ══════════════════════════════════════════════════════════ */
+        .interviewer-note {
+          background: var(--ink);
+          color: var(--paper);
+          border-radius: 4px;
+          padding: 28px 32px;
+          margin-bottom: 64px;
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 24px;
+          align-items: start;
+        }
+        .note-badge {
+          background: var(--rust);
+          color: var(--white);
+          font-family: var(--mono);
+          font-size: 9px;
+          font-weight: 600;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          padding: 6px 12px;
+          border-radius: 2px;
+          white-space: nowrap;
+          margin-top: 3px;
+        }
+        .note-text {
+          font-size: 15px;
+          line-height: 1.75;
+          opacity: 0.88;
+        }
+        .note-text strong { color: var(--rust2); font-weight: 400; }
+
+        /* ══════════════════════════════════════════════════════════
+           PROGRESS TRACKER
+        ══════════════════════════════════════════════════════════ */
+        .progress-section {
+          background: var(--paper2);
+          border: 1px solid var(--border);
+          border-radius: 4px;
+          padding: 24px 28px;
+          margin-bottom: 64px;
+        }
+        .progress-title {
+          font-family: var(--mono);
+          font-size: 10px;
+          font-weight: 600;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--muted);
+          margin-bottom: 16px;
+        }
+        .progress-bars {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+        .prog-bar-item { display: flex; flex-direction: column; gap: 6px; }
+        .prog-bar-label {
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--muted);
+          display: flex;
+          justify-content: space-between;
+        }
+        .prog-bar-label span:last-child { color: var(--ink); font-weight: 500; }
+        .prog-track {
+          height: 6px;
+          background: var(--paper3);
+          border-radius: 99px;
+          overflow: hidden;
+          border: 1px solid var(--border);
+        }
+        .prog-fill {
+          height: 100%;
+          border-radius: 99px;
+          transition: width 0.8s ease;
+        }
+        .overall-prog {
+          margin-top: 20px;
+          padding-top: 20px;
+          border-top: 1px solid var(--border);
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+        .overall-label {
+          font-family: var(--mono);
+          font-size: 11px;
+          color: var(--muted);
+          white-space: nowrap;
+        }
+        .overall-track {
+          flex: 1;
+          height: 8px;
+          background: var(--paper3);
+          border-radius: 99px;
+          border: 1px solid var(--border);
+          overflow: hidden;
+        }
+        .overall-fill {
+          height: 100%;
+          background: linear-gradient(90deg, var(--rust), var(--amber));
+          border-radius: 99px;
+          transition: width 0.8s ease;
+        }
+        .overall-pct {
+          font-family: var(--mono);
+          font-size: 12px;
+          font-weight: 600;
+          color: var(--ink);
+          min-width: 48px;
+          text-align: right;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           MONTH HEADER
+        ══════════════════════════════════════════════════════════ */
+        .month-header {
+          display: grid;
+          grid-template-columns: auto 1fr auto;
+          align-items: center;
+          gap: 20px;
+          margin-bottom: 32px;
+          padding-bottom: 16px;
+          border-bottom: 2px solid var(--ink);
+        }
+        .month-num {
+          font-family: var(--display);
+          font-size: 72px;
+          font-weight: 700;
+          line-height: 1;
+          color: var(--border2);
+          letter-spacing: -0.03em;
+        }
+        .month-info {}
+        .month-phase {
+          font-family: var(--mono);
+          font-size: 10px;
+          font-weight: 500;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          margin-bottom: 4px;
+        }
+        .month-title {
+          font-family: var(--display);
+          font-size: 28px;
+          font-weight: 600;
+          color: var(--ink);
+          letter-spacing: -0.01em;
+        }
+        .month-badge {
+          font-family: var(--mono);
+          font-size: 10px;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          padding: 6px 14px;
+          border-radius: 2px;
+          border: 1.5px solid;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           WEEK CARDS
+        ══════════════════════════════════════════════════════════ */
+        .weeks-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+          margin-bottom: 48px;
+        }
+
+        .week-card {
+          background: var(--white);
+          border: 1.5px solid var(--border);
+          border-radius: 4px;
+          overflow: hidden;
+          position: relative;
+          transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .week-card:hover {
+          box-shadow: 4px 4px 0 var(--border2);
+          transform: translate(-2px, -2px);
+        }
+        .week-card-top {
+          padding: 16px 20px 12px;
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 12px;
+        }
+        .week-num {
+          font-family: var(--mono);
+          font-size: 10px;
+          font-weight: 600;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--muted);
+        }
+        .week-title {
+          font-family: var(--display);
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--ink);
+          line-height: 1.2;
+          margin-top: 4px;
+        }
+        .week-check {
+          width: 22px; height: 22px;
+          border: 1.5px solid var(--border);
+          border-radius: 3px;
+          flex-shrink: 0;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          transition: all 0.15s;
+          margin-top: 2px;
+          background: var(--paper2);
+        }
+        .week-check:hover { border-color: var(--rust); }
+        .week-check.done { background: var(--rust); border-color: var(--rust); color: white; }
+
+        .week-body { padding: 16px 20px 20px; }
+
+        .topic-list {
+          list-style: none;
+          margin-bottom: 14px;
+        }
+        .topic-list li {
+          font-size: 13px;
+          color: var(--muted);
+          padding: 3px 0;
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+          line-height: 1.5;
+          border-bottom: 1px dashed var(--border);
+        }
+        .topic-list li:last-child { border-bottom: none; }
+        .topic-list li::before {
+          content: '→';
+          color: var(--border2);
+          font-size: 10px;
+          margin-top: 3px;
+          flex-shrink: 0;
+          font-family: var(--mono);
+        }
+
+        .week-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+          margin-top: 10px;
+        }
+        .week-tag {
+          font-family: var(--mono);
+          font-size: 9px;
+          font-weight: 500;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          padding: 3px 8px;
+          border-radius: 2px;
+          border: 1px solid;
+        }
+
+        .week-priority {
+          position: absolute;
+          top: 0; left: 0;
+          width: 3px;
+          height: 100%;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           CODE PROBLEM SECTION
+        ══════════════════════════════════════════════════════════ */
+        .problems-section {
+          margin-bottom: 48px;
+        }
+        .problems-header {
+          font-family: var(--mono);
+          font-size: 10px;
+          font-weight: 600;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--muted);
+          margin-bottom: 16px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid var(--border);
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .problems-header::before {
+          content: '{ }';
+          font-size: 14px;
+          color: var(--rust);
+        }
+
+        .problem-card {
+          background: var(--ink);
+          border-radius: 4px;
+          overflow: hidden;
+          margin-bottom: 16px;
+        }
+        .problem-header-bar {
+          padding: 12px 20px;
+          background: #141410;
+          border-bottom: 1px solid #2A2A24;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .prob-dots { display: flex; gap: 5px; }
+        .prob-dots span { width: 10px; height: 10px; border-radius: 50%; }
+        .d1 { background: #FF5F57; }
+        .d2 { background: #FEBC2E; }
+        .d3 { background: #28C840; }
+        .prob-title {
+          font-family: var(--mono);
+          font-size: 11px;
+          color: #6B7A7A;
+          letter-spacing: 0.06em;
+          flex: 1;
+        }
+        .prob-diff {
+          font-family: var(--mono);
+          font-size: 9px;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          padding: 3px 8px;
+          border-radius: 2px;
+        }
+        .diff-e { background: rgba(62,180,100,0.15); color: #3EB464; border: 1px solid rgba(62,180,100,0.3); }
+        .diff-m { background: rgba(212,131,10,0.15); color: #D4830A; border: 1px solid rgba(212,131,10,0.3); }
+        .diff-h { background: rgba(196,66,26,0.15); color: #E05A30; border: 1px solid rgba(196,66,26,0.3); }
+
+        .problem-desc {
+          padding: 14px 20px 8px;
+          font-family: var(--mono);
+          font-size: 12px;
+          color: #8A9A9A;
+          line-height: 1.7;
+        }
+        .problem-desc code {
+          color: #B8D4D4;
+          background: rgba(255,255,255,0.06);
+          padding: 1px 6px;
+          border-radius: 3px;
+        }
+
+        .sol-btn {
+          margin: 8px 20px 0;
+          background: none;
+          border: 1px solid #2A2A24;
+          border-radius: 3px;
+          padding: 5px 12px;
+          font-family: var(--mono);
+          font-size: 10px;
+          color: #4A5A5A;
+          cursor: pointer;
+          letter-spacing: 0.08em;
+          transition: all 0.15s;
+        }
+        .sol-btn:hover { border-color: var(--rust); color: var(--rust2); }
+
+        .sol-code { display: none; }
+        .sol-code.open { display: block; }
+
+        pre {
+          padding: 16px 20px 20px;
+          font-family: var(--mono);
+          font-size: 12px;
+          line-height: 1.8;
+          overflow-x: auto;
+          color: #C8D8D0;
+        }
+        /* syntax */
+        .kw  { color: #C084FC; }
+        .fn  { color: #7EC8E3; }
+        .str { color: #A8C880; }
+        .num { color: #E8A870; }
+        .cm  { color: #4A5A52; font-style: italic; }
+        .tp  { color: #78C8B8; }
+        .op  { color: #E07878; }
+        .gn  { color: #78E0A8; }
+        .yw  { color: #E8D870; }
+
+        /* ══════════════════════════════════════════════════════════
+           SECTION DIVIDER
+        ══════════════════════════════════════════════════════════ */
+        .section-block {
+          margin-bottom: 80px;
+          position: relative;
+        }
+
+        .section-divider {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin-bottom: 40px;
+          margin-top: 80px;
+        }
+        .divider-line {
+          height: 1px;
+          flex: 1;
+          background: var(--border);
+        }
+        .divider-text {
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--border2);
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           TOPIC DEEP DIVE
+        ══════════════════════════════════════════════════════════ */
+        .deep-dive {
+          background: var(--paper2);
+          border: 1px solid var(--border);
+          border-left: 4px solid;
+          border-radius: 0 4px 4px 0;
+          padding: 20px 24px;
+          margin-bottom: 20px;
+        }
+        .deep-title {
+          font-family: var(--display);
+          font-size: 15px;
+          font-weight: 600;
+          color: var(--ink);
+          margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .deep-badge {
+          font-family: var(--mono);
+          font-size: 9px;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          padding: 2px 7px;
+          border-radius: 2px;
+        }
+        .deep-items {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .deep-item {
+          font-size: 13px;
+          color: var(--muted);
+          padding: 3px 0;
+          padding-left: 14px;
+          border-left: 1px solid var(--border);
+          line-height: 1.5;
+        }
+        .deep-item strong { color: var(--ink); font-weight: 400; }
+
+        /* ══════════════════════════════════════════════════════════
+           FINAL MONTH CHECKLIST
+        ══════════════════════════════════════════════════════════ */
+        .checklist-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          margin-bottom: 24px;
+        }
+        .check-item {
+          background: var(--white);
+          border: 1.5px solid var(--border);
+          border-radius: 4px;
+          padding: 14px 16px;
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          cursor: pointer;
+          transition: all 0.15s;
+        }
+        .check-item:hover { border-color: var(--rust); }
+        .check-item.done { background: var(--paper2); }
+        .check-item.done .ci-box { background: var(--sage); border-color: var(--sage); color: white; }
+        .ci-box {
+          width: 18px; height: 18px;
+          border: 1.5px solid var(--border2);
+          border-radius: 2px;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 10px;
+          margin-top: 2px;
+          transition: all 0.15s;
+        }
+        .ci-text {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.45;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           RESOURCES / TIPS
+        ══════════════════════════════════════════════════════════ */
+        .tips-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+          margin-top: 16px;
+        }
+        .tip-card {
+          background: var(--white);
+          border: 1.5px solid var(--border);
+          border-radius: 4px;
+          padding: 18px 20px;
+        }
+        .tip-icon { font-size: 18px; margin-bottom: 8px; }
+        .tip-title {
+          font-family: var(--display);
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--ink);
+          margin-bottom: 6px;
+        }
+        .tip-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+        /* ══════════════════════════════════════════════════════════
+           INTERVIEW DAY CARD
+        ══════════════════════════════════════════════════════════ */
+        .interview-day {
+          background: var(--ink);
+          color: var(--paper);
+          border-radius: 4px;
+          padding: 40px 44px;
+          margin-top: 64px;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 40px;
+          position: relative;
+          overflow: hidden;
+        }
+        .interview-day::before {
+          content: 'INTERVIEW DAY';
+          position: absolute;
+          top: -10px; right: -10px;
+          font-family: var(--display);
+          font-size: 72px;
+          font-weight: 700;
+          color: rgba(255,255,255,0.03);
+          line-height: 1;
+          pointer-events: none;
+        }
+        .iday-title {
+          font-family: var(--display);
+          font-size: 28px;
+          font-weight: 700;
+          color: var(--white);
+          margin-bottom: 16px;
+        }
+        .iday-list {
+          list-style: none;
+        }
+        .iday-list li {
+          font-size: 14px;
+          opacity: 0.75;
+          padding: 6px 0;
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+          display: flex;
+          gap: 10px;
+        }
+        .iday-list li::before {
+          content: '✓';
+          color: var(--rust2);
+          font-family: var(--mono);
+          font-size: 11px;
+          margin-top: 3px;
+          flex-shrink: 0;
+        }
+        .iday-quote {
+          font-family: var(--serif);
+          font-size: 22px;
+          font-style: italic;
+          font-weight: 300;
+          line-height: 1.5;
+          opacity: 0.7;
+          border-left: 2px solid var(--rust);
+          padding-left: 20px;
+          margin-bottom: 16px;
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           UTILITY
+        ══════════════════════════════════════════════════════════ */
+        .mt-section { margin-top: 80px; }
+
+        /* scroll top */
+        #top {
+          position: fixed;
+          bottom: 24px; right: 24px;
+          width: 36px; height: 36px;
+          background: var(--ink);
+          color: var(--paper);
+          border: none;
+          border-radius: 3px;
+          font-family: var(--mono);
+          font-size: 14px;
+          cursor: pointer;
+          z-index: 500;
+          opacity: 0; pointer-events: none;
+          transition: opacity 0.2s;
+        }
+        #top.vis { opacity: 1; pointer-events: auto; }
+
+        /* animations */
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: none; }
+        }
+        .section-block { animation: fadeUp 0.5s ease both; }
+
+        /* responsive */
+        @media (max-width: 760px) {
+          .weeks-grid { grid-template-columns: 1fr; }
+          .checklist-grid { grid-template-columns: 1fr; }
+          .tips-grid { grid-template-columns: 1fr; }
+          .progress-bars { grid-template-columns: 1fr; }
+          .interview-day { grid-template-columns: 1fr; gap: 24px; }
+          .month-header { grid-template-columns: auto 1fr; }
+          .month-badge { display: none; }
+          .interviewer-note { grid-template-columns: 1fr; }
+          h1 { font-size: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<button id="top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div class="page-wrap">
+
+    <!-- ══════════════════════════════════════════════════════════
+         HEADER
+    ══════════════════════════════════════════════════════════ -->
+    <header>
+        <div class="header-label">Android Developer · 3 YOE · Interview Preparation</div>
+        <h1>12-Week<br/><em>Battle Plan</em></h1>
+        <p class="hero-desc">
+            A structured, week-by-week roadmap designed for an Android Developer with
+            <strong>3 years of experience</strong> targeting senior roles at product companies.
+            Built from the interviewer's perspective — covering exactly what hiring managers test.
+        </p>
+        <div class="hero-meta">
+            <div class="meta-item">
+                <div class="meta-num">12<span>wk</span></div>
+                <div class="meta-lbl">Total Duration</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-num">3</div>
+                <div class="meta-lbl">Phases</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-num">50<span>+</span></div>
+                <div class="meta-lbl">Topics</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-num">30<span>+</span></div>
+                <div class="meta-lbl">Code Problems</div>
+            </div>
+        </div>
+        <div class="corner-mark">v1.0 · 2025 EDITION</div>
+    </header>
+
+    <!-- INTERVIEWER NOTE -->
+    <div class="interviewer-note">
+        <div class="note-badge">Interviewer's Note</div>
+        <div class="note-text">
+            As someone who has conducted 200+ Android interviews, the candidates who stand out are those who can
+            <strong>explain the "why" behind architectural decisions</strong>, not just recite API names.
+            At 3 years experience, you're being evaluated for senior-level ownership. They expect you to have
+            opinions about tradeoffs, and to have made production mistakes and learned from them.
+            This plan is calibrated exactly for that bar. Every week has a <strong>specific goal</strong> — not just "study coroutines" but
+            "be able to implement and explain structured concurrency from scratch." That's the difference.
+        </div>
+    </div>
+
+    <!-- PROGRESS TRACKER -->
+    <div class="progress-section">
+        <div class="progress-title">Your Progress Tracker</div>
+        <div class="progress-bars">
+            <div class="prog-bar-item">
+                <div class="prog-bar-label"><span>Phase 1 — Foundations</span><span id="p1txt">0 / 4 weeks</span></div>
+                <div class="prog-track"><div class="prog-fill" id="p1bar" style="width:0%;background:var(--rust)"></div></div>
+            </div>
+            <div class="prog-bar-item">
+                <div class="prog-bar-label"><span>Phase 2 — Advanced</span><span id="p2txt">0 / 4 weeks</span></div>
+                <div class="prog-track"><div class="prog-fill" id="p2bar" style="width:0%;background:var(--amber)"></div></div>
+            </div>
+            <div class="prog-bar-item">
+                <div class="prog-bar-label"><span>Phase 3 — Interview Ready</span><span id="p3txt">0 / 4 weeks</span></div>
+                <div class="prog-track"><div class="prog-fill" id="p3bar" style="width:0%;background:var(--sage)"></div></div>
+            </div>
+        </div>
+        <div class="overall-prog">
+            <div class="overall-label">Overall Completion</div>
+            <div class="overall-track"><div class="overall-fill" id="overallBar" style="width:0%"></div></div>
+            <div class="overall-pct" id="overallPct">0%</div>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════════════
+         PHASE 1 — MONTHS 1
+    ══════════════════════════════════════════════════════════ -->
+    <div class="section-block" id="phase1">
+
+        <div class="month-header">
+            <div class="month-num">01</div>
+            <div class="month-info">
+                <div class="month-phase" style="color:var(--rust)">Phase 1 · Weeks 1–4</div>
+                <div class="month-title">Foundation Hardening</div>
+            </div>
+            <div class="month-badge" style="color:var(--rust);border-color:var(--rust)">Core Kotlin &amp; Android</div>
+        </div>
+
+        <!-- WEEKS 1–4 -->
+        <div class="weeks-grid">
+
+            <!-- WEEK 1 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--rust)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 01</div>
+                        <div class="week-title">Kotlin Language Mastery</div>
+                    </div>
+                    <div class="week-check" id="wc1" onclick="toggleWeek(1)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>Null safety deep dive — <code>?.let</code>, <code>?:</code>, <code>!!</code>, <code>requireNotNull</code></li>
+                        <li>Data class internals — <code>copy()</code>, <code>equals()</code>, <code>hashCode()</code>, <code>componentN()</code></li>
+                        <li>Sealed classes vs enums vs interfaces</li>
+                        <li>Extension functions &amp; properties — how compiled</li>
+                        <li>Inline functions, <code>reified</code> generics, <code>noinline</code></li>
+                        <li>Delegation pattern — <code>by lazy</code>, <code>by observable</code>, <code>Delegates</code></li>
+                        <li>Destructuring, operator overloading</li>
+                        <li>Object declarations &amp; companion objects</li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--rust);border-color:var(--rust)">Kotlin</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Language</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Core</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 2 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--rust)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 02</div>
+                        <div class="week-title">Collections &amp; Functional Programming</div>
+                    </div>
+                    <div class="week-check" id="wc2" onclick="toggleWeek(2)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>List, Map, Set — immutable vs mutable internals</li>
+                        <li><code>map</code>, <code>flatMap</code>, <code>filter</code>, <code>fold</code>, <code>reduce</code></li>
+                        <li><code>groupBy</code>, <code>partition</code>, <code>associateBy</code>, <code>associateWith</code></li>
+                        <li>Sequence — lazy evaluation, when to use vs Collection</li>
+                        <li><code>generateSequence</code>, infinite sequences</li>
+                        <li><code>runningFold</code>, <code>zip</code>, <code>chunked</code>, <code>windowed</code></li>
+                        <li>Higher-order functions &amp; lambda syntax</li>
+                        <li>Common collection interview traps</li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--rust);border-color:var(--rust)">Collections</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Functional</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Sequences</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 3 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--amber)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 03</div>
+                        <div class="week-title">Android Core — Activity, Fragment &amp; Lifecycle</div>
+                    </div>
+                    <div class="week-check" id="wc3" onclick="toggleWeek(3)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>Activity lifecycle — every callback &amp; when it fires</li>
+                        <li>Fragment lifecycle vs Activity lifecycle</li>
+                        <li>Configuration change handling</li>
+                        <li>Back stack management — Activities &amp; Fragments</li>
+                        <li>Context types — Activity vs Application, memory implications</li>
+                        <li>Intent — explicit, implicit, PendingIntent</li>
+                        <li>Task &amp; launch modes — singleTop, singleTask, singleInstance</li>
+                        <li>Android process lifecycle — LRU process cache</li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--amber);border-color:var(--amber)">Android</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Lifecycle</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Core</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 4 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--amber)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 04</div>
+                        <div class="week-title">ViewModel, LiveData &amp; State Management</div>
+                    </div>
+                    <div class="week-check" id="wc4" onclick="toggleWeek(4)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>ViewModel internals — how it survives config changes</li>
+                        <li>ViewModelStore, ViewModelProvider, factory pattern</li>
+                        <li>LiveData vs StateFlow vs SharedFlow</li>
+                        <li>SavedStateHandle — process death vs config change</li>
+                        <li>Single event handling — EventWrapper, Channel</li>
+                        <li>UDF — Unidirectional Data Flow pattern</li>
+                        <li>MVI vs MVVM — tradeoffs at 3 YOE level</li>
+                        <li>Avoiding ViewModel leaking Android context</li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--amber);border-color:var(--amber)">Jetpack</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">ViewModel</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">State</span>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /weeks-grid -->
+
+        <!-- PHASE 1 CODE PROBLEMS -->
+        <div class="problems-section">
+            <div class="problems-header">Code Problems · Phase 1</div>
+
+            <!-- P1 -->
+            <div class="problem-card">
+                <div class="problem-header-bar">
+                    <div class="prob-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+                    <span class="prob-title">P1 · Implement a generic SafeResult wrapper (like Arrow's Either)</span>
+                    <span class="prob-diff diff-m">Medium</span>
+                </div>
+                <div class="problem-desc">
+                    Implement a <code>sealed class Result&lt;T&gt;</code> with <code>Success</code> and <code>Error</code> subtypes.
+                    Add <code>map()</code>, <code>flatMap()</code>, <code>getOrElse()</code>, and <code>onSuccess/onError</code> extension functions.
+                    This pattern is used in every production Android repository layer.
+                </div>
+                <button class="sol-btn" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-code">
+<pre><span class="kw">sealed class</span> <span class="tp">Result</span>&lt;<span class="kw">out</span> <span class="tp">T</span>&gt; {
+    <span class="kw">data class</span> <span class="tp">Success</span>&lt;<span class="tp">T</span>&gt;(<span class="kw">val</span> data: <span class="tp">T</span>) : <span class="tp">Result</span>&lt;<span class="tp">T</span>&gt;()
+    <span class="kw">data class</span> <span class="tp">Error</span>(<span class="kw">val</span> exception: <span class="tp">Throwable</span>, <span class="kw">val</span> msg: <span class="tp">String</span> = exception.message.orEmpty()) : <span class="tp">Result</span>&lt;<span class="tp">Nothing</span>&gt;()
+}
+
+<span class="cm">// Extension functions</span>
+<span class="kw">inline fun</span> &lt;<span class="tp">T</span>, <span class="tp">R</span>&gt; <span class="tp">Result</span>&lt;<span class="tp">T</span>&gt;.<span class="fn">map</span>(transform: (<span class="tp">T</span>) <span class="op">-&gt;</span> <span class="tp">R</span>): <span class="tp">Result</span>&lt;<span class="tp">R</span>&gt; = <span class="kw">when</span> (<span class="kw">this</span>) {
+    <span class="kw">is</span> <span class="tp">Result.Success</span> <span class="op">-&gt;</span> <span class="tp">Result.Success</span>(<span class="fn">transform</span>(data))
+    <span class="kw">is</span> <span class="tp">Result.Error</span>   <span class="op">-&gt;</span> <span class="kw">this</span>
+}
+
+<span class="kw">inline fun</span> &lt;<span class="tp">T</span>, <span class="tp">R</span>&gt; <span class="tp">Result</span>&lt;<span class="tp">T</span>&gt;.<span class="fn">flatMap</span>(transform: (<span class="tp">T</span>) <span class="op">-&gt;</span> <span class="tp">Result</span>&lt;<span class="tp">R</span>&gt;): <span class="tp">Result</span>&lt;<span class="tp">R</span>&gt; = <span class="kw">when</span> (<span class="kw">this</span>) {
+    <span class="kw">is</span> <span class="tp">Result.Success</span> <span class="op">-&gt;</span> <span class="fn">transform</span>(data)
+    <span class="kw">is</span> <span class="tp">Result.Error</span>   <span class="op">-&gt;</span> <span class="kw">this</span>
+}
+
+<span class="kw">fun</span> &lt;<span class="tp">T</span>&gt; <span class="tp">Result</span>&lt;<span class="tp">T</span>&gt;.<span class="fn">getOrElse</span>(default: <span class="tp">T</span>): <span class="tp">T</span> = <span class="kw">when</span> (<span class="kw">this</span>) {
+    <span class="kw">is</span> <span class="tp">Result.Success</span> <span class="op">-&gt;</span> data
+    <span class="kw">is</span> <span class="tp">Result.Error</span>   <span class="op">-&gt;</span> default
+}
+
+<span class="kw">inline fun</span> &lt;<span class="tp">T</span>&gt; <span class="tp">Result</span>&lt;<span class="tp">T</span>&gt;.<span class="fn">onSuccess</span>(action: (<span class="tp">T</span>) <span class="op">-&gt;</span> <span class="tp">Unit</span>): <span class="tp">Result</span>&lt;<span class="tp">T</span>&gt; {
+    <span class="kw">if</span> (<span class="kw">this</span> <span class="kw">is</span> <span class="tp">Result.Success</span>) <span class="fn">action</span>(data)
+    <span class="kw">return</span> <span class="kw">this</span>
+}
+
+<span class="cm">// Usage in Repository</span>
+<span class="kw">suspend fun</span> <span class="fn">getUser</span>(id: <span class="tp">String</span>): <span class="tp">Result</span>&lt;<span class="tp">User</span>&gt; = <span class="kw">try</span> {
+    <span class="tp">Result.Success</span>(api.<span class="fn">fetchUser</span>(id))
+} <span class="kw">catch</span> (e: <span class="tp">Exception</span>) {
+    <span class="tp">Result.Error</span>(e)
+}</pre>
+                </div>
+            </div>
+
+            <!-- P2 -->
+            <div class="problem-card">
+                <div class="problem-header-bar">
+                    <div class="prob-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+                    <span class="prob-title">P2 · Implement LRU Cache in Kotlin from scratch</span>
+                    <span class="prob-diff diff-h">Hard</span>
+                </div>
+                <div class="problem-desc">
+                    Implement a thread-safe LRU Cache with <code>get(key)</code> and <code>put(key, value)</code> in O(1) time.
+                    Use <code>LinkedHashMap</code>'s access-order feature. Common in memory-management discussions.
+                </div>
+                <button class="sol-btn" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-code">
+<pre><span class="kw">class</span> <span class="tp">LRUCache</span>&lt;<span class="tp">K</span>, <span class="tp">V</span>&gt;(<span class="kw">private val</span> capacity: <span class="tp">Int</span>) {
+
+    <span class="cm">// accessOrder=true: get() moves entry to tail (most recently used)</span>
+    <span class="kw">private val</span> cache = <span class="kw">object</span> : <span class="tp">LinkedHashMap</span>&lt;<span class="tp">K</span>, <span class="tp">V</span>&gt;(<span class="num">16</span>, <span class="num">0.75f</span>, <span class="kw">true</span>) {
+        <span class="kw">override fun</span> <span class="fn">removeEldestEntry</span>(eldest: <span class="tp">Map.Entry</span>&lt;<span class="tp">K</span>, <span class="tp">V</span>&gt;) = size <span class="op">&gt;</span> capacity
+    }
+
+    @Synchronized
+    <span class="kw">fun</span> <span class="fn">get</span>(key: <span class="tp">K</span>): <span class="tp">V</span>? = cache[key]
+
+    @Synchronized
+    <span class="kw">fun</span> <span class="fn">put</span>(key: <span class="tp">K</span>, value: <span class="tp">V</span>) { cache[key] = value }
+
+    @Synchronized
+    <span class="kw">fun</span> <span class="fn">remove</span>(key: <span class="tp">K</span>) = cache.<span class="fn">remove</span>(key)
+
+    <span class="kw">val</span> size: <span class="tp">Int</span> <span class="kw">get</span>() = cache.size
+}
+
+<span class="cm">// For Coroutines-friendly version, use Mutex instead of @Synchronized:</span>
+<span class="kw">class</span> <span class="tp">CoroutineLRUCache</span>&lt;<span class="tp">K</span>, <span class="tp">V</span>&gt;(<span class="kw">private val</span> capacity: <span class="tp">Int</span>) {
+    <span class="kw">private val</span> mutex = <span class="tp">Mutex</span>()
+    <span class="kw">private val</span> cache = <span class="tp">LinkedHashMap</span>&lt;<span class="tp">K</span>, <span class="tp">V</span>&gt;(<span class="num">16</span>, <span class="num">0.75f</span>, <span class="kw">true</span>)
+
+    <span class="kw">suspend fun</span> <span class="fn">get</span>(key: <span class="tp">K</span>): <span class="tp">V</span>? = mutex.<span class="fn">withLock</span> { cache[key] }
+
+    <span class="kw">suspend fun</span> <span class="fn">put</span>(key: <span class="tp">K</span>, value: <span class="tp">V</span>) = mutex.<span class="fn">withLock</span> {
+        cache[key] = value
+        <span class="kw">if</span> (cache.size <span class="op">&gt;</span> capacity) cache.<span class="fn">remove</span>(cache.keys.<span class="fn">first</span>())
+    }
+}</pre>
+                </div>
+            </div>
+
+            <!-- P3 -->
+            <div class="problem-card">
+                <div class="problem-header-bar">
+                    <div class="prob-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+                    <span class="prob-title">P3 · Implement a ViewModel that exposes StateFlow from LiveData</span>
+                    <span class="prob-diff diff-e">Easy</span>
+                </div>
+                <div class="problem-desc">
+                    Write a ViewModel that fetches a list of <code>User</code> objects from a repository,
+                    exposes a <code>UiState</code> sealed class via <code>StateFlow</code>, and handles loading/error/success states.
+                </div>
+                <button class="sol-btn" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-code">
+<pre><span class="kw">sealed class</span> <span class="tp">UiState</span>&lt;<span class="kw">out</span> <span class="tp">T</span>&gt; {
+    <span class="kw">object</span> <span class="tp">Loading</span> : <span class="tp">UiState</span>&lt;<span class="tp">Nothing</span>&gt;()
+    <span class="kw">data class</span> <span class="tp">Success</span>&lt;<span class="tp">T</span>&gt;(<span class="kw">val</span> data: <span class="tp">T</span>) : <span class="tp">UiState</span>&lt;<span class="tp">T</span>&gt;()
+    <span class="kw">data class</span> <span class="tp">Error</span>(<span class="kw">val</span> message: <span class="tp">String</span>) : <span class="tp">UiState</span>&lt;<span class="tp">Nothing</span>&gt;()
+}
+
+<span class="kw">class</span> <span class="tp">UsersViewModel</span>(<span class="kw">private val</span> repo: <span class="tp">UserRepository</span>) : <span class="tp">ViewModel</span>() {
+
+    <span class="kw">private val</span> _uiState = <span class="tp">MutableStateFlow</span>&lt;<span class="tp">UiState</span>&lt;<span class="tp">List</span>&lt;<span class="tp">User</span>&gt;&gt;&gt;(<span class="tp">UiState.Loading</span>)
+    <span class="kw">val</span> uiState = _uiState.<span class="fn">asStateFlow</span>()
+
+    <span class="cm">// Single-shot events (navigation, snackbar) via Channel</span>
+    <span class="kw">private val</span> _events = <span class="tp">Channel</span>&lt;<span class="tp">UserEvent</span>&gt;(<span class="tp">Channel.BUFFERED</span>)
+    <span class="kw">val</span> events = _events.<span class="fn">receiveAsFlow</span>()
+
+    <span class="kw">init</span> { <span class="fn">loadUsers</span>() }
+
+    <span class="kw">private fun</span> <span class="fn">loadUsers</span>() {
+        viewModelScope.<span class="fn">launch</span> {
+            _uiState.<span class="fn">value</span> = <span class="tp">UiState.Loading</span>
+            _uiState.<span class="fn">value</span> = <span class="kw">try</span> {
+                <span class="tp">UiState.Success</span>(repo.<span class="fn">getUsers</span>())
+            } <span class="kw">catch</span> (e: <span class="tp">Exception</span>) {
+                <span class="tp">UiState.Error</span>(e.message <span class="op">?:</span> <span class="str">"Unknown error"</span>)
+            }
+        }
+    }
+
+    <span class="kw">fun</span> <span class="fn">onUserClicked</span>(user: <span class="tp">User</span>) {
+        viewModelScope.<span class="fn">launch</span> {
+            _events.<span class="fn">send</span>(<span class="tp">UserEvent.Navigate</span>(user.id))
+        }
+    }
+}
+
+<span class="cm">// Collect in Fragment:</span>
+<span class="fn">viewLifecycleOwner</span>.lifecycleScope.<span class="fn">launch</span> {
+    <span class="fn">repeatOnLifecycle</span>(<span class="tp">Lifecycle.State.STARTED</span>) {
+        viewModel.uiState.<span class="fn">collect</span> { state <span class="op">-&gt;</span>
+            <span class="kw">when</span> (state) {
+                <span class="kw">is</span> <span class="tp">UiState.Loading</span> <span class="op">-&gt;</span> <span class="fn">showLoading</span>()
+                <span class="kw">is</span> <span class="tp">UiState.Success</span> <span class="op">-&gt;</span> <span class="fn">showUsers</span>(state.data)
+                <span class="kw">is</span> <span class="tp">UiState.Error</span>   <span class="op">-&gt;</span> <span class="fn">showError</span>(state.message)
+            }
+        }
+    }
+}</pre>
+                </div>
+            </div>
+
+        </div><!-- /problems phase 1 -->
+    </div><!-- /phase 1 -->
+
+    <!-- ══════════════════════════════════════════════════════════
+         PHASE 2 — MONTHS 2
+    ══════════════════════════════════════════════════════════ -->
+    <div class="section-block" id="phase2">
+
+        <div class="month-header">
+            <div class="month-num">02</div>
+            <div class="month-info">
+                <div class="month-phase" style="color:var(--amber)">Phase 2 · Weeks 5–8</div>
+                <div class="month-title">Deep Technical Mastery</div>
+            </div>
+            <div class="month-badge" style="color:var(--amber);border-color:var(--amber)">Coroutines · DI · Compose</div>
+        </div>
+
+        <div class="weeks-grid">
+
+            <!-- WEEK 5 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--slate)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 05</div>
+                        <div class="week-title">Coroutines — Deep &amp; Structured</div>
+                    </div>
+                    <div class="week-check" id="wc5" onclick="toggleWeek(5)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>Coroutine state machine — how suspend compiles to CPS</li>
+                        <li>Structured concurrency — why it prevents leaks</li>
+                        <li>Job, SupervisorJob — cancellation propagation</li>
+                        <li><code>coroutineScope</code> vs <code>supervisorScope</code></li>
+                        <li><code>async</code> / <code>await</code> vs <code>withContext</code></li>
+                        <li>Exception handling — <code>CoroutineExceptionHandler</code> vs try-catch</li>
+                        <li><code>CancellationException</code> — never swallow it</li>
+                        <li>Dispatchers internals — Main, IO, Default thread pools</li>
+                        <li><code>callbackFlow</code> and <code>suspendCancellableCoroutine</code></li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--slate);border-color:var(--slate)">Coroutines</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Async</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 6 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--slate)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 06</div>
+                        <div class="week-title">Kotlin Flow — Cold to Hot</div>
+                    </div>
+                    <div class="week-check" id="wc6" onclick="toggleWeek(6)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>Cold vs Hot flows — the fundamental difference</li>
+                        <li>StateFlow vs SharedFlow — replay, extraBufferCapacity</li>
+                        <li><code>stateIn</code>, <code>shareIn</code> — SharingStarted strategies</li>
+                        <li><code>flatMapLatest</code> — search-as-you-type pattern</li>
+                        <li><code>combine</code> vs <code>zip</code> — timing semantics</li>
+                        <li><code>conflate</code> vs <code>collectLatest</code> — backpressure</li>
+                        <li>Flow backpressure &amp; buffer operator</li>
+                        <li>Implementing debounce from scratch</li>
+                        <li><code>channelFlow</code> vs <code>flow { }</code> builder</li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--slate);border-color:var(--slate)">Flow</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Reactive</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 7 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--sage)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 07</div>
+                        <div class="week-title">Dependency Injection — Hilt Deep Dive</div>
+                    </div>
+                    <div class="week-check" id="wc7" onclick="toggleWeek(7)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>DI principles — why constructor injection wins</li>
+                        <li>Hilt component hierarchy — all 7 components</li>
+                        <li>Scopes — Singleton, ActivityScoped, ViewModelScoped</li>
+                        <li><code>@Binds</code> vs <code>@Provides</code> — code generation difference</li>
+                        <li><code>@HiltViewModel</code> — how SavedStateHandle is injected</li>
+                        <li>Injecting into WorkManager Worker</li>
+                        <li><code>@EntryPoint</code> for non-Hilt managed classes</li>
+                        <li>Multi-module DI — feature module isolation</li>
+                        <li>Testing with <code>@UninstallModules</code>, <code>@TestInstallIn</code></li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--sage);border-color:var(--sage)">Hilt</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">DI</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Dagger</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 8 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--sage)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 08</div>
+                        <div class="week-title">Jetpack Compose — Deep Architecture</div>
+                    </div>
+                    <div class="week-check" id="wc8" onclick="toggleWeek(8)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>Composition → Layout → Drawing pipeline</li>
+                        <li>Smart recomposition — what triggers it</li>
+                        <li><code>@Stable</code>, <code>@Immutable</code> — compiler impact</li>
+                        <li><code>remember</code> vs <code>rememberSaveable</code> vs <code>derivedStateOf</code></li>
+                        <li><code>LaunchedEffect</code>, <code>SideEffect</code>, <code>DisposableEffect</code></li>
+                        <li>Slot table internals — Gap Buffer</li>
+                        <li>Custom Layout &amp; <code>SubcomposeLayout</code></li>
+                        <li>Performance profiling — Layout Inspector, recomposition count</li>
+                        <li>CompositionLocal — when and why</li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--sage);border-color:var(--sage)">Compose</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">UI</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Performance</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PHASE 2 CODE PROBLEMS -->
+        <div class="problems-section">
+            <div class="problems-header">Code Problems · Phase 2</div>
+
+            <!-- P4 -->
+            <div class="problem-card">
+                <div class="problem-header-bar">
+                    <div class="prob-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+                    <span class="prob-title">P4 · Implement a search-as-you-type with Flow + debounce</span>
+                    <span class="prob-diff diff-m">Medium</span>
+                </div>
+                <div class="problem-desc">
+                    Build a ViewModel where a search query <code>StateFlow</code> is debounced by 300ms,
+                    then passed to a repository. Use <code>flatMapLatest</code> to cancel in-flight searches on new input.
+                    This is one of the most asked real-world Flow questions.
+                </div>
+                <button class="sol-btn" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-code">
+<pre><span class="kw">class</span> <span class="tp">SearchViewModel</span>(<span class="kw">private val</span> repo: <span class="tp">SearchRepository</span>) : <span class="tp">ViewModel</span>() {
+
+    <span class="kw">private val</span> _query = <span class="tp">MutableStateFlow</span>(<span class="str">""</span>)
+
+    <span class="kw">val</span> results: <span class="tp">StateFlow</span>&lt;<span class="tp">UiState</span>&lt;<span class="tp">List</span>&lt;<span class="tp">SearchResult</span>&gt;&gt;&gt; = _query
+        .<span class="fn">debounce</span>(<span class="num">300L</span>)              <span class="cm">// wait 300ms after last keystroke</span>
+        .<span class="fn">filter</span> { it.<span class="fn">isNotBlank</span>() }  <span class="cm">// ignore empty queries</span>
+        .<span class="fn">distinctUntilChanged</span>()       <span class="cm">// skip identical consecutive queries</span>
+        .<span class="fn">flatMapLatest</span> { query <span class="op">-&gt;</span>    <span class="cm">// cancel previous search on new query</span>
+            <span class="fn">flow</span> {
+                <span class="fn">emit</span>(<span class="tp">UiState.Loading</span>)
+                <span class="fn">emit</span>(<span class="kw">try</span> {
+                    <span class="tp">UiState.Success</span>(repo.<span class="fn">search</span>(query))
+                } <span class="kw">catch</span> (e: <span class="tp">Exception</span>) {
+                    <span class="tp">UiState.Error</span>(e.message.orEmpty())
+                })
+            }
+        }
+        .<span class="fn">stateIn</span>(
+            scope = viewModelScope,
+            started = <span class="tp">SharingStarted.WhileSubscribed</span>(<span class="num">5_000</span>),
+            initialValue = <span class="tp">UiState.Success</span>(<span class="fn">emptyList</span>())
+        )
+
+    <span class="kw">fun</span> <span class="fn">onQueryChanged</span>(q: <span class="tp">String</span>) { _query.<span class="fn">value</span> = q }
+}</pre>
+                </div>
+            </div>
+
+            <!-- P5 -->
+            <div class="problem-card">
+                <div class="problem-header-bar">
+                    <div class="prob-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+                    <span class="prob-title">P5 · Implement retry with exponential backoff using Flow</span>
+                    <span class="prob-diff diff-h">Hard</span>
+                </div>
+                <div class="problem-desc">
+                    Write an extension function <code>Flow&lt;T&gt;.retryWithBackoff(maxRetries, initialDelay)</code>
+                    that retries on failure with exponentially increasing delays. Used in network layers.
+                </div>
+                <button class="sol-btn" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-code">
+<pre><span class="kw">fun</span> &lt;<span class="tp">T</span>&gt; <span class="tp">Flow</span>&lt;<span class="tp">T</span>&gt;.<span class="fn">retryWithBackoff</span>(
+    maxRetries: <span class="tp">Int</span> = <span class="num">3</span>,
+    initialDelayMs: <span class="tp">Long</span> = <span class="num">1_000L</span>,
+    maxDelayMs: <span class="tp">Long</span> = <span class="num">30_000L</span>,
+    factor: <span class="tp">Double</span> = <span class="num">2.0</span>,
+    shouldRetry: (<span class="tp">Throwable</span>) <span class="op">-&gt;</span> <span class="tp">Boolean</span> = { <span class="kw">true</span> }
+): <span class="tp">Flow</span>&lt;<span class="tp">T</span>&gt; = <span class="kw">this</span>.<span class="fn">retryWhen</span> { cause, attempt <span class="op">-&gt;</span>
+    <span class="kw">if</span> (attempt <span class="op">&lt;</span> maxRetries <span class="op">&amp;&amp;</span> <span class="fn">shouldRetry</span>(cause)) {
+        <span class="kw">val</span> delayMs = <span class="fn">minOf</span>(
+            initialDelayMs <span class="op">*</span> factor.<span class="fn">pow</span>(attempt.<span class="fn">toDouble</span>()).<span class="fn">toLong</span>(),
+            maxDelayMs
+        )
+        <span class="fn">delay</span>(delayMs)
+        <span class="kw">true</span>  <span class="cm">// retry</span>
+    } <span class="kw">else</span> {
+        <span class="kw">false</span>  <span class="cm">// give up</span>
+    }
+}
+
+<span class="cm">// Usage:</span>
+<span class="fn">flow</span> { <span class="fn">emit</span>(api.<span class="fn">fetchData</span>()) }
+    .<span class="fn">retryWithBackoff</span>(
+        maxRetries = <span class="num">3</span>,
+        shouldRetry = { it <span class="kw">is</span> <span class="tp">IOException</span> }  <span class="cm">// only retry network errors</span>
+    )
+    .<span class="fn">catch</span> { e <span class="op">-&gt;</span> <span class="fn">emit</span>(<span class="fn">fallbackData</span>()) }
+    .<span class="fn">collect</span> { <span class="fn">render</span>(it) }</pre>
+                </div>
+            </div>
+
+            <!-- P6 -->
+            <div class="problem-card">
+                <div class="problem-header-bar">
+                    <div class="prob-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+                    <span class="prob-title">P6 · Implement a thread-safe single-instance pattern using coroutines</span>
+                    <span class="prob-diff diff-h">Hard</span>
+                </div>
+                <div class="problem-desc">
+                    Implement a class that lazily initializes a resource (e.g. DB connection) exactly once,
+                    even when called from multiple coroutines concurrently. No double-initialization allowed.
+                </div>
+                <button class="sol-btn" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-code">
+<pre><span class="kw">class</span> <span class="tp">SingletonResource</span> {
+    <span class="kw">private val</span> mutex = <span class="tp">Mutex</span>()
+    <span class="kw">private var</span> resource: <span class="tp">ExpensiveResource</span>? = <span class="kw">null</span>
+
+    <span class="kw">suspend fun</span> <span class="fn">getResource</span>(): <span class="tp">ExpensiveResource</span> {
+        resource?.<span class="fn">let</span> { <span class="kw">return</span> it }  <span class="cm">// fast path — no lock needed</span>
+        <span class="kw">return</span> mutex.<span class="fn">withLock</span> {
+            <span class="cm">// double-checked locking inside the mutex</span>
+            resource <span class="op">?:</span> <span class="fn">createResource</span>().<span class="fn">also</span> { resource = it }
+        }
+    }
+
+    <span class="kw">private suspend fun</span> <span class="fn">createResource</span>(): <span class="tp">ExpensiveResource</span> {
+        <span class="fn">delay</span>(<span class="num">100</span>)  <span class="cm">// simulating async init (DB open, auth, etc.)</span>
+        <span class="kw">return</span> <span class="tp">ExpensiveResource</span>()
+    }
+}
+
+<span class="cm">// Alternative: use Kotlin's built-in lazy with coroutines:</span>
+<span class="kw">class</span> <span class="tp">LazyResource</span>(<span class="kw">private val</span> scope: <span class="tp">CoroutineScope</span>) {
+    <span class="kw">private val</span> deferred: <span class="tp">Deferred</span>&lt;<span class="tp">ExpensiveResource</span>&gt; = scope.<span class="fn">async</span>(<span class="fn">start</span> = <span class="tp">CoroutineStart.LAZY</span>) {
+        <span class="fn">createResource</span>()
+    }
+    <span class="kw">suspend fun</span> <span class="fn">get</span>() = deferred.<span class="fn">await</span>()  <span class="cm">// safe: only initializes once</span>
+}</pre>
+                </div>
+            </div>
+
+        </div><!-- /problems phase 2 -->
+    </div><!-- /phase 2 -->
+
+    <!-- ══════════════════════════════════════════════════════════
+         PHASE 3 — MONTH 3
+    ══════════════════════════════════════════════════════════ -->
+    <div class="section-block" id="phase3">
+
+        <div class="month-header">
+            <div class="month-num">03</div>
+            <div class="month-info">
+                <div class="month-phase" style="color:var(--sage)">Phase 3 · Weeks 9–12</div>
+                <div class="month-title">System Design &amp; Interview Drills</div>
+            </div>
+            <div class="month-badge" style="color:var(--sage);border-color:var(--sage)">Mock · Performance · Design</div>
+        </div>
+
+        <div class="weeks-grid">
+
+            <!-- WEEK 9 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--lavender)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 09</div>
+                        <div class="week-title">Performance, Memory &amp; Testing</div>
+                    </div>
+                    <div class="week-check" id="wc9" onclick="toggleWeek(9)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>Android Profiler — CPU, Memory, Network, Energy</li>
+                        <li>Memory leaks — 5 common patterns with examples</li>
+                        <li>LeakCanary internals — weak references &amp; finalization</li>
+                        <li>RecyclerView deep internals — pool, recycler, DiffUtil</li>
+                        <li>Overdraw — detection and reduction</li>
+                        <li>Bitmap memory management — inSampleSize, BitmapRegionDecoder</li>
+                        <li>JUnit, Mockito, Turbine — complete test strategy</li>
+                        <li>ViewModel testing with <code>TestCoroutineDispatcher</code></li>
+                        <li>UI testing with Espresso &amp; Compose testing APIs</li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--lavender);border-color:var(--lavender)">Performance</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Testing</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 10 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--lavender)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 10</div>
+                        <div class="week-title">Networking, Room &amp; Offline-First</div>
+                    </div>
+                    <div class="week-check" id="wc10" onclick="toggleWeek(10)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>Retrofit + OkHttp internals — call factory, interceptors</li>
+                        <li>Token refresh with <code>Authenticator</code> — queue management</li>
+                        <li>Room — migration strategy, @Transaction, Paging 3</li>
+                        <li>RemoteMediator — offline-first pattern</li>
+                        <li>WorkManager — Constraints, chaining, expedited work</li>
+                        <li>DataStore vs SharedPreferences — migration</li>
+                        <li>Multipart upload with progress tracking</li>
+                        <li>Circuit breaker pattern in Android</li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--lavender);border-color:var(--lavender)">Networking</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Room</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Offline</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 11 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--rust)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 11</div>
+                        <div class="week-title">Android System Design</div>
+                    </div>
+                    <div class="week-check" id="wc11" onclick="toggleWeek(11)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>Design a news feed app — offline-first architecture</li>
+                        <li>Design a real-time chat app — WebSocket + Room</li>
+                        <li>Design an image loading library like Glide/Coil</li>
+                        <li>Design a background sync system with WorkManager</li>
+                        <li>Multi-module architecture — feature, core, data layers</li>
+                        <li>Clean architecture dependency rules</li>
+                        <li>App startup time optimization — lazy loading, App Startup</li>
+                        <li>APK size reduction — R8, resource shrinking, dynamic delivery</li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--rust);border-color:var(--rust)">System Design</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Architecture</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEEK 12 -->
+            <div class="week-card">
+                <div class="week-priority" style="background:var(--amber)"></div>
+                <div class="week-card-top">
+                    <div>
+                        <div class="week-num">Week 12</div>
+                        <div class="week-title">Mock Interviews &amp; Weak Spot Drills</div>
+                    </div>
+                    <div class="week-check" id="wc12" onclick="toggleWeek(12)">  </div>
+                </div>
+                <div class="week-body">
+                    <ul class="topic-list">
+                        <li>2× full mock interview sessions — record yourself</li>
+                        <li>Data structures revision — Graph, Tree, Stack, Queue</li>
+                        <li>BFS/DFS on graphs — 5 problems minimum</li>
+                        <li>Dynamic programming — 3 problems minimum</li>
+                        <li>Behavioral questions — STAR format, 10 stories prepared</li>
+                        <li>Deep-dive on YOUR past projects for interrogation</li>
+                        <li>Salary negotiation research — market rates in Bengaluru</li>
+                        <li>Target company research — product, tech blog, GitHub</li>
+                    </ul>
+                    <div class="week-tags">
+                        <span class="week-tag" style="color:var(--amber);border-color:var(--amber)">Mock Interviews</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">DSA</span>
+                        <span class="week-tag" style="color:var(--muted);border-color:var(--border)">Behavioral</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PHASE 3 CODE PROBLEMS -->
+        <div class="problems-section">
+            <div class="problems-header">Code Problems · Phase 3</div>
+
+            <!-- P7 -->
+            <div class="problem-card">
+                <div class="problem-header-bar">
+                    <div class="prob-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+                    <span class="prob-title">P7 · Implement a BFS-based shortest path on a social graph</span>
+                    <span class="prob-diff diff-m">Medium</span>
+                </div>
+                <div class="problem-desc">
+                    Given a social network as an adjacency list <code>Map&lt;String, List&lt;String&gt;&gt;</code>,
+                    find the shortest connection path between two users. Return the path as a list of names.
+                    This tests both DSA and Kotlin collections fluency.
+                </div>
+                <button class="sol-btn" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-code">
+<pre><span class="kw">fun</span> <span class="fn">shortestPath</span>(
+    graph: <span class="tp">Map</span>&lt;<span class="tp">String</span>, <span class="tp">List</span>&lt;<span class="tp">String</span>&gt;&gt;,
+    start: <span class="tp">String</span>,
+    end: <span class="tp">String</span>
+): <span class="tp">List</span>&lt;<span class="tp">String</span>&gt;? {
+    <span class="kw">if</span> (start == end) <span class="kw">return</span> <span class="fn">listOf</span>(start)
+
+    <span class="kw">val</span> queue   = <span class="tp">ArrayDeque</span>&lt;<span class="tp">List</span>&lt;<span class="tp">String</span>&gt;&gt;()  <span class="cm">// stores paths, not nodes</span>
+    <span class="kw">val</span> visited = <span class="fn">mutableSetOf</span>(start)
+
+    queue.<span class="fn">addLast</span>(<span class="fn">listOf</span>(start))
+
+    <span class="kw">while</span> (queue.<span class="fn">isNotEmpty</span>()) {
+        <span class="kw">val</span> path    = queue.<span class="fn">removeFirst</span>()
+        <span class="kw">val</span> current = path.<span class="fn">last</span>()
+
+        <span class="kw">for</span> (neighbor <span class="kw">in</span> graph[current].orEmpty()) {
+            <span class="kw">if</span> (neighbor == end) <span class="kw">return</span> path <span class="op">+</span> neighbor
+            <span class="kw">if</span> (neighbor <span class="kw">!in</span> visited) {
+                visited.<span class="fn">add</span>(neighbor)
+                queue.<span class="fn">addLast</span>(path <span class="op">+</span> neighbor)
+            }
+        }
+    }
+    <span class="kw">return</span> <span class="kw">null</span>  <span class="cm">// no path found</span>
+}
+
+<span class="cm">// Test:</span>
+<span class="kw">val</span> graph = <span class="fn">mapOf</span>(
+    <span class="str">"Alice"</span> <span class="kw">to</span> <span class="fn">listOf</span>(<span class="str">"Bob"</span>, <span class="str">"Carol"</span>),
+    <span class="str">"Bob"</span>   <span class="kw">to</span> <span class="fn">listOf</span>(<span class="str">"Dave"</span>),
+    <span class="str">"Carol"</span> <span class="kw">to</span> <span class="fn">listOf</span>(<span class="str">"Dave"</span>, <span class="str">"Eve"</span>),
+    <span class="str">"Dave"</span>  <span class="kw">to</span> <span class="fn">listOf</span>(<span class="str">"Frank"</span>),
+    <span class="str">"Eve"</span>   <span class="kw">to</span> <span class="fn">listOf</span>(<span class="str">"Frank"</span>)
+)
+<span class="fn">shortestPath</span>(graph, <span class="str">"Alice"</span>, <span class="str">"Frank"</span>)
+<span class="cm">// [Alice, Carol, Eve, Frank] or [Alice, Carol, Dave, Frank]</span></pre>
+                </div>
+            </div>
+
+            <!-- P8 -->
+            <div class="problem-card">
+                <div class="problem-header-bar">
+                    <div class="prob-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+                    <span class="prob-title">P8 · Design &amp; implement a simple image loading cache</span>
+                    <span class="prob-diff diff-h">Hard</span>
+                </div>
+                <div class="problem-desc">
+                    Implement a simple 2-level cache (memory + disk) image loader in Kotlin.
+                    Use coroutines for async loading, an LRU memory cache, and a disk cache with a
+                    file naming strategy. This is the Glide/Coil system design question reduced to code.
+                </div>
+                <button class="sol-btn" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-code">
+<pre><span class="kw">class</span> <span class="tp">ImageLoader</span>(
+    <span class="kw">private val</span> cacheDir: <span class="tp">File</span>,
+    memoryCacheSize: <span class="tp">Int</span> = <span class="num">50</span>
+) {
+    <span class="cm">// L1: Memory cache — LRU</span>
+    <span class="kw">private val</span> memCache = <span class="tp">LRUCache</span>&lt;<span class="tp">String</span>, <span class="tp">Bitmap</span>&gt;(memoryCacheSize)
+
+    <span class="cm">// L2: Disk cache key = MD5(url)</span>
+    <span class="kw">private fun</span> <span class="fn">diskKey</span>(url: <span class="tp">String</span>) = url.<span class="fn">md5</span>()
+
+    <span class="kw">suspend fun</span> <span class="fn">load</span>(url: <span class="tp">String</span>): <span class="tp">Bitmap</span>? = withContext(<span class="tp">Dispatchers.IO</span>) {
+        <span class="cm">// 1. Check memory cache</span>
+        memCache.<span class="fn">get</span>(url)?.<span class="fn">let</span> { <span class="kw">return</span>@withContext it }
+
+        <span class="cm">// 2. Check disk cache</span>
+        <span class="kw">val</span> diskFile = <span class="tp">File</span>(cacheDir, <span class="fn">diskKey</span>(url))
+        <span class="kw">if</span> (diskFile.<span class="fn">exists</span>()) {
+            <span class="kw">val</span> bitmap = <span class="tp">BitmapFactory</span>.<span class="fn">decodeFile</span>(diskFile.path)
+            bitmap?.<span class="fn">let</span> { memCache.<span class="fn">put</span>(url, it) }
+            <span class="kw">return</span>@withContext bitmap
+        }
+
+        <span class="cm">// 3. Network fetch</span>
+        <span class="kw">return</span>@withContext <span class="kw">try</span> {
+            <span class="kw">val</span> bytes = <span class="fn">fetchBytes</span>(url)
+            <span class="kw">val</span> bitmap = <span class="tp">BitmapFactory</span>.<span class="fn">decodeByteArray</span>(bytes, <span class="num">0</span>, bytes.size)
+            bitmap?.<span class="fn">let</span> {
+                diskFile.<span class="fn">writeBytes</span>(bytes)  <span class="cm">// save to disk</span>
+                memCache.<span class="fn">put</span>(url, it)        <span class="cm">// save to memory</span>
+            }
+            bitmap
+        } <span class="kw">catch</span> (e: <span class="tp">Exception</span>) { <span class="kw">null</span> }
+    }
+
+    <span class="kw">private suspend fun</span> <span class="fn">fetchBytes</span>(url: <span class="tp">String</span>): <span class="tp">ByteArray</span> {
+        <span class="kw">return</span> <span class="tp">URL</span>(url).<span class="fn">openStream</span>().<span class="fn">use</span> { it.<span class="fn">readBytes</span>() }
+    }
+}
+
+<span class="kw">fun</span> <span class="tp">String</span>.<span class="fn">md5</span>(): <span class="tp">String</span> {
+    <span class="kw">val</span> md = <span class="tp">MessageDigest</span>.<span class="fn">getInstance</span>(<span class="str">"MD5"</span>)
+    <span class="kw">return</span> md.<span class="fn">digest</span>(<span class="fn">toByteArray</span>()).<span class="fn">joinToString</span>(<span class="str">""</span>) { <span class="str">"%02x"</span>.<span class="fn">format</span>(it) }
+}</pre>
+                </div>
+            </div>
+
+            <!-- P9 -->
+            <div class="problem-card">
+                <div class="problem-header-bar">
+                    <div class="prob-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+                    <span class="prob-title">P9 · Behavioral: Tell me about a production bug you caused and fixed</span>
+                    <span class="prob-diff diff-e">Behavioral</span>
+                </div>
+                <div class="problem-desc">
+                    This is always asked. Prepare a STAR story about a real incident. The structure below
+                    is the template every strong candidate uses. Fill in YOUR experience.
+                </div>
+                <button class="sol-btn" onclick="toggleSol(this)">▶ Show Template</button>
+                <div class="sol-code">
+<pre><span class="cm">// STAR Framework for Production Bug Story</span>
+
+<span class="yw">SITUATION:</span>
+<span class="str">"In my IDBI LOS project, we had a production crash affecting
+ ~15% of loan processing sessions after a library upgrade."</span>
+
+<span class="yw">TASK:</span>
+<span class="str">"I was the sole Android developer on that project, so I was
+ solely responsible for diagnosing and shipping a fix rapidly."</span>
+
+<span class="yw">ACTION:</span>
+<span class="str">"I used Firebase Crashlytics to identify the stack trace —
+ it was a NullPointerException in our offline Room DAO query
+ when the app was resumed after process death. I wrote a
+ reproducer test using in-memory Room, confirmed the issue,
+ and fixed it by adding null safety to the DAO result and
+ adding a SavedStateHandle fallback."</span>
+
+<span class="yw">RESULT:</span>
+<span class="str">"Shipped the fix in 4 hours. Crash rate dropped from 50%
+ to under 2% within 24 hours of rollout. Added a regression
+ test so this class of bug cannot re-occur silently."</span>
+
+<span class="cm">// What interviewers look for:
+// ✓ Ownership — no blame-shifting
+// ✓ Systematic debugging — not random fixes
+// ✓ Prevention — added a test, not just patched
+// ✓ Metrics — concrete before/after numbers</span></pre>
+                </div>
+            </div>
+
+            <!-- P10 -->
+            <div class="problem-card">
+                <div class="problem-header-bar">
+                    <div class="prob-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+                    <span class="prob-title">P10 · Implement a token refresh Authenticator for OkHttp</span>
+                    <span class="prob-diff diff-h">Hard</span>
+                </div>
+                <div class="problem-desc">
+                    Implement an OkHttp <code>Authenticator</code> that refreshes an expired JWT token,
+                    queues concurrent requests during refresh, and retries them with the new token.
+                    This is asked in every senior Android role.
+                </div>
+                <button class="sol-btn" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-code">
+<pre><span class="kw">class</span> <span class="tp">TokenAuthenticator</span>(
+    <span class="kw">private val</span> tokenStore: <span class="tp">TokenStore</span>,
+    <span class="kw">private val</span> authApi: <span class="tp">AuthApi</span>
+) : <span class="tp">Authenticator</span> {
+
+    <span class="cm">// Mutex ensures only ONE refresh happens even with concurrent 401s</span>
+    <span class="kw">private val</span> mutex = <span class="tp">Mutex</span>()
+
+    <span class="kw">override fun</span> <span class="fn">authenticate</span>(route: <span class="tp">Route</span>?, response: <span class="tp">Response</span>): <span class="tp">Request</span>? {
+        <span class="cm">// If token already changed since this request was made → retry with new token</span>
+        <span class="kw">val</span> savedToken = tokenStore.<span class="fn">getAccessToken</span>()
+        <span class="kw">val</span> requestToken = response.request.<span class="fn">header</span>(<span class="str">"Authorization"</span>)
+            ?.<span class="fn">removePrefix</span>(<span class="str">"Bearer "</span>)
+
+        <span class="kw">if</span> (savedToken <span class="op">!=</span> <span class="kw">null</span> <span class="op">&amp;&amp;</span> savedToken <span class="op">!=</span> requestToken) {
+            <span class="kw">return</span> response.request.<span class="fn">newBuilder</span>()
+                .<span class="fn">header</span>(<span class="str">"Authorization"</span>, <span class="str">"Bearer $savedToken"</span>)
+                .<span class="fn">build</span>()
+        }
+
+        <span class="cm">// Refresh token — block thread (OkHttp is on IO thread)</span>
+        <span class="kw">val</span> newToken = <span class="fn">runBlocking</span> {
+            mutex.<span class="fn">withLock</span> {
+                <span class="cm">// Check again inside lock — another coroutine may have refreshed</span>
+                <span class="kw">val</span> current = tokenStore.<span class="fn">getAccessToken</span>()
+                <span class="kw">if</span> (current <span class="op">!=</span> requestToken) <span class="kw">return</span>@withLock current
+
+                <span class="kw">try</span> {
+                    <span class="kw">val</span> result = authApi.<span class="fn">refreshToken</span>(tokenStore.<span class="fn">getRefreshToken</span>()!!)
+                    tokenStore.<span class="fn">saveTokens</span>(result.accessToken, result.refreshToken)
+                    result.accessToken
+                } <span class="kw">catch</span> (e: <span class="tp">Exception</span>) {
+                    tokenStore.<span class="fn">clearTokens</span>()
+                    <span class="kw">null</span>  <span class="cm">// triggers logout</span>
+                }
+            }
+        } <span class="op">?:</span> <span class="kw">return</span> <span class="kw">null</span>
+
+        <span class="kw">return</span> response.request.<span class="fn">newBuilder</span>()
+            .<span class="fn">header</span>(<span class="str">"Authorization"</span>, <span class="str">"Bearer $newToken"</span>)
+            .<span class="fn">build</span>()
+    }
+}</pre>
+                </div>
+            </div>
+
+        </div><!-- /problems phase 3 -->
+    </div><!-- /phase 3 -->
+
+    <!-- ══════════════════════════════════════════════════════════
+         INTERVIEW READINESS CHECKLIST
+    ══════════════════════════════════════════════════════════ -->
+    <div class="section-block mt-section" id="checklist">
+        <div class="section-divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">Final Readiness Checklist</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <div class="checklist-grid">
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Can explain coroutine state machine without notes</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Implemented StateFlow + UiState in ViewModel from scratch</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Can draw Clean Architecture dependency diagram on whiteboard</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Solved LRU Cache problem in &lt; 10 minutes</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Written unit tests for ViewModel + Repository + DAO</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Prepared 3 system design answers with tradeoffs</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Completed 2 full mock interviews (recorded)</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Prepared 10 STAR behavioral stories</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Know your IDBI/Federal project deeply — ready for interrogation</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Can explain Hilt component hierarchy and scopes</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Implemented token refresh Authenticator with queue</div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this)">
+                <div class="ci-box"></div>
+                <div class="ci-text">Solved 5 DSA problems (BFS/DFS/DP) in Kotlin</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="section-block">
+        <div class="tips-grid">
+            <div class="tip-card">
+                <div class="tip-icon">🎯</div>
+                <div class="tip-title">Target Companies (Bengaluru)</div>
+                <div class="tip-text">
+                    Flipkart, Swiggy, CRED, Zepto, PhonePe, Navi, Meesho, Dunzo, Groww, INDmoney.
+                    All hire senior Android devs. Research their tech blogs — Swiggy and CRED both write
+                    about their Android architecture in detail.
+                </div>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">🧠</div>
+                <div class="tip-title">Daily Routine (12 weeks)</div>
+                <div class="tip-text">
+                    <strong>Weekdays:</strong> 2hr deep study + 1 code problem.<br/>
+                    <strong>Saturday:</strong> 4hr — full mock interview + review.<br/>
+                    <strong>Sunday:</strong> 2hr — weak spots only, no new topics.<br/>
+                    Consistency beats intensity. Protect sleep.
+                </div>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">⚡</div>
+                <div class="tip-title">Interviewer's Secret Criteria</div>
+                <div class="tip-text">
+                    We're actually scoring you on: <strong>how you think under ambiguity</strong>,
+                    not just correctness. Always narrate your reasoning. Ask clarifying questions.
+                    Say "I'd usually do X but in this constraint I'd trade off to Y because..."
+                    That's senior-level behaviour.
+                </div>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">🚀</div>
+                <div class="tip-title">Your Strongest Card</div>
+                <div class="tip-text">
+                    Your banking domain experience (IDBI, Federal) is genuinely rare.
+                    Frame it as: "I've shipped to real users in a high-stakes regulated environment
+                    where crashes aren't acceptable." That's a premium signal to any product company.
+                    Lead with it.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERVIEW DAY -->
+    <div class="interview-day">
+        <div>
+            <div class="iday-title">Interview Day Protocol</div>
+            <ul class="iday-list">
+                <li>Sleep 8 hours the night before — no late grinding</li>
+                <li>Review your 3 strongest projects for 30 min, not new topics</li>
+                <li>Log in 5 minutes early for technical checks</li>
+                <li>Always ask: "Can you tell me more about the team structure?"</li>
+                <li>If you don't know: "I haven't implemented that, but my approach would be..." — never bluff</li>
+                <li>For system design: ask clarifying questions first, always</li>
+                <li>For DSA: think aloud — narrate your brute force, then optimize</li>
+                <li>At the end: ask about tech debt, on-call rotation, code reviews</li>
+            </ul>
+        </div>
+        <div>
+            <div class="iday-quote">
+                "The best interviews feel like a conversation between two engineers
+                solving a problem together — not an interrogation."
+            </div>
+            <p style="font-family:var(--mono);font-size:11px;opacity:0.4;letter-spacing:0.1em;text-transform:uppercase;">
+                — From an interviewer who has been on both sides of the table
+            </p>
+            <div style="margin-top:24px;">
+                <div style="font-family:var(--mono);font-size:10px;color:rgba(245,240,232,0.4);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px;">Remember</div>
+                <div style="font-size:14px;opacity:0.65;line-height:1.7;">
+                    You have built production systems that process real banking transactions.
+                    That is not junior-level work. Walk in with that confidence.
+                    You belong in the room.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+    // ── Week completion ──────────────────────────────────────
+    const weekDone = JSON.parse(localStorage.getItem('w12_done') || '{}');
+
+    function toggleWeek(n) {
+      weekDone[n] = !weekDone[n];
+      const el = document.getElementById('wc' + n);
+      el.textContent = weekDone[n] ? '✓' : ' ';
+      el.classList.toggle('done', !!weekDone[n]);
+      localStorage.setItem('w12_done', JSON.stringify(weekDone));
+      updateProgress();
+    }
+
+    function initWeeks() {
+      for (let i = 1; i <= 12; i++) {
+        if (weekDone[i]) {
+          const el = document.getElementById('wc' + i);
+          if (el) { el.textContent = '✓'; el.classList.add('done'); }
+        }
+      }
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const p1 = [1,2,3,4].filter(n => weekDone[n]).length;
+      const p2 = [5,6,7,8].filter(n => weekDone[n]).length;
+      const p3 = [9,10,11,12].filter(n => weekDone[n]).length;
+      const total = p1 + p2 + p3;
+
+      document.getElementById('p1bar').style.width = (p1/4*100) + '%';
+      document.getElementById('p2bar').style.width = (p2/4*100) + '%';
+      document.getElementById('p3bar').style.width = (p3/4*100) + '%';
+      document.getElementById('p1txt').textContent = p1 + ' / 4 weeks';
+      document.getElementById('p2txt').textContent = p2 + ' / 4 weeks';
+      document.getElementById('p3txt').textContent = p3 + ' / 4 weeks';
+      document.getElementById('overallBar').style.width = (total/12*100) + '%';
+      document.getElementById('overallPct').textContent = Math.round(total/12*100) + '%';
+    }
+
+    // ── Checklist ────────────────────────────────────────────
+    const checkDone = JSON.parse(localStorage.getItem('cl_done') || '{}');
+
+    function toggleCheck(el) {
+      const idx = Array.from(el.parentElement.children).indexOf(el);
+      checkDone[idx] = !checkDone[idx];
+      el.classList.toggle('done', !!checkDone[idx]);
+      el.querySelector('.ci-box').textContent = checkDone[idx] ? '✓' : '';
+      localStorage.setItem('cl_done', JSON.stringify(checkDone));
+    }
+
+    function initChecks() {
+      document.querySelectorAll('.check-item').forEach((el, i) => {
+        if (checkDone[i]) {
+          el.classList.add('done');
+          el.querySelector('.ci-box').textContent = '✓';
+        }
+      });
+    }
+
+    // ── Solution toggles ─────────────────────────────────────
+    function toggleSol(btn) {
+      const code = btn.nextElementSibling;
+      const open = code.classList.toggle('open');
+      btn.textContent = open ? '▼ Hide Solution' : '▶ Show Solution';
+    }
+
+    // ── Scroll top ───────────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      document.getElementById('top').classList.toggle('vis', scrollY > 400);
+    });
+
+    // ── Init ─────────────────────────────────────────────────
+    initWeeks();
+    initChecks();
+</script>
+</body>
+</html>
