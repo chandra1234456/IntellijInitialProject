@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Kotlin Collections — Interview Cheat Sheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+          --bg:       #0B0F0E;
+          --bg2:      #111614;
+          --bg3:      #171E1C;
+          --bg4:      #1D2623;
+          --border:   #1F2E2A;
+          --green:    #00FF87;
+          --green2:   #00C96B;
+          --teal:     #00E5CC;
+          --yellow:   #FFE566;
+          --orange:   #FF8C42;
+          --red:      #FF5470;
+          --blue:     #61AFEF;
+          --purple:   #C678DD;
+          --gray:     #ABB2BF;
+          --muted:    #3D5249;
+          --txt:      #D8EBE4;
+          --white:    #F0FFF8;
+          --mono:     'Fira Code', monospace;
+          --display:  'Bebas Neue', sans-serif;
+          --body:     'DM Sans', sans-serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+          background: var(--bg);
+          color: var(--txt);
+          font-family: var(--body);
+          font-size: 15px;
+          line-height: 1.6;
+          overflow-x: hidden;
+        }
+
+        /* scanline overlay */
+        body::after {
+          content: '';
+          position: fixed; inset: 0;
+          background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0,0,0,0.04) 2px,
+            rgba(0,0,0,0.04) 4px
+          );
+          pointer-events: none;
+          z-index: 9999;
+        }
+
+        /* animated grid bg */
+        body::before {
+          content: '';
+          position: fixed; inset: 0;
+          background-image:
+            linear-gradient(rgba(0,255,135,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,255,135,0.03) 1px, transparent 1px);
+          background-size: 32px 32px;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        /* ── NAV SIDEBAR ── */
+        #sidebar {
+          position: fixed;
+          left: 0; top: 0; bottom: 0;
+          width: 220px;
+          background: var(--bg2);
+          border-right: 1px solid var(--border);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto;
+          padding: 0 0 24px;
+        }
+        .sidebar-logo {
+          padding: 20px 16px 16px;
+          border-bottom: 1px solid var(--border);
+          margin-bottom: 8px;
+        }
+        .sidebar-logo .logo-k {
+          font-family: var(--display);
+          font-size: 32px;
+          color: var(--green);
+          line-height: 1;
+          letter-spacing: 2px;
+        }
+        .sidebar-logo .logo-sub {
+          font-family: var(--mono);
+          font-size: 9px;
+          color: var(--muted);
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          margin-top: 2px;
+        }
+        .nav-section-label {
+          font-family: var(--mono);
+          font-size: 9px;
+          color: var(--muted);
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          padding: 12px 16px 4px;
+        }
+        .nav-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 7px 16px;
+          font-family: var(--mono);
+          font-size: 11px;
+          color: var(--gray);
+          text-decoration: none;
+          transition: all 0.15s;
+          border-left: 2px solid transparent;
+          cursor: pointer;
+        }
+        .nav-item:hover { color: var(--green); border-left-color: var(--green); background: rgba(0,255,135,0.04); }
+        .nav-item.active { color: var(--green); border-left-color: var(--green); background: rgba(0,255,135,0.06); }
+        .nav-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+        /* ── MAIN ── */
+        main {
+          margin-left: 220px;
+          position: relative;
+          z-index: 1;
+          max-width: 960px;
+          padding: 0 40px 100px;
+        }
+
+        /* ── HERO ── */
+        .hero {
+          padding: 60px 0 48px;
+          border-bottom: 1px solid var(--border);
+          margin-bottom: 56px;
+        }
+        .hero-eyebrow {
+          font-family: var(--mono);
+          font-size: 11px;
+          color: var(--green);
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          margin-bottom: 12px;
+          display: flex; align-items: center; gap: 10px;
+        }
+        .hero-eyebrow::before { content: '▶'; font-size: 8px; }
+        .hero h1 {
+          font-family: var(--display);
+          font-size: clamp(52px, 7vw, 88px);
+          line-height: 0.95;
+          letter-spacing: 2px;
+          color: var(--white);
+          margin-bottom: 8px;
+        }
+        .hero h1 span { color: var(--green); }
+        .hero-desc {
+          font-size: 14px;
+          color: var(--gray);
+          max-width: 540px;
+          margin-top: 16px;
+          line-height: 1.7;
+          font-family: var(--mono);
+        }
+        .hero-tags {
+          display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px;
+        }
+        .hero-tag {
+          background: var(--bg3);
+          border: 1px solid var(--border);
+          border-radius: 4px;
+          padding: 3px 10px;
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--teal);
+          letter-spacing: 0.06em;
+        }
+
+        /* ── SECTION ── */
+        .section {
+          margin-bottom: 64px;
+          scroll-margin-top: 24px;
+        }
+        .section-header {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          margin-bottom: 28px;
+          padding-bottom: 12px;
+          border-bottom: 1px solid var(--border);
+        }
+        .section-num {
+          font-family: var(--display);
+          font-size: 42px;
+          color: var(--muted);
+          line-height: 1;
+          min-width: 48px;
+        }
+        .section-title-wrap {}
+        .section-title {
+          font-family: var(--display);
+          font-size: 26px;
+          letter-spacing: 1.5px;
+          color: var(--white);
+          line-height: 1;
+        }
+        .section-subtitle {
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--muted);
+          letter-spacing: 0.1em;
+          margin-top: 4px;
+        }
+
+        /* ── CARDS ── */
+        .card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 14px;
+          margin-bottom: 20px;
+        }
+        .card {
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          overflow: hidden;
+        }
+        .card-head {
+          padding: 10px 14px;
+          border-bottom: 1px solid var(--border);
+          display: flex; align-items: center; gap: 8px;
+          background: var(--bg3);
+        }
+        .card-label {
+          font-family: var(--mono);
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+        }
+        .card-badge {
+          margin-left: auto;
+          font-family: var(--mono);
+          font-size: 9px;
+          letter-spacing: 0.1em;
+          padding: 2px 7px;
+          border-radius: 3px;
+        }
+        .badge-immut { background: rgba(97,175,239,0.15); color: var(--blue); border: 1px solid rgba(97,175,239,0.3); }
+        .badge-mut   { background: rgba(255,140,66,0.15); color: var(--orange); border: 1px solid rgba(255,140,66,0.3); }
+        .badge-lazy  { background: rgba(198,120,221,0.15); color: var(--purple); border: 1px solid rgba(198,120,221,0.3); }
+
+        .card-body { padding: 14px; }
+        .card-body p { font-size: 13px; color: var(--gray); line-height: 1.65; margin-bottom: 8px; }
+        .card-body p:last-child { margin-bottom: 0; }
+        .card-body strong { color: var(--white); font-weight: 500; }
+
+        /* ── CODE BLOCKS ── */
+        .code-wrap {
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          overflow: hidden;
+          margin: 14px 0;
+        }
+        .code-header {
+          background: var(--bg3);
+          padding: 8px 14px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          border-bottom: 1px solid var(--border);
+        }
+        .code-dots { display: flex; gap: 5px; }
+        .code-dots span {
+          width: 10px; height: 10px; border-radius: 50%;
+        }
+        .cd1 { background: #FF5F57; }
+        .cd2 { background: #FEBC2E; }
+        .cd3 { background: #28C840; }
+        .code-filename {
+          font-family: var(--mono);
+          font-size: 11px;
+          color: var(--muted);
+          letter-spacing: 0.06em;
+        }
+        pre {
+          padding: 18px 20px;
+          overflow-x: auto;
+          font-family: var(--mono);
+          font-size: 12.5px;
+          line-height: 1.75;
+          tab-size: 4;
+        }
+        /* syntax colors */
+        .kw  { color: var(--purple); font-weight: 500; }
+        .fn  { color: var(--blue); }
+        .str { color: var(--yellow); }
+        .num { color: var(--orange); }
+        .cm  { color: var(--muted); font-style: italic; }
+        .tp  { color: var(--teal); }
+        .op  { color: var(--red); }
+        .gn  { color: var(--green); }
+        .plain { color: var(--txt); }
+
+        /* ── INTERVIEW Q&A ── */
+        .qa-block {
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          overflow: hidden;
+          margin-bottom: 14px;
+        }
+        .qa-question {
+          background: var(--bg3);
+          padding: 14px 18px;
+          font-family: var(--mono);
+          font-size: 12.5px;
+          color: var(--yellow);
+          cursor: pointer;
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          user-select: none;
+          transition: background 0.15s;
+          line-height: 1.55;
+        }
+        .qa-question:hover { background: var(--bg4); }
+        .qa-q-icon {
+          background: rgba(255,229,102,0.12);
+          border: 1px solid rgba(255,229,102,0.25);
+          color: var(--yellow);
+          font-size: 9px;
+          font-weight: 700;
+          padding: 2px 6px;
+          border-radius: 3px;
+          letter-spacing: 0.05em;
+          flex-shrink: 0;
+          margin-top: 1px;
+        }
+        .qa-toggle {
+          margin-left: auto;
+          color: var(--muted);
+          font-size: 13px;
+          transition: transform 0.25s;
+          flex-shrink: 0;
+        }
+        .qa-answer {
+          display: none;
+          background: var(--bg2);
+          border-top: 1px solid var(--border);
+          padding: 18px;
+        }
+        .qa-answer.open { display: block; }
+        .qa-toggle.open { transform: rotate(180deg); }
+        .qa-answer p { font-size: 13px; color: var(--gray); line-height: 1.7; margin-bottom: 10px; }
+        .qa-answer p:last-child { margin-bottom: 0; }
+        .qa-answer strong { color: var(--green); font-weight: 500; }
+        .qa-answer em { color: var(--teal); font-style: normal; }
+        .qa-diff {
+          display: inline-block;
+          font-family: var(--mono);
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          padding: 2px 7px;
+          border-radius: 3px;
+          flex-shrink: 0;
+          margin-top: 1px;
+        }
+        .diff-easy   { background: rgba(0,255,135,0.1); color: var(--green); border: 1px solid rgba(0,255,135,0.25); }
+        .diff-medium { background: rgba(255,229,102,0.1); color: var(--yellow); border: 1px solid rgba(255,229,102,0.25); }
+        .diff-hard   { background: rgba(255,84,112,0.1); color: var(--red); border: 1px solid rgba(255,84,112,0.25); }
+        .diff-god    { background: rgba(198,120,221,0.1); color: var(--purple); border: 1px solid rgba(198,120,221,0.25); }
+
+        /* ── PROBLEM BLOCK ── */
+        .problem-block {
+          border: 1px solid var(--border);
+          border-left: 3px solid var(--orange);
+          border-radius: 8px;
+          overflow: hidden;
+          margin-bottom: 20px;
+          background: var(--bg2);
+        }
+        .problem-head {
+          background: var(--bg3);
+          padding: 12px 18px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          border-bottom: 1px solid var(--border);
+        }
+        .problem-num {
+          font-family: var(--display);
+          font-size: 18px;
+          color: var(--orange);
+        }
+        .problem-title {
+          font-family: var(--mono);
+          font-size: 12px;
+          font-weight: 600;
+          color: var(--white);
+          flex: 1;
+        }
+        .problem-tags { display: flex; gap: 6px; }
+        .problem-tag {
+          font-family: var(--mono);
+          font-size: 9px;
+          padding: 2px 7px;
+          border-radius: 3px;
+          background: rgba(255,140,66,0.1);
+          color: var(--orange);
+          border: 1px solid rgba(255,140,66,0.25);
+          letter-spacing: 0.06em;
+        }
+        .problem-body { padding: 16px 18px; }
+        .problem-desc { font-size: 13px; color: var(--gray); margin-bottom: 14px; line-height: 1.65; }
+        .problem-desc code {
+          background: var(--bg4);
+          border: 1px solid var(--border);
+          border-radius: 3px;
+          padding: 1px 6px;
+          font-family: var(--mono);
+          font-size: 11px;
+          color: var(--teal);
+        }
+        .sol-toggle {
+          background: none;
+          border: 1px solid var(--border);
+          border-radius: 5px;
+          padding: 6px 14px;
+          color: var(--muted);
+          font-family: var(--mono);
+          font-size: 11px;
+          cursor: pointer;
+          transition: all 0.15s;
+          margin-bottom: 10px;
+          letter-spacing: 0.06em;
+        }
+        .sol-toggle:hover { border-color: var(--green); color: var(--green); }
+        .sol-content { display: none; }
+        .sol-content.open { display: block; }
+
+        /* ── COMPARISON TABLE ── */
+        .compare-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-family: var(--mono);
+          font-size: 12px;
+          margin: 16px 0;
+        }
+        .compare-table th {
+          background: var(--bg3);
+          padding: 10px 14px;
+          text-align: left;
+          color: var(--green);
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          border: 1px solid var(--border);
+        }
+        .compare-table td {
+          padding: 9px 14px;
+          border: 1px solid var(--border);
+          color: var(--gray);
+          vertical-align: top;
+          line-height: 1.6;
+        }
+        .compare-table tr:hover td { background: var(--bg3); }
+        .compare-table td:first-child { color: var(--teal); font-weight: 500; }
+
+        /* ── QUICK REF GRID ── */
+        .ref-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+          gap: 10px;
+          margin-bottom: 16px;
+        }
+        .ref-item {
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 6px;
+          padding: 10px 13px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .ref-fn {
+          font-family: var(--mono);
+          font-size: 12px;
+          color: var(--blue);
+          font-weight: 500;
+        }
+        .ref-desc { font-size: 12px; color: var(--gray); }
+        .ref-ret {
+          font-family: var(--mono);
+          font-size: 10px;
+          color: var(--muted);
+        }
+
+        /* ── CALLOUT ── */
+        .callout {
+          border-radius: 6px;
+          padding: 12px 16px;
+          margin: 14px 0;
+          font-family: var(--mono);
+          font-size: 12px;
+          line-height: 1.65;
+          display: flex;
+          gap: 12px;
+          align-items: flex-start;
+        }
+        .callout-warn { background: rgba(255,229,102,0.06); border: 1px solid rgba(255,229,102,0.2); color: var(--yellow); }
+        .callout-tip  { background: rgba(0,255,135,0.05); border: 1px solid rgba(0,255,135,0.18); color: var(--green2); }
+        .callout-info { background: rgba(97,175,239,0.05); border: 1px solid rgba(97,175,239,0.18); color: var(--blue); }
+        .callout-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+        /* ── SCROLL TOP ── */
+        #top-btn {
+          position: fixed; bottom: 28px; right: 28px;
+          width: 38px; height: 38px;
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 6px;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer; font-size: 14px; color: var(--muted);
+          z-index: 200; transition: all 0.2s;
+          opacity: 0; pointer-events: none;
+        }
+        #top-btn.vis { opacity: 1; pointer-events: auto; }
+        #top-btn:hover { border-color: var(--green); color: var(--green); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+        .section { animation: fadeIn 0.4s ease both; }
+
+        /* responsive */
+        @media (max-width: 860px) {
+          #sidebar { display: none; }
+          main { margin-left: 0; padding: 0 20px 80px; }
+        }
+        @media (max-width: 500px) {
+          .card-grid, .ref-grid { grid-template-columns: 1fr; }
+          pre { font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+    <div class="sidebar-logo">
+        <div class="logo-k">KOTLIN</div>
+        <div class="logo-sub">Collections · Interview</div>
+    </div>
+    <div class="nav-section-label">Foundations</div>
+    <a class="nav-item" href="#overview">  <span class="nav-dot" style="background:#00FF87"></span> Overview & Types</a>
+    <a class="nav-item" href="#list">      <span class="nav-dot" style="background:#61AFEF"></span> List</a>
+    <a class="nav-item" href="#map">       <span class="nav-dot" style="background:#FFE566"></span> Map</a>
+    <a class="nav-item" href="#set">       <span class="nav-dot" style="background:#FF8C42"></span> Set</a>
+    <div class="nav-section-label">Operators</div>
+    <a class="nav-item" href="#transform"> <span class="nav-dot" style="background:#00E5CC"></span> Transform</a>
+    <a class="nav-item" href="#filter">    <span class="nav-dot" style="background:#C678DD"></span> Filter & Search</a>
+    <a class="nav-item" href="#aggregate"> <span class="nav-dot" style="background:#FF5470"></span> Aggregate</a>
+    <a class="nav-item" href="#group">     <span class="nav-dot" style="background:#00FF87"></span> Grouping & Sorting</a>
+    <a class="nav-item" href="#sequence">  <span class="nav-dot" style="background:#61AFEF"></span> Sequence</a>
+    <div class="nav-section-label">Interview Prep</div>
+    <a class="nav-item" href="#interview"> <span class="nav-dot" style="background:#FFE566"></span> Q &amp; A</a>
+    <a class="nav-item" href="#problems">  <span class="nav-dot" style="background:#FF5470"></span> Code Problems</a>
+    <a class="nav-item" href="#gotchas">   <span class="nav-dot" style="background:#FF8C42"></span> Gotchas</a>
+</nav>
+
+<div id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<main>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-eyebrow">Cheat Sheet · Interview Edition</div>
+        <h1>KOTLIN<br/><span>COLLECTIONS</span></h1>
+        <p class="hero-desc">// Complete reference: types, operators, patterns &amp; interview Q&amp;A<br/>// With code problems + solutions · Android perspective</p>
+        <div class="hero-tags">
+            <span class="hero-tag">List · Map · Set</span>
+            <span class="hero-tag">Sequence</span>
+            <span class="hero-tag">Functional Ops</span>
+            <span class="hero-tag">Immutable vs Mutable</span>
+            <span class="hero-tag">Performance</span>
+            <span class="hero-tag">Android Use-Cases</span>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 01 · OVERVIEW -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="overview">
+        <div class="section-header">
+            <div class="section-num">01</div>
+            <div class="section-title-wrap">
+                <div class="section-title">OVERVIEW &amp; TYPES</div>
+                <div class="section-subtitle">The collection hierarchy</div>
+            </div>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-label" style="color:var(--blue)">List</span>
+                    <span class="card-badge badge-immut">IMMUTABLE</span>
+                </div>
+                <div class="card-body">
+                    <p>Ordered, allows <strong>duplicates</strong>. Access by index. Created with <code style="color:var(--teal);font-family:var(--mono)">listOf()</code>.</p>
+                    <p>Backed by Java's <strong>ArrayList</strong> internally. Read-only view.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-label" style="color:var(--orange)">MutableList</span>
+                    <span class="card-badge badge-mut">MUTABLE</span>
+                </div>
+                <div class="card-body">
+                    <p>Ordered, allows duplicates. Can <strong>add/remove/modify</strong>. Created with <code style="color:var(--teal);font-family:var(--mono)">mutableListOf()</code> or <code style="color:var(--teal);font-family:var(--mono)">ArrayList()</code>.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-label" style="color:var(--yellow)">Map</span>
+                    <span class="card-badge badge-immut">IMMUTABLE</span>
+                </div>
+                <div class="card-body">
+                    <p>Key-value pairs. <strong>Keys unique</strong>, values can duplicate. Created with <code style="color:var(--teal);font-family:var(--mono)">mapOf()</code>.</p>
+                    <p>Backed by Java <strong>LinkedHashMap</strong> — preserves insertion order.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-label" style="color:var(--orange)">MutableMap</span>
+                    <span class="card-badge badge-mut">MUTABLE</span>
+                </div>
+                <div class="card-body">
+                    <p>Can add/update/remove entries. <code style="color:var(--teal);font-family:var(--mono)">mutableMapOf()</code>, <code style="color:var(--teal);font-family:var(--mono)">hashMapOf()</code>, <code style="color:var(--teal);font-family:var(--mono)">linkedMapOf()</code>.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-label" style="color:var(--teal)">Set</span>
+                    <span class="card-badge badge-immut">IMMUTABLE</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>No duplicates</strong>. No guaranteed order (unless LinkedHashSet). Created with <code style="color:var(--teal);font-family:var(--mono)">setOf()</code>.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-head">
+                    <span class="card-label" style="color:var(--purple)">Sequence</span>
+                    <span class="card-badge badge-lazy">LAZY</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>Lazy evaluation</strong> — operations are computed only when terminal op is called. Use for large/infinite data. Created with <code style="color:var(--teal);font-family:var(--mono)">sequenceOf()</code> or <code style="color:var(--teal);font-family:var(--mono)">.asSequence()</code>.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout callout-warn">
+            <span class="callout-icon">⚠</span>
+            <span><strong>Interview trap:</strong> Kotlin's <code>listOf()</code> is read-only but NOT immutable — it's a view over a mutable Java list. Casting to <code>MutableList</code> can bypass read-only restriction. True immutability requires <code>Collections.unmodifiableList()</code> or <code>ImmutableList</code> from Guava.</span>
+        </div>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+                <span class="code-filename">CollectionTypes.kt</span>
+            </div>
+            <pre><span class="cm">// ── Immutable (read-only view) ─────────────────────────────</span>
+<span class="kw">val</span> list  <span class="op">=</span> <span class="fn">listOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)          <span class="cm">// List&lt;Int&gt;</span>
+<span class="kw">val</span> map   <span class="op">=</span> <span class="fn">mapOf</span>(<span class="str">"a"</span> <span class="kw">to</span> <span class="num">1</span>, <span class="str">"b"</span> <span class="kw">to</span> <span class="num">2</span>) <span class="cm">// Map&lt;String, Int&gt;</span>
+<span class="kw">val</span> set   <span class="op">=</span> <span class="fn">setOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">2</span>, <span class="num">3</span>)       <span class="cm">// Set&lt;Int&gt; → {1, 2, 3}</span>
+<span class="kw">val</span> empty <span class="op">=</span> <span class="fn">emptyList</span>&lt;<span class="tp">String</span>&gt;()      <span class="cm">// optimised singleton</span>
+
+<span class="cm">// ── Mutable ────────────────────────────────────────────────</span>
+<span class="kw">val</span> mList <span class="op">=</span> <span class="fn">mutableListOf</span>(<span class="str">"a"</span>, <span class="str">"b"</span>) <span class="cm">// ArrayList under the hood</span>
+<span class="kw">val</span> mMap  <span class="op">=</span> <span class="fn">mutableMapOf</span>&lt;<span class="tp">String</span>, <span class="tp">Int</span>&gt;()
+<span class="kw">val</span> mSet  <span class="op">=</span> <span class="fn">mutableSetOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)
+
+<span class="cm">// ── Specialised Maps ───────────────────────────────────────</span>
+<span class="kw">val</span> hash   <span class="op">=</span> <span class="fn">hashMapOf</span>(<span class="str">"k"</span> <span class="kw">to</span> <span class="num">1</span>)    <span class="cm">// O(1) lookup, no order</span>
+<span class="kw">val</span> linked <span class="op">=</span> <span class="fn">linkedMapOf</span>(<span class="str">"k"</span> <span class="kw">to</span> <span class="num">1</span>)  <span class="cm">// insertion order</span>
+<span class="kw">val</span> sorted <span class="op">=</span> <span class="fn">sortedMapOf</span>(<span class="str">"b"</span> <span class="kw">to</span> <span class="num">2</span>, <span class="str">"a"</span> <span class="kw">to</span> <span class="num">1</span>) <span class="cm">// TreeMap, sorted by key</span>
+
+<span class="cm">// ── buildList (Kotlin 1.6+) ────────────────────────────────</span>
+<span class="kw">val</span> built <span class="op">=</span> <span class="fn">buildList</span> {
+    <span class="fn">add</span>(<span class="str">"first"</span>)
+    <span class="fn">addAll</span>(<span class="fn">listOf</span>(<span class="str">"second"</span>, <span class="str">"third"</span>))
+}  <span class="cm">// returns immutable List&lt;String&gt;</span></pre>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 02 · LIST -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="list">
+        <div class="section-header">
+            <div class="section-num">02</div>
+            <div class="section-title-wrap">
+                <div class="section-title">LIST OPERATIONS</div>
+                <div class="section-subtitle">Most-used in Android</div>
+            </div>
+        </div>
+
+        <div class="ref-grid">
+            <div class="ref-item"><span class="ref-fn">get(index) / [index]</span><span class="ref-desc">Access element, throws IndexOutOfBoundsException</span></div>
+            <div class="ref-item"><span class="ref-fn">getOrNull(index)</span><span class="ref-desc">Safe access — returns null if out of bounds</span></div>
+            <div class="ref-item"><span class="ref-fn">getOrElse(index){}</span><span class="ref-desc">Returns lambda result if out of bounds</span></div>
+            <div class="ref-item"><span class="ref-fn">first() / last()</span><span class="ref-desc">First/last element, throws if empty</span></div>
+            <div class="ref-item"><span class="ref-fn">firstOrNull() / lastOrNull()</span><span class="ref-desc">Safe first/last — returns null if empty</span></div>
+            <div class="ref-item"><span class="ref-fn">indexOf(element)</span><span class="ref-desc">First index of element, -1 if absent</span></div>
+            <div class="ref-item"><span class="ref-fn">subList(from, to)</span><span class="ref-desc">Returns a view (not a copy!)</span></div>
+            <div class="ref-item"><span class="ref-fn">contains(element) / in</span><span class="ref-desc">O(n) for List, O(1) for Set</span></div>
+            <div class="ref-item"><span class="ref-fn">size / isEmpty() / isNotEmpty()</span><span class="ref-desc">Count / emptiness checks</span></div>
+            <div class="ref-item"><span class="ref-fn">plus(element) / +</span><span class="ref-desc">Returns new list with element added</span></div>
+            <div class="ref-item"><span class="ref-fn">minus(element) / -</span><span class="ref-desc">Returns new list with element removed</span></div>
+            <div class="ref-item"><span class="ref-fn">reversed()</span><span class="ref-desc">Returns new reversed list</span></div>
+            <div class="ref-item"><span class="ref-fn">shuffled()</span><span class="ref-desc">Returns new shuffled list</span></div>
+            <div class="ref-item"><span class="ref-fn">distinct()</span><span class="ref-desc">Removes duplicates, preserves order</span></div>
+            <div class="ref-item"><span class="ref-fn">chunked(size)</span><span class="ref-desc">Splits into sub-lists of max size</span></div>
+            <div class="ref-item"><span class="ref-fn">windowed(size, step)</span><span class="ref-desc">Sliding windows over the list</span></div>
+            <div class="ref-item"><span class="ref-fn">zip(other)</span><span class="ref-desc">Pairs elements → List&lt;Pair&gt;</span></div>
+            <div class="ref-item"><span class="ref-fn">flatten()</span><span class="ref-desc">List&lt;List&lt;T&gt;&gt; → List&lt;T&gt;</span></div>
+        </div>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+                <span class="code-filename">ListOps.kt</span>
+            </div>
+            <pre><span class="kw">val</span> nums <span class="op">=</span> <span class="fn">listOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>)
+
+<span class="cm">// safe access</span>
+nums.<span class="fn">getOrNull</span>(<span class="num">10</span>)          <span class="cm">// null (no crash)</span>
+nums.<span class="fn">getOrElse</span>(<span class="num">10</span>) { <span class="num">-1</span> }  <span class="cm">// -1</span>
+
+<span class="cm">// chunked — batch API calls</span>
+nums.<span class="fn">chunked</span>(<span class="num">2</span>)              <span class="cm">// [[1,2], [3,4], [5]]</span>
+
+<span class="cm">// windowed — moving average</span>
+nums.<span class="fn">windowed</span>(<span class="num">3</span>) { <span class="fn">it.sum</span>() / <span class="num">3.0</span> }  <span class="cm">// [2.0, 3.0, 4.0]</span>
+
+<span class="cm">// zip — combine two lists</span>
+<span class="kw">val</span> names  <span class="op">=</span> <span class="fn">listOf</span>(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>)
+<span class="kw">val</span> scores <span class="op">=</span> <span class="fn">listOf</span>(<span class="num">90</span>, <span class="num">85</span>)
+<span class="kw">val</span> paired <span class="op">=</span> names.<span class="fn">zip</span>(scores)  <span class="cm">// [(Alice,90), (Bob,85)]</span>
+
+<span class="cm">// flatten vs flatMap</span>
+<span class="kw">val</span> nested <span class="op">=</span> <span class="fn">listOf</span>(<span class="fn">listOf</span>(<span class="num">1</span>,<span class="num">2</span>), <span class="fn">listOf</span>(<span class="num">3</span>,<span class="num">4</span>))
+nested.<span class="fn">flatten</span>()              <span class="cm">// [1, 2, 3, 4]</span>
+nested.<span class="fn">flatMap</span> { <span class="fn">it.map</span> { n <span class="op">-&gt;</span> n <span class="op">*</span> <span class="num">2</span> } } <span class="cm">// [2,4,6,8]</span>
+
+<span class="cm">// distinct — remove duplicates</span>
+<span class="fn">listOf</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">2</span>,<span class="num">3</span>).<span class="fn">distinct</span>()   <span class="cm">// [1, 2, 3]</span>
+<span class="fn">listOf</span>(<span class="str">"a"</span>,<span class="str">"A"</span>,<span class="str">"b"</span>).<span class="fn">distinctBy</span> { it.<span class="fn">lowercase</span>() } <span class="cm">// [a, b]</span></pre>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 03 · MAP -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="map">
+        <div class="section-header">
+            <div class="section-num">03</div>
+            <div class="section-title-wrap">
+                <div class="section-title">MAP OPERATIONS</div>
+                <div class="section-subtitle">Key-value mastery</div>
+            </div>
+        </div>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+                <span class="code-filename">MapOps.kt</span>
+            </div>
+            <pre><span class="kw">val</span> map <span class="op">=</span> <span class="fn">mapOf</span>(<span class="str">"a"</span> <span class="kw">to</span> <span class="num">1</span>, <span class="str">"b"</span> <span class="kw">to</span> <span class="num">2</span>, <span class="str">"c"</span> <span class="kw">to</span> <span class="num">3</span>)
+
+<span class="cm">// ── Access ─────────────────────────────────────────────────</span>
+map[<span class="str">"a"</span>]                         <span class="cm">// 1 (nullable)</span>
+map.<span class="fn">getValue</span>(<span class="str">"a"</span>)                <span class="cm">// 1 (throws if missing)</span>
+map.<span class="fn">getOrDefault</span>(<span class="str">"z"</span>, <span class="num">0</span>)        <span class="cm">// 0</span>
+map.<span class="fn">getOrElse</span>(<span class="str">"z"</span>) { <span class="num">-1</span> }       <span class="cm">// -1</span>
+
+<span class="cm">// ── MutableMap operations ──────────────────────────────────</span>
+<span class="kw">val</span> m <span class="op">=</span> <span class="fn">mutableMapOf</span>(<span class="str">"a"</span> <span class="kw">to</span> <span class="num">1</span>)
+m.<span class="fn">put</span>(<span class="str">"b"</span>, <span class="num">2</span>)                     <span class="cm">// adds "b"</span>
+m.<span class="fn">putIfAbsent</span>(<span class="str">"a"</span>, <span class="num">99</span>)            <span class="cm">// no-op, "a" exists</span>
+m.<span class="fn">getOrPut</span>(<span class="str">"c"</span>) { <span class="num">3</span> }            <span class="cm">// adds "c"=3, returns 3</span>
+m.<span class="fn">merge</span>(<span class="str">"a"</span>, <span class="num">10</span>) { old, new <span class="op">-&gt;</span> old <span class="op">+</span> new }  <span class="cm">// a=11</span>
+
+<span class="cm">// ── Transform ─────────────────────────────────────────────</span>
+map.<span class="fn">mapValues</span> { it.value <span class="op">*</span> <span class="num">2</span> }   <span class="cm">// {a=2, b=4, c=6}</span>
+map.<span class="fn">mapKeys</span> { it.key.<span class="fn">uppercase</span>() } <span class="cm">// {A=1, B=2, C=3}</span>
+map.<span class="fn">filterValues</span> { it <span class="op">&gt;</span> <span class="num">1</span> }     <span class="cm">// {b=2, c=3}</span>
+map.<span class="fn">filterKeys</span> { it <span class="op">!=</span> <span class="str">"a"</span> }    <span class="cm">// {b=2, c=3}</span>
+
+<span class="cm">// ── Destructuring ─────────────────────────────────────────</span>
+<span class="kw">for</span> ((key, value) <span class="kw">in</span> map) {
+    <span class="fn">println</span>(<span class="str">"$key → $value"</span>)
+}
+
+<span class="cm">// ── Convert to List of entries ─────────────────────────────</span>
+map.<span class="fn">toList</span>()                      <span class="cm">// List&lt;Pair&lt;String,Int&gt;&gt;</span>
+map.entries.<span class="fn">sortedBy</span> { it.value } <span class="cm">// sorted by value</span>
+
+<span class="cm">// ── Frequency map (interview favourite!) ───────────────────</span>
+<span class="kw">val</span> words <span class="op">=</span> <span class="fn">listOf</span>(<span class="str">"a"</span>,<span class="str">"b"</span>,<span class="str">"a"</span>,<span class="str">"c"</span>,<span class="str">"b"</span>,<span class="str">"a"</span>)
+<span class="kw">val</span> freq <span class="op">=</span> words.<span class="fn">groupingBy</span> { it }.<span class="fn">eachCount</span>()  <span class="cm">// {a=3, b=2, c=1}</span>
+<span class="cm">// alternative:</span>
+<span class="kw">val</span> freq2 <span class="op">=</span> <span class="fn">mutableMapOf</span>&lt;<span class="tp">String</span>, <span class="tp">Int</span>&gt;()
+words.<span class="fn">forEach</span> { freq2.<span class="fn">merge</span>(it, <span class="num">1</span>, <span class="tp">Int</span>::plus) }</pre>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 04 · SET -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="set">
+        <div class="section-header">
+            <div class="section-num">04</div>
+            <div class="section-title-wrap">
+                <div class="section-title">SET OPERATIONS</div>
+                <div class="section-subtitle">Mathematical set algebra</div>
+            </div>
+        </div>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+                <span class="code-filename">SetOps.kt</span>
+            </div>
+            <pre><span class="kw">val</span> a <span class="op">=</span> <span class="fn">setOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>)
+<span class="kw">val</span> b <span class="op">=</span> <span class="fn">setOf</span>(<span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>)
+
+<span class="cm">// Set algebra</span>
+a <span class="fn">union</span> b         <span class="cm">// {1,2,3,4,5,6} — all elements</span>
+a <span class="fn">intersect</span> b     <span class="cm">// {3,4}         — common elements</span>
+a <span class="fn">subtract</span> b      <span class="cm">// {1,2}         — in a but not b</span>
+a <span class="op">+</span> b              <span class="cm">// same as union</span>
+a <span class="op">-</span> b              <span class="cm">// same as subtract</span>
+
+<span class="cm">// Contains is O(1) for HashSet</span>
+a.<span class="fn">contains</span>(<span class="num">3</span>)      <span class="cm">// true, O(1)</span>
+<span class="fn">listOf</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>).<span class="fn">contains</span>(<span class="num">3</span>) <span class="cm">// true, O(n) — prefer Set for lookup!</span>
+
+<span class="cm">// LinkedHashSet — preserves insertion order</span>
+<span class="kw">val</span> linked <span class="op">=</span> <span class="fn">linkedSetOf</span>(<span class="num">3</span>, <span class="num">1</span>, <span class="num">2</span>)  <span class="cm">// {3, 1, 2}</span>
+
+<span class="cm">// TreeSet — sorted</span>
+<span class="kw">val</span> sorted <span class="op">=</span> <span class="fn">sortedSetOf</span>(<span class="num">3</span>, <span class="num">1</span>, <span class="num">2</span>)  <span class="cm">// {1, 2, 3}</span></pre>
+        </div>
+
+        <div class="callout callout-tip">
+            <span class="callout-icon">✦</span>
+            <span><strong>Android tip:</strong> Use <code>Set</code> for permission sets, unique IDs, or deduplicating API responses. <code>list.toSet().toList()</code> is a concise deduplicate — but order may change unless you use <code>distinct()</code>.</span>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 05 · TRANSFORM -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="transform">
+        <div class="section-header">
+            <div class="section-num">05</div>
+            <div class="section-title-wrap">
+                <div class="section-title">TRANSFORM OPERATORS</div>
+                <div class="section-subtitle">map · flatMap · associate · zip</div>
+            </div>
+        </div>
+
+        <table class="compare-table">
+            <tr>
+                <th>Operator</th><th>Input → Output</th><th>Use Case</th>
+            </tr>
+            <tr><td>map { }</td><td>List&lt;T&gt; → List&lt;R&gt;</td><td>Transform each element (1-to-1)</td></tr>
+            <tr><td>flatMap { }</td><td>List&lt;T&gt; → List&lt;R&gt;</td><td>Transform + flatten (1-to-many)</td></tr>
+            <tr><td>mapNotNull { }</td><td>List&lt;T&gt; → List&lt;R&gt;</td><td>Transform + remove nulls</td></tr>
+            <tr><td>mapIndexed { i, v }</td><td>List&lt;T&gt; → List&lt;R&gt;</td><td>Transform with index</td></tr>
+            <tr><td>associate { }</td><td>List&lt;T&gt; → Map&lt;K,V&gt;</td><td>Convert list to map</td></tr>
+            <tr><td>associateBy { }</td><td>List&lt;T&gt; → Map&lt;K,T&gt;</td><td>Key = lambda, value = element</td></tr>
+            <tr><td>associateWith { }</td><td>List&lt;T&gt; → Map&lt;T,V&gt;</td><td>Key = element, value = lambda</td></tr>
+            <tr><td>zip(other) { }</td><td>List&lt;A&gt;, List&lt;B&gt; → List&lt;R&gt;</td><td>Combine two lists pairwise</td></tr>
+            <tr><td>unzip()</td><td>List&lt;Pair&lt;A,B&gt;&gt; → Pair&lt;List&lt;A&gt;,List&lt;B&gt;&gt;</td><td>Split pairs into two lists</td></tr>
+        </table>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+                <span class="code-filename">Transform.kt</span>
+            </div>
+            <pre><span class="kw">data class</span> <span class="tp">User</span>(<span class="kw">val</span> id: <span class="tp">Int</span>, <span class="kw">val</span> name: <span class="tp">String</span>, <span class="kw">val</span> active: <span class="tp">Boolean</span>)
+<span class="kw">val</span> users <span class="op">=</span> <span class="fn">listOf</span>(
+    <span class="tp">User</span>(<span class="num">1</span>, <span class="str">"Alice"</span>, <span class="kw">true</span>),
+    <span class="tp">User</span>(<span class="num">2</span>, <span class="str">"Bob"</span>,   <span class="kw">false</span>),
+    <span class="tp">User</span>(<span class="num">3</span>, <span class="str">"Carol"</span>, <span class="kw">true</span>)
+)
+
+<span class="cm">// map — transform</span>
+users.<span class="fn">map</span> { it.name }              <span class="cm">// [Alice, Bob, Carol]</span>
+
+<span class="cm">// mapNotNull — transform + filter nulls</span>
+users.<span class="fn">mapNotNull</span> { <span class="kw">if</span> (it.active) it.name <span class="kw">else</span> <span class="kw">null</span> }  <span class="cm">// [Alice, Carol]</span>
+
+<span class="cm">// associateBy — List → Map by key</span>
+users.<span class="fn">associateBy</span> { it.id }        <span class="cm">// {1=User(Alice), 2=User(Bob)...}</span>
+
+<span class="cm">// associateWith — each element → computed value</span>
+users.<span class="fn">associateWith</span> { it.name.<span class="fn">length</span> }  <span class="cm">// {User(Alice)=5, ...}</span>
+
+<span class="cm">// associate — full control of key AND value</span>
+users.<span class="fn">associate</span> { it.id <span class="kw">to</span> it.name }  <span class="cm">// {1=Alice, 2=Bob, 3=Carol}</span>
+
+<span class="cm">// flatMap — users with multiple roles</span>
+<span class="kw">data class</span> <span class="tp">Team</span>(<span class="kw">val</span> name: <span class="tp">String</span>, <span class="kw">val</span> members: <span class="tp">List</span>&lt;<span class="tp">String</span>&gt;)
+<span class="kw">val</span> teams <span class="op">=</span> <span class="fn">listOf</span>(
+    <span class="tp">Team</span>(<span class="str">"Android"</span>, <span class="fn">listOf</span>(<span class="str">"Alice"</span>, <span class="str">"Bob"</span>)),
+    <span class="tp">Team</span>(<span class="str">"iOS"</span>,     <span class="fn">listOf</span>(<span class="str">"Carol"</span>))
+)
+teams.<span class="fn">flatMap</span> { it.members }       <span class="cm">// [Alice, Bob, Carol]</span></pre>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 06 · FILTER & SEARCH -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="filter">
+        <div class="section-header">
+            <div class="section-num">06</div>
+            <div class="section-title-wrap">
+                <div class="section-title">FILTER &amp; SEARCH</div>
+                <div class="section-subtitle">filter · find · any · all · none · partition</div>
+            </div>
+        </div>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+                <span class="code-filename">FilterSearch.kt</span>
+            </div>
+            <pre><span class="kw">val</span> nums <span class="op">=</span> <span class="fn">listOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>)
+
+<span class="cm">// ── Filter variants ────────────────────────────────────────</span>
+nums.<span class="fn">filter</span> { it <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span> }        <span class="cm">// [2, 4, 6]</span>
+nums.<span class="fn">filterNot</span> { it <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span> }     <span class="cm">// [1, 3, 5]</span>
+nums.<span class="fn">filterIndexed</span> { i, v <span class="op">-&gt;</span> i <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span> }  <span class="cm">// [1, 3, 5] (even indices)</span>
+nums.<span class="fn">filterIsInstance</span>&lt;<span class="tp">Int</span>&gt;()        <span class="cm">// type-safe filter</span>
+
+<span class="cm">// ── Search ─────────────────────────────────────────────────</span>
+nums.<span class="fn">find</span> { it <span class="op">&gt;</span> <span class="num">3</span> }               <span class="cm">// 4 (first match, or null)</span>
+nums.<span class="fn">findLast</span> { it <span class="op">&gt;</span> <span class="num">3</span> }           <span class="cm">// 6</span>
+nums.<span class="fn">indexOfFirst</span> { it <span class="op">&gt;</span> <span class="num">3</span> }       <span class="cm">// 3</span>
+nums.<span class="fn">binarySearch</span>(<span class="num">4</span>)               <span class="cm">// works only on sorted list</span>
+
+<span class="cm">// ── Boolean checks ─────────────────────────────────────────</span>
+nums.<span class="fn">any</span> { it <span class="op">&gt;</span> <span class="num">5</span> }                <span class="cm">// true — short-circuits</span>
+nums.<span class="fn">all</span> { it <span class="op">&gt;</span> <span class="num">0</span> }                <span class="cm">// true</span>
+nums.<span class="fn">none</span> { it <span class="op">&lt;</span> <span class="num">0</span> }               <span class="cm">// true</span>
+nums.<span class="fn">count</span> { it <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span> }        <span class="cm">// 3</span>
+
+<span class="cm">// ── Partition ─────────────────────────────────────────────</span>
+<span class="kw">val</span> (evens, odds) <span class="op">=</span> nums.<span class="fn">partition</span> { it <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span> }
+<span class="cm">// evens=[2,4,6]  odds=[1,3,5]</span>
+
+<span class="cm">// ── take / drop ────────────────────────────────────────────</span>
+nums.<span class="fn">take</span>(<span class="num">3</span>)                        <span class="cm">// [1, 2, 3]</span>
+nums.<span class="fn">drop</span>(<span class="num">3</span>)                        <span class="cm">// [4, 5, 6]</span>
+nums.<span class="fn">takeWhile</span> { it <span class="op">&lt;</span> <span class="num">4</span> }          <span class="cm">// [1, 2, 3]</span>
+nums.<span class="fn">dropWhile</span> { it <span class="op">&lt;</span> <span class="num">4</span> }          <span class="cm">// [4, 5, 6]</span>
+nums.<span class="fn">takeLast</span>(<span class="num">2</span>)                   <span class="cm">// [5, 6]</span></pre>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 07 · AGGREGATE -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="aggregate">
+        <div class="section-header">
+            <div class="section-num">07</div>
+            <div class="section-title-wrap">
+                <div class="section-title">AGGREGATE</div>
+                <div class="section-subtitle">reduce · fold · sum · min · max</div>
+            </div>
+        </div>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+                <span class="code-filename">Aggregate.kt</span>
+            </div>
+            <pre><span class="kw">val</span> nums <span class="op">=</span> <span class="fn">listOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>)
+
+<span class="cm">// ── reduce — no initial value, uses first element ──────────</span>
+nums.<span class="fn">reduce</span> { acc, n <span class="op">-&gt;</span> acc <span class="op">+</span> n }   <span class="cm">// 15  (throws on empty!)</span>
+nums.<span class="fn">reduceOrNull</span> { acc, n <span class="op">-&gt;</span> acc <span class="op">+</span> n }  <span class="cm">// 15 or null</span>
+
+<span class="cm">// ── fold — has initial value, safe on empty ────────────────</span>
+nums.<span class="fn">fold</span>(<span class="num">0</span>) { acc, n <span class="op">-&gt;</span> acc <span class="op">+</span> n } <span class="cm">// 15</span>
+nums.<span class="fn">fold</span>(<span class="num">1</span>) { acc, n <span class="op">-&gt;</span> acc <span class="op">*</span> n } <span class="cm">// 120 (factorial)</span>
+
+<span class="cm">// ── foldIndexed ────────────────────────────────────────────</span>
+nums.<span class="fn">foldIndexed</span>(<span class="str">""</span>) { i, acc, v <span class="op">-&gt;</span>
+    <span class="kw">if</span> (i <span class="op">==</span> <span class="num">0</span>) <span class="str">"$v"</span> <span class="kw">else</span> <span class="str">"$acc,$v"</span>
+}  <span class="cm">// "1,2,3,4,5"</span>
+
+<span class="cm">// ── runningFold — intermediate results ─────────────────────</span>
+nums.<span class="fn">runningFold</span>(<span class="num">0</span>) { acc, n <span class="op">-&gt;</span> acc <span class="op">+</span> n }
+<span class="cm">// [0, 1, 3, 6, 10, 15]  ← running sum prefix</span>
+
+<span class="cm">// ── Sum/Min/Max helpers ────────────────────────────────────</span>
+nums.<span class="fn">sum</span>()                           <span class="cm">// 15</span>
+nums.<span class="fn">sumOf</span> { it <span class="op">*</span> <span class="num">2</span> }              <span class="cm">// 30</span>
+nums.<span class="fn">average</span>()                       <span class="cm">// 3.0</span>
+nums.<span class="fn">min</span>()                           <span class="cm">// 1</span>
+nums.<span class="fn">max</span>()                           <span class="cm">// 5</span>
+nums.<span class="fn">minOf</span> { it <span class="op">*</span> <span class="op">-</span><span class="num">1</span> }             <span class="cm">// -5</span>
+nums.<span class="fn">maxByOrNull</span> { it <span class="op">%</span> <span class="num">3</span> }        <span class="cm">// 2 (highest remainder)</span></pre>
+        </div>
+
+        <div class="callout callout-warn">
+            <span class="callout-icon">⚠</span>
+            <span><strong>Interview trap:</strong> <code>reduce</code> throws <code>UnsupportedOperationException</code> on an empty list. Always use <code>reduceOrNull</code> or <code>fold</code> in production code where the list might be empty.</span>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 08 · GROUPING & SORTING -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="group">
+        <div class="section-header">
+            <div class="section-num">08</div>
+            <div class="section-title-wrap">
+                <div class="section-title">GROUPING &amp; SORTING</div>
+                <div class="section-subtitle">groupBy · sortedBy · compareBy</div>
+            </div>
+        </div>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+                <span class="code-filename">GroupSort.kt</span>
+            </div>
+            <pre><span class="kw">data class</span> <span class="tp">Product</span>(<span class="kw">val</span> name: <span class="tp">String</span>, <span class="kw">val</span> category: <span class="tp">String</span>, <span class="kw">val</span> price: <span class="tp">Double</span>)
+<span class="kw">val</span> products <span class="op">=</span> <span class="fn">listOf</span>(
+    <span class="tp">Product</span>(<span class="str">"Phone"</span>,  <span class="str">"Electronics"</span>, <span class="num">699.0</span>),
+    <span class="tp">Product</span>(<span class="str">"Shirt"</span>,  <span class="str">"Clothing"</span>,     <span class="num">29.0</span>),
+    <span class="tp">Product</span>(<span class="str">"Laptop"</span>, <span class="str">"Electronics"</span>, <span class="num">1299.0</span>),
+    <span class="tp">Product</span>(<span class="str">"Pants"</span>,  <span class="str">"Clothing"</span>,     <span class="num">49.0</span>)
+)
+
+<span class="cm">// ── groupBy → Map&lt;K, List&lt;T&gt;&gt; ─────────────────────────────</span>
+<span class="kw">val</span> byCategory <span class="op">=</span> products.<span class="fn">groupBy</span> { it.category }
+<span class="cm">// {Electronics=[Phone, Laptop], Clothing=[Shirt, Pants]}</span>
+
+<span class="cm">// ── groupBy with transform ─────────────────────────────────</span>
+products.<span class="fn">groupBy</span>({ it.category }, { it.name })
+<span class="cm">// {Electronics=[Phone, Laptop], Clothing=[Shirt, Pants]}</span>
+
+<span class="cm">// ── Sorting ────────────────────────────────────────────────</span>
+products.<span class="fn">sortedBy</span> { it.price }           <span class="cm">// ascending</span>
+products.<span class="fn">sortedByDescending</span> { it.price } <span class="cm">// descending</span>
+
+<span class="cm">// ── Multi-key sort ─────────────────────────────────────────</span>
+products.<span class="fn">sortedWith</span>(
+    <span class="fn">compareBy</span>({ it.category }, { it.price })
+)  <span class="cm">// sort by category, then price within category</span>
+
+<span class="cm">// ── min/max by property ────────────────────────────────────</span>
+products.<span class="fn">minByOrNull</span> { it.price }  <span class="cm">// Shirt (29.0)</span>
+products.<span class="fn">maxByOrNull</span> { it.price }  <span class="cm">// Laptop (1299.0)</span>
+
+<span class="cm">// ── groupingBy + eachCount ─────────────────────────────────</span>
+products.<span class="fn">groupingBy</span> { it.category }.<span class="fn">eachCount</span>()
+<span class="cm">// {Electronics=2, Clothing=2}</span>
+
+<span class="cm">// ── aggregate ─────────────────────────────────────────────</span>
+products.<span class="fn">groupingBy</span> { it.category }
+    .<span class="fn">aggregate</span> { _, acc: <span class="tp">Double</span>?, el, _ <span class="op">-&gt;</span> (acc <span class="op">?:</span> <span class="num">0.0</span>) <span class="op">+</span> el.price }
+<span class="cm">// {Electronics=1998.0, Clothing=78.0} — sum per category</span></pre>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 09 · SEQUENCE -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="sequence">
+        <div class="section-header">
+            <div class="section-num">09</div>
+            <div class="section-title-wrap">
+                <div class="section-title">SEQUENCE</div>
+                <div class="section-subtitle">Lazy evaluation · large datasets</div>
+            </div>
+        </div>
+
+        <div class="callout callout-info">
+            <span class="callout-icon">ℹ</span>
+            <span><strong>When to use Sequence:</strong> Use <code>.asSequence()</code> when you chain 3+ operations on large lists (&gt;1000 elements). Collections create intermediate lists at every step. Sequences process element-by-element lazily. Never use Sequence on small lists — the overhead outweighs the benefit.</span>
+        </div>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+                <span class="code-filename">Sequence.kt</span>
+            </div>
+            <pre><span class="cm">// ── Collection — creates 3 intermediate lists ──────────────</span>
+<span class="kw">val</span> result1 <span class="op">=</span> (1..<span class="num">1_000_000</span>)
+    .<span class="fn">filter</span> { it <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span> }    <span class="cm">// intermediate List 1</span>
+    .<span class="fn">map</span> { it <span class="op">*</span> <span class="num">3</span> }             <span class="cm">// intermediate List 2</span>
+    .<span class="fn">take</span>(<span class="num">5</span>)                    <span class="cm">// intermediate List 3</span>
+
+<span class="cm">// ── Sequence — processes element-by-element, no intermediates</span>
+<span class="kw">val</span> result2 <span class="op">=</span> (1..<span class="num">1_000_000</span>).<span class="fn">asSequence</span>()
+    .<span class="fn">filter</span> { it <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span> }    <span class="cm">// lazy, no list yet</span>
+    .<span class="fn">map</span> { it <span class="op">*</span> <span class="num">3</span> }             <span class="cm">// lazy, no list yet</span>
+    .<span class="fn">take</span>(<span class="num">5</span>)                    <span class="cm">// lazy, no list yet</span>
+    .<span class="fn">toList</span>()                   <span class="cm">// ← TERMINAL OP: now executes!</span>
+
+<span class="cm">// ── generateSequence — infinite sequences ─────────────────</span>
+<span class="kw">val</span> naturals <span class="op">=</span> <span class="fn">generateSequence</span>(<span class="num">1</span>) { it <span class="op">+</span> <span class="num">1</span> }
+naturals.<span class="fn">take</span>(<span class="num">5</span>).<span class="fn">toList</span>()      <span class="cm">// [1, 2, 3, 4, 5]</span>
+
+<span class="cm">// Fibonacci sequence</span>
+<span class="kw">val</span> fibs <span class="op">=</span> <span class="fn">generateSequence</span>(<span class="num">1</span> <span class="kw">to</span> <span class="num">1</span>) { it.second <span class="kw">to</span> it.first <span class="op">+</span> it.second }
+    .<span class="fn">map</span> { it.first }
+fibs.<span class="fn">take</span>(<span class="num">8</span>).<span class="fn">toList</span>()           <span class="cm">// [1,1,2,3,5,8,13,21]</span>
+
+<span class="cm">// ── sequence builder ───────────────────────────────────────</span>
+<span class="kw">val</span> custom <span class="op">=</span> <span class="fn">sequence</span> {
+    <span class="fn">yield</span>(<span class="num">1</span>)
+    <span class="fn">yieldAll</span>(<span class="fn">listOf</span>(<span class="num">2</span>, <span class="num">3</span>))
+    <span class="fn">yield</span>(<span class="num">4</span>)
+}
+custom.<span class="fn">toList</span>()                  <span class="cm">// [1, 2, 3, 4]</span></pre>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 10 · INTERVIEW Q&A -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="interview">
+        <div class="section-header">
+            <div class="section-num">10</div>
+            <div class="section-title-wrap">
+                <div class="section-title">INTERVIEW Q &amp; A</div>
+                <div class="section-subtitle">Click questions to reveal answers</div>
+            </div>
+        </div>
+
+        <!-- Q1 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>What is the difference between <code style="color:var(--teal)">map</code> and <code style="color:var(--teal)">flatMap</code>?</span>
+                <span class="diff-easy qa-diff">EASY</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p><strong>map</strong> applies a transformation to each element and returns a new list of the <em>same size</em>. The result type is <code>List&lt;R&gt;</code>.</p>
+                <p><strong>flatMap</strong> applies a transformation that returns a collection for each element, then <em>flattens</em> all results into a single list. Result type is still <code>List&lt;R&gt;</code> but typically <em>larger</em> than input.</p>
+                <div class="code-wrap" style="margin-top:10px">
+                    <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div></div>
+                    <pre><span class="kw">val</span> words <span class="op">=</span> <span class="fn">listOf</span>(<span class="str">"Hello"</span>, <span class="str">"World"</span>)
+
+words.<span class="fn">map</span> { it.<span class="fn">toList</span>() }
+<span class="cm">// [[H,e,l,l,o], [W,o,r,l,d]] ← list of lists</span>
+
+words.<span class="fn">flatMap</span> { it.<span class="fn">toList</span>() }
+<span class="cm">// [H,e,l,l,o,W,o,r,l,d] ← flat list</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>What is the difference between <code style="color:var(--teal)">fold</code> and <code style="color:var(--teal)">reduce</code>?</span>
+                <span class="diff-easy qa-diff">EASY</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p><strong>reduce</strong> — uses the <em>first element</em> as the initial accumulator. Throws <code>UnsupportedOperationException</code> on empty collections.</p>
+                <p><strong>fold</strong> — takes an explicit <em>initial value</em>. Works on empty collections (returns initial value). Can also produce a different type than the input.</p>
+                <p><em>Key interview answer:</em> prefer <strong>fold</strong> in production. It is always safe, and its initial value makes the intent explicit. Use <code>reduceOrNull</code> if you must use reduce.</p>
+            </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>When should you use <code style="color:var(--teal)">Sequence</code> instead of a <code style="color:var(--teal)">List</code>?</span>
+                <span class="diff-medium qa-diff">MEDIUM</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p>Use <strong>Sequence</strong> when:</p>
+                <p>1. You have a <strong>large dataset</strong> (&gt;1000 items) and chain multiple operations — Sequence avoids creating intermediate lists at each step.</p>
+                <p>2. You need <strong>early termination</strong> — operators like <code>take</code>, <code>first</code>, <code>takeWhile</code> stop processing as soon as the condition is met.</p>
+                <p>3. You need an <strong>infinite sequence</strong> via <code>generateSequence</code> or <code>sequence { }</code> builder.</p>
+                <p><em>Do NOT use Sequence for small lists</em> — the overhead of the iterator chain makes it slower than a regular Collection for small sizes.</p>
+            </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>What is the difference between <code style="color:var(--teal)">groupBy</code> and <code style="color:var(--teal)">partition</code>?</span>
+                <span class="diff-medium qa-diff">MEDIUM</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p><strong>partition</strong> splits a collection into exactly <em>two groups</em> based on a boolean predicate, returning a <code>Pair&lt;List&lt;T&gt;, List&lt;T&gt;&gt;</code>.</p>
+                <p><strong>groupBy</strong> splits into <em>any number of groups</em> based on a key selector, returning a <code>Map&lt;K, List&lt;T&gt;&gt;</code>.</p>
+                <p>Use <code>partition</code> for boolean splits (active/inactive). Use <code>groupBy</code> for categorical grouping (by department, by status enum).</p>
+            </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>What is the difference between <code style="color:var(--teal)">any()</code>, <code style="color:var(--teal)">all()</code>, and <code style="color:var(--teal)">none()</code>? What happens on empty lists?</span>
+                <span class="diff-medium qa-diff">MEDIUM</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p><strong>any { }</strong> — returns <code>true</code> if <em>at least one</em> element matches. Short-circuits on first match. On empty list → <strong>false</strong>.</p>
+                <p><strong>all { }</strong> — returns <code>true</code> if <em>all</em> elements match. Short-circuits on first non-match. On empty list → <strong>true</strong> (vacuous truth).</p>
+                <p><strong>none { }</strong> — returns <code>true</code> if <em>no</em> elements match. On empty list → <strong>true</strong>.</p>
+                <p><em>Interview trap: <code>emptyList&lt;Int&gt;().all { it &gt; 0 }</code> returns <code>true</code> — this surprises most candidates!</em></p>
+            </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>What is the difference between <code style="color:var(--teal)">associateBy</code>, <code style="color:var(--teal)">associateWith</code>, and <code style="color:var(--teal)">associate</code>?</span>
+                <span class="diff-medium qa-diff">MEDIUM</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p><strong>associateBy { key }</strong> — lambda picks the <em>key</em>. The element itself becomes the value. Returns <code>Map&lt;K, T&gt;</code>.</p>
+                <p><strong>associateWith { value }</strong> — the element is the key. Lambda picks the <em>value</em>. Returns <code>Map&lt;T, V&gt;</code>.</p>
+                <p><strong>associate { element → key to value }</strong> — full control of both key and value. Returns <code>Map&lt;K, V&gt;</code>.</p>
+                <div class="code-wrap" style="margin-top:10px">
+                    <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div></div>
+                    <pre><span class="kw">val</span> users <span class="op">=</span> <span class="fn">listOf</span>(<span class="tp">User</span>(<span class="num">1</span>, <span class="str">"Alice"</span>), <span class="tp">User</span>(<span class="num">2</span>, <span class="str">"Bob"</span>))
+users.<span class="fn">associateBy</span> { it.id }       <span class="cm">// {1=User, 2=User}</span>
+users.<span class="fn">associateWith</span> { it.name }   <span class="cm">// {User=Alice, User=Bob}</span>
+users.<span class="fn">associate</span> { it.id <span class="kw">to</span> it.name } <span class="cm">// {1=Alice, 2=Bob}</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>How does <code style="color:var(--teal)">distinct()</code> differ from converting to a <code style="color:var(--teal)">Set</code>?</span>
+                <span class="diff-medium qa-diff">MEDIUM</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p>Both remove duplicates, but <strong>distinct()</strong> <em>preserves insertion order</em> and returns a <code>List</code>.</p>
+                <p>Converting to a <code>HashSet</code> does NOT guarantee order. Converting to <code>LinkedHashSet</code> preserves order but produces a Set, not a List.</p>
+                <p><code>distinctBy { selector }</code> is more powerful — it removes duplicates based on a computed key, keeping the first occurrence.</p>
+            </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>What does <code style="color:var(--teal)">getOrPut</code> do and why is it useful?</span>
+                <span class="diff-medium qa-diff">MEDIUM</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p><code>getOrPut(key) { defaultValue }</code> — if the key exists, returns the existing value. If not, <em>inserts</em> the default value and returns it. This is atomic in a single call.</p>
+                <p>Classic use: building an adjacency list or grouping without an explicit null check:</p>
+                <div class="code-wrap" style="margin-top:10px">
+                    <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div></div>
+                    <pre><span class="cm">// Build adjacency list for a graph</span>
+<span class="kw">val</span> adj <span class="op">=</span> <span class="fn">mutableMapOf</span>&lt;<span class="tp">Int</span>, <span class="tp">MutableList</span>&lt;<span class="tp">Int</span>&gt;&gt;()
+edges.<span class="fn">forEach</span> { (u, v) <span class="op">-&gt;</span>
+    adj.<span class="fn">getOrPut</span>(u) { <span class="fn">mutableListOf</span>() }.<span class="fn">add</span>(v)
+    adj.<span class="fn">getOrPut</span>(v) { <span class="fn">mutableListOf</span>() }.<span class="fn">add</span>(u)
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>Explain the difference between <code style="color:var(--teal)">filter</code> → <code style="color:var(--teal)">map</code> vs <code style="color:var(--teal)">mapNotNull</code>. Which is preferred?</span>
+                <span class="diff-hard qa-diff">HARD</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p><code>filter { it != null }.map { it!! }</code> — two passes over the collection, and you need <code>!!</code> (unsafe non-null assertion) which is a code smell.</p>
+                <p><code>mapNotNull { }</code> — single pass, type-safe, idiomatic Kotlin. The compiler knows the result is non-null. Always prefer this.</p>
+                <div class="code-wrap" style="margin-top:10px">
+                    <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div></div>
+                    <pre><span class="kw">val</span> strs <span class="op">=</span> <span class="fn">listOf</span>(<span class="str">"1"</span>, <span class="str">"abc"</span>, <span class="str">"3"</span>, <span class="str">"xyz"</span>)
+
+<span class="cm">// ❌ Bad: two passes + unsafe !! </span>
+strs.<span class="fn">map</span> { it.<span class="fn">toIntOrNull</span>() }.<span class="fn">filter</span> { it <span class="op">!=</span> <span class="kw">null</span> }.<span class="fn">map</span> { it<span class="op">!!</span> }
+
+<span class="cm">// ✅ Good: single pass, type-safe</span>
+strs.<span class="fn">mapNotNull</span> { it.<span class="fn">toIntOrNull</span>() }  <span class="cm">// [1, 3]</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>What is <code style="color:var(--teal)">runningFold</code> / <code style="color:var(--teal)">scan</code> and when is it useful?</span>
+                <span class="diff-hard qa-diff">HARD</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p><code>runningFold</code> (also called <code>scan</code> in some languages) is like <code>fold</code> but returns <em>all intermediate accumulator values</em>, not just the final result.</p>
+                <p>Useful for: prefix sums, running totals, cumulative analytics, undo history stacks.</p>
+                <div class="code-wrap" style="margin-top:10px">
+                    <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div></div>
+                    <pre><span class="kw">val</span> sales <span class="op">=</span> <span class="fn">listOf</span>(<span class="num">100</span>, <span class="num">200</span>, <span class="num">150</span>, <span class="num">300</span>)
+
+<span class="cm">// Cumulative sales per month</span>
+sales.<span class="fn">runningFold</span>(<span class="num">0</span>) { acc, s <span class="op">-&gt;</span> acc <span class="op">+</span> s }
+<span class="cm">// [0, 100, 300, 450, 750]</span>
+
+<span class="cm">// Running max — peak value at each point</span>
+sales.<span class="fn">runningReduce</span> { acc, s <span class="op">-&gt;</span> <span class="fn">maxOf</span>(acc, s) }
+<span class="cm">// [100, 200, 200, 300]</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q11 -->
+        <div class="qa-block">
+            <div class="qa-question" onclick="toggleQA(this)">
+                <span class="qa-q-icon">Q</span>
+                <span>Is Kotlin's <code style="color:var(--teal)">listOf()</code> truly immutable? Can it be mutated?</span>
+                <span class="diff-hard qa-diff">HARD</span>
+                <span class="qa-toggle">▾</span>
+            </div>
+            <div class="qa-answer">
+                <p><strong>No — it is read-only, not truly immutable.</strong> <code>listOf()</code> returns a <code>List&lt;T&gt;</code> interface which has no mutation methods. However the underlying implementation is often a <code>java.util.Arrays$ArrayList</code> which IS mutable.</p>
+                <p>You can bypass the read-only restriction via an unsafe cast:</p>
+                <div class="code-wrap" style="margin-top:10px">
+                    <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div></div>
+                    <pre><span class="kw">val</span> list <span class="op">=</span> <span class="fn">listOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)
+(<span class="kw">list</span> <span class="kw">as</span> <span class="tp">MutableList</span>&lt;<span class="tp">Int</span>&gt;).<span class="fn">add</span>(<span class="num">4</span>)  <span class="cm">// 💥 UnsupportedOperationException!</span>
+<span class="cm">// (This particular impl does throw, but it's undefined behaviour)</span>
+
+<span class="cm">// For truly immutable: use Guava's ImmutableList or</span>
+<span class="cm">// Collections.unmodifiableList() or copy-on-write patterns</span></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 11 · CODE PROBLEMS -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="problems">
+        <div class="section-header">
+            <div class="section-num">11</div>
+            <div class="section-title-wrap">
+                <div class="section-title">CODE PROBLEMS</div>
+                <div class="section-subtitle">Solve first · then reveal answer</div>
+            </div>
+        </div>
+
+        <!-- PROBLEM 1 -->
+        <div class="problem-block">
+            <div class="problem-head">
+                <span class="problem-num">P1</span>
+                <span class="problem-title">Find the most frequent element in a list</span>
+                <div class="problem-tags"><span class="problem-tag">MAP</span><span class="problem-tag">GROUPBY</span></div>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Given <code>listOf(1, 2, 3, 2, 1, 2, 4)</code>, return the element that appears most often. If tie, return any.</p>
+                <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-content">
+                    <div class="code-wrap">
+                        <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div><span class="code-filename">Solution.kt</span></div>
+                        <pre><span class="kw">fun</span> <span class="fn">mostFrequent</span>(list: <span class="tp">List</span>&lt;<span class="tp">Int</span>&gt;): <span class="tp">Int</span>? {
+    <span class="kw">return</span> list
+        .<span class="fn">groupingBy</span> { it }
+        .<span class="fn">eachCount</span>()              <span class="cm">// Map&lt;Int, Int&gt; frequency map</span>
+        .<span class="fn">maxByOrNull</span> { it.value }  <span class="cm">// entry with highest count</span>
+        ?.key
+}
+
+<span class="cm">// Alternatively with groupBy:</span>
+<span class="kw">fun</span> <span class="fn">mostFrequent2</span>(list: <span class="tp">List</span>&lt;<span class="tp">Int</span>&gt;) <span class="op">=</span>
+    list.<span class="fn">groupBy</span> { it }
+        .<span class="fn">maxByOrNull</span> { it.value.size }
+        ?.key
+
+<span class="fn">mostFrequent</span>(<span class="fn">listOf</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">2</span>,<span class="num">1</span>,<span class="num">2</span>,<span class="num">4</span>))  <span class="cm">// 2</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROBLEM 2 -->
+        <div class="problem-block">
+            <div class="problem-head">
+                <span class="problem-num">P2</span>
+                <span class="problem-title">Group anagrams together</span>
+                <div class="problem-tags"><span class="problem-tag">MAP</span><span class="problem-tag">SORTED</span></div>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Given <code>listOf("eat","tea","tan","ate","nat","bat")</code>, group all anagrams together into a <code>List&lt;List&lt;String&gt;&gt;</code>.</p>
+                <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-content">
+                    <div class="code-wrap">
+                        <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div><span class="code-filename">Solution.kt</span></div>
+                        <pre><span class="kw">fun</span> <span class="fn">groupAnagrams</span>(words: <span class="tp">List</span>&lt;<span class="tp">String</span>&gt;): <span class="tp">List</span>&lt;<span class="tp">List</span>&lt;<span class="tp">String</span>&gt;&gt; {
+    <span class="kw">return</span> words
+        .<span class="fn">groupBy</span> { word <span class="op">-&gt;</span>
+            word.<span class="fn">toCharArray</span>().<span class="fn">sorted</span>().<span class="fn">joinToString</span>(<span class="str">""</span>)
+        }           <span class="cm">// sort chars → same key for anagrams</span>
+        .values     <span class="cm">// Map values = groups</span>
+        .<span class="fn">toList</span>()
+}
+
+<span class="fn">groupAnagrams</span>(<span class="fn">listOf</span>(<span class="str">"eat"</span>,<span class="str">"tea"</span>,<span class="str">"tan"</span>,<span class="str">"ate"</span>,<span class="str">"nat"</span>,<span class="str">"bat"</span>))
+<span class="cm">// [[eat,tea,ate], [tan,nat], [bat]]</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROBLEM 3 -->
+        <div class="problem-block">
+            <div class="problem-head">
+                <span class="problem-num">P3</span>
+                <span class="problem-title">Flatten and deduplicate nested tags</span>
+                <div class="problem-tags"><span class="problem-tag">FLATMAP</span><span class="problem-tag">DISTINCT</span></div>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Given a list of blog posts, each with a list of tags, collect all unique tags sorted alphabetically. Real-world Android: content filtering UI.</p>
+                <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-content">
+                    <div class="code-wrap">
+                        <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div><span class="code-filename">Solution.kt</span></div>
+                        <pre><span class="kw">data class</span> <span class="tp">Post</span>(<span class="kw">val</span> title: <span class="tp">String</span>, <span class="kw">val</span> tags: <span class="tp">List</span>&lt;<span class="tp">String</span>&gt;)
+
+<span class="kw">val</span> posts <span class="op">=</span> <span class="fn">listOf</span>(
+    <span class="tp">Post</span>(<span class="str">"Kotlin 101"</span>,  <span class="fn">listOf</span>(<span class="str">"kotlin"</span>, <span class="str">"android"</span>, <span class="str">"basics"</span>)),
+    <span class="tp">Post</span>(<span class="str">"Coroutines"</span>, <span class="fn">listOf</span>(<span class="str">"kotlin"</span>, <span class="str">"async"</span>, <span class="str">"android"</span>)),
+    <span class="tp">Post</span>(<span class="str">"Compose UI"</span>,  <span class="fn">listOf</span>(<span class="str">"android"</span>, <span class="str">"compose"</span>, <span class="str">"ui"</span>))
+)
+
+<span class="kw">val</span> allTags <span class="op">=</span> posts
+    .<span class="fn">flatMap</span> { it.tags }      <span class="cm">// flatten all tag lists</span>
+    .<span class="fn">distinct</span>()               <span class="cm">// remove duplicates</span>
+    .<span class="fn">sorted</span>()                 <span class="cm">// sort alphabetically</span>
+
+<span class="cm">// [android, async, basics, compose, kotlin, ui]</span>
+
+<span class="cm">// Alternative using Set for dedup:</span>
+<span class="kw">val</span> allTags2 <span class="op">=</span> posts
+    .<span class="fn">flatMapTo</span>(<span class="fn">sortedSetOf</span>()) { it.tags }</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROBLEM 4 -->
+        <div class="problem-block">
+            <div class="problem-head">
+                <span class="problem-num">P4</span>
+                <span class="problem-title">Find top N products by revenue per category</span>
+                <div class="problem-tags"><span class="problem-tag">GROUPBY</span><span class="problem-tag">SORTEDBY</span><span class="problem-tag">TAKE</span></div>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Given a list of <code>Order(category, product, revenue)</code>, find the top 2 products by revenue in each category. Classic e-commerce / analytics problem.</p>
+                <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-content">
+                    <div class="code-wrap">
+                        <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div><span class="code-filename">Solution.kt</span></div>
+                        <pre><span class="kw">data class</span> <span class="tp">Order</span>(<span class="kw">val</span> category: <span class="tp">String</span>, <span class="kw">val</span> product: <span class="tp">String</span>, <span class="kw">val</span> revenue: <span class="tp">Double</span>)
+
+<span class="kw">val</span> orders <span class="op">=</span> <span class="fn">listOf</span>(
+    <span class="tp">Order</span>(<span class="str">"Electronics"</span>, <span class="str">"Phone"</span>,  <span class="num">50000.0</span>),
+    <span class="tp">Order</span>(<span class="str">"Electronics"</span>, <span class="str">"Laptop"</span>, <span class="num">80000.0</span>),
+    <span class="tp">Order</span>(<span class="str">"Electronics"</span>, <span class="str">"Tablet"</span>, <span class="num">30000.0</span>),
+    <span class="tp">Order</span>(<span class="str">"Clothing"</span>,     <span class="str">"Shoes"</span>,  <span class="num">20000.0</span>),
+    <span class="tp">Order</span>(<span class="str">"Clothing"</span>,     <span class="str">"Shirt"</span>,  <span class="num">10000.0</span>),
+)
+
+<span class="kw">val</span> top2PerCategory: <span class="tp">Map</span>&lt;<span class="tp">String</span>, <span class="tp">List</span>&lt;<span class="tp">Order</span>&gt;&gt; <span class="op">=</span> orders
+    .<span class="fn">groupBy</span> { it.category }
+    .<span class="fn">mapValues</span> { (_, list) <span class="op">-&gt;</span>
+        list.<span class="fn">sortedByDescending</span> { it.revenue }.<span class="fn">take</span>(<span class="num">2</span>)
+    }
+
+<span class="cm">// Electronics → [Laptop(80k), Phone(50k)]</span>
+<span class="cm">// Clothing    → [Shoes(20k), Shirt(10k)]</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROBLEM 5 -->
+        <div class="problem-block">
+            <div class="problem-head">
+                <span class="problem-num">P5</span>
+                <span class="problem-title">Implement a running total (prefix sum)</span>
+                <div class="problem-tags"><span class="problem-tag">RUNNINGFOLD</span><span class="problem-tag">SEQUENCE</span></div>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Given daily sales <code>[100, 200, 150, 300, 250]</code>, produce a list of cumulative totals: <code>[100, 300, 450, 750, 1000]</code>.</p>
+                <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-content">
+                    <div class="code-wrap">
+                        <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div><span class="code-filename">Solution.kt</span></div>
+                        <pre><span class="kw">val</span> daily <span class="op">=</span> <span class="fn">listOf</span>(<span class="num">100</span>, <span class="num">200</span>, <span class="num">150</span>, <span class="num">300</span>, <span class="num">250</span>)
+
+<span class="cm">// ✅ Idiomatic Kotlin with runningFold (skip initial 0)</span>
+<span class="kw">val</span> cumulative <span class="op">=</span> daily.<span class="fn">runningFold</span>(<span class="num">0</span>) { acc, v <span class="op">-&gt;</span> acc <span class="op">+</span> v }.<span class="fn">drop</span>(<span class="num">1</span>)
+<span class="cm">// [100, 300, 450, 750, 1000]</span>
+
+<span class="cm">// Alternative: runningReduce</span>
+<span class="kw">val</span> cumulative2 <span class="op">=</span> daily.<span class="fn">runningReduce</span> { acc, v <span class="op">-&gt;</span> acc <span class="op">+</span> v }
+<span class="cm">// [100, 300, 450, 750, 1000]</span>
+
+<span class="cm">// Manual fold approach (less idiomatic):</span>
+<span class="kw">var</span> total <span class="op">=</span> <span class="num">0</span>
+<span class="kw">val</span> cumulative3 <span class="op">=</span> daily.<span class="fn">map</span> { total <span class="op">+=</span> it; total }</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROBLEM 6 -->
+        <div class="problem-block">
+            <div class="problem-head">
+                <span class="problem-num">P6</span>
+                <span class="problem-title">Two-sum using a Map (O(n) solution)</span>
+                <div class="problem-tags"><span class="problem-tag">MAP</span><span class="problem-tag">ALGORITHM</span></div>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Given <code>listOf(2, 7, 11, 15)</code> and <code>target = 9</code>, return indices of two numbers that add up to target. Must be O(n).</p>
+                <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-content">
+                    <div class="code-wrap">
+                        <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div><span class="code-filename">Solution.kt</span></div>
+                        <pre><span class="kw">fun</span> <span class="fn">twoSum</span>(nums: <span class="tp">List</span>&lt;<span class="tp">Int</span>&gt;, target: <span class="tp">Int</span>): <span class="tp">Pair</span>&lt;<span class="tp">Int</span>, <span class="tp">Int</span>&gt;? {
+    <span class="kw">val</span> seen <span class="op">=</span> <span class="fn">mutableMapOf</span>&lt;<span class="tp">Int</span>, <span class="tp">Int</span>&gt;()  <span class="cm">// value → index</span>
+    <span class="kw">for</span> ((i, num) <span class="kw">in</span> nums.<span class="fn">withIndex</span>()) {
+        <span class="kw">val</span> complement <span class="op">=</span> target <span class="op">-</span> num
+        <span class="kw">val</span> j <span class="op">=</span> seen[complement]
+        <span class="kw">if</span> (j <span class="op">!=</span> <span class="kw">null</span>) <span class="kw">return</span> j <span class="kw">to</span> i
+        seen[num] <span class="op">=</span> i
+    }
+    <span class="kw">return</span> <span class="kw">null</span>
+}
+
+<span class="fn">twoSum</span>(<span class="fn">listOf</span>(<span class="num">2</span>,<span class="num">7</span>,<span class="num">11</span>,<span class="num">15</span>), <span class="num">9</span>)  <span class="cm">// (0, 1)</span>
+
+<span class="cm">// Time: O(n) — one pass  |  Space: O(n) — the map</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROBLEM 7 -->
+        <div class="problem-block">
+            <div class="problem-head">
+                <span class="problem-num">P7</span>
+                <span class="problem-title">Find the first non-repeating character</span>
+                <div class="problem-tags"><span class="problem-tag">MAP</span><span class="problem-tag">FIRST</span></div>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Given <code>"aabbcdeef"</code>, return the first character that appears exactly once. Result: <code>'c'</code>.</p>
+                <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-content">
+                    <div class="code-wrap">
+                        <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div><span class="code-filename">Solution.kt</span></div>
+                        <pre><span class="kw">fun</span> <span class="fn">firstNonRepeating</span>(s: <span class="tp">String</span>): <span class="tp">Char</span>? {
+    <span class="kw">return</span> s.<span class="fn">groupingBy</span> { it }
+             .<span class="fn">eachCount</span>()           <span class="cm">// Map&lt;Char, Int&gt;</span>
+             .<span class="fn">entries</span>
+             .<span class="fn">firstOrNull</span> { it.value <span class="op">==</span> <span class="num">1</span> }
+             ?.key
+}
+
+<span class="fn">firstNonRepeating</span>(<span class="str">"aabbcdeef"</span>)  <span class="cm">// 'c'</span>
+
+<span class="cm">// Note: groupingBy preserves insertion order in the result Map</span>
+<span class="cm">// so firstOrNull correctly finds the FIRST non-repeating char</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROBLEM 8 -->
+        <div class="problem-block">
+            <div class="problem-head">
+                <span class="problem-num">P8</span>
+                <span class="problem-title">Batch API calls with chunked + map</span>
+                <div class="problem-tags"><span class="problem-tag">CHUNKED</span><span class="problem-tag">COROUTINES</span><span class="problem-tag">REAL-WORLD</span></div>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">You have 500 user IDs and an API that accepts max 50 IDs per call. Fetch all users in batches of 50. This is a very common Android/backend problem.</p>
+                <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-content">
+                    <div class="code-wrap">
+                        <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div><span class="code-filename">Solution.kt</span></div>
+                        <pre><span class="kw">suspend fun</span> <span class="fn">fetchAllUsers</span>(
+    userIds: <span class="tp">List</span>&lt;<span class="tp">String</span>&gt;,
+    api: <span class="tp">UserApi</span>
+): <span class="tp">List</span>&lt;<span class="tp">User</span>&gt; {
+    <span class="kw">return</span> userIds
+        .<span class="fn">chunked</span>(<span class="num">50</span>)                     <span class="cm">// [[id1..50], [id51..100], ...]</span>
+        .<span class="fn">flatMap</span> { batch <span class="op">-&gt;</span>
+            api.<span class="fn">fetchUsers</span>(batch)        <span class="cm">// List&lt;User&gt; per batch</span>
+        }
+}
+
+<span class="cm">// Parallel batches with coroutines:</span>
+<span class="kw">suspend fun</span> <span class="fn">fetchAllUsersParallel</span>(
+    userIds: <span class="tp">List</span>&lt;<span class="tp">String</span>&gt;,
+    api: <span class="tp">UserApi</span>
+): <span class="tp">List</span>&lt;<span class="tp">User</span>&gt; = <span class="fn">coroutineScope</span> {
+    userIds
+        .<span class="fn">chunked</span>(<span class="num">50</span>)
+        .<span class="fn">map</span> { batch <span class="op">-&gt;</span> <span class="fn">async</span> { api.<span class="fn">fetchUsers</span>(batch) } }
+        .<span class="fn">awaitAll</span>()
+        .<span class="fn">flatten</span>()
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROBLEM 9 -->
+        <div class="problem-block">
+            <div class="problem-head">
+                <span class="problem-num">P9</span>
+                <span class="problem-title">Find all pairs that sum to a target</span>
+                <div class="problem-tags"><span class="problem-tag">SEQUENCE</span><span class="problem-tag">FILTER</span><span class="problem-tag">COMBINATIONS</span></div>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Given <code>listOf(1, 2, 3, 4, 5)</code> and <code>target = 6</code>, find all unique pairs <code>(a, b)</code> where <code>a + b == target</code> and <code>a &lt; b</code>.</p>
+                <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-content">
+                    <div class="code-wrap">
+                        <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div><span class="code-filename">Solution.kt</span></div>
+                        <pre><span class="kw">fun</span> <span class="fn">findPairs</span>(nums: <span class="tp">List</span>&lt;<span class="tp">Int</span>&gt;, target: <span class="tp">Int</span>): <span class="tp">List</span>&lt;<span class="tp">Pair</span>&lt;<span class="tp">Int</span>,<span class="tp">Int</span>&gt;&gt; {
+    <span class="kw">val</span> set <span class="op">=</span> nums.<span class="fn">toHashSet</span>()
+    <span class="kw">return</span> nums
+        .<span class="fn">asSequence</span>()
+        .<span class="fn">filter</span> { n <span class="op">-&gt;</span>
+            <span class="kw">val</span> complement <span class="op">=</span> target <span class="op">-</span> n
+            complement <span class="op">></span> n <span class="op">&amp;&amp;</span> complement <span class="kw">in</span> set
+        }
+        .<span class="fn">map</span> { n <span class="op">-&gt;</span> n <span class="kw">to</span> (target <span class="op">-</span> n) }
+        .<span class="fn">toList</span>()
+}
+
+<span class="fn">findPairs</span>(<span class="fn">listOf</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>,<span class="num">5</span>), <span class="num">6</span>)
+<span class="cm">// [(1,5), (2,4)]</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROBLEM 10 -->
+        <div class="problem-block">
+            <div class="problem-head">
+                <span class="problem-num">P10</span>
+                <span class="problem-title">Implement word frequency counter (interview classic)</span>
+                <div class="problem-tags"><span class="problem-tag">MAP</span><span class="problem-tag">SORT</span><span class="problem-tag">CLASSIC</span></div>
+            </div>
+            <div class="problem-body">
+                <p class="problem-desc">Given a string <code>"the quick brown fox jumps over the lazy dog the"</code>, return the top 3 most frequent words in descending order.</p>
+                <button class="sol-toggle" onclick="toggleSol(this)">▶ Show Solution</button>
+                <div class="sol-content">
+                    <div class="code-wrap">
+                        <div class="code-header"><div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div><span class="code-filename">Solution.kt</span></div>
+                        <pre><span class="kw">fun</span> <span class="fn">topKWords</span>(text: <span class="tp">String</span>, k: <span class="tp">Int</span>): <span class="tp">List</span>&lt;<span class="tp">String</span>&gt; {
+    <span class="kw">return</span> text
+        .<span class="fn">split</span>(<span class="str">" "</span>, <span class="str">"\n"</span>, <span class="str">"\t"</span>)     <span class="cm">// tokenise</span>
+        .<span class="fn">map</span> { it.<span class="fn">lowercase</span>().<span class="fn">trim</span>() }  <span class="cm">// normalise</span>
+        .<span class="fn">filter</span> { it.<span class="fn">isNotBlank</span>() }     <span class="cm">// remove empties</span>
+        .<span class="fn">groupingBy</span> { it }
+        .<span class="fn">eachCount</span>()                     <span class="cm">// frequency map</span>
+        .<span class="fn">entries</span>
+        .<span class="fn">sortedByDescending</span> { it.value } <span class="cm">// sort by count</span>
+        .<span class="fn">take</span>(k)
+        .<span class="fn">map</span> { it.key }
+}
+
+<span class="kw">val</span> text <span class="op">=</span> <span class="str">"the quick brown fox jumps over the lazy dog the"</span>
+<span class="fn">topKWords</span>(text, <span class="num">3</span>)  <span class="cm">// [the, quick, brown]</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- 12 · GOTCHAS -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="gotchas">
+        <div class="section-header">
+            <div class="section-num">12</div>
+            <div class="section-title-wrap">
+                <div class="section-title">INTERVIEW GOTCHAS</div>
+                <div class="section-subtitle">Common traps that trip candidates</div>
+            </div>
+        </div>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+                <span class="code-filename">Gotchas.kt</span>
+            </div>
+            <pre><span class="cm">// ── 1. reduce on empty list throws ────────────────────────</span>
+<span class="fn">emptyList</span>&lt;<span class="tp">Int</span>&gt;().<span class="fn">reduce</span> { a, b <span class="op">-&gt;</span> a <span class="op">+</span> b }  <span class="cm">// 💥 UnsupportedOperationException</span>
+<span class="fn">emptyList</span>&lt;<span class="tp">Int</span>&gt;().<span class="fn">reduceOrNull</span> { a, b <span class="op">-&gt;</span> a <span class="op">+</span> b }  <span class="cm">// ✅ null</span>
+
+<span class="cm">// ── 2. all{} on empty list = true (vacuous truth) ─────────</span>
+<span class="fn">emptyList</span>&lt;<span class="tp">Int</span>&gt;().<span class="fn">all</span> { it <span class="op">&gt;</span> <span class="num">0</span> }   <span class="cm">// true ← surprising!</span>
+<span class="fn">emptyList</span>&lt;<span class="tp">Int</span>&gt;().<span class="fn">none</span> { it <span class="op">&gt;</span> <span class="num">0</span> }  <span class="cm">// true</span>
+<span class="fn">emptyList</span>&lt;<span class="tp">Int</span>&gt;().<span class="fn">any</span> { it <span class="op">&gt;</span> <span class="num">0</span> }   <span class="cm">// false</span>
+
+<span class="cm">// ── 3. subList is a VIEW, not a copy ──────────────────────</span>
+<span class="kw">val</span> m <span class="op">=</span> <span class="fn">mutableListOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>)
+<span class="kw">val</span> sub <span class="op">=</span> m.<span class="fn">subList</span>(<span class="num">1</span>, <span class="num">3</span>)  <span class="cm">// [2, 3] — backed by m</span>
+m.<span class="fn">add</span>(<span class="num">5</span>)                   <span class="cm">// modifying m invalidates sub!</span>
+sub[<span class="num">0</span>]                     <span class="cm">// 💥 ConcurrentModificationException</span>
+
+<span class="cm">// ── 4. Sequence is lazy — nothing runs without terminal op ─</span>
+<span class="kw">val</span> seq <span class="op">=</span> <span class="fn">listOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>).<span class="fn">asSequence</span>()
+    .<span class="fn">map</span> { <span class="fn">println</span>(<span class="str">"map $it"</span>); it <span class="op">*</span> <span class="num">2</span> }
+<span class="cm">// Nothing printed yet — need a terminal op:</span>
+seq.<span class="fn">toList</span>()  <span class="cm">// NOW it prints: map 1, map 2, map 3</span>
+
+<span class="cm">// ── 5. distinctBy keeps FIRST occurrence only ──────────────</span>
+<span class="fn">listOf</span>(<span class="str">"Alice"</span>, <span class="str">"alice"</span>, <span class="str">"ALICE"</span>)
+    .<span class="fn">distinctBy</span> { it.<span class="fn">lowercase</span>() }  <span class="cm">// [Alice] — keeps first</span>
+
+<span class="cm">// ── 6. + operator on List creates NEW list (non-destructive)</span>
+<span class="kw">val</span> a <span class="op">=</span> <span class="fn">listOf</span>(<span class="num">1</span>, <span class="num">2</span>)
+<span class="kw">val</span> b <span class="op">=</span> a <span class="op">+</span> <span class="num">3</span>  <span class="cm">// new list [1, 2, 3]; a is unchanged</span>
+
+<span class="cm">// ── 7. zip stops at shorter list ──────────────────────────</span>
+<span class="fn">listOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>).<span class="fn">zip</span>(<span class="fn">listOf</span>(<span class="str">"a"</span>, <span class="str">"b"</span>))
+<span class="cm">// [(1,a), (2,b)] — 3 is dropped!</span>
+
+<span class="cm">// ── 8. associateBy on duplicate keys: LAST wins ────────────</span>
+<span class="fn">listOf</span>(<span class="tp">User</span>(<span class="num">1</span>,<span class="str">"Alice"</span>), <span class="tp">User</span>(<span class="num">1</span>,<span class="str">"Bob"</span>))
+    .<span class="fn">associateBy</span> { it.id }  <span class="cm">// {1=User(Bob)} — Alice is GONE</span>
+
+<span class="cm">// ── 9. forEach vs map — don't use map for side effects ────</span>
+<span class="fn">listOf</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>).<span class="fn">map</span> { <span class="fn">println</span>(it) }  <span class="cm">// ❌ returns List&lt;Unit&gt;, wastes memory</span>
+<span class="fn">listOf</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>).<span class="fn">forEach</span> { <span class="fn">println</span>(it) } <span class="cm">// ✅ correct for side effects</span></pre>
+        </div>
+
+        <div class="callout callout-tip">
+            <span class="callout-icon">✦</span>
+            <span><strong>Final interview tip:</strong> When asked to solve a collection problem, always clarify: (1) Can the input be empty? (2) Are there duplicates? (3) What's the expected time complexity? Mentioning these shows senior-level thinking even before writing a line of code.</span>
+        </div>
+    </section>
+
+</main>
+
+<script>
+    function toggleQA(header) {
+      const answer  = header.nextElementSibling;
+      const toggle  = header.querySelector('.qa-toggle');
+      const isOpen  = answer.classList.contains('open');
+      answer.classList.toggle('open', !isOpen);
+      toggle.classList.toggle('open', !isOpen);
+    }
+
+    function toggleSol(btn) {
+      const content = btn.nextElementSibling;
+      const isOpen  = content.classList.contains('open');
+      content.classList.toggle('open', !isOpen);
+      btn.textContent = isOpen ? '▶ Show Solution' : '▼ Hide Solution';
+    }
+
+    // Scroll spy
+    const sections = document.querySelectorAll('.section');
+    const navItems = document.querySelectorAll('.nav-item');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 60) current = s.id;
+      });
+      navItems.forEach(n => {
+        n.classList.toggle('active', n.getAttribute('href') === '#' + current);
+      });
+      document.getElementById('top-btn').classList.toggle('vis', window.scrollY > 300);
+    });
+</script>
+</body>
+</html>

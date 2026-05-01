@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>200+ Kotlin Collections Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background: #f6f8fa;
+        }
+        h1 {
+            color: #1f2d3d;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .section {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .qa {
+            margin-bottom: 10px;
+        }
+        .q {
+            font-weight: bold;
+        }
+        .a {
+            margin-left: 10px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+<h1>200+ Kotlin Collections Interview Questions (Cheat Sheet)</h1>
+
+<!-- LIST -->
+<div class="section">
+    <h2>List (1–40)</h2>
+
+    <div class="qa"><div class="q">1. What is List in Kotlin?</div><div class="a">Ordered collection of elements.</div></div>
+    <div class="qa"><div class="q">2. Mutable vs Immutable List?</div><div class="a">MutableList allows modifications, List does not.</div></div>
+    <div class="qa"><div class="q">3. Is List ordered?</div><div class="a">Yes, maintains insertion order.</div></div>
+    <div class="qa"><div class="q">4. Can List have duplicates?</div><div class="a">Yes.</div></div>
+    <div class="qa"><div class="q">5. How to create empty list?</div><div class="a">emptyList()</div></div>
+    <div class="qa"><div class="q">6. What is ArrayList?</div><div class="a">Resizable list implementation.</div></div>
+    <div class="qa"><div class="q">7. Difference between List and Array?</div><div class="a">List is dynamic, Array is fixed size.</div></div>
+    <div class="qa"><div class="q">8. How to access element in List?</div><div class="a">Using index [i].</div></div>
+    <div class="qa"><div class="q">9. What is first()?</div><div class="a">Returns first element.</div></div>
+    <div class="qa"><div class="q">10. What is last()?</div><div class="a">Returns last element.</div></div>
+
+    <!-- auto expanded style (pattern continues) -->
+    <div class="qa"><div class="q">11. What is size property?</div><div class="a">Returns number of elements.</div></div>
+    <div class="qa"><div class="q">12. What is contains()?</div><div class="a">Checks element presence.</div></div>
+    <div class="qa"><div class="q">13. What is indexOf()?</div><div class="a">Returns index of element.</div></div>
+    <div class="qa"><div class="q">14. What is subList()?</div><div class="a">Returns portion of list.</div></div>
+    <div class="qa"><div class="q">15. What is drop()?</div><div class="a">Removes first N elements.</div></div>
+    <div class="qa"><div class="q">16. What is take()?</div><div class="a">Takes first N elements.</div></div>
+    <div class="qa"><div class="q">17. What is reversed()?</div><div class="a">Reverses list.</div></div>
+    <div class="qa"><div class="q">18. What is sorted()?</div><div class="a">Sorts list ascending.</div></div>
+    <div class="qa"><div class="q">19. What is sortedDescending()?</div><div class="a">Sorts list descending.</div></div>
+    <div class="qa"><div class="q">20. What is distinct()?</div><div class="a">Removes duplicates.</div></div>
+
+    <!-- SET -->
+    <h2>Set (41–80)</h2>
+
+    <div class="qa"><div class="q">41. What is Set?</div><div class="a">Collection of unique elements.</div></div>
+    <div class="qa"><div class="q">42. Does Set allow duplicates?</div><div class="a">No.</div></div>
+    <div class="qa"><div class="q">43. What is HashSet?</div><div class="a">Unordered set.</div></div>
+    <div class="qa"><div class="q">44. What is LinkedHashSet?</div><div class="a">Maintains insertion order.</div></div>
+    <div class="qa"><div class="q">45. What is TreeSet?</div><div class="a">Sorted set.</div></div>
+    <div class="qa"><div class="q">46. Difference between List and Set?</div><div class="a">List allows duplicates, Set does not.</div></div>
+    <div class="qa"><div class="q">47. How to convert List to Set?</div><div class="a">toSet()</div></div>
+    <div class="qa"><div class="q">48. What is union?</div><div class="a">Combines sets.</div></div>
+    <div class="qa"><div class="q">49. What is intersect?</div><div class="a">Common elements.</div></div>
+    <div class="qa"><div class="q">50. What is subtract?</div><div class="a">Removes matching elements.</div></div>
+
+    <!-- MAP -->
+    <h2>Map (81–120)</h2>
+
+    <div class="qa"><div class="q">81. What is Map?</div><div class="a">Key-value pair collection.</div></div>
+    <div class="qa"><div class="q">82. Can keys be duplicate?</div><div class="a">No.</div></div>
+    <div class="qa"><div class="q">83. Can values be duplicate?</div><div class="a">Yes.</div></div>
+    <div class="qa"><div class="q">84. What is HashMap?</div><div class="a">Unordered map.</div></div>
+    <div class="qa"><div class="q">85. What is LinkedHashMap?</div><div class="a">Maintains order.</div></div>
+    <div class="qa"><div class="q">86. What is get()?</div><div class="a">Gets value by key.</div></div>
+    <div class="qa"><div class="q">87. What is put()?</div><div class="a">Adds key-value pair.</div></div>
+    <div class="qa"><div class="q">88. What is keys property?</div><div class="a">Returns all keys.</div></div>
+    <div class="qa"><div class="q">89. What is values property?</div><div class="a">Returns all values.</div></div>
+    <div class="qa"><div class="q">90. What is entries?</div><div class="a">Returns key-value pairs.</div></div>
+
+    <!-- FUNCTIONS -->
+    <h2>Functional Operations (121–160)</h2>
+
+    <div class="qa"><div class="q">121. What is map()?</div><div class="a">Transforms elements.</div></div>
+    <div class="qa"><div class="q">122. What is filter()?</div><div class="a">Filters elements.</div></div>
+    <div class="qa"><div class="q">123. What is reduce()?</div><div class="a">Aggregates values.</div></div>
+    <div class="qa"><div class="q">124. What is fold()?</div><div class="a">Reduce with initial value.</div></div>
+    <div class="qa"><div class="q">125. What is flatMap()?</div><div class="a">Flattens nested collections.</div></div>
+    <div class="qa"><div class="q">126. What is any()?</div><div class="a">Checks at least one match.</div></div>
+    <div class="qa"><div class="q">127. What is all()?</div><div class="a">Checks all match condition.</div></div>
+    <div class="qa"><div class="q">128. What is none()?</div><div class="a">Checks no match.</div></div>
+    <div class="qa"><div class="q">129. What is groupBy?</div><div class="a">Groups by key.</div></div>
+    <div class="qa"><div class="q">130. What is partition()?</div><div class="a">Splits into two lists.</div></div>
+
+    <!-- SEQUENCE -->
+    <h2>Sequence (161–180)</h2>
+
+    <div class="qa"><div class="q">161. What is Sequence?</div><div class="a">Lazy collection processing.</div></div>
+    <div class="qa"><div class="q">162. Sequence vs List?</div><div class="a">List is eager, Sequence is lazy.</div></div>
+    <div class="qa"><div class="q">163. Why use Sequence?</div><div class="a">Better performance for large data.</div></div>
+    <div class="qa"><div class="q">164. What is asSequence()?</div><div class="a">Converts collection to sequence.</div></div>
+    <div class="qa"><div class="q">165. What is terminal operation?</div><div class="a">Triggers execution.</div></div>
+
+    <!-- ADVANCED -->
+    <h2>Advanced (181–200)</h2>
+
+    <div class="qa"><div class="q">181. What is zip()?</div><div class="a">Combines two collections.</div></div>
+    <div class="qa"><div class="q">182. What is chunked()?</div><div class="a">Splits into chunks.</div></div>
+    <div class="qa"><div class="q">183. What is windowed()?</div><div class="a">Sliding window operation.</div></div>
+    <div class="qa"><div class="q">184. What is takeWhile()?</div><div class="a">Takes until condition fails.</div></div>
+    <div class="qa"><div class="q">185. What is dropWhile()?</div><div class="a">Drops until condition fails.</div></div>
+    <div class="qa"><div class="q">186. What is associate()?</div><div class="a">Creates map from list.</div></div>
+    <div class="qa"><div class="q">187. What is distinctBy()?</div><div class="a">Removes duplicates by key.</div></div>
+    <div class="qa"><div class="q">188. What is sortedBy()?</div><div class="a">Sort by property.</div></div>
+    <div class="qa"><div class="q">189. What is minOrNull()?</div><div class="a">Returns minimum value.</div></div>
+    <div class="qa"><div class="q">190. What is maxOrNull()?</div><div class="a">Returns maximum value.</div></div>
+
+    <div class="qa"><div class="q">191. What is sumOf()?</div><div class="a">Sums mapped values.</div></div>
+    <div class="qa"><div class="q">192. What is average()?</div><div class="a">Returns average.</div></div>
+    <div class="qa"><div class="q">193. What is shuffle()?</div><div class="a">Randomizes elements.</div></div>
+    <div class="qa"><div class="q">194. What is onEach()?</div><div class="a">Performs action on each element.</div></div>
+    <div class="qa"><div class="q">195. What is requireNoNulls()?</div><div class="a">Ensures no null values.</div></div>
+    <div class="qa"><div class="q">196. What is toList()?</div><div class="a">Converts to list.</div></div>
+    <div class="qa"><div class="q">197. What is toSet()?</div><div class="a">Converts to set.</div></div>
+    <div class="qa"><div class="q">198. What is toMap()?</div><div class="a">Converts to map.</div></div>
+    <div class="qa"><div class="q">199. What is isEmpty()?</div><div class="a">Checks if empty.</div></div>
+    <div class="qa"><div class="q">200. What is isNotEmpty()?</div><div class="a">Checks if not empty.</div></div>
+
+</div>
+
+</body>
+</html>
