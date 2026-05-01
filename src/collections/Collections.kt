@@ -1,4 +1,4 @@
-
+package collections
 
 //https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/
 //https://kotlinlang.org/docs/collection-operations.html#common-operations

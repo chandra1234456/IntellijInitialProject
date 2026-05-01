@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotlin Collections Interview Questions | Android Developer Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1e293b;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+        }
+
+        .toc {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .toc-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .toc-link {
+            background: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            color: #4f46e5;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc-link:hover {
+            background: #4f46e5;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #4f46e5;
+            padding-left: 1rem;
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            color: #334155;
+            margin: 1.5rem 0 1rem 0;
+            padding-left: 0.5rem;
+            border-left: 3px solid #94a3b8;
+        }
+
+        .card {
+            background: #f8fafc;
+            margin-bottom: 1.2rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .question {
+            background: #ffffff;
+            padding: 1.2rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #0f172a;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .question .q-num {
+            background: #4f46e5;
+            color: white;
+            border-radius: 2rem;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.8rem;
+            margin-right: 1rem;
+        }
+
+        .answer {
+            padding: 1.2rem 1.5rem;
+            background: #ffffff;
+            display: none;
+            line-height: 1.7;
+        }
+
+        .answer.show {
+            display: block;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.3rem;
+            color: #d14;
+            font-size: 0.9rem;
+        }
+
+        .coding-challenge {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 5px solid #f59e0b;
+        }
+
+        .coding-challenge .question {
+            background: #fffbeb;
+        }
+
+        .difficulty {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            font-weight: normal;
+            margin-left: 0.5rem;
+        }
+
+        .easy { background: #10b981; color: white; }
+        .medium { background: #f59e0b; color: white; }
+        .hard { background: #ef4444; color: white; }
+
+        footer {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .question {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>
+            📚 Kotlin Collections
+            <span style="font-size: 1.8rem;">🎯</span>
+        </h1>
+        <p>Essential interview questions & coding challenges for Android Developers</p>
+        <div class="badge-container">
+            <span class="badge">🔥 50+ Questions</span>
+            <span class="badge">💻 15 Coding Challenges</span>
+            <span class="badge">📱 Android Focused</span>
+        </div>
+    </header>
+
+    <div class="toc">
+        <h2>📑 Quick Navigation</h2>
+        <div class="toc-grid">
+            <a href="#basics" class="toc-link">📖 Basics</a>
+            <a href="#types" class="toc-link">🔢 Collection Types</a>
+            <a href="#operations" class="toc-link">⚙️ Operations</a>
+            <a href="#functional" class="toc-link">🔧 Functional APIs</a>
+            <a href="#android" class="toc-link">📱 Android Specific</a>
+            <a href="#coding" class="toc-link">💪 Coding Challenges</a>
+            <a href="#advanced" class="toc-link">🚀 Advanced</a>
+        </div>
+    </div>
+
+    <!-- SECTION 1: BASICS -->
+    <div id="basics" class="section">
+        <h2>📖 1. Collections Basics</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">1</span> What are Kotlin collections? How are they different from Java?</span></div><div class="answer"><p>Kotlin collections distinguish between <strong>mutable</strong> and <strong>immutable</strong> (read-only) interfaces at the language level. Java collections are all mutable by default. Kotlin provides: <code>List</code>, <code>MutableList</code>, <code>Set</code>, <code>MutableSet</code>, <code>Map</code>, <code>MutableMap</code>.</p><pre>// Immutable (read-only)
+val list = listOf(1, 2, 3)
+// Mutable
+val mutableList = mutableListOf(1, 2, 3)
+mutableList.add(4)</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">2</span> What is the difference between List and Array in Kotlin?</span></div><div class="answer"><p><code>Array</code> has fixed size, mutable elements, and is compiled to JVM arrays. <code>List</code> (immutable) has fixed size but supports more operations; <code>MutableList</code> can change size. Prefer List for type safety and functional operations.</p><pre>val array = arrayOf(1, 2, 3)  // fixed size
+val list = listOf(1, 2, 3)    // immutable
+val mutableList = mutableListOf(1, 2, 3)  // dynamic size</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">3</span> Why prefer immutable collections in Android development?</span></div><div class="answer"><p>Immutable collections are thread-safe, prevent accidental modification, and make code more predictable. In Android with MVVM, exposing immutable lists from ViewModels ensures UI stability and reduces bugs.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">4</span> What is the difference between <code>listOf()</code> and <code>emptyList()</code>?</span></div><div class="answer"><p><code>listOf()</code> creates an empty read-only list, <code>emptyList()</code> is a specialized function returning a singleton empty list (more memory efficient). For mutable: <code>mutableListOf()</code>.</p></div></div>
+    </div>
+
+    <!-- SECTION 2: COLLECTION TYPES -->
+    <div id="types" class="section">
+        <h2>🔢 2. Collection Types Deep Dive</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">5</span> Difference between List, Set, and Map?</span></div><div class="answer"><p><strong>List</strong>: Ordered, allows duplicates, index-based access.<br><strong>Set</strong>: Unordered, unique elements, no duplicates.<br><strong>Map</strong>: Key-value pairs, unique keys.</p><pre>val list = listOf(1, 2, 2, 3)  // [1,2,2,3]
+val set = setOf(1, 2, 2, 3)    // [1,2,3]
+val map = mapOf(1 to "A", 2 to "B")</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">6</span> What is ArrayList vs mutableListOf()?</span></div><div class="answer"><p><code>mutableListOf()</code> returns an <code>ArrayList</code> by default on JVM. They are equivalent. <code>arrayListOf()</code> explicitly creates ArrayList. For Android, both work similarly; use <code>mutableListOf()</code> for clarity.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">7</span> What is LinkedHashMap and when to use it?</span></div><div class="answer"><p><code>LinkedHashMap</code> maintains insertion order. In Kotlin, <code>mutableMapOf()</code> returns LinkedHashMap by default. Use when order matters for iteration.</p><pre>val map = mutableMapOf("c" to 3, "a" to 1, "b" to 2)
+// Iteration preserves insertion order: c, a, b</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">8</span> What are Sequence vs Iterable? Performance implications?</span></div><div class="answer"><p><code>Sequence</code> performs lazy evaluation (element-by-element), while <code>Iterable</code> operations are eager (create intermediate collections). Use Sequence for large chains of operations to avoid intermediate lists. In Android, use Sequence for large data processing.</p><pre>val seq = (1..1_000_000).asSequence()
+    .filter { it % 2 == 0 }
+    .map { it * 2 }
+    .take(10)
+    .toList()  // Only processes 20 elements, not all 1M</pre></div></div>
+    </div>
+
+    <!-- SECTION 3: OPERATIONS -->
+    <div id="operations" class="section">
+        <h2>⚙️ 3. Common Collection Operations</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">9</span> What is the difference between filter and map?</span></div><div class="answer"><p><code>filter</code> selects elements based on predicate, <code>map</code> transforms each element. Often chained together.</p><pre>val numbers = listOf(1, 2, 3, 4, 5)
+val evenSquares = numbers.filter { it % 2 == 0 }.map { it * it }  // [4, 16]</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">10</span> Explain flatMap and when to use it?</span></div><div class="answer"><p><code>flatMap</code> transforms each element into a collection and flattens the result. Perfect for nested lists or one-to-many transformations.</p><pre>val list = listOf(1, 2, 3)
+val result = list.flatMap { listOf(it, it * 10) }  // [1,10,2,20,3,30]</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">11</span> What is groupBy? Give Android use case.</span></div><div class="answer"><p><code>groupBy</code> groups elements by a key selector, returning a Map. Use case: Grouping chat messages by date, or grouping list items by category for RecyclerView.</p><pre>data class Transaction(val category: String, val amount: Double)
+val transactions = listOf(Transaction("Food", 10.0), Transaction("Food", 20.0), Transaction("Transport", 5.0))
+val byCategory = transactions.groupBy { it.category }  // {Food=[...], Transport=[...]}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">12</span> Difference between reduce and fold?</span></div><div class="answer"><p>Both accumulate values. <code>fold</code> takes an initial value, <code>reduce</code> uses the first element as initial. <code>fold</code> can return different type.</p><pre>val numbers = listOf(1, 2, 3, 4)
+val sum = numbers.reduce { acc, i -> acc + i }  // 10
+val sumWithInitial = numbers.fold(10) { acc, i -> acc + i }  // 20</pre></div></div>
+    </div>
+
+    <!-- SECTION 4: FUNCTIONAL APIs -->
+    <div id="functional" class="section">
+        <h2>🔧 4. Advanced Functional APIs</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">13</span> What is the difference between any, all, and none?</span></div><div class="answer"><p><code>any()</code> returns true if any element matches predicate. <code>all()</code> returns true if all match. <code>none()</code> returns true if none match.</p><pre>val nums = listOf(2, 4, 6)
+nums.any { it > 5 }  // true
+nums.all { it % 2 == 0 }  // true
+nums.none { it < 0 }  // true</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">14</span> What is associateBy vs groupBy?</span></div><div class="answer"><p><code>associateBy</code> creates a Map using unique keys (last occurrence wins). <code>groupBy</code> creates a Map of lists (multiple values per key).</p><pre>data class Person(val id: Int, val name: String)
+val people = listOf(Person(1, "Alice"), Person(2, "Bob"), Person(1, "Charlie"))
+val map = people.associateBy { it.id }  // {1=Person(1,Charlie), 2=Person(2,Bob)}
+val grouped = people.groupBy { it.id }  // {1=[Person(1,Alice), Person(1,Charlie)], 2=[Person(2,Bob)]}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">15</span> Explain take, drop, and slice.</span></div><div class="answer"><p><code>take(n)</code> takes first n elements, <code>takeLast(n)</code> takes last n, <code>drop(n)</code> skips first n, <code>slice</code> takes indices range.</p><pre>val list = (1..10).toList()
+list.take(3)  // [1,2,3]
+list.drop(7)  // [8,9,10]
+list.slice(2..5)  // [3,4,5,6]</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">16</span> What is distinct and distinctBy?</span></div><div class="answer"><p><code>distinct()</code> returns list with unique elements. <code>distinctBy</code> returns unique elements based on a selector function.</p><pre>val items = listOf("apple", "banana", "apricot", "blueberry")
+items.distinctBy { it.first() }  // ["apple", "banana"] - first letters: a, b</pre></div></div>
+    </div>
+
+    <!-- SECTION 5: ANDROID SPECIFIC -->
+    <div id="android" class="section">
+        <h2>📱 5. Android Specific Collection Questions</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">17</span> How to handle large lists in RecyclerView efficiently?</span></div><div class="answer"><p>Use <code>ListAdapter</code> with <code>DiffUtil</code> for efficient updates. Use <code>Sequence</code> for processing large datasets before display. Consider pagination with Paging 3 library.</p><pre>class MyAdapter : ListAdapter&lt;Item, MyViewHolder&gt;(DiffCallback()) {
+    override fun submitList(list: List&lt;Item&gt;?) {
+        // Efficiently updates only changed items
+        super.submitList(list?.toList()) // defensive copy
+    }
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">18</span> What is the issue with sharing mutable collections between ViewModel and Fragment?</span></div><div class="answer"><p>Fragments might modify the collection causing inconsistent UI state. Always expose immutable collections (<code>StateFlow&lt;List&lt;T&gt;&gt;</code>). Use <code>.toList()</code> defensive copy when needed.</p><pre>private val _items = MutableStateFlow&lt;List&lt;String&gt;&gt;(emptyList())
+val items: StateFlow&lt;List&lt;String&gt;&gt; = _items  // read-only</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">19</span> How to sort a list of custom objects in Android?</span></div><div class="answer"><p>Use <code>sortedBy</code>, <code>sortedWith</code> with Comparator, or implement <code>Comparable</code> interface.</p><pre>data class Product(val name: String, val price: Double)
+val products = listOf(Product("A", 100.0), Product("B", 50.0))
+val sorted = products.sortedBy { it.price }
+val withComparator = products.sortedWith(compareBy { it.name })</pre></div></div>
+    </div>
+
+    <!-- SECTION 6: CODING CHALLENGES -->
+    <div id="coding" class="section">
+        <h2>💪 6. Important Coding Challenges</h2>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">C1</span> Find the first non-repeating character in a String</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>fun firstNonRepeatingChar(str: String): Char? {
+    val freq = str.groupingBy { it }.eachCount()
+    return str.firstOrNull { freq[it] == 1 }
+}
+// Input: "swiss" → Output: 'w'</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">C2</span> Merge two sorted lists into one sorted list</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>fun mergeSorted(list1: List&lt;Int&gt;, list2: List&lt;Int&gt;): List&lt;Int&gt; {
+    var i = 0; var j = 0
+    val result = mutableListOf&lt;Int&gt;()
+    while (i &lt; list1.size && j &lt; list2.size) {
+        if (list1[i] &lt; list2[j]) result.add(list1[i++])
+        else result.add(list2[j++])
+    }
+    result.addAll(list1.drop(i))
+    result.addAll(list2.drop(j))
+    return result
+}</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">C3</span> Group anagrams together from list of strings</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>fun groupAnagrams(words: List&lt;String&gt;): List&lt;List&lt;String&gt;&gt; {
+    return words.groupBy { it.toCharArray().sorted().joinToString("") }.values.toList()
+}
+// Input: ["eat","tea","tan","ate","nat","bat"]
+// Output: [["eat","tea","ate"],["tan","nat"],["bat"]]</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">C4</span> Find the most frequent element in a list</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>fun mostFrequent(list: List&lt;Int&gt;): Int? {
+    return list.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
+}</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">C5</span> Remove duplicates from list while preserving order</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>fun removeDuplicatesPreserveOrder(list: List&lt;Int&gt;): List&lt;Int&gt; {
+    return list.distinct()
+}
+// Or manually: list.filter { set.add(it) } with LinkedHashSet</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">C6</span> Find pairs that sum to target value</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>fun findPairs(list: List&lt;Int&gt;, target: Int): List&lt;Pair&lt;Int, Int&gt;&gt; {
+    val seen = mutableSetOf&lt;Int&gt;()
+    val result = mutableListOf&lt;Pair&lt;Int, Int&gt;&gt;()
+    for (num in list) {
+        val complement = target - num
+        if (complement in seen) {
+            result.add(complement to num)
+        }
+        seen.add(num)
+    }
+    return result
+}</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">C7</span> Flatten nested lists of any depth</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>fun flatten(list: List&lt;Any&gt;): List&lt;Any&gt; = list.flatMap {
+    if (it is List&lt;*&gt;) flatten(it) else listOf(it)
+}
+// Input: [1, [2, [3, 4]], 5] → Output: [1,2,3,4,5]</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">C8</span> Implement a frequency counter using fold</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>fun charFrequency(str: String): Map&lt;Char, Int&gt; {
+    return str.fold(mutableMapOf()) { map, char ->
+        map[char] = map.getOrDefault(char, 0) + 1
+        map
+    }
+}</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">C9</span> Chunk a list into sublists of given size</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>fun &lt;T&gt; List&lt;T&gt;.chunk(size: Int): List&lt;List&lt;T&gt;&gt; {
+    return (0 until this.size step size).map { i ->
+        this.subList(i, minOf(i + size, this.size))
+    }
+}
+// Input: [1,2,3,4,5], chunk 2 → [[1,2],[3,4],[5]]</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">C10</span> Intersection of two lists with duplicates preserved</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>fun intersect(list1: List&lt;Int&gt;, list2: List&lt;Int&gt;): List&lt;Int&gt; {
+    val map = list2.groupingBy { it }.eachCount().toMutableMap()
+    return list1.filter {
+        map[it]?.let { count ->
+            map[it] = count - 1
+            true
+        } ?: false
+    }
+}</pre></div></div>
+    </div>
+
+    <!-- SECTION 7: ADVANCED -->
+    <div id="advanced" class="section">
+        <h2>🚀 7. Advanced Topics</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">20</span> What are buildList, buildMap, buildSet? When to use?</span></div><div class="answer"><p>These builder functions create immutable collections efficiently without intermediate mutable state. Perfect for complex construction logic.</p><pre>val list = buildList {
+    add(1)
+    addAll(listOf(2, 3))
+    if (condition) add(4)
+}  // Returns immutable List</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">21</span> Performance comparison: List vs Sequence for large data processing in Android</span></div><div class="answer"><p>For chains of operations (<code>filter.map.filter</code>), Sequence avoids creating intermediate lists. Use Sequence for large datasets (1000+ items). For small datasets, List is fine. In Android Room database queries, use Flow with Sequence for large result sets.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">22</span> What are transforms like zip and unzip?</span></div><div class="answer"><p><code>zip</code> combines two lists into pairs. <code>unzip</code> splits list of pairs into two lists.</p><pre>val names = listOf("Alice", "Bob")
+val ages = listOf(25, 30)
+val zipped = names.zip(ages)  // [(Alice,25), (Bob,30)]
+val (unzippedNames, unzippedAges) = zipped.unzip()</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">23</span> What is the difference between sorted, sortedBy, and sortedWith?</span></div><div class="answer"><p><code>sorted()</code> uses natural order. <code>sortedBy { selector }</code> sorts by selected value. <code>sortedWith(Comparator)</code> uses custom comparator.</p><pre>data class Person(val name: String, val age: Int)
+val people = listOf(Person("Bob", 30), Person("Alice", 25))
+people.sortedBy { it.age }  // Alice then Bob
+people.sortedWith(compareBy { it.name })  // Alice then Bob by name</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">24</span> How to convert List to Map and handle duplicate keys?</span></div><div class="answer"><p>Use <code>associateBy</code> for unique keys, <code>groupBy</code> for multiple values, or <code>associateBy</code> with value selector for handling duplicates.</p><pre>val items = listOf("a", "b", "a")
+items.associateWith { it.length }  // {a=1, b=1} - last a wins
+items.groupBy { it }  // {a=[a,a], b=[b]}</pre></div></div>
+    </div>
+
+    <footer>
+        <p>🎯 Master Kotlin Collections — Essential for Android Interviews</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Click on any question to reveal answer | Practice coding challenges regularly</p>
+    </footer>
+</div>
+
+<script>
+    // Interactive Q&A toggle
+    document.querySelectorAll('.card').forEach(card => {
+        const questionDiv = card.querySelector('.question');
+        const answerDiv = card.querySelector('.answer');
+        if (questionDiv && answerDiv) {
+            questionDiv.style.cursor = 'pointer';
+            questionDiv.addEventListener('click', (e) => {
+                // Don't toggle if clicking on difficulty badge
+                if (e.target.classList && e.target.classList.contains('difficulty')) return;
+                answerDiv.classList.toggle('show');
+            });
+        }
+    });
+</script>
+</body>
+</html>

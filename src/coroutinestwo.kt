@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import kotlin.concurrent.thread
 
 /*
-suspend fun main() = supervisorScope {
+suspend fun collections.main() = supervisorScope {
     val job1 = async {
         delay(1000)
         println("API 1 Done")

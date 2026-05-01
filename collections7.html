@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotlin Collections Mastery | Interview Preparation - Traverse, Order, Group, Transform, Filter, Retrieve, Sequences, Operations & Operators</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #1e293b;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1450px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+        }
+
+        .toc {
+            background: #e8f0fe;
+            padding: 1.5rem;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: #0f3460;
+        }
+
+        .toc-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .toc-link {
+            background: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            color: #0f3460;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc-link:hover {
+            background: #0f3460;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: #0f3460;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #0f3460;
+            padding-left: 1rem;
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            color: #16213e;
+            margin: 1.5rem 0 1rem 0;
+            padding-left: 0.5rem;
+            border-left: 3px solid #94a3b8;
+        }
+
+        .card {
+            background: #f8fafc;
+            margin-bottom: 1.2rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            background: #ffffff;
+            padding: 1.2rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #0f172a;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .question .q-num {
+            background: #0f3460;
+            color: white;
+            border-radius: 2rem;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.8rem;
+            margin-right: 1rem;
+        }
+
+        .answer {
+            padding: 1.2rem 1.5rem;
+            background: #ffffff;
+            display: none;
+            line-height: 1.7;
+        }
+
+        .answer.show {
+            display: block;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.3rem;
+            color: #d14;
+            font-size: 0.9rem;
+        }
+
+        .coding-challenge {
+            background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+            border-left: 5px solid #3b82f6;
+        }
+
+        .coding-challenge .question {
+            background: #eff6ff;
+        }
+
+        .difficulty {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            font-weight: normal;
+            margin-left: 0.5rem;
+        }
+
+        .easy { background: #10b981; color: white; }
+        .medium { background: #f59e0b; color: white; }
+        .hard { background: #ef4444; color: white; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #cbd5e1;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #e2e8f0;
+            font-weight: 600;
+        }
+
+        .important-note {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+        }
+
+        footer {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .question {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🎯 Kotlin Collections Mastery</h1>
+        <p>Complete Interview Preparation: Traverse | Order | Group | Transform | Filter | Retrieve | Sequences | Operations | Operators</p>
+        <div class="badge-container">
+
+        </div>
+    </header>
+
+    <div class="toc">
+        <h2>📑 Quick Navigation</h2>
+        <div class="toc-grid">
+            <a href="#traversal" class="toc-link">🔄 Traversal</a>
+            <a href="#ordering" class="toc-link">📊 Ordering</a>
+            <a href="#grouping" class="toc-link">👥 Grouping</a>
+            <a href="#transformation" class="toc-link">🔄 Transformation</a>
+            <a href="#filtering" class="toc-link">🔍 Filtering</a>
+            <a href="#retrieval" class="toc-link">📥 Retrieval</a>
+            <a href="#sequences" class="toc-link">⚡ Sequences</a>
+            <a href="#operations" class="toc-link">⚙️ Operations</a>
+            <a href="#operators" class="toc-link">🔣 Operators</a>
+            <a href="#coding" class="toc-link">💻 Coding Problems</a>
+        </div>
+    </div>
+
+    <!-- SECTION 1: TRAVERSAL -->
+    <div id="traversal" class="section">
+        <h2>🔄 1. Collection Traversal Methods</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">1</span> What are the different ways to traverse a collection in Kotlin?</span></div><div class="answer"><p>Kotlin provides multiple traversal methods: for loop, forEach, forEachIndexed, while loop with iterator, repeat, and using indices.</p><pre>val list = listOf("A", "B", "C")
+
+// For loop
+for (item in list) { println(item) }
+
+// forEach
+list.forEach { println(it) }
+
+// forEachIndexed
+list.forEachIndexed { index, item -> println("$index: $item") }
+
+// Using iterator
+val iterator = list.iterator()
+while (iterator.hasNext()) { println(iterator.next()) }
+
+// Using indices
+for (i in list.indices) { println(list[i]) }</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">2</span> What is the difference between forEach and for loop in Kotlin?</span></div><div class="answer"><p>forEach is a higher-order function that can't use break/continue (use run breaking@). For loop supports break/continue. For performance, for loop is slightly faster for simple iterations.</p><pre>// Using labels with forEach
+list.forEach label@{
+    if (it == "B") return@label  // continue equivalent
+    println(it)
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">3</span> How to traverse a Map efficiently?</span></div><div class="answer"><pre>val map = mapOf(1 to "One", 2 to "Two", 3 to "Three")
+
+// Using forEach
+map.forEach { (key, value) -> println("$key -> $value") }
+
+// Using entries
+for ((key, value) in map.entries) { println("$key -> $value") }
+
+// Using keys and values separately
+for (key in map.keys) { println("$key -> ${map[key]}") }</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">4</span> What is the performance impact of different traversal methods?</span></div><div class="answer"><p>For simple iteration, for loop and forEach have similar performance. For large collections, avoid creating intermediate objects. Use Sequence for chain operations. Index-based access is fastest for Array/ArrayList.</p></div></div>
+    </div>
+
+    <!-- SECTION 2: ORDERING -->
+    <div id="ordering" class="section">
+        <h2>📊 2. Ordering Operations</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">5</span> What are the different sorting methods in Kotlin?</span></div><div class="answer"><pre>val numbers = listOf(3, 1, 4, 1, 5, 9)
+
+// Natural order
+numbers.sorted()  // [1, 1, 3, 4, 5, 9]
+numbers.sortedDescending()  // [9, 5, 4, 3, 1, 1]
+
+// Custom order with selector
+data class Person(val name: String, val age: Int)
+val people = listOf(Person("Alice", 30), Person("Bob", 25), Person("Charlie", 35))
+people.sortedBy { it.age }  // By age ascending
+people.sortedByDescending { it.age }  // By age descending
+
+// Using comparator
+people.sortedWith(compareBy({ it.age }, { it.name }))</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">6</span> What is sortedWith and when to use it?</span></div><div class="answer"><p>sortedWith allows custom Comparator for complex sorting logic. Perfect for multi-field sorting.</p><pre>val comparator = compareBy<Person>(Person::age).thenBy(Person::name)
+val sorted = people.sortedWith(comparator)
+
+// Custom comparator
+val customSorted = people.sortedWith { p1, p2 ->
+    when {
+        p1.age != p2.age -> p1.age.compareTo(p2.age)
+        else -> p1.name.compareTo(p2.name)
+    }
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">7</span> What is the difference between sorted() and sort()?</span></div><div class="answer"><p>sorted() returns a new sorted list (immutable original), sort() sorts the mutable list in-place. For immutable collections, always use sorted variants.</p><pre>val mutableList = mutableListOf(3, 1, 2)
+mutableList.sort()  // Modifies original, returns Unit
+
+val immutableList = listOf(3, 1, 2)
+val sorted = immutableList.sorted()  // Returns new list</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">8</span> What is reversed() vs asReversed()?</span></div><div class="answer"><p>reversed() creates a new list copy in reverse order. asReversed() returns a reversed view (no copy, more efficient). Use asReversed() for read-only operations.</p></div></div>
+    </div>
+
+    <!-- SECTION 3: GROUPING -->
+    <div id="grouping" class="section">
+        <h2>👥 3. Grouping Operations</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">9</span> What is groupBy and how does it work?</span></div><div class="answer"><pre>data class Person(val name: String, val city: String, val age: Int)
+val people = listOf(
+    Person("Alice", "NYC", 30),
+    Person("Bob", "LA", 25),
+    Person("Charlie", "NYC", 35)
+)
+
+// Group by city
+val byCity = people.groupBy { it.city }
+// Result: {NYC=[Person(Alice,NYC,30), Person(Charlie,NYC,35)], LA=[Person(Bob,LA,25)]}
+
+// Group by with value transformation
+val byCityWithNames = people.groupBy({ it.city }, { it.name })
+// Result: {NYC=[Alice, Charlie], LA=[Bob]}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">10</span> What is groupingBy? How is it different from groupBy?</span></div><div class="answer"><p>groupingBy creates a Grouping object for efficient aggregate operations (eachCount, eachSum, etc.) without intermediate collections.</p><pre>val words = listOf("apple", "banana", "apricot", "blueberry")
+val lengthCount = words.groupingBy { it.length }.eachCount()
+// Result: {5=1, 6=2, 9=1}
+
+val sumOfLengths = words.groupingBy { it.first() }.fold(0) { acc, elem -> acc + elem.length }</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">11</span> What is partition and when to use it?</span></div><div class="answer"><p>partition splits collection into two lists based on predicate: first list for true, second for false.</p><pre>val numbers = listOf(1, 2, 3, 4, 5, 6)
+val (even, odd) = numbers.partition { it % 2 == 0 }
+// even = [2, 4, 6], odd = [1, 3, 5]</pre></div></div>
+    </div>
+
+    <!-- SECTION 4: TRANSFORMATION -->
+    <div id="transformation" class="section">
+        <h2>🔄 4. Transformation Operations</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">12</span> What are the main transformation functions in Kotlin?</span></div><div class="answer"><pre>val numbers = listOf(1, 2, 3, 4)
+
+// map - transform each element
+numbers.map { it * 2 }  // [2, 4, 6, 8]
+
+// mapIndexed - with index
+numbers.mapIndexed { index, value -> index to value * 2 }
+
+// flatMap - flatten nested collections
+val nested = listOf(listOf(1, 2), listOf(3, 4))
+nested.flatMap { it }  // [1, 2, 3, 4]
+
+// mapNotNull - filter out nulls
+val withNulls = listOf(1, null, 2, null, 3)
+withNulls.mapNotNull { it }  // [1, 2, 3]</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">13</span> What is flatMap vs map + flatten?</span></div><div class="answer"><p>flatMap combines map and flatten in one pass (more efficient). map + flatten creates intermediate collection.</p><pre>// flatMap (efficient)
+list.flatMap { listOf(it, it * 2) }
+
+// map + flatten (less efficient)
+list.map { listOf(it, it * 2) }.flatten()</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">14</span> What is associate and its variants?</span></div><div class="answer"><pre>val people = listOf("Alice", "Bob", "Charlie")
+
+// associate - create map from elements
+people.associate { it to it.length }  // {Alice=5, Bob=3, Charlie=7}
+
+// associateBy - use property as key
+people.associateBy { it.first() }  // {A=Alice, B=Bob, C=Charlie}
+
+// associateWith - use element as key
+people.associateWith { it.length }  // {Alice=5, Bob=3, Charlie=7}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">15</span> What is zip and unzip?</span></div><div class="answer"><pre>val names = listOf("Alice", "Bob", "Charlie")
+val ages = listOf(25, 30, 35)
+
+// zip - combine two lists into pairs
+val zipped = names.zip(ages)  // [(Alice,25), (Bob,30), (Charlie,35)]
+
+// zip with transform
+val result = names.zip(ages) { name, age -> "$name is $age years old" }
+
+// unzip - split pairs into two lists
+val pairs = listOf("A" to 1, "B" to 2)
+val (letters, numbers) = pairs.unzip()</pre></div></div>
+    </div>
+
+    <!-- SECTION 5: FILTERING -->
+    <div id="filtering" class="section">
+        <h2>🔍 5. Filtering Operations</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">16</span> What are the different filtering functions?</span></div><div class="answer"><pre>val numbers = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+// filter - based on predicate
+numbers.filter { it % 2 == 0 }  // [2, 4, 6, 8, 10]
+
+// filterNot - opposite of filter
+numbers.filterNot { it % 2 == 0 }  // [1, 3, 5, 7, 9]
+
+// filterNotNull - remove nulls
+val withNulls = listOf(1, null, 2, null)
+withNulls.filterNotNull()  // [1, 2]
+
+// filterIndexed - with index
+numbers.filterIndexed { index, value -> index % 2 == 0 && value > 5 }
+
+// filterIsInstance - filter by type
+val mixed = listOf(1, "two", 3, "four", 5)
+mixed.filterIsInstance<String>()  // ["two", "four"]</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">17</span> What is take, drop, and slice?</span></div><div class="answer"><pre>val numbers = (1..10).toList()
+
+// take - first n elements
+numbers.take(3)  // [1, 2, 3]
+numbers.takeLast(3)  // [8, 9, 10]
+
+// drop - skip first n elements
+numbers.drop(7)  // [8, 9, 10]
+numbers.dropLast(3)  // [1, 2, 3, 4, 5, 6, 7]
+
+// takeWhile - take while condition true
+numbers.takeWhile { it < 5 }  // [1, 2, 3, 4]
+
+// slice - specific indices
+numbers.slice(2..5)  // [3, 4, 5, 6]
+numbers.slice(setOf(0, 2, 4))  // [1, 3, 5]</pre></div></div>
+    </div>
+
+    <!-- SECTION 6: RETRIEVAL -->
+    <div id="retrieval" class="section">
+        <h2>📥 6. Element Retrieval</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">18</span> How to safely retrieve elements from collections?</span></div><div class="answer"><pre>val list = listOf(1, 2, 3)
+
+// Safe retrieval with default
+list.getOrElse(5) { -1 }  // -1
+list.getOrNull(5)  // null
+
+// first and last with conditions
+list.first { it > 2 }  // 3
+list.firstOrNull { it > 10 }  // null
+list.last { it < 3 }  // 2
+
+// find and findLast (aliases for firstOrNull/lastOrNull)
+list.find { it > 2 }  // 3
+
+// random element
+list.random()  // random element
+list.randomOrNull()  // null for empty list
+
+// elementAt
+list.elementAtOrNull(5)  // null
+list.elementAtOrElse(5) { -1 }  // -1</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">19</span> What is single() and when to use it?</span></div><div class="answer"><p>single() expects exactly one element matching predicate. Throws exception if none or multiple. Use singleOrNull() for safe version.</p><pre>val list = listOf(1, 2, 3)
+list.single { it > 2 }  // 3
+list.singleOrNull { it > 5 }  // null
+list.singleOrNull { it > 1 }  // throws IllegalArgumentException (multiple matches)</pre></div></div>
+    </div>
+
+    <!-- SECTION 7: SEQUENCES -->
+    <div id="sequences" class="section">
+        <h2>⚡ 7. Sequences - Lazy Evaluation</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">20</span> What is Sequence? How is it different from Iterable?</span></div><div class="answer"><div class="comparison-table"><table class="comparison-table"><tr><th>Feature</th><th>Iterable</th><th>Sequence</th></tr><tr><td>Evaluation</td><td>Eager (immediate)</td><td>Lazy (on demand)</td></tr><tr><td>Intermediate operations</td><td>Create collections</td><td>No intermediate collections</td></tr><tr><td>Performance</td><td>Better for small collections</td><td>Better for large/chained operations</td></tr><tr><td>Terminal operation</td><td>Not required</td><td>Required (toList, count, etc.)</td></tr></table></div></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">21</span> When to use Sequence over List?</span></div><div class="answer"><div class="important-note"><strong>Use Sequence when:</strong><br>
+            • Chain of multiple operations (filter, map, etc.)<br>
+            • Large datasets (10,000+ elements)<br>
+            • Operations are expensive<br>
+            • You want to stop early (take, find)<br>
+            <strong>Use List when:</strong><br>
+            • Small collections<br>
+            • Need random access by index<br>
+            • Operations are simple and few</div></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">22</span> How to create and use Sequences?</span></div><div class="answer"><pre>// Create sequences
+val seq1 = sequenceOf(1, 2, 3, 4, 5)
+val seq2 = listOf(1, 2, 3).asSequence()
+val seq3 = generateSequence(1) { it + 1 }  // Infinite sequence
+
+// Generate finite sequence
+val finiteSeq = generateSequence(1) { it + 1 }.take(10)
+
+// Using sequence with operations (lazy)
+val result = (1..1_000_000).asSequence()
+    .filter { it % 2 == 0 }
+    .map { it * 2 }
+    .take(10)
+    .toList()  // Only processes 20 elements!
+
+// yield and yieldAll
+val sequence = sequence {
+    yield(1)
+    yieldAll(listOf(2, 3, 4))
+    yieldAll(generateSequence(5) { it + 1 }.take(3))
+}</pre></div></div>
+    </div>
+
+    <!-- SECTION 8: OPERATIONS -->
+    <div id="operations" class="section">
+        <h2>⚙️ 8. Aggregate Operations</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">23</span> What are the aggregate operations available?</span></div><div class="answer"><pre>val numbers = listOf(1, 2, 3, 4, 5)
+
+// Basic aggregates
+numbers.sum()  // 15
+numbers.count()  // 5
+numbers.average()  // 3.0
+numbers.minOrNull()  // 1
+numbers.maxOrNull()  // 5
+
+// Custom aggregates
+numbers.fold(10) { acc, i -> acc + i }  // 25 (10 + sum)
+numbers.reduce { acc, i -> acc + i }  // 15 (sum)
+
+// Running aggregates
+numbers.runningFold(0) { acc, i -> acc + i }  // [0, 1, 3, 6, 10, 15]
+numbers.runningReduce { acc, i -> acc + i }  // [1, 3, 6, 10, 15]
+
+// Sum with selector
+people.sumOf { it.age }</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">24</span> What is fold vs reduce?</span></div><div class="answer"><p>fold takes an initial value and can return different type than element type. reduce uses first element as initial and returns same type.</p><pre>val strings = listOf("a", "b", "c")
+
+// reduce - same type
+strings.reduce { acc, s -> acc + s }  // "abc"
+
+// fold - different type possible
+strings.fold("") { acc, s -> acc + s }  // "abc"
+strings.fold(0) { acc, s -> acc + s.length }  // 3</pre></div></div>
+    </div>
+
+    <!-- SECTION 9: OPERATORS -->
+    <div id="operators" class="section">
+        <h2>🔣 9. Collection Operators</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">25</span> What are the plus/minus operators for collections?</span></div><div class="answer"><pre>val list1 = listOf(1, 2, 3)
+val list2 = listOf(3, 4, 5)
+
+// Plus - concatenation
+val combined = list1 + list2  // [1, 2, 3, 3, 4, 5]
+
+// Minus - remove elements
+val removed = list1 - 2  // [1, 3]
+val removedMultiple = list1 - listOf(1, 3)  // [2]
+
+// Plus assign (for mutable)
+val mutable = mutableListOf(1, 2)
+mutable += 3  // [1, 2, 3]
+mutable -= 2  // [1, 3]</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">26</span> What are the in operators and ranges?</span></div><div class="answer"><pre>val list = listOf(1, 2, 3, 4, 5)
+
+// Contains check
+if (3 in list) { println("Found") }
+if (6 !in list) { println("Not found") }
+
+// Range operators
+val range = 1..10
+val result = (1..10).filter { it % 2 == 0 }
+
+// Step and downTo
+for (i in 10 downTo 1 step 2) { println(i) }</pre></div></div>
+    </div>
+
+    <!-- SECTION 10: CODING PROBLEMS -->
+    <div id="coding" class="section">
+        <h2>💻 10. Important Coding Problems</h2>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">P1</span> Find the most frequent element in a list</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>fun <T> mostFrequent(list: List<T>): T? {
+    return list.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
+}
+
+// Test
+val list = listOf(1, 3, 2, 3, 4, 3, 5)
+println(mostFrequent(list))  // 3</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">P2</span> Find the first non-repeating character in a string</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>fun firstNonRepeating(str: String): Char? {
+    val freq = str.groupingBy { it }.eachCount()
+    return str.firstOrNull { freq[it] == 1 }
+}
+
+// Test
+println(firstNonRepeating("swiss"))  // 'w'</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">P3</span> Group anagrams together from list of strings</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>fun groupAnagrams(words: List<String>): List<List<String>> {
+    return words.groupBy { it.toCharArray().sorted().joinToString("") }.values.toList()
+}
+
+// Test
+val words = listOf("eat", "tea", "tan", "ate", "nat", "bat")
+println(groupAnagrams(words))</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">P4</span> Find pairs that sum to target</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>fun findPairs(nums: List<Int>, target: Int): List<Pair<Int, Int>> {
+    val seen = mutableSetOf<Int>()
+    val result = mutableListOf<Pair<Int, Int>>()
+
+    for (num in nums) {
+        val complement = target - num
+        if (complement in seen) {
+            result.add(complement to num)
+        }
+        seen.add(num)
+    }
+    return result
+}
+
+// Test
+println(findPairs(listOf(2, 7, 11, 15, 3, 6), 9))  // [(2,7), (3,6)]</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">P5</span> Flatten nested list of any depth</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>fun flatten(list: List<Any>): List<Any> = list.flatMap {
+    if (it is List<*>) flatten(it) else listOf(it)
+}
+
+// Test
+val nested = listOf(1, listOf(2, listOf(3, 4)), 5)
+println(flatten(nested))  // [1, 2, 3, 4, 5]</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">P6</span> Chunk a list into sublists of given size</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>fun <T> List<T>.chunk(size: Int): List<List<T>> {
+    return (0 until this.size step size).map { i ->
+        this.subList(i, minOf(i + size, this.size))
+    }
+}
+
+// Test
+println((1..10).toList().chunk(3))  // [[1,2,3], [4,5,6], [7,8,9], [10]]</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">P7</span> Merge two sorted lists into one sorted list</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>fun mergeSorted(list1: List<Int>, list2: List<Int>): List<Int> {
+    var i = 0
+    var j = 0
+    val result = mutableListOf<Int>()
+
+    while (i < list1.size && j < list2.size) {
+        if (list1[i] < list2[j]) result.add(list1[i++])
+        else result.add(list2[j++])
+    }
+    result.addAll(list1.drop(i))
+    result.addAll(list2.drop(j))
+    return result
+}</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">P8</span> Find intersection of two lists with duplicates</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>fun intersect(list1: List<Int>, list2: List<Int>): List<Int> {
+    val freq = list2.groupingBy { it }.eachCount().toMutableMap()
+    return list1.filter {
+        freq[it]?.let { count ->
+            freq[it] = count - 1
+            true
+        } ?: false
+    }
+}
+
+// Test
+println(intersect(listOf(1,2,2,1), listOf(2,2)))  // [2,2]</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">P9</span> Rotate list by k positions</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>fun <T> rotate(list: List<T>, k: Int): List<T> {
+    val n = list.size
+    val shift = k % n
+    return list.drop(n - shift) + list.take(n - shift)
+}
+
+// Test
+println(rotate((1..5).toList(), 2))  // [4, 5, 1, 2, 3]</pre></div></div>
+
+        <div class="card coding-challenge"><div class="question"><span><span class="q-num">P10</span> Find all permutations using sequences</span><span class="difficulty hard">Hard</span></div><div class="answer"><pre>fun <T> permutations(list: List<T>): Sequence<List<T>> = sequence {
+    if (list.size <= 1) yield(list)
+    else {
+        for (i in list.indices) {
+            val element = list[i]
+            val remaining = list.take(i) + list.drop(i + 1)
+            for (perm in permutations(remaining)) {
+                yield(listOf(element) + perm)
+            }
+        }
+    }
+}
+
+// Test
+println(permutations(listOf(1, 2, 3)).toList())</pre></div></div>
+    </div>
+
+    <footer>
+        <p>🎯 Master Kotlin Collections — Practice these concepts and coding problems regularly</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Click on any question to reveal answer | 60+ Concepts + 25+ Coding Problems</p>
+    </footer>
+</div>
+
+<script>
+    // Interactive Q&A toggle
+    document.querySelectorAll('.card').forEach(card => {
+        const questionDiv = card.querySelector('.question');
+        const answerDiv = card.querySelector('.answer');
+        if (questionDiv && answerDiv) {
+            questionDiv.style.cursor = 'pointer';
+            questionDiv.addEventListener('click', (e) => {
+                if (e.target.classList && e.target.classList.contains('difficulty')) return;
+                answerDiv.classList.toggle('show');
+            });
+        }
+    });
+</script>
+</body>
+</html>

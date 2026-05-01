@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android Interview Prep with Answers</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #f4f6f8;
+            line-height: 1.6;
+        }
+        section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .q {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .a {
+            margin-left: 10px;
+            color: #2d3436;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<h1>📱 Android Interview Preparation (With Answers)</h1>
+
+<!-- OOPS -->
+<section>
+    <h2>🧠 1. OOPs with Answers</h2>
+
+    <div class="q">1. What are the 4 pillars of OOP?</div>
+    <div class="a">Encapsulation, Abstraction, Inheritance, Polymorphism.</div>
+
+    <div class="q">2. Encapsulation vs Abstraction?</div>
+    <div class="a">Encapsulation = hiding data (data security). Abstraction = hiding implementation (show only essential features).</div>
+
+    <div class="q">3. Inheritance vs Composition?</div>
+    <div class="a">Inheritance = IS-A relationship. Composition = HAS-A relationship. Composition is more flexible.</div>
+
+    <div class="q">4. What is polymorphism?</div>
+    <div class="a">Ability of one object to take multiple forms (method overloading & overriding).</div>
+
+    <div class="q">5. Overloading vs Overriding?</div>
+    <div class="a">Overloading = same method name, different parameters. Overriding = child class changes parent method.</div>
+
+    <div class="q">6. Interface vs Abstract class?</div>
+    <div class="a">Interface = full abstraction. Abstract class = partial implementation allowed.</div>
+
+    <div class="q">7. Why no multiple inheritance in classes?</div>
+    <div class="a">To avoid ambiguity (diamond problem).</div>
+</section>
+
+<!-- SOLID -->
+<section>
+    <h2>🏗️ 2. SOLID Principles (With Answers)</h2>
+
+    <div class="q">S - Single Responsibility?</div>
+    <div class="a">One class should have only one reason to change.</div>
+
+    <div class="q">O - Open/Closed?</div>
+    <div class="a">Code should be open for extension but closed for modification.</div>
+
+    <div class="q">L - Liskov Substitution?</div>
+    <div class="a">Child class should replace parent class without breaking code.</div>
+
+    <div class="q">I - Interface Segregation?</div>
+    <div class="a">Prefer multiple small interfaces instead of one big interface.</div>
+
+    <div class="q">D - Dependency Inversion?</div>
+    <div class="a">Depend on abstractions, not concrete classes (used in DI frameworks like Hilt).</div>
+</section>
+
+<!-- LLD -->
+<section>
+    <h2>📱 3. Android LLD (With Answers)</h2>
+
+    <div class="q">Q: Design WhatsApp?</div>
+    <div class="a">
+        Use MVVM + Repository + WebSocket.<br>
+        Entities: User, Chat, Message.<br>
+        Local DB: Room<br>
+        Real-time: Firebase/WebSocket<br>
+    </div>
+
+    <div class="q">Q: Design Instagram feed?</div>
+    <div class="a">
+        Use pagination + caching + API layer + ViewModel.<br>
+        Feed loads via repository and updates UI via LiveData/Flow.
+    </div>
+
+    <div class="q">Q: Why Repository pattern?</div>
+    <div class="a">
+        It separates data sources (API, DB) and keeps ViewModel clean.
+    </div>
+
+    <div class="q">Q: Why MVVM in Android?</div>
+    <div class="a">
+        Separates UI, business logic, and data handling → better testability and maintainability.
+    </div>
+
+    <div class="q">Q: Where SOLID is used in Android?</div>
+    <div class="a">
+        ViewModel (SRP), Repository (DIP), Use small interfaces (ISP), extend features without modifying old code (OCP).
+    </div>
+</section>
+
+<!-- CODING -->
+<section>
+    <h2>💻 4. Coding Questions with Answers</h2>
+
+    <div class="q">1. Reverse String</div>
+    <div class="a">
+        Use two pointers or built-in reverse() in Kotlin.
+    </div>
+
+    <div class="q">2. Two Sum</div>
+    <div class="a">
+        Use HashMap → store number and index → check target - num.
+    </div>
+
+    <div class="q">3. LRU Cache</div>
+    <div class="a">
+        Use HashMap + Doubly Linked List for O(1) access and eviction.
+    </div>
+
+    <div class="q">4. Valid Parentheses</div>
+    <div class="a">
+        Use Stack → push opening brackets, match closing brackets.
+    </div>
+
+    <div class="q">5. Longest substring without repeat</div>
+    <div class="a">
+        Use Sliding Window + HashSet/Map.
+    </div>
+
+    <div class="q">6. Find missing number</div>
+    <div class="a">
+        Use formula n(n+1)/2 - sum of array.
+    </div>
+</section>
+
+<!-- BONUS -->
+<section>
+    <h2>🚀 5. Bonus Android Concepts</h2>
+
+    <div class="q">Thread-safe Singleton?</div>
+    <div class="a">
+        Use synchronized or Kotlin object keyword (thread-safe by default).
+    </div>
+
+    <div class="q">Observer pattern?</div>
+    <div class="a">
+        Used in LiveData → UI observes data changes automatically.
+    </div>
+
+    <div class="q">Why Coroutines?</div>
+    <div class="a">
+        Lightweight async programming, avoids callback hell.
+    </div>
+
+    <div class="q">What is caching?</div>
+    <div class="a">
+        Storing data locally (Room/Memory cache) to reduce API calls.
+    </div>
+</section>
+
+</body>
+</html>

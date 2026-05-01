@@ -22,20 +22,20 @@ import kotlinx.coroutines.withContext
 //✔ viewModelScope cancels coroutines
 
 //  Builder        use case                   return
-//runBlocking ---- Use Case(Testing / main) -- returns (Blocks thread)
+//runBlocking ---- Use Case(Testing / collections.main) -- returns (Blocks thread)
 //async ----Get result ------Deferred<T> using await
 //launch ---  Fire & forget ------Job
 
-//runBlocking blocks the main thread until all coroutines inside it finish.
-/*suspend fun main(){ //= runBlocking {
+//runBlocking blocks the collections.main thread until all coroutines inside it finish.
+/*suspend fun collections.main(){ //= runBlocking {
     //launch is not a top-level function
     //It must be called inside a CoroutineScope
-    //main() finishes immediately → program exits → coroutine never runs
+    //collections.main() finishes immediately → program exits → coroutine never runs
    // launch is an extension function of CoroutineScope.
     //Without a scope, Kotlin doesn’t know who controls the coroutine lifecycle.
 
     //Why println("Main thread") prints but coroutine doesn’t?
-    //main() finishes immediately
+    //collections.main() finishes immediately
     //JVM exits
     //Coroutine never gets CPU time
     /*launch {

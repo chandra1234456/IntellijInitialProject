@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 24px;
+            line-height: 1.7;
+            background: #f9f9f9;
+            color: #2c3e50;
+        }
+
+        h1 {
+            color: #1a252f;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #34495e;
+        }
+
+        .qa {
+            background: #ffffff;
+            padding: 15px 18px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .answer ul {
+            margin-top: 8px;
+        }
+
+        .answer li {
+            margin-bottom: 6px;
+        }
+
+        .flow {
+            background: #eef6ff;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Interview Questions & Answers</h1>
+
+<h2>Architecture Question</h2>
+
+<div class="qa">
+
+    <div class="question">
+        1. Design an Android app using MVVM + Clean Architecture. Explain the complete data flow from UI to data source
+        and back.
+    </div>
+
+    <div class="answer">
+
+        <p>
+            In an Android app using <b>MVVM + Clean Architecture</b>, the system is divided into
+            clearly separated layers to ensure scalability, testability, and maintainability.
+        </p>
+
+        <h3>1. Presentation Layer (UI + ViewModel)</h3>
+        <ul>
+            <li>UI (Jetpack Compose / Activity / Fragment) only displays state.</li>
+            <li>Observes state from ViewModel using <b>StateFlow / LiveData</b>.</li>
+            <li>ViewModel holds UI state and handles user events.</li>
+            <li>It does NOT access API or database directly.</li>
+            <li>Calls UseCases from the domain layer.</li>
+        </ul>
+
+        <h3>2. Domain Layer (Use Cases)</h3>
+        <ul>
+            <li>Contains business logic of the application.</li>
+            <li>Each UseCase represents a single responsibility (e.g., GetUserProfile, LoginUser).</li>
+            <li>Acts as a bridge between ViewModel and Repository.</li>
+            <li>Independent of Android framework.</li>
+        </ul>
+
+        <h3>3. Data Layer (Repository)</h3>
+        <ul>
+            <li>Handles data operations from remote and local sources.</li>
+            <li>Fetches data from API (Retrofit) or local DB (Room).</li>
+            <li>Provides a single source of truth to the domain layer.</li>
+        </ul>
+
+        <div class="flow">
+            <h3>Complete Data Flow</h3>
+            <ul>
+                <li>User interacts with UI (button click / screen load)</li>
+                <li>UI sends event to ViewModel</li>
+                <li>ViewModel calls a UseCase</li>
+                <li>UseCase executes business logic</li>
+                <li>UseCase calls Repository</li>
+                <li>Repository fetches data (API / DB / cache)</li>
+                <li>Data flows back through UseCase → ViewModel</li>
+                <li>ViewModel updates UI state (Loading → Success → Error)</li>
+                <li>UI re-renders automatically via Compose</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<div class="qa">
+
+    <div class="question">
+        2. If API fails but Room has data, what will you show in UI and how will you design the flow in MVVM + Clean
+        Architecture?
+    </div>
+
+    <div class="answer">
+
+        <h3>✔ Data Flow (MVVM + Clean Architecture)</h3>
+        <ul>
+            <li>UI requests data via ViewModel</li>
+            <li>ViewModel calls UseCase</li>
+            <li>UseCase delegates to Repository</li>
+            <li>Repository tries API call first</li>
+        </ul>
+
+        <h3>✔ Repository Decision Logic</h3>
+        <ul>
+            <li><b>If API succeeds:</b>
+                <ul>
+                    <li>Save response into Room DB</li>
+                    <li>Return fresh data to domain layer</li>
+                </ul>
+            </li>
+
+            <li><b>If API fails:</b>
+                <ul>
+                    <li>Fetch cached data from Room DB</li>
+                    <li>Return cached data to UI</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>✔ UI Behavior</h3>
+        <ul>
+            <li>Loading → while fetching data</li>
+            <li>Success → show fresh API data</li>
+            <li>Offline fallback → show cached Room data with optional message</li>
+            <li>Error → if both API and cache fail</li>
+        </ul>
+
+        <h3>⭐ Key Concept</h3>
+        <p>
+            Room acts as a <b>cache layer</b> or sometimes a <b>single source of truth</b>,
+            depending on whether the app follows an offline-first or network-first strategy.
+        </p>
+
+        <h3>🔥 Final Interview Answer</h3>
+        <p>
+            “Repository first tries the API, saves the response into Room if successful,
+            and if the API fails, it returns cached Room data so the UI can still display content.”
+        </p>
+
+    </div>
+</div>
+
+
+<div class="qa">
+
+    <div class="question">
+        3. If both API fails AND Room is empty, what should UI do and how will you handle it in architecture?
+    </div>
+
+    <div class="answer">
+
+        <h3>✔ Scenario Handling</h3>
+        <ul>
+            <li>API fails (network error, timeout, etc.)</li>
+            <li>Room DB is also empty</li>
+        </ul>
+
+        <h3>✔ Proper Strategy</h3>
+
+        <h4>1. Limited Retry (Optional)</h4>
+        <ul>
+            <li>Retry API call 2–3 times only</li>
+            <li>Use exponential backoff</li>
+            <li>Avoid infinite retries (battery + performance concern)</li>
+        </ul>
+
+        <h4>2. If Still Fails</h4>
+        <ul>
+            <li>Stop automatic retry</li>
+            <li>Move to error handling state</li>
+        </ul>
+
+        <h3>✔ UI State Handling</h3>
+        <ul>
+            <li>Loading → fetching data</li>
+            <li>Error → API + DB both failed</li>
+            <li>Empty State → no cached data available</li>
+        </ul>
+
+        <h3>✔ UI Should Show</h3>
+        <ul>
+            <li>"No data available"</li>
+            <li>"Check your internet connection"</li>
+            <li>Retry button for manual action</li>
+        </ul>
+
+        <h3>🔥 Final Interview Answer</h3>
+        <p>
+            “If both API and Room fail, we retry API a limited number of times using exponential backoff.
+            If it still fails, we stop automatic retries and show an empty/error state in the UI with a manual retry
+            option.”
+        </p>
+
+    </div>
+</div>
+
+
+<div class="qa">
+
+    <div class="question">
+        4. Where should retry logic live—in ViewModel, Repository, or UseCase? And why?
+    </div>
+
+    <div class="answer">
+
+        <h3>✔ 1. Repository Layer (Automatic Retry)</h3>
+        <ul>
+            <li>Handles transient failures (network timeout, temporary issues)</li>
+            <li>Implements limited retries (2–3 attempts)</li>
+            <li>Uses exponential backoff strategy</li>
+        </ul>
+
+        <p><b>Reason:</b> Repository is responsible for data reliability and source handling.</p>
+
+        <h3>✔ 2. ViewModel Layer (UI State)</h3>
+        <ul>
+            <li>Does NOT handle retry logic itself</li>
+            <li>Exposes state (Loading / Success / Error)</li>
+            <li>Triggers UseCase calls</li>
+        </ul>
+
+        <h3>✔ 3. UI Layer (User Retry)</h3>
+        <ul>
+            <li>User clicks retry button</li>
+            <li>Flow restarts: UI → ViewModel → UseCase → Repository</li>
+            <li>This is a fresh request, not internal retry logic</li>
+        </ul>
+
+        <h3>✔ Why this separation?</h3>
+        <ul>
+            <li>Avoid infinite retry loops</li>
+            <li>Prevent UI blocking</li>
+            <li>Avoid unnecessary network load</li>
+            <li>Clear separation of concerns</li>
+        </ul>
+
+        <h3>🔥 Final Interview Answer</h3>
+        <p>
+            “Automatic retry logic for network failures belongs to the Repository layer with limited attempts and
+            exponential backoff.
+            If it still fails, we expose an error state to the ViewModel, and the user can manually retry via the UI,
+            which triggers a fresh request flow.”
+        </p>
+
+    </div>
+    <div class="qa">
+
+        <div class="question">
+            5. Why do we need UseCase layer in Clean Architecture?
+        </div>
+
+        <div class="answer">
+
+            <h3>✔ Purpose of UseCase</h3>
+            <ul>
+                <li>Encapsulates a single business operation</li>
+                <li>Keeps ViewModel clean and UI-focused</li>
+                <li>Acts as a bridge between ViewModel and Repository</li>
+                <li>Improves reusability of business logic</li>
+                <li>Makes business rules independently testable</li>
+            </ul>
+
+            <h3>✔ Problem it solves</h3>
+            <ul>
+                <li>Prevents ViewModel from becoming bloated</li>
+                <li>Avoids duplication of business logic across screens</li>
+                <li>Decouples UI layer from data layer</li>
+            </ul>
+
+            <h3>✔ Dependency Rule (Important)</h3>
+            <p>
+                In Clean Architecture, ViewModel depends on UseCase, not Repository directly.
+                This maintains proper layer separation and avoids tight coupling.
+            </p>
+
+            <h3>🔥 Final Interview Answer</h3>
+            <p>
+                “UseCase is used to separate business logic from the ViewModel, ensuring Single Responsibility Principle.
+                It keeps ViewModel focused on UI state, improves testability, and provides a clean boundary between UI and data layers.”
+            </p>
+
+        </div>
+    </div>
+
+
+    <div class="qa">
+
+        <div class="question">
+            6. Can ViewModel call Repository directly? If yes, why do we still use UseCase?
+        </div>
+
+        <div class="answer">
+
+            <h3>✔ Short Answer</h3>
+            <p>
+                Yes, in basic MVVM architecture ViewModel can directly call Repository.
+                But in Clean Architecture, we avoid that.
+            </p>
+
+            <h3>✔ Why UseCase is introduced</h3>
+            <ul>
+                <li>Enforces separation of concerns</li>
+                <li>Keeps business logic out of ViewModel</li>
+                <li>Improves scalability for large apps</li>
+                <li>Ensures consistent architecture boundaries</li>
+            </ul>
+
+            <h3>✔ Dependency Flow</h3>
+            <p>
+                ViewModel → UseCase → Repository → Data Sources
+            </p>
+
+            <h3>🔥 Final Interview Answer</h3>
+            <p>
+                “Yes, ViewModel can directly call Repository in simple MVVM. However, in Clean Architecture we introduce UseCase to separate business logic from the UI layer, enforce architecture boundaries, improve testability, and ensure ViewModel depends on UseCase instead of Repository.”
+            </p>
+
+        </div>
+    </div>
+
+
+    <div class="qa">
+
+        <div class="question">
+            7. If UseCase only calls Repository, is it still useful?
+        </div>
+
+        <div class="answer">
+
+            <h3>✔ Yes — and here’s why</h3>
+
+            <h4>1. Future-proofing</h4>
+            <ul>
+                <li>Today it may just call Repository</li>
+                <li>Tomorrow it may include validation, mapping, or business rules</li>
+            </ul>
+
+            <h4>2. Clear architecture boundary</h4>
+            <ul>
+                <li>ViewModel = UI logic only</li>
+                <li>UseCase = business layer</li>
+                <li>Repository = data layer</li>
+            </ul>
+
+            <h4>3. Reusability</h4>
+            <ul>
+                <li>Same UseCase can be used across multiple ViewModels</li>
+                <li>Prevents logic duplication</li>
+            </ul>
+
+            <h4>4. Testability</h4>
+            <ul>
+                <li>UseCase can be tested in isolation</li>
+                <li>No dependency on UI or Android framework</li>
+            </ul>
+
+            <h3>🔥 Final Interview Answer</h3>
+            <p>
+                “Yes, even if a UseCase only calls a Repository, it is still useful because it acts as a clean boundary for business logic.
+                It enables future scalability, improves testability, enforces separation of concerns, and allows reuse across multiple ViewModels without duplication.”
+            </p>
+
+        </div>
+    </div>
+    <div class="qa">
+
+        <div class="question">
+            8. What is the difference between State and Event in MVVM (especially in Jetpack Compose)?
+        </div>
+
+        <div class="answer">
+
+            <h3>✔ What is State?</h3>
+            <ul>
+                <li>Represents UI data at a given point in time</li>
+                <li>Can be observed and re-rendered on recomposition</li>
+                <li>Persistent and survives configuration changes (when properly scoped)</li>
+            </ul>
+
+            <p><b>Examples:</b> Loading, Success, Error, list data, form inputs</p>
+
+            <h3>✔ What is Event?</h3>
+            <ul>
+                <li>Represents a one-time action</li>
+                <li>Should be consumed only once</li>
+                <li>Should NOT be re-triggered on recomposition</li>
+            </ul>
+
+            <p><b>Examples:</b> Navigation, Toast, showing dialog, API trigger</p>
+
+            <h3>✔ Key Difference</h3>
+            <ul>
+                <li><b>State:</b> persistent UI data (UI reflects it continuously)</li>
+                <li><b>Event:</b> one-time action (consumed once)</li>
+            </ul>
+
+            <h3>🔥 Final Interview Answer</h3>
+            <p>
+                “State represents persistent UI data like loading, success, or error and is continuously observed by the UI.
+                Event represents one-time actions like navigation or toast messages that should be consumed only once and not re-triggered on recomposition.”
+            </p>
+
+        </div>
+    </div>
+
+
+    <div class="qa">
+
+        <div class="question">
+            9. Why do we use StateFlow instead of LiveData in modern Android apps?
+        </div>
+
+        <div class="answer">
+
+            <h3>✔ Key Difference</h3>
+            <ul>
+                <li><b>LiveData:</b> lifecycle-aware by default</li>
+                <li><b>StateFlow:</b> coroutine-based state holder (not lifecycle-aware by default)</li>
+            </ul>
+
+            <h3>✔ Why StateFlow is preferred</h3>
+            <ul>
+                <li>Native support for Kotlin Coroutines</li>
+                <li>Supports operators (map, combine, filter)</li>
+                <li>Better integration with Jetpack Compose</li>
+                <li>Always holds the latest state</li>
+                <li>More predictable state management</li>
+            </ul>
+
+            <h3>✔ LiveData limitations</h3>
+            <ul>
+                <li>Limited functional operators</li>
+                <li>Not coroutine-friendly</li>
+                <li>Less flexible for complex transformations</li>
+            </ul>
+
+            <h3>✔ Important Interview Point</h3>
+            <p>
+                StateFlow becomes lifecycle-safe when collected properly using lifecycle-aware collectors like
+                repeatOnLifecycle or collectAsStateWithLifecycle.
+            </p>
+
+            <h3>🔥 Final Interview Answer</h3>
+            <p>
+                “StateFlow is preferred over LiveData because it integrates natively with Kotlin Coroutines,
+                supports advanced operators, and works better with Jetpack Compose. Although LiveData is lifecycle-aware by default,
+                StateFlow provides more flexibility and control when used with proper lifecycle handling.”
+            </p>
+
+        </div>
+    </div>
+
+
+    <div class="qa">
+
+        <div class="question">
+            10. If StateFlow is not lifecycle-aware, how do you safely collect it in Activity or Compose?
+        </div>
+
+        <div class="answer">
+
+            <h3>✔ Problem</h3>
+            <ul>
+                <li>StateFlow can continue emitting even when UI is inactive</li>
+                <li>This may cause memory leaks or unnecessary updates</li>
+            </ul>
+
+            <h3>✔ Solution</h3>
+
+            <h4>In Jetpack Compose</h4>
+            <ul>
+                <li>Use collectAsStateWithLifecycle()</li>
+            </ul>
+
+            <h4>In Activity / Fragment</h4>
+            <ul>
+                <li>Use repeatOnLifecycle(Lifecycle.State.STARTED)</li>
+            </ul>
+
+            <h3>✔ Why this works</h3>
+            <ul>
+                <li>Stops collection when UI is in background</li>
+                <li>Prevents memory leaks</li>
+                <li>Saves CPU and battery</li>
+            </ul>
+
+            <h3>🔥 Final Interview Answer</h3>
+            <p>
+                “Since StateFlow is not lifecycle-aware by default, we make it safe by collecting it using lifecycle-aware scopes.
+                In Compose we use collectAsStateWithLifecycle, and in Activities or Fragments we use repeatOnLifecycle to ensure updates happen only when the UI is active.”
+            </p>
+
+        </div>
+    </div>
+
+
+    <div class="qa">
+
+        <div class="question">
+            11. What is Single Source of Truth (SSOT) in MVVM + Clean Architecture?
+        </div>
+
+        <div class="answer">
+
+            <h3>✔ Definition</h3>
+            <p>
+                Single Source of Truth (SSOT) means the app has only one trusted data source for a given piece of information.
+            </p>
+
+            <h3>✔ In Clean Architecture</h3>
+            <ul>
+                <li>Repository or Room DB acts as SSOT</li>
+                <li>UI observes only one source</li>
+                <li>Prevents inconsistent data between API and cache</li>
+            </ul>
+
+            <h3>✔ Recommended Flow</h3>
+            <ul>
+                <li>API fetches data</li>
+                <li>Repository stores it in Room DB</li>
+                <li>UI observes Room DB</li>
+                <li>Any update reflects automatically in UI</li>
+            </ul>
+
+            <h3>🔥 Final Interview Answer</h3>
+            <p>
+                “Single Source of Truth means maintaining one consistent and trusted data source for the UI.
+                In Clean Architecture, Room database or Repository acts as SSOT so the UI always observes consistent data
+                instead of directly depending on multiple sources like API and DB.”
+            </p>
+
+        </div>
+    </div>
+
+
+    <div class="qa">
+
+        <div class="question">
+            12. What is the difference between Repository and UseCase?
+        </div>
+
+        <div class="answer">
+
+            <h3>✔ Repository (Data Layer)</h3>
+            <ul>
+                <li>Handles data sources (API, DB, cache)</li>
+                <li>Decides where data comes from</li>
+                <li>No business logic</li>
+            </ul>
+
+            <h3>✔ UseCase (Domain Layer)</h3>
+            <ul>
+                <li>Contains business logic</li>
+                <li>Represents a single action (LoginUser, GetUser)</li>
+                <li>Uses Repository to get data</li>
+            </ul>
+
+            <h3>✔ Simple Analogy</h3>
+            <ul>
+                <li>Repository = Supplier (provides raw data)</li>
+                <li>UseCase = Chef (processes and applies logic)</li>
+            </ul>
+
+            <h3>✔ Key Difference</h3>
+            <ul>
+                <li>Repository → data-focused</li>
+                <li>UseCase → logic-focused</li>
+            </ul>
+
+            <h3>🔥 Final Interview Answer</h3>
+            <p>
+                “Repository handles data operations from API and database, while UseCase contains business logic and defines specific actions.
+                Repository is data-focused, whereas UseCase is logic-focused and sits between ViewModel and Repository in Clean Architecture.”
+            </p>
+
+        </div>
+    </div>
+
+
+    <div class="qa">
+
+        <div class="question">
+            13. If ViewModel can already call Repository, why do we need UseCase at all??
+        </div>
+
+        <div class="answer">
+
+        </div>
+    </div>
+    <div class="qa">
+
+        <div class="question">
+            14. If UseCase only calls Repository, is it still useful?
+        </div>
+
+        <div class="answer">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

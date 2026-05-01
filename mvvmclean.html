@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MVVM & Clean Architecture Interview Q&A</title>
+    <style>
+        body { font-family: Arial; margin: 20px; line-height: 1.6; }
+        h1, h2 { color: #2c3e50; }
+        .qa { margin-bottom: 12px; }
+        .q { font-weight: bold; }
+        .a { margin-left: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>MVVM & Clean Architecture Interview Questions & Answers</h1>
+
+<h2>Basic (Fundamentals)</h2>
+
+<div class="qa"><div class="q">1. What is MVVM architecture?</div>
+    <div class="a">MVVM separates app into Model (data), View (UI), and ViewModel (UI logic). It improves separation of concerns and testability.</div></div>
+
+<div class="qa"><div class="q">2. Responsibilities of Model, View, ViewModel?</div>
+    <div class="a">Model → data sources, View → UI rendering, ViewModel → holds UI state and business-related UI logic.</div></div>
+
+<div class="qa"><div class="q">3. Why use ViewModel?</div>
+    <div class="a">To survive configuration changes and keep UI data separate from Activity/Fragment lifecycle.</div></div>
+
+<div class="qa"><div class="q">4. How ViewModel survives rotation?</div>
+    <div class="a">It is stored in ViewModelStore which survives configuration changes unlike Activity.</div></div>
+
+<div class="qa"><div class="q">5. LiveData / StateFlow?</div>
+    <div class="a">Both are observable data holders. LiveData is lifecycle-aware; StateFlow is coroutine-based and more powerful.</div></div>
+
+<div class="qa"><div class="q">6. LiveData vs StateFlow?</div>
+    <div class="a">StateFlow is preferred in modern apps due to better performance, operators, and coroutine support.</div></div>
+
+<div class="qa"><div class="q">7. Separation of concerns?</div>
+    <div class="a">Splitting code into layers so each class has a single responsibility.</div></div>
+
+<h2>Intermediate</h2>
+
+<div class="qa"><div class="q">8. What is Clean Architecture?</div>
+    <div class="a">A layered architecture that separates UI, business logic, and data layers for scalability and testability.</div></div>
+
+<div class="qa"><div class="q">9. Layers in Clean Architecture?</div>
+    <div class="a">Presentation (UI), Domain (UseCases), Data (Repository, API, DB).</div></div>
+
+<div class="qa"><div class="q">10. Role of Domain layer?</div>
+    <div class="a">Contains business logic and UseCases independent of Android framework.</div></div>
+
+<div class="qa"><div class="q">11. What is UseCase?</div>
+    <div class="a">A class that represents a single business operation like LoginUser or GetUserProfile.</div></div>
+
+<div class="qa"><div class="q">12. Why not business logic in ViewModel?</div>
+    <div class="a">It reduces testability and breaks separation of concerns. Business logic belongs in Domain layer.</div></div>
+
+<div class="qa"><div class="q">13. Repository pattern?</div>
+    <div class="a">Acts as a single source of truth between API, DB, and ViewModel.</div></div>
+
+<div class="qa"><div class="q">14. Data flow in MVVM + Clean Architecture?</div>
+    <div class="a">UI → ViewModel → UseCase → Repository → Data Source → back to UI.</div></div>
+
+<div class="qa"><div class="q">15. Error handling in MVVM?</div>
+    <div class="a">Use sealed classes (Loading, Success, Error) and propagate errors via StateFlow.</div></div>
+
+<h2>Advanced</h2>
+
+<div class="qa"><div class="q">16. Scalable Android app design?</div>
+    <div class="a">Use Clean Architecture, modularization, Hilt DI, UseCases, and stateless UI.</div></div>
+
+<div class="qa"><div class="q">17. Multiple data sources?</div>
+    <div class="a">Repository decides source: API for fresh data, Room for cache.</div></div>
+
+<div class="qa"><div class="q">18. Testing ViewModel/UseCase?</div>
+    <div class="a">Mock repository using Mockito and test StateFlow outputs with JUnit.</div></div>
+
+<div class="qa"><div class="q">19. DI in Clean Architecture?</div>
+    <div class="a">Hilt provides dependencies like Repository and UseCases to ViewModel without manual creation.</div></div>
+
+<div class="qa"><div class="q">20. State in Compose + MVVM?</div>
+    <div class="a">ViewModel exposes StateFlow; Compose observes it using collectAsState().</div></div>
+
+<div class="qa"><div class="q">21. Common MVVM mistakes?</div>
+    <div class="a">Putting business logic in ViewModel, tight coupling, skipping UseCase layer.</div></div>
+
+<div class="qa"><div class="q">22. Avoid tight coupling?</div>
+    <div class="a">Use interfaces, repository abstraction, and dependency injection.</div></div>
+
+<div class="qa"><div class="q">23. SOLID principles?</div>
+    <div class="a">Design principles to make code scalable: Single Responsibility, Open/Closed, etc.</div></div>
+
+<h2>Scenario-Based</h2>
+
+<div class="qa"><div class="q">24. Design login feature?</div>
+    <div class="a">UI → ViewModel → LoginUseCase → Repository → API. State handled using Loading/Success/Error.</div></div>
+
+<div class="qa"><div class="q">25. Cache API using Room?</div>
+    <div class="a">Fetch from API → store in Room → return Room as source of truth.</div></div>
+
+<div class="qa"><div class="q">26. API fails but DB has data?</div>
+    <div class="a">Return cached DB data and show error message or stale data indicator.</div></div>
+
+<div class="qa"><div class="q">27. Project structure?</div>
+    <div class="a">Feature-based modular structure with separate data, domain, and presentation packages.</div></div>
+
+<div class="qa"><div class="q">28. Pagination?</div>
+    <div class="a">Use Paging 3 library with Room + API integration.</div></div>
+
+<div class="qa"><div class="q">29. UI state handling?</div>
+    <div class="a">Use sealed class: Loading, Success, Error for predictable UI rendering.</div></div>
+
+<h2>Tricky Questions</h2>
+
+<div class="qa"><div class="q">30. Why ViewModel not in Domain?</div>
+    <div class="a">Because ViewModel depends on Android framework; Domain must be pure Kotlin.</div></div>
+
+<div class="qa"><div class="q">31. Can ViewModel call Retrofit?</div>
+    <div class="a">No. It should go through UseCase and Repository.</div></div>
+
+<div class="qa"><div class="q">32. Should Repository have business logic?</div>
+    <div class="a">No. Repository handles data only, not business rules.</div></div>
+
+<div class="qa"><div class="q">33. Skip UseCase layer?</div>
+    <div class="a">Allowed in small apps, but reduces scalability and testability.</div></div>
+
+<div class="qa"><div class="q">34. MVVM without Clean Architecture?</div>
+    <div class="a">Possible, but harder to scale and maintain in large apps.</div></div>
+
+<div class="qa"><div class="q">35. One-time events?</div>
+    <div class="a">Use SharedFlow or Event wrapper to avoid re-triggering on rotation.</div></div>
+
+<div class="qa"><div class="q">36. State vs Event?</div>
+    <div class="a">State is persistent UI data; Event is one-time actions like navigation or toast.</div></div>
+
+</body>
+</html>

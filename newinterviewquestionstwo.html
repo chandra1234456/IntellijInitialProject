@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Android Interview Q&A</title>
+    <style>
+        body { font-family: Arial; line-height: 1.7; margin: 20px; }
+        h1, h2 { color: #2c3e50; }
+        .qa { margin-bottom: 25px; }
+        .q { font-weight: bold; font-size: 16px; }
+        .a { margin-top: 8px; }
+        pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+
+<h1>Advanced Android Interview Questions & Answers</h1>
+
+<h2>Kotlin</h2>
+
+<div class="qa">
+    <div class="q">1. What are Coroutines and why use them?</div>
+    <div class="a">
+        Coroutines are used for asynchronous programming in Kotlin. They allow writing non-blocking code in a sequential way.
+
+        Key benefits:
+        - Lightweight (compared to threads)
+        - Structured concurrency
+        - Easy error handling
+
+        Example:
+        <pre>
+viewModelScope.launch {
+    val data = repository.getData()
+    _state.value = data
+}
+</pre>
+    </div>
+</div>
+
+<div class="qa">
+    <div class="q">2. What is Flow?</div>
+    <div class="a">
+        Flow is a cold asynchronous stream that emits multiple values over time.
+
+        - Works well with Room & APIs
+        - Supports operators like map, filter
+
+        Example:
+        <pre>
+repository.getUsers()
+    .collect { users ->
+        println(users)
+    }
+</pre>
+    </div>
+</div>
+
+<h2>Jetpack Compose</h2>
+
+<div class="qa">
+    <div class="q">3. What is recomposition?</div>
+    <div class="a">
+        Recomposition happens when state changes and Compose redraws only affected UI.
+
+        Important points:
+        - Efficient (only updates needed parts)
+        - Triggered by State changes
+
+        Example:
+        <pre>
+var count by remember { mutableStateOf(0) }
+Button(onClick = { count++ }) {
+    Text("Count: $count")
+}
+</pre>
+    </div>
+</div>
+
+<div class="qa">
+    <div class="q">4. What is State Hoisting?</div>
+    <div class="a">
+        State hoisting means moving state to a parent composable to make components reusable and testable.
+
+        Pattern:
+        - Stateless UI
+        - State managed in ViewModel
+
+    </div>
+</div>
+
+<h2>MVVM + Clean Architecture</h2>
+
+<div class="qa">
+    <div class="q">5. Explain MVVM with flow.</div>
+    <div class="a">
+        - View → observes state
+        - ViewModel → holds UI logic
+        - Repository → data source
+
+        Flow:
+        UI → ViewModel → UseCase → Repository → Data
+
+        Example:
+        <pre>
+class UserViewModel : ViewModel() {
+    val users = repository.getUsers().stateIn(...)
+}
+</pre>
+    </div>
+</div>
+
+<div class="qa">
+    <div class="q">6. Where should business logic go?</div>
+    <div class="a">
+        Business logic belongs in the Domain layer (UseCases), not in ViewModel.
+
+        Why:
+        - Better testability
+        - Separation of concerns
+    </div>
+</div>
+
+<h2>Hilt / DI</h2>
+
+<div class="qa">
+    <div class="q">7. How does Hilt work?</div>
+    <div class="a">
+        Hilt generates dependency graph at compile time.
+
+        Steps:
+        - Annotate Application with @HiltAndroidApp
+        - Use @Inject for dependencies
+        - Use @AndroidEntryPoint for Activities
+
+        Example:
+        <pre>
+@HiltAndroidApp
+class MyApp : Application()
+</pre>
+    </div>
+</div>
+
+<div class="qa">
+    <div class="q">8. What are scopes?</div>
+    <div class="a">
+        Scopes define lifecycle of dependencies.
+
+        Examples:
+        - Singleton → entire app
+        - ViewModelScoped → per ViewModel
+
+        Wrong scoping can cause memory leaks.
+    </div>
+</div>
+
+<h2>Room</h2>
+
+<div class="qa">
+    <div class="q">9. How does Room work internally?</div>
+    <div class="a">
+        Room generates code at compile time for:
+        - DAO implementations
+        - Query validation
+
+        Example:
+        <pre>
+@Dao
+interface UserDao {
+    @Query("SELECT * FROM users")
+    fun getUsers(): Flow<List<User>>
+}
+</pre>
+    </div>
+</div>
+
+<h2>Testing</h2>
+
+<div class="qa">
+    <div class="q">10. How do you test a ViewModel?</div>
+    <div class="a">
+        - Mock repository using Mockito
+        - Use JUnit
+        - Verify state output
+
+        Example:
+        <pre>
+@Test
+fun testUsers() = runTest {
+    whenever(repo.getUsers()).thenReturn(flowOf(listOf(User())))
+    val vm = UserViewModel(repo)
+    assert(vm.users.first().isNotEmpty())
+}
+</pre>
+    </div>
+</div>
+
+<h2>BLE / IoT</h2>
+
+<div class="qa">
+    <div class="q">11. BLE connection flow?</div>
+    <div class="a">
+        1. Scan devices
+        2. Connect
+        3. Discover services
+        4. Read/Write characteristics
+
+        Challenges:
+        - Connection drops
+        - Battery usage
+        - Permissions (Android 12+)
+    </div>
+</div>
+
+<div class="qa">
+    <div class="q">12. How to handle disconnections?</div>
+    <div class="a">
+        - Implement retry logic
+        - Use callbacks
+        - Maintain connection state
+
+        Best practice:
+        Use exponential backoff retry
+    </div>
+</div>
+
+</body>
+</html>

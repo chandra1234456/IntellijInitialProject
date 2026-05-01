@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewModel, LiveData, Flow & StateFlow | Android Interview Mastery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: #1e293b;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3f 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+        }
+
+        .toc {
+            background: #e8f0fe;
+            padding: 1.5rem;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: #1a472a;
+        }
+
+        .toc-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .toc-link {
+            background: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            color: #2d5a3f;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc-link:hover {
+            background: #2d5a3f;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: #1a472a;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #2d5a3f;
+            padding-left: 1rem;
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            color: #2d5a3f;
+            margin: 1.5rem 0 1rem 0;
+            padding-left: 0.5rem;
+            border-left: 3px solid #94a3b8;
+        }
+
+        .card {
+            background: #f8fafc;
+            margin-bottom: 1.2rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            background: #ffffff;
+            padding: 1.2rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #0f172a;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .question .q-num {
+            background: #2d5a3f;
+            color: white;
+            border-radius: 2rem;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.8rem;
+            margin-right: 1rem;
+        }
+
+        .answer {
+            padding: 1.2rem 1.5rem;
+            background: #ffffff;
+            display: none;
+            line-height: 1.7;
+        }
+
+        .answer.show {
+            display: block;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.3rem;
+            color: #d14;
+            font-size: 0.9rem;
+        }
+
+        .scenario-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 5px solid #f59e0b;
+        }
+
+        .scenario-card .question {
+            background: #fffbeb;
+        }
+
+        .coding-card {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-left: 5px solid #3b82f6;
+        }
+
+        .coding-card .question {
+            background: #eff6ff;
+        }
+
+        .difficulty {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            font-weight: normal;
+            margin-left: 0.5rem;
+        }
+
+        .easy { background: #10b981; color: white; }
+        .medium { background: #f59e0b; color: white; }
+        .hard { background: #ef4444; color: white; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #cbd5e1;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #e2e8f0;
+            font-weight: 600;
+        }
+
+        footer {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .question {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🚀 ViewModel, LiveData, Flow & StateFlow</h1>
+        <p>Complete Interview Guide for Android Developers | Theory + Scenarios + Code</p>
+        <div class="badge-container">
+            <span class="badge">🎯 60+ Questions</span>
+            <span class="badge">📱 Real Scenarios</span>
+            <span class="badge">💻 Live Coding Examples</span>
+            <span class="badge">🔄 Coroutines & Flow</span>
+        </div>
+    </header>
+
+    <div class="toc">
+        <h2>📑 Quick Navigation</h2>
+        <div class="toc-grid">
+            <a href="#viewmodel" class="toc-link">🎯 ViewModel</a>
+            <a href="#livedata" class="toc-link">📡 LiveData</a>
+            <a href="#flow" class="toc-link">🌊 Flow Basics</a>
+            <a href="#stateflow" class="toc-link">⚡ StateFlow</a>
+            <a href="#sharedflow" class="toc-link">🔄 SharedFlow</a>
+            <a href="#comparison" class="toc-link">📊 Comparisons</a>
+            <a href="#scenarios" class="toc-link">🎬 Scenarios</a>
+            <a href="#coding" class="toc-link">💻 Coding Examples</a>
+            <a href="#bestpractices" class="toc-link">✨ Best Practices</a>
+        </div>
+    </div>
+
+    <!-- SECTION 1: VIEWMODEL -->
+    <div id="viewmodel" class="section">
+        <h2>🎯 1. ViewModel - Core Concepts</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">1</span> What is ViewModel in Android? Why is it important?</span></div><div class="answer"><p>ViewModel is an Android Architecture Component that stores UI-related data across configuration changes (screen rotations). It survives activity/fragment recreation, preventing data loss and reducing memory leaks.</p><pre>class MyViewModel : ViewModel() {
+    private val _data = MutableLiveData&lt;String&gt;()
+    val data: LiveData&lt;String&gt; = _data
+
+    fun loadData() {
+        _data.value = "Persisted across rotation"
+    }
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">2</span> What is the lifecycle of ViewModel? When is it destroyed?</span></div><div class="answer"><p>ViewModel exists from first request until the scope (Activity/Fragment) is finished permanently (onDestroy called and not due to config change). For Activity, it's cleared on finish(). For Fragment, when detached and removed.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">3</span> How to share data between fragments using ViewModel?</span></div><div class="answer"><p>Use activity-scoped ViewModel. Both fragments get the same ViewModel instance via <code>requireActivity()</code> or parent fragment scope.</p><pre>val viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+// Fragment A and Fragment B can now observe and update the same ViewModel</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">4</span> What is ViewModelFactory? When do you need it?</span></div><div class="answer"><p>ViewModelFactory is used when ViewModel has constructor parameters. It's a factory pattern to create ViewModel instances with custom dependencies.</p><pre>class MyViewModelFactory(private val repo: Repository) : ViewModelProvider.Factory {
+    override fun &lt;T : ViewModel&gt; create(modelClass: Class&lt;T&gt;): T {
+        return MyViewModel(repo) as T
+    }
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">5</span> What is onCleared() method in ViewModel?</span></div><div class="answer"><p>onCleared() is called when ViewModel is about to be destroyed. Use it to cancel coroutines, close resources, or clean up to prevent memory leaks.</p><pre>override fun onCleared() {
+    super.onCleared()
+    job.cancel() // Cancel coroutines
+}</pre></div></div>
+    </div>
+
+    <!-- SECTION 2: LIVEDATA -->
+    <div id="livedata" class="section">
+        <h2>📡 2. LiveData & MutableLiveData</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">6</span> What is LiveData? How is it different from regular observable?</span></div><div class="answer"><p>LiveData is lifecycle-aware observable data holder. It only updates active observers (STARTED/RESUMED), preventing crashes and reducing unnecessary updates. Unlike RxJava, it automatically handles lifecycle.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">7</span> What is MutableLiveData? How is it different from LiveData?</span></div><div class="answer"><p>MutableLiveData extends LiveData and exposes public setValue() (main thread) and postValue() (background thread) methods. LiveData is read-only, MutableLiveData is read-write.</p><pre>private val _counter = MutableLiveData&lt;Int&gt;(0)  // mutable internal
+val counter: LiveData&lt;Int&gt; = _counter           // read-only exposed</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">8</span> Difference between setValue() and postValue()?</span></div><div class="answer"><p>setValue() must be called on main thread, updates immediately. postValue() can be called from background thread, posts update to main thread. postValue() merges multiple calls - only last value is delivered.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">9</span> What is Transformations.map() and Transformations.switchMap()?</span></div><div class="answer"><p>map() transforms LiveData values. switchMap() returns a new LiveData based on value changes, useful for triggering repository calls.</p><pre>val userId: LiveData&lt;String&gt; = ...
+val user = Transformations.switchMap(userId) { userId ->
+    repository.getUser(userId)  // Returns LiveData&lt;User&gt;
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">10</span> What is MediatorLiveData? Give use case.</span></div><div class="answer"><p>MediatorLiveData can observe multiple LiveData sources and react when any of them changes. Use case: combining data from multiple sources (database + network).</p><pre>val mediator = MediatorLiveData&lt;String&gt;()
+mediator.addSource(liveData1) { value -> mediator.value = combine(value, liveData2.value) }
+mediator.addSource(liveData2) { value -> mediator.value = combine(liveData1.value, value) }</pre></div></div>
+    </div>
+
+    <!-- SECTION 3: FLOW BASICS -->
+    <div id="flow" class="section">
+        <h2>🌊 3. Flow - Cold Streams</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">11</span> What is Flow in Kotlin? How is it different from LiveData?</span></div><div class="answer"><p>Flow is a cold asynchronous stream that emits values sequentially. Unlike LiveData, Flow is not lifecycle-aware by default (needs repeatOnLifecycle), but offers more operators and coroutine support.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">12</span> What are cold flows vs hot flows?</span></div><div class="answer"><p><strong>Cold flows</strong> (regular Flow) start emitting when collected, each collector gets all emissions. <strong>Hot flows</strong> (SharedFlow/StateFlow) emit independently of collectors, sharing emissions among multiple collectors.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">13</span> How to collect Flow in Android safely?</span></div><div class="answer"><p>Use <code>repeatOnLifecycle</code> to collect Flow lifecycle-aware. This cancels collection when lifecycle goes below STARTED.</p><pre>lifecycleScope.launch {
+    repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewModel.myFlow.collect { value -> updateUI(value) }
+    }
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">14</span> What are Flow operators like map, filter, catch, retry?</span></div><div class="answer"><p>Flow provides rich operators: map (transform), filter (conditional), catch (error handling), retry (retry on failure), debounce (throttle), distinctUntilChanged (avoid duplicates).</p><pre>flow {
+    emit(repository.fetchData())
+}.map { it.name }
+ .filter { it.isNotEmpty() }
+ .catch { e -> emit(defaultValue) }
+ .retry(3)
+ .collect { value -> ... }</pre></div></div>
+    </div>
+
+    <!-- SECTION 4: STATEFLOW -->
+    <div id="stateflow" class="section">
+        <h2>⚡ 4. StateFlow & MutableStateFlow</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">15</span> What is StateFlow? How is it different from LiveData?</span></div><div class="answer"><p>StateFlow is a hot flow that holds a single state value. It's similar to LiveData but part of coroutines, supports initial value, and doesn't have lifecycle awareness (requires manual handling).</p><pre>private val _state = MutableStateFlow(LoadingState())
+val state: StateFlow&lt;UiState&gt; = _state.asStateFlow()</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">16</span> What is MutableStateFlow and how to expose it safely?</span></div><div class="answer"><p>MutableStateFlow is the mutable version with value property. Expose as read-only StateFlow using <code>asStateFlow()</code> to prevent external modifications.</p><pre>private val _uiState = MutableStateFlow&lt;UiState&gt;(UiState.Loading)
+val uiState: StateFlow&lt;UiState&gt; = _uiState.asStateFlow()</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">17</span> What is state deduplication in StateFlow?</span></div><div class="answer"><p>StateFlow doesn't emit duplicate consecutive values (same equals comparison). If new value equals current value, collectors aren't notified. Prevents unnecessary UI updates.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">18</span> How to collect StateFlow in Compose?</span></div><div class="answer"><p>Use <code>collectAsState()</code> extension function in Jetpack Compose to collect StateFlow and recompose on changes.</p><pre>val uiState by viewModel.uiState.collectAsState()</pre></div></div>
+    </div>
+
+    <!-- SECTION 5: SHAREDFLOW -->
+    <div id="sharedflow" class="section">
+        <h2>🔄 5. SharedFlow & MutableSharedFlow</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">19</span> What is SharedFlow? When to use it vs StateFlow?</span></div><div class="answer"><p>SharedFlow is a hot flow that can emit multiple values without holding a single state. Use for one-time events (toasts, navigation) or multiple values where only the latest matters isn't required.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">20</span> What is MutableSharedFlow? Explain replay, extraBufferCapacity, onBufferOverflow.</span></div><div class="answer"><p>MutableSharedFlow parameters: replay (number of past values to replay), extraBufferCapacity (additional buffer), onBufferOverflow (SUSPEND, DROP_OLDEST, DROP_LATEST).</p><pre>private val _events = MutableSharedFlow&lt;UiEvent&gt;(
+    replay = 0,
+    extraBufferCapacity = 10,
+    onBufferOverflow = BufferOverflow.DROP_OLDEST
+)</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">21</span> How to emit events with SharedFlow for navigation?</span></div><div class="answer"><p>Use SharedFlow for one-time events like navigation, snackbar, or dialogs. Collect in fragment and trigger action.</p><pre>// ViewModel
+private val _navigationEvent = MutableSharedFlow&lt;String&gt;()
+val navigationEvent = _navigationEvent.asSharedFlow()
+
+fun onButtonClick() {
+    viewModelScope.launch {
+        _navigationEvent.emit("details_screen")
+    }
+}</pre></div></div>
+    </div>
+
+    <!-- SECTION 6: COMPARISONS -->
+    <div id="comparison" class="section">
+        <h2>📊 6. Comparisons & Decision Making</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">22</span> LiveData vs StateFlow: Which one to use?</span></div><div class="answer"><p><strong>Use LiveData</strong> for simple cases, Java codebase, or when you need automatic lifecycle handling. <strong>Use StateFlow</strong> when using coroutines, Compose, or need advanced operators. Modern Android recommends StateFlow + repeatOnLifecycle.</p><div class="comparison-table"><table class="comparison-table"><tr><th>Feature</th><th>LiveData</th><th>StateFlow</th></tr><tr><td>Lifecycle-aware</td><td>✅ Automatic</td><td>❌ Need repeatOnLifecycle</td></tr><tr><td>Initial value</td><td>❌ No</td><td>✅ Required</td></tr><tr><td>Operators</td><td>Limited</td><td>Rich (map, filter, etc)</td></tr><tr><td>Coroutines support</td><td>Limited</td><td>✅ First-class</td></tr></table></div></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">23</span> StateFlow vs SharedFlow: When to use each?</span></div><div class="answer"><p><strong>StateFlow:</strong> UI state (data class with loading, content, error). Holds single state, deduplicates. <strong>SharedFlow:</strong> One-time events (toast, navigation, dialogs). Multiple emissions without state holding.</p></div></div>
+    </div>
+
+    <!-- SECTION 7: SCENARIO BASED -->
+    <div id="scenarios" class="section">
+        <h2>🎬 7. Scenario-Based Questions</h2>
+
+        <div class="card scenario-card"><div class="question"><span><span class="q-num">S1</span> Scenario: User rotates screen while API call is in progress. How to prevent data loss?</span></div><div class="answer"><p>Use ViewModel to store API result. API call initiated from ViewModel using coroutines. Result stored in StateFlow/LiveData. Screen rotation doesn't restart API call because ViewModel survives config change.</p><pre>class MyViewModel : ViewModel() {
+    private val _uiState = MutableStateFlow&lt;UiState&gt;(UiState.Loading)
+    val uiState = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            val result = repository.fetchData()
+            _uiState.value = UiState.Success(result)
+        }
+    }
+}</pre></div></div>
+
+        <div class="card scenario-card"><div class="question"><span><span class="q-num">S2</span> Scenario: Show a single Toast message when data loading completes, but avoid showing on rotation.</span></div><div class="answer"><p>Use SharedFlow for one-time events. It doesn't replay after rotation (replay=0). Collect in fragment and show toast only once per emission.</p><pre>private val _toastEvent = MutableSharedFlow&lt;String&gt;(replay = 0)
+val toastEvent = _toastEvent.asSharedFlow()
+
+// In fragment
+lifecycleScope.launch {
+    repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewModel.toastEvent.collect { message ->
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+}</pre></div></div>
+
+        <div class="card scenario-card"><div class="question"><span><span class="q-num">S3</span> Scenario: Search bar with debouncing to avoid excessive network calls.</span></div><div class="answer"><p>Use Flow's debounce operator on search query StateFlow.</p><pre>class SearchViewModel : ViewModel() {
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery = _searchQuery.asStateFlow()
+
+    val searchResults = searchQuery
+        .debounce(500)  // Wait 500ms after user stops typing
+        .distinctUntilChanged()
+        .flatMapLatest { query ->
+            repository.search(query)
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+}</pre></div></div>
+
+        <div class="card scenario-card"><div class="question"><span><span class="q-num">S4</span> Scenario: Multiple fragments need to share data and communicate.</span></div><div class="answer"><p>Use activity-scoped ViewModel with StateFlow. Fragments observe same ViewModel and update through exposed functions.</p><pre>// Shared ViewModel
+class SharedViewModel : ViewModel() {
+    private val _selectedItem = MutableStateFlow&lt;Item?&gt;(null)
+    val selectedItem = _selectedItem.asStateFlow()
+
+    fun selectItem(item: Item) { _selectedItem.value = item }
+}
+
+// Fragment A (list) calls selectItem()
+// Fragment B (detail) observes selectedItem</pre></div></div>
+    </div>
+
+    <!-- SECTION 8: CODING EXAMPLES -->
+    <div id="coding" class="section">
+        <h2>💻 8. Live Coding Examples</h2>
+
+        <div class="card coding-card"><div class="question"><span><span class="q-num">C1</span> Implement a counter using MutableStateFlow</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>class CounterViewModel : ViewModel() {
+    private val _count = MutableStateFlow(0)
+    val count: StateFlow&lt;Int&gt; = _count.asStateFlow()
+
+    fun increment() { _count.value++ }
+    fun decrement() { _count.value-- }
+}
+
+// In Compose
+@Composable
+fun CounterScreen(viewModel: CounterViewModel) {
+    val count by viewModel.count.collectAsState()
+    Column {
+        Text("Count: $count")
+        Button(onClick = { viewModel.increment() }) { Text("+") }
+    }
+}</pre></div></div>
+
+        <div class="card coding-card"><div class="question"><span><span class="q-num">C2</span> Fetch data from repository with loading state using StateFlow</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>sealed class UiState&lt;out T&gt; {
+    object Loading : UiState&lt;Nothing&gt;()
+    data class Success&lt;T&gt;(val data: T) : UiState&lt;T&gt;()
+    data class Error(val message: String) : UiState&lt;Nothing&gt;()
+}
+
+class DataViewModel(private val repo: Repository) : ViewModel() {
+    private val _uiState = MutableStateFlow&lt;UiState&lt;List&lt;Item&gt;&gt;&gt;(UiState.Loading)
+    val uiState = _uiState.asStateFlow()
+
+    init { fetchData() }
+
+    fun fetchData() {
+        viewModelScope.launch {
+            _uiState.value = UiState.Loading
+            try {
+                val data = repo.getItems()
+                _uiState.value = UiState.Success(data)
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error(e.message ?: "Unknown error")
+            }
+        }
+    }
+}</pre></div></div>
+
+        <div class="card coding-card"><div class="question"><span><span class="q-num">C3</span> Convert LiveData to Flow and vice versa</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>// LiveData to Flow
+val liveData = MutableLiveData&lt;String&gt;()
+val flow = liveData.asFlow()  // Converts to Flow
+
+// Flow to LiveData
+val myFlow = flowOf("A", "B", "C")
+val liveDataFromFlow = myFlow.asLiveData()  // For lifecycle-aware observation</pre></div></div>
+
+        <div class="card coding-card"><div class="question"><span><span class="q-num">C4</span> Combine multiple StateFlows into one UI state</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>class CombinedViewModel : ViewModel() {
+    private val _userName = MutableStateFlow("")
+    private val _userAge = MutableStateFlow(0)
+
+    val uiState = combine(_userName, _userAge) { name, age ->
+        UserUiState(name = name, age = age, isValid = name.isNotBlank() && age > 0)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = UserUiState()
+    )
+}</pre></div></div>
+    </div>
+
+    <!-- SECTION 9: BEST PRACTICES -->
+    <div id="bestpractices" class="section">
+        <h2>✨ 9. Best Practices & Advanced Tips</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">24</span> How to handle configuration changes with StateFlow?</span></div><div class="answer"><p>Use <code>SharingStarted.WhileSubscribed()</code> to keep flow active while UI is subscribed. For longer retention, use <code>SharingStarted.Eagerly</code> but careful with resources.</p><pre>val myFlow = repository.getData()
+    .stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000), // Stops after 5 sec no subscribers
+        initialValue = emptyList()
+    )</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">25</span> What is the common mistake when using SharedFlow for events?</span></div><div class="answer"><p>Using StateFlow for one-time events causes replay on rotation. Always use SharedFlow with replay=0. Also ensure events are collected in lifecycleScope with repeatOnLifecycle to avoid collecting in background.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">26</span> How to unit test ViewModel with StateFlow?</span></div><div class="answer"><p>Use <code>runTest</code> and collect values using <code>first()</code> or <code>toList()</code>. Create a test coroutine scope.</p><pre>@Test
+fun testViewModel() = runTest {
+    val viewModel = MyViewModel(repo)
+    viewModel.uiState.test {
+        val initialState = awaitItem()
+        assert(initialState is Loading)
+        // Trigger action
+        viewModel.loadData()
+        val successState = awaitItem()
+        assert(successState is Success)
+    }
+}</pre></div></div>
+    </div>
+
+    <footer>
+        <p>🎯 Master these concepts — Practice with real scenarios and coding examples</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Click on any question to reveal answer | Updated for Android Architecture Components</p>
+    </footer>
+</div>
+
+<script>
+    // Interactive Q&A toggle
+    document.querySelectorAll('.card').forEach(card => {
+        const questionDiv = card.querySelector('.question');
+        const answerDiv = card.querySelector('.answer');
+        if (questionDiv && answerDiv) {
+            questionDiv.style.cursor = 'pointer';
+            questionDiv.addEventListener('click', (e) => {
+                if (e.target.classList && e.target.classList.contains('difficulty')) return;
+                answerDiv.classList.toggle('show');
+            });
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Jetpack Mastery | Room, Navigation, WorkManager, DataStore, Paging 3 - Interview Q&A</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: #1e293b;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1450px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3f 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+        }
+
+        .toc {
+            background: #e8f0fe;
+            padding: 1.5rem;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: #1a472a;
+        }
+
+        .toc-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .toc-link {
+            background: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            color: #2d5a3f;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc-link:hover {
+            background: #2d5a3f;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: #1a472a;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #2d5a3f;
+            padding-left: 1rem;
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            color: #2d5a3f;
+            margin: 1.5rem 0 1rem 0;
+            padding-left: 0.5rem;
+            border-left: 3px solid #94a3b8;
+        }
+
+        .card {
+            background: #f8fafc;
+            margin-bottom: 1.2rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            background: #ffffff;
+            padding: 1.2rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #0f172a;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .question .q-num {
+            background: #2d5a3f;
+            color: white;
+            border-radius: 2rem;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.8rem;
+            margin-right: 1rem;
+        }
+
+        .answer {
+            padding: 1.2rem 1.5rem;
+            background: #ffffff;
+            display: none;
+            line-height: 1.7;
+        }
+
+        .answer.show {
+            display: block;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.3rem;
+            color: #d14;
+            font-size: 0.9rem;
+        }
+
+        .scenario-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 5px solid #f59e0b;
+        }
+
+        .scenario-card .question {
+            background: #fffbeb;
+        }
+
+        .coding-card {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-left: 5px solid #3b82f6;
+        }
+
+        .coding-card .question {
+            background: #eff6ff;
+        }
+
+        .difficulty {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            font-weight: normal;
+            margin-left: 0.5rem;
+        }
+
+        .easy { background: #10b981; color: white; }
+        .medium { background: #f59e0b; color: white; }
+        .hard { background: #ef4444; color: white; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #cbd5e1;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #e2e8f0;
+            font-weight: 600;
+        }
+
+        .important-note {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+        }
+
+        footer {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .question {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>📱 Android Jetpack Architecture Components</h1>
+        <p>Complete Interview Guide: Room | Navigation | WorkManager | DataStore | Paging 3</p>
+        <div class="badge-container">
+            <span class="badge">🎯 75+ Questions</span>
+            <span class="badge">💻 20+ Code Examples</span>
+            <span class="badge">🎬 Real Scenarios</span>
+            <span class="badge">⚡ Modern Android</span>
+        </div>
+    </header>
+
+    <div class="toc">
+        <h2>📑 Quick Navigation</h2>
+        <div class="toc-grid">
+            <a href="#room" class="toc-link">🗄️ Room Database</a>
+            <a href="#navigation" class="toc-link">🧭 Navigation Component</a>
+            <a href="#workmanager" class="toc-link">⚙️ WorkManager</a>
+            <a href="#datastore" class="toc-link">💾 DataStore</a>
+            <a href="#paging" class="toc-link">📄 Paging 3</a>
+            <a href="#scenarios" class="toc-link">🎬 Scenarios</a>
+            <a href="#coding" class="toc-link">💻 Coding Problems</a>
+        </div>
+    </div>
+
+    <!-- SECTION 1: ROOM DATABASE -->
+    <div id="room" class="section">
+        <h2>🗄️ 1. Room Database - Local Persistence</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">1</span> What is Room? Why use it over SQLite?</span></div><div class="answer"><p>Room is an ORM (Object Relational Mapping) library that provides abstraction over SQLite. Benefits: compile-time SQL verification, less boilerplate, LiveData/Flow integration, migration support, and coroutines compatibility.</p><pre>@Database(entities = [User::class], version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">2</span> What are the main components of Room?</span></div><div class="answer"><p><strong>Entity:</strong> Represents a table. <strong>DAO (Data Access Object):</strong> Defines database operations. <strong>Database:</strong> Main access point, holds database holder.</p><pre>@Entity(tableName = "users")
+data class User(
+    @PrimaryKey val id: Int,
+    @ColumnInfo(name = "user_name") val name: String,
+    @Ignore val tempField: String = ""  // Not stored
+)
+
+@Dao
+interface UserDao {
+    @Insert suspend fun insert(user: User)
+    @Update suspend fun update(user: User)
+    @Delete suspend fun delete(user: User)
+    @Query("SELECT * FROM users WHERE id = :id")
+    suspend fun getUser(id: Int): User?
+    @Query("SELECT * FROM users")
+    fun getAllUsers(): Flow<List<User>>
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">3</span> What are the different types of relationships in Room?</span></div><div class="answer"><p>Room supports: <strong>@Embedded</strong> (nested objects), <strong>@Relation</strong> (one-to-one, one-to-many, many-to-many). For many-to-many, use junction table.</p><pre>// One-to-Many
+@Entity data class User(@PrimaryKey val userId: Int, val name: String)
+@Entity data class Pet(@PrimaryKey val petId: Int, val ownerId: Int, val name: String)
+
+data class UserWithPets(
+    @Embedded val user: User,
+    @Relation(parentColumn = "userId", entityColumn = "ownerId")
+    val pets: List<Pet>
+)</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">4</span> How to handle database migrations in Room?</span></div><div class="answer"><p>Use Migration class with addMigrations() in Room.databaseBuilder(). For complex migrations, use .fallbackToDestructiveMigration() as last resort.</p><pre>val migration_1_2 = object : Migration(1, 2) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE users ADD COLUMN age INTEGER DEFAULT 0 NOT NULL")
+    }
+}
+
+Room.databaseBuilder(context, AppDatabase::class.java, "db-name")
+    .addMigrations(migration_1_2)
+    .build()</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">5</span> What is TypeConverter in Room?</span></div><div class="answer"><p>TypeConverter converts custom data types to types Room can store (primitive types). Use @TypeConverter annotation.</p><pre>class Converters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? = value?.let { Date(it) }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? = date?.time
+
+    @TypeConverter
+    fun fromStringList(value: String): List<String> = value.split(",")
+
+    @TypeConverter
+    fun fromListString(list: List<String>): String = list.joinToString(",")
+}
+
+@Database(entities = [User::class], version = 1)
+@TypeConverters(Converters::class)
+abstract class AppDatabase : RoomDatabase()</pre></div></div>
+    </div>
+
+    <!-- SECTION 2: NAVIGATION COMPONENT -->
+    <div id="navigation" class="section">
+        <h2>🧭 2. Navigation Component</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">6</span> What is Navigation Component? What problems does it solve?</span></div><div class="answer"><p>Navigation Component manages fragment/activity navigation, handles back stack, provides type-safe argument passing, and visual navigation graphs. Solves manual fragment transaction complexity, back stack management, and deep linking.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">7</span> What are the main parts of Navigation Component?</span></div><div class="answer"><p><strong>Navigation Graph (XML):</strong> Visual representation of destinations. <strong>NavHost:</strong> Container for destinations. <strong>NavController:</strong> Manages navigation actions.</p><pre>&lt;!-- nav_graph.xml --&gt;
+&lt;navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment"&gt;
+
+    &lt;fragment android:id="@+id/homeFragment" ... &gt;
+        &lt;action android:id="@+id/action_to_detail"
+            app:destination="@id/detailFragment" /&gt;
+    &lt;/fragment&gt;
+&lt;/navigation&gt;</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">8</span> How to pass data between destinations safely?</span></div><div class="answer"><p>Use Safe Args plugin for type-safe argument passing. Generate directions and argument classes.</p><pre>// Define argument in navigation graph
+&lt;argument android:name="userId" app:argType="integer" /&gt;
+
+// Sending
+val action = HomeFragmentDirections.actionToDetail(userId = 42)
+findNavController().navigate(action)
+
+// Receiving in destination
+val userId = arguments?.getInt("userId") ?: 0</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">9</span> What are NavDeepLinkBuilder and deep linking?</span></div><div class="answer"><p>Deep linking allows navigating directly to a destination via URI or intent. NavDeepLinkBuilder creates PendingIntent for notifications.</p><pre>&lt;deepLink app:uri="android-app://myapp.com/profile/{userId}" /&gt;
+
+// Create deep link for notification
+val pendingIntent = NavDeepLinkBuilder(context)
+    .setGraph(R.navigation.nav_graph)
+    .setDestination(R.id.profileFragment)
+    .setArguments(bundleOf("userId" to 123))
+    .createPendingIntent()</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">10</span> What is NavigationUI? How to set up with AppBarConfiguration?</span></div><div class="answer"><p>NavigationUI provides helper methods to connect NavController with AppBarLayout, BottomNavigationView, and NavigationView.</p><pre>val navController = findNavController(R.id.nav_host_fragment)
+val appBarConfiguration = AppBarConfiguration(
+    setOf(R.id.home, R.id.profile, R.id.settings),
+    drawerLayout
+)
+setupActionBarWithNavController(navController, appBarConfiguration)
+NavigationUI.setupWithNavController(bottomNavView, navController)</pre></div></div>
+    </div>
+
+    <!-- SECTION 3: WORKMANAGER -->
+    <div id="workmanager" class="section">
+        <h2>⚙️ 3. WorkManager - Background Processing</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">11</span> What is WorkManager? When to use it?</span></div><div class="answer"><p>WorkManager is Android's recommended solution for deferrable, guaranteed background work that must execute even after app restart or device reboot. Use for: periodic sync, data upload, log processing, image compression.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">12</span> Types of Workers in WorkManager?</span></div><div class="answer"><p><strong>Worker:</strong> Runs on background thread (uses Dispatchers.IO). <strong>CoroutineWorker:</strong> For coroutines, suspend functions. <strong>ListenableWorker:</strong> Lowest level, manual threading.</p><pre>class UploadWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+    override suspend fun doWork(): Result = try {
+        // Do background work
+        uploadData()
+        Result.success()
+    } catch (e: Exception) {
+        Result.retry()
+    }
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">13</span> How to chain WorkRequests and handle constraints?</span></div><div class="answer"><pre>val constraints = Constraints.Builder()
+    .setRequiredNetworkType(NetworkType.CONNECTED)
+    .setRequiresBatteryNotLow(true)
+    .setRequiresCharging(false)
+    .build()
+
+val uploadWork = OneTimeWorkRequestBuilder<UploadWorker>()
+    .setConstraints(constraints)
+    .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 30, TimeUnit.SECONDS)
+    .addTag("upload_tag")
+    .build()
+
+// Chaining
+WorkManager.getInstance(context)
+    .beginWith(downloadWork)
+    .then(processWork)
+    .then(uploadWork)
+    .enqueue()
+
+// Unique work
+WorkManager.getInstance(context)
+    .enqueueUniqueWork("unique_upload", ExistingWorkPolicy.KEEP, uploadWork)</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">14</span> How to get work results and observe progress?</span></div><div class="answer"><pre>// Observe work status
+WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequest.id)
+    .observe(lifecycleOwner) { info ->
+        when(info.state) {
+            WorkInfo.State.SUCCEEDED -> // Handle success
+            WorkInfo.State.FAILED -> // Handle failure
+            WorkInfo.State.RUNNING -> // Get progress
+        }
+    }
+
+// Report progress in CoroutineWorker
+setProgress(workDataOf("progress" to 50))
+Result.success(workDataOf("result_key" to "success"))</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">15</span> PeriodicWorkRequest and its limitations?</span></div><div class="answer"><p>PeriodicWorkRequest for recurring tasks. Minimum interval is 15 minutes. Cannot have initial delay less than 15 minutes. Use setFlexInterval() for flexible execution window.</p><pre>val periodicWork = PeriodicWorkRequestBuilder<SyncWorker>(1, TimeUnit.HOURS)
+    .setFlexPeriod(15, TimeUnit.MINUTES)
+    .build()</pre></div></div>
+    </div>
+
+    <!-- SECTION 4: DATASTORE -->
+    <div id="datastore" class="section">
+        <h2>💾 4. DataStore - Modern Data Storage</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">16</span> What is DataStore? Types and benefits over SharedPreferences?</span></div><div class="answer"><p>DataStore is modern, coroutine-based data storage. Types: <strong>Preferences DataStore</strong> (key-value, like SharedPreferences), <strong>Proto DataStore</strong> (typed objects with schema). Benefits: asynchronous, type-safe (Proto), coroutine support, no blocking main thread.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">17</span> How to implement Preferences DataStore?</span></div><div class="answer"><pre>// Create DataStore
+val Context.dataStore by preferencesDataStore(name = "user_preferences")
+
+// Define keys
+val USER_NAME = stringPreferencesKey("user_name")
+val USER_AGE = intPreferencesKey("user_age")
+
+// Write data (suspend)
+suspend fun saveUserName(name: String) {
+    context.dataStore.edit { preferences ->
+        preferences[USER_NAME] = name
+    }
+}
+
+// Read data (Flow)
+val userNameFlow: Flow<String> = context.dataStore.data
+    .map { preferences ->
+        preferences[USER_NAME] ?: ""
+    }</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">18</span> What is Proto DataStore? How to implement?</span></div><div class="answer"><p>Proto DataStore uses Protocol Buffers for type-safety. Define schema in .proto file, then generated code.</p><pre>// user_preferences.proto
+syntax = "proto3";
+message UserPreferences {
+    string name = 1;
+    int32 age = 2;
+    bool notifications_enabled = 3;
+}
+
+// Create serializer
+object UserPreferencesSerializer : Serializer<UserPreferences> {
+    override val defaultValue: UserPreferences = UserPreferences.getDefaultInstance()
+    override suspend fun readFrom(input: InputStream): UserPreferences {
+        return UserPreferences.parseFrom(input)
+    }
+    override suspend fun writeTo(t: UserPreferences, output: OutputStream) {
+        t.writeTo(output)
+    }
+}
+
+// Create DataStore
+val Context.userPreferencesStore by dataStore(
+    fileName = "user_prefs.pb",
+    serializer = UserPreferencesSerializer
+)</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">19</span> How to handle migration from SharedPreferences to DataStore?</span></div><div class="answer"><pre>val Context.dataStore by preferencesDataStore(
+    name = "new_preferences",
+    produceMigrations = { context ->
+        listOf(SharedPreferencesMigration(context, "old_shared_prefs"))
+    }
+)</pre></div></div>
+    </div>
+
+    <!-- SECTION 5: PAGING 3 -->
+    <div id="paging" class="section">
+        <h2>📄 5. Paging 3 Library</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">20</span> What is Paging 3? Problems it solves?</span></div><div class="answer"><p>Paging 3 loads data incrementally, improves performance, reduces memory usage. Features: built-in error handling, placeholder support, different data sources (network, database, combined), integration with RecyclerView.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">21</span> What are the main components of Paging 3?</span></div><div class="answer"><p><strong>PagingSource:</strong> Defines how to load data. <strong>Pager:</strong> Builds Flow<PagingData>. <strong>PagingDataAdapter:</strong> RecyclerView adapter. <strong>RemoteMediator:</strong> For network-database sync.</p><pre>class UserPagingSource : PagingSource<Int, User>() {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, User> {
+        return try {
+            val page = params.key ?: 1
+            val response = api.getUsers(page, params.loadSize)
+            LoadResult.Page(
+                data = response.users,
+                prevKey = if (page > 1) page - 1 else null,
+                nextKey = if (response.hasNext) page + 1 else null
+            )
+        } catch (e: Exception) {
+            LoadResult.Error(e)
+        }
+    }
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">22</span> How to set up Pager and PagingDataAdapter?</span></div><div class="answer"><pre>// In ViewModel
+val pagingDataFlow = Pager(PagingConfig(pageSize = 20, enablePlaceholders = true)) {
+    UserPagingSource()
+}.flow.cachedIn(viewModelScope)
+
+// In Fragment/Activity
+val adapter = UserAdapter()
+recyclerView.adapter = adapter
+
+lifecycleScope.launch {
+    repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewModel.pagingDataFlow.collect { pagingData ->
+            adapter.submitData(pagingData)
+        }
+    }
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">23</span> What is RemoteMediator? When to use?</span></div><div class="answer"><p>RemoteMediator handles network-database synchronization for Paging 3. Use when you need offline support: load from network, save to Room, then display from database.</p><pre>class UserRemoteMediator(
+    private val database: AppDatabase,
+    private val api: ApiService
+) : RemoteMediator<Int, User>() {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, User>): MediatorResult {
+        // Implement network fetch and database insert logic
+        // Return MediatorResult.Success(endOfPaginationReached = false)
+        // or MediatorResult.Error()
+    }
+}</pre></div></div>
+    </div>
+
+    <!-- SECTION 6: SCENARIO-BASED -->
+    <div id="scenarios" class="section">
+        <h2>🎬 6. Scenario-Based Questions</h2>
+
+        <div class="card scenario-card"><div class="question"><span><span class="q-num">S1</span> Scenario: App needs offline-first support with large user list, pagination, and search.</span></div><div class="answer"><p>Combine Room + Paging 3 + RemoteMediator: Use Room as single source of truth, RemoteMediator for network sync, Paging 3 for efficient loading. Implement search using @Query with LIKE operator and Flow for real-time updates.</p></div></div>
+
+        <div class="card scenario-card"><div class="question"><span><span class="q-num">S2</span> Scenario: Background task to sync data every 4 hours, only when device has internet and charging.</span></div><div class="answer"><p>Use PeriodicWorkRequest with constraints: setRequiredNetworkType(CONNECTED), setRequiresCharging(true). Use unique work to prevent duplicate syncs.</p></div></div>
+
+        <div class="card scenario-card"><div class="question"><span><span class="q-num">S3</span> Scenario: User preferences need to be saved (theme, notifications) with coroutine support.</span></div><div class="answer"><p>Use Preferences DataStore. Expose Flow for observing changes, suspend functions for writes. Use viewModelScope for coroutine operations.</p></div></div>
+
+        <div class="card scenario-card"><div class="question"><span><span class="q-num">S4</span> Scenario: Deep linking to specific product page from notification.</span></div><div class="answer"><p>Use Navigation Component with deep link. Add <deepLink> in navigation graph, create PendingIntent with NavDeepLinkBuilder, handle arguments in destination fragment.</p></div></div>
+    </div>
+
+    <!-- SECTION 7: CODING PROBLEMS -->
+    <div id="coding" class="section">
+        <h2>💻 7. Important Coding Problems</h2>
+
+        <div class="card coding-card"><div class="question"><span><span class="q-num">C1</span> Implement Room DAO with Flow and suspend functions</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>@Dao
+interface ProductDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertProduct(product: Product)
+
+    @Update
+    suspend fun updateProduct(product: Product)
+
+    @Delete
+    suspend fun deleteProduct(product: Product)
+
+    @Query("SELECT * FROM products WHERE id = :id")
+    suspend fun getProduct(id: Int): Product?
+
+    @Query("SELECT * FROM products ORDER BY name ASC")
+    fun getAllProducts(): Flow<List<Product>>
+
+    @Query("SELECT * FROM products WHERE name LIKE '%' || :query || '%'")
+    fun searchProducts(query: String): Flow<List<Product>>
+}</pre></div></div>
+
+        <div class="card coding-card"><div class="question"><span><span class="q-num">C2</span> Navigation with bottom navigation and safe args</span><span class="difficulty easy">Easy</span></div><div class="answer"><pre>// In MainActivity setup
+val navController = findNavController(R.id.nav_host_fragment)
+val appBarConfiguration = AppBarConfiguration(
+    setOf(R.id.home, R.id.profile, R.id.settings)
+)
+setupActionBarWithNavController(navController, appBarConfiguration)
+findViewById<BottomNavigationView>(R.id.bottom_nav)
+    .setupWithNavController(navController)
+
+// Navigating with safe args
+val action = HomeFragmentDirections.actionHomeToDetail(productId = 123)
+findNavController().navigate(action)</pre></div></div>
+
+        <div class="card coding-card"><div class="question"><span><span class="q-num">C3</span> WorkManager with constraints and unique work</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>class SyncWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
+    override suspend fun doWork(): Result {
+        return try {
+            val repository = Repository(applicationContext)
+            repository.syncData()
+            Result.success()
+        } catch (e: IOException) {
+            Result.retry()
+        }
+    }
+}
+
+// Schedule work
+val constraints = Constraints.Builder()
+    .setRequiredNetworkType(NetworkType.CONNECTED)
+    .setRequiresBatteryNotLow(true)
+    .build()
+
+val syncRequest = PeriodicWorkRequestBuilder<SyncWorker>(6, TimeUnit.HOURS)
+    .setConstraints(constraints)
+    .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 1, TimeUnit.MINUTES)
+    .build()
+
+WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+    "unique_sync",
+    ExistingPeriodicWorkPolicy.KEEP,
+    syncRequest
+)</pre></div></div>
+
+        <div class="card coding-card"><div class="question"><span><span class="q-num">C4</span> DataStore with preferences and Flow</span><span class="difficulty medium">Medium</span></div><div class="answer"><pre>class SettingsRepository(private val context: Context) {
+    private val Context.dataStore by preferencesDataStore("settings")
+
+    private val THEME_KEY = stringPreferencesKey("theme")
+    private val NOTIFICATIONS_KEY = booleanPreferencesKey("notifications")
+
+    val themeFlow: Flow<String> = context.dataStore.data
+        .map { preferences -> preferences[THEME_KEY] ?: "light" }
+
+    val notificationsFlow: Flow<Boolean> = context.dataStore.data
+        .map { preferences -> preferences[NOTIFICATIONS_KEY] ?: true }
+
+    suspend fun setTheme(theme: String) {
+        context.dataStore.edit { preferences ->
+            preferences[THEME_KEY] = theme
+        }
+    }
+
+    suspend fun setNotifications(enabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[NOTIFICATIONS_KEY] = enabled
+        }
+    }
+}</pre></div></div>
+
+        <div class="card coding-card"><div class="question"><span><span class="q-num">C5</span> Paging 3 with custom PagingSource and error handling</span><span class="difficulty hard">Hard</span></div><div class="answer"><pre>class PostPagingSource(
+    private val api: ApiService
+) : PagingSource<Int, Post>() {
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Post> {
+        return try {
+            val page = params.key ?: 1
+            val response = api.getPosts(page, params.loadSize)
+
+            LoadResult.Page(
+                data = response.posts,
+                prevKey = if (page > 1) page - 1 else null,
+                nextKey = if (response.hasNextPage) page + 1 else null
+            )
+        } catch (e: IOException) {
+            LoadResult.Error(e)
+        } catch (e: HttpException) {
+            LoadResult.Error(e)
+        }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Post>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+        }
+    }
+}
+
+// In ViewModel
+val pagingData = Pager(PagingConfig(pageSize = 20, enablePlaceholders = true)) {
+    PostPagingSource(api)
+}.flow.cachedIn(viewModelScope)</pre></div></div>
+    </div>
+
+    <!-- SECTION 8: BEST PRACTICES & TIPS -->
+    <div class="section">
+        <h2>✨ 8. Best Practices & Interview Tips</h2>
+        <div class="important-note">
+            <strong>🎯 Key Takeaways:</strong><br>
+            • Room: Always use suspend functions or Flow for DB operations, handle migrations properly<br>
+            • Navigation: Use Safe Args, avoid manual fragment transactions, handle deep links<br>
+            • WorkManager: Choose appropriate Worker type, set constraints wisely, handle retries<br>
+            • DataStore: Prefer Proto for complex data, migrate from SharedPreferences properly<br>
+            • Paging 3: Use RemoteMediator for offline support, handle loading states gracefully<br>
+            • Always test these components: Room (in-memory DB), WorkManager (TestDriver), Navigation (NavController testing)
+        </div>
+    </div>
+
+    <footer>
+        <p>🎯 Master Android Jetpack Components — Essential for Modern Android Development</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Click on any question to reveal answer | Updated for latest AndroidX libraries</p>
+    </footer>
+</div>
+
+<script>
+    // Interactive Q&A toggle
+    document.querySelectorAll('.card').forEach(card => {
+        const questionDiv = card.querySelector('.question');
+        const answerDiv = card.querySelector('.answer');
+        if (questionDiv && answerDiv) {
+            questionDiv.style.cursor = 'pointer';
+            questionDiv.addEventListener('click', (e) => {
+                if (e.target.classList && e.target.classList.contains('difficulty')) return;
+                answerDiv.classList.toggle('show');
+            });
+        }
+    });
+</script>
+</body>
+</html>

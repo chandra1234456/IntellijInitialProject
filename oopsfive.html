@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OOPs + SOLID Coding Problems</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #f4f6f8;
+            line-height: 1.6;
+        }
+        section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .q {
+            font-weight: bold;
+            margin-top: 15px;
+            color: #34495e;
+        }
+        .desc {
+            margin-left: 10px;
+            color: #555;
+        }
+        pre {
+            background: #2d3436;
+            color: #ecf0f1;
+            padding: 10px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<h1>🧠 OOPs + SOLID Coding Interview Problems (Android)</h1>
+
+<!-- OOPs -->
+<section>
+    <h2>🧠 1. OOPs Coding Problems</h2>
+
+    <div class="q">1. Bank System Design</div>
+    <div class="desc">
+        Create BankAccount, SavingsAccount, CurrentAccount with deposit & withdraw methods.
+    </div>
+    <pre>
+open class BankAccount(protected var balance: Double) {
+    open fun deposit(amount: Double) {
+        balance += amount
+    }
+
+    open fun withdraw(amount: Double) {
+        if (balance >= amount) balance -= amount
+    }
+}
+</pre>
+
+    <div class="q">2. Shape Area System</div>
+    <div class="desc">
+        Use interface Shape with Circle, Rectangle implementation.
+    </div>
+    <pre>
+interface Shape {
+    fun area(): Double
+}
+
+class Circle(private val r: Double) : Shape {
+    override fun area() = Math.PI * r * r
+}
+</pre>
+
+    <div class="q">3. Vehicle System</div>
+    <div class="desc">
+        Vehicle → Car, Bike, Truck using inheritance.
+    </div>
+
+    <div class="q">4. Employee System</div>
+    <div class="desc">
+        Employee → Developer, Manager using polymorphism.
+    </div>
+
+    <div class="q">5. Notification System</div>
+    <div class="desc">
+        Send notifications via Email, SMS, Push using interface.
+    </div>
+
+</section>
+
+<!-- SOLID -->
+<section>
+    <h2>🏗️ 2. SOLID Coding Problems</h2>
+
+    <div class="q">1. Fix God Class (SRP Violation)</div>
+    <div class="desc">
+        Split DB, UI, Network into separate classes.
+    </div>
+
+    <div class="q">2. Payment System (OCP Violation Fix)</div>
+    <div class="desc">
+        Bad Code:
+    </div>
+    <pre>
+class Payment {
+    fun pay(type: String) {
+        if (type == "card") {}
+        if (type == "upi") {}
+    }
+}
+</pre>
+
+    <div class="desc">Fix using interfaces:</div>
+    <pre>
+interface PaymentMethod {
+    fun pay()
+}
+
+class UpiPayment : PaymentMethod {
+    override fun pay() {}
+}
+</pre>
+
+    <div class="q">3. Liskov Substitution Problem</div>
+    <div class="desc">
+        Bird system fix (Ostrich cannot fly problem).
+    </div>
+    <pre>
+interface Bird
+interface Flyable {
+    fun fly()
+}
+</pre>
+
+    <div class="q">4. Interface Segregation Fix</div>
+    <div class="desc">
+        Split large interface into smaller ones.
+    </div>
+    <pre>
+interface Workable {
+    fun work()
+}
+
+interface Eatable {
+    fun eat()
+}
+</pre>
+
+    <div class="q">5. Dependency Inversion (Android Important)</div>
+    <div class="desc">
+        Depend on abstraction, not concrete class.
+    </div>
+    <pre>
+class ViewModel(private val repo: Repository)
+</pre>
+
+</section>
+
+<!-- ADVANCED -->
+<section>
+    <h2>🚀 3. Advanced Android Coding Problems</h2>
+
+    <div class="q">1. LRU Cache</div>
+    <div class="desc">
+        Used in Glide / image caching (HashMap + DLL).
+    </div>
+
+    <div class="q">2. Logger System</div>
+    <div class="desc">
+        Different log levels using Strategy pattern.
+    </div>
+
+    <div class="q">3. File System Design</div>
+    <div class="desc">
+        Folder + File structure using Composite pattern.
+    </div>
+
+    <div class="q">4. Ride Sharing System</div>
+    <div class="desc">
+        Uber-like system with Driver, Rider, Trip classes.
+    </div>
+
+    <div class="q">5. Shopping Cart System</div>
+    <div class="desc">
+        Add/remove items, discount strategy, payment abstraction.
+    </div>
+
+</section>
+
+<!-- NOTES -->
+<section>
+    <h2>💡 Interview Tips</h2>
+    <ul>
+        <li>Always start with class design first</li>
+        <li>Use interfaces for flexibility</li>
+        <li>Follow SOLID principles</li>
+        <li>Explain trade-offs</li>
+        <li>Think Android architecture (MVVM + Repository)</li>
+    </ul>
+</section>
+
+</body>
+</html>

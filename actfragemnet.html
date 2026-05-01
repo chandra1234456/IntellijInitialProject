@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Core Components | Complete Interview Q&A - Activity, Fragment, Service, Intent, ContentProvider</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #1e293b;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+        }
+
+        .toc {
+            background: #e8f0fe;
+            padding: 1.5rem;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .toc h2 {
+            margin-bottom: 1rem;
+            color: #1e3c72;
+        }
+
+        .toc-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .toc-link {
+            background: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            color: #2a5298;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc-link:hover {
+            background: #2a5298;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: #1e3c72;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #2a5298;
+            padding-left: 1rem;
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            color: #2a5298;
+            margin: 1.5rem 0 1rem 0;
+            padding-left: 0.5rem;
+            border-left: 3px solid #94a3b8;
+        }
+
+        .card {
+            background: #f8fafc;
+            margin-bottom: 1.2rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            background: #ffffff;
+            padding: 1.2rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #0f172a;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .question .q-num {
+            background: #2a5298;
+            color: white;
+            border-radius: 2rem;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.8rem;
+            margin-right: 1rem;
+        }
+
+        .answer {
+            padding: 1.2rem 1.5rem;
+            background: #ffffff;
+            display: none;
+            line-height: 1.7;
+        }
+
+        .answer.show {
+            display: block;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.3rem;
+            color: #d14;
+            font-size: 0.9rem;
+        }
+
+        .important-note {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #cbd5e1;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #e2e8f0;
+            font-weight: 600;
+        }
+
+        footer {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .question {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>📱 Android Core Components</h1>
+        <p>Complete Interview Guide: Application, Activity, Fragment, Service, Intent, ContentProvider & More</p>
+        <div class="badge-container">
+            <span class="badge">🎯 80+ Questions</span>
+            <span class="badge">📱 Real Scenarios</span>
+            <span class="badge">💻 Code Examples</span>
+            <span class="badge">🔄 Lifecycles</span>
+        </div>
+    </header>
+
+    <div class="toc">
+        <h2>📑 Quick Navigation</h2>
+        <div class="toc-grid">
+            <a href="#application" class="toc-link">📱 Application</a>
+            <a href="#activity" class="toc-link">🔄 Activity</a>
+            <a href="#fragment" class="toc-link">🧩 Fragment</a>
+            <a href="#services" class="toc-link">⚙️ Services</a>
+            <a href="#intents" class="toc-link">📨 Intents</a>
+            <a href="#contentprovider" class="toc-link">🗄️ ContentProvider</a>
+            <a href="#other" class="toc-link">🔧 Other Components</a>
+            <a href="#scenarios" class="toc-link">🎬 Scenarios</a>
+            <a href="#comparisons" class="toc-link">📊 Comparisons</a>
+        </div>
+    </div>
+
+    <!-- SECTION 1: APPLICATION -->
+    <div id="application" class="section">
+        <h2>📱 1. Application Class</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">1</span> What is the Application class in Android? When to use it?</span></div><div class="answer"><p>Application class is the base class for maintaining global application state. It's instantiated before any other component. Use for: global initialization (Firebase, Crashlytics), dependency injection setup, global variables, and app-level callbacks.</p><pre>class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        // Initialize SDKs, DI, etc.
+        Firebase.initializeApp(this)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+    }
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">2</span> How to declare custom Application in AndroidManifest?</span></div><div class="answer"><p>Add the <code>android:name</code> attribute to the application tag in AndroidManifest.xml pointing to your custom Application class.</p><pre>&lt;application
+    android:name=".MyApplication"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"&gt;
+    &lt;activity android:name=".MainActivity"&gt;
+    &lt;/activity&gt;
+&lt;/application&gt;</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">3</span> What is the lifecycle of Application class?</span></div><div class="answer"><p>Application has only one callback: onCreate(). It's created when the app process is created and exists until the process is killed. Register ActivityLifecycleCallbacks to monitor activity lifecycle globally.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">4</span> Can there be multiple Application classes?</span></div><div class="answer"><p>No, only one Application class per app process. However, for multi-process apps, each process gets its own Application instance.</p></div></div>
+    </div>
+
+    <!-- SECTION 2: ACTIVITY -->
+    <div id="activity" class="section">
+        <h2>🔄 2. Activity - Core UI Component</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">5</span> What is Activity in Android? Explain its lifecycle methods.</span></div><div class="answer"><p>Activity is a UI component representing a single screen. Lifecycle: onCreate() → onStart() → onResume() → onPause() → onStop() → onDestroy(). Also onRestart() when returning from stopped state.</p><pre>override fun onCreate(savedInstanceState: Bundle?) // Initialize UI
+override fun onStart() // App becomes visible
+override fun onResume() // App ready for user interaction
+override fun onPause() // App losing focus
+override fun onStop() // App no longer visible
+override fun onDestroy() // Activity being destroyed</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">6</span> What is the difference between onPause() and onStop()?</span></div><div class="answer"><p>onPause() called when activity partially visible (dialog overlay). onStop() called when activity completely hidden (new activity covers fully). onPause() should be lightweight (save data).</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">7</span> What is savedInstanceState? How to save and restore state?</span></div><div class="answer"><p>savedInstanceState is a Bundle that saves UI state before activity destruction (rotation). Override onSaveInstanceState() and restore in onCreate() or onRestoreInstanceState().</p><pre>override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    outState.putString("key", myData)
+}
+
+override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+    super.onRestoreInstanceState(savedInstanceState)
+    myData = savedInstanceState.getString("key")
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">8</span> What are launch modes in Android? Explain each.</span></div><div class="answer"><p><strong>standard</strong>: New instance every time.<br>
+            <strong>singleTop</strong>: Reuse if at top of stack.<br>
+            <strong>singleTask</strong>: Single instance, clears activities above.<br>
+            <strong>singleInstance</strong>: Single instance in its own task.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">9</span> What is the difference between finish() and finishAffinity()?</span></div><div class="answer"><p>finish() closes current activity. finishAffinity() finishes all activities in the current task and removes the task from the recent tasks list.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">10</span> What is android:configChanges? When to use it?</span></div><div class="answer"><p>android:configChanges prevents activity recreation on specific configuration changes (like orientation). Override onConfigurationChanged() to handle manually.</p><pre>&lt;activity android:name=".MainActivity"
+    android:configChanges="orientation|screenSize|keyboardHidden" /&gt;</pre></div></div>
+    </div>
+
+    <!-- SECTION 3: FRAGMENT -->
+    <div id="fragment" class="section">
+        <h2>🧩 3. Fragment - Modular UI</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">11</span> What is Fragment? Explain fragment lifecycle.</span></div><div class="answer"><p>Fragment is a reusable UI component within an Activity. Lifecycle: onAttach() → onCreate() → onCreateView() → onViewCreated() → onStart() → onResume() → onPause() → onStop() → onDestroyView() → onDestroy() → onDetach().</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">12</span> Difference between Fragment and Activity?</span></div><div class="answer"><div class="comparison-table"><table class="comparison-table"><tr><th>Feature</th><th>Activity</th><th>Fragment</th></tr><tr><td>Independent</td><td>Yes, can exist alone</td><td>No, depends on Activity</td></tr><tr><td>Lifecycle</td><td>Independent</td><td>Tied to host Activity</td></tr><tr><td>Reusability</td><td>Limited</td><td>High, can be reused</td></tr><tr><td>Back stack</td><td>Managed by system</td><td>Managed by FragmentManager</td></tr></table></div></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">13</span> What is FragmentManager and FragmentTransaction?</span></div><div class="answer"><p>FragmentManager manages fragments in an Activity. FragmentTransaction performs operations (add, replace, remove, show, hide). Always commit transactions.</p><pre>supportFragmentManager.commit {
+    add(R.id.container, MyFragment())
+    addToBackStack(null)
+}</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">14</span> What is the difference between add() and replace() in FragmentTransaction?</span></div><div class="answer"><p>add() adds fragment on top of existing ones. replace() removes existing fragments in container and adds new one. Use add() for navigation drawer, replace() for single-pane layouts.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">15</span> What is the difference between commit() and commitAllowingStateLoss()?</span></div><div class="answer"><p>commit() must be called before onSaveInstanceState() or throws exception. commitAllowingStateLoss() can be called after, but may lose fragment state. Use carefully.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">16</span> How to communicate between fragments?</span></div><div class="answer"><p>Use shared ViewModel (activity-scoped), interface callbacks, or FragmentResultListener (modern approach).</p><pre>// Sending fragment
+setFragmentResult("requestKey", bundleOf("key" to value))
+
+// Receiving fragment
+supportFragmentManager.setFragmentResultListener("requestKey") { key, bundle ->
+    val value = bundle.getString("key")
+}</pre></div></div>
+    </div>
+
+    <!-- SECTION 4: SERVICES -->
+    <div id="services" class="section">
+        <h2>⚙️ 4. Services - Background Processing</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">17</span> What is Service? Types of services in Android?</span></div><div class="answer"><p>Service runs background operations without UI. Types: <strong>Started Service</strong> (runs until stopped), <strong>Bound Service</strong> (client-server), <strong>Foreground Service</strong> (user-visible notification).</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">18</span> Difference between Service and IntentService?</span></div><div class="answer"><p>Service runs on main thread. IntentService (deprecated) ran on worker thread, stopped automatically. Modern replacement: WorkManager or CoroutineService with foreground handling.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">19</span> What is Foreground Service? When to use?</span></div><div class="answer"><p>Foreground Service shows persistent notification and is less likely to be killed. Used for music playback, location tracking, file downloads. Requires FOREGROUND_SERVICE permission.</p><pre>startForeground(NOTIFICATION_ID, notification)</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">20</span> What are the limitations of Background Services in Android 8+ (Oreo)?</span></div><div class="answer"><p>Android 8+ restricts background services: can't start background service while app is in background. Use WorkManager for deferred tasks, Foreground Service for immediate tasks, or JobScheduler.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">21</span> What is WorkManager? When to use instead of Service?</span></div><div class="answer"><p>WorkManager is recommended for deferrable background work that must execute reliably (API 14+). Handles constraints (network, battery). Use for periodic sync, data upload, log processing.</p><pre>val workRequest = OneTimeWorkRequestBuilder&lt;MyWorker&gt;()
+    .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+    .build()
+WorkManager.getInstance(context).enqueue(workRequest)</pre></div></div>
+    </div>
+
+    <!-- SECTION 5: INTENTS -->
+    <div id="intents" class="section">
+        <h2>📨 5. Intents - Messaging Component</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">22</span> What is Intent? Types of Intents?</span></div><div class="answer"><p>Intent is a messaging object to request action from another component. <strong>Explicit Intent</strong>: specify component class. <strong>Implicit Intent</strong>: declare action, system resolves component.</p><pre>// Explicit
+Intent(this, TargetActivity::class.java)
+
+// Implicit
+Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com"))</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">23</span> What is PendingIntent? When to use?</span></div><div class="answer"><p>PendingIntent is a token granting permission to another app to execute an Intent. Used for notifications, alarms, AppWidgets, and Bluetooth.</p><pre>val pendingIntent = PendingIntent.getActivity(
+    context, 0, intent,
+    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+)</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">24</span> How to pass data between activities using Intent?</span></div><div class="answer"><p>Use putExtra() with key-value pairs, or Bundle. Retrieve with getStringExtra(), getIntExtra(), etc.</p><pre>// Sending
+Intent(this, DetailActivity::class.java).apply {
+    putExtra("user_id", 123)
+    putExtra("user_name", "John")
+    startActivity(this)
+}
+
+// Receiving
+val userId = intent.getIntExtra("user_id", 0)</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">25</span> What is startActivityForResult() and its modern alternative?</span></div><div class="answer"><p>startActivityForResult() (deprecated) returned results from another activity. Modern alternative: Activity Result API using registerForActivityResult().</p><pre>private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+    // Handle returned content
+}
+
+getContent.launch("image/*")</pre></div></div>
+    </div>
+
+    <!-- SECTION 6: CONTENTPROVIDER -->
+    <div id="contentprovider" class="section">
+        <h2>🗄️ 6. ContentProvider - Data Sharing</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">26</span> What is ContentProvider? When to use?</span></div><div class="answer"><p>ContentProvider manages access to structured data, enabling data sharing across apps. Used for Contacts, MediaStore, Calendar, or custom app data sharing.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">27</span> What is ContentResolver? How to query data?</span></div><div class="answer"><p>ContentResolver interacts with ContentProvider. Use with URIs to query, insert, update, delete data.</p><pre>val cursor = contentResolver.query(
+    ContactsContract.Contacts.CONTENT_URI,
+    null, null, null, null
+)</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">28</span> What are ContentObservers? When to use?</span></div><div class="answer"><p>ContentObserver listens for changes to ContentProvider data. Use to react to contacts changes, media changes, or sync data.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">29</span> What are URI matchers? Why needed in custom ContentProvider?</span></div><div class="answer"><p>UriMatcher helps match incoming URIs to specific operations (query by ID vs all items). Improves code organization and performance.</p><pre>private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
+    addURI(AUTHORITY, "items", ITEMS)
+    addURI(AUTHORITY, "items/#", ITEM_ID)
+}</pre></div></div>
+    </div>
+
+    <!-- SECTION 7: OTHER IMPORTANT COMPONENTS -->
+    <div id="other" class="section">
+        <h2>🔧 7. Other Important Components</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">30</span> What is BroadcastReceiver? Types?</span></div><div class="answer"><p>BroadcastReceiver listens for system or app broadcasts. <strong>Manifest-declared</strong> (static) - works even when app not running (restricted). <strong>Context-registered</strong> (dynamic) - works while app running.</p><pre>// Register dynamically
+val receiver = MyBroadcastReceiver()
+registerReceiver(receiver, IntentFilter(Intent.ACTION_BATTERY_LOW))</pre></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">31</span> What restrictions apply to BroadcastReceivers in Android 8+?</span></div><div class="answer"><p>Manifest-declared receivers for implicit broadcasts are restricted (exceptions: BOOT_COMPLETED, some system events). Use WorkManager or JobScheduler instead.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">32</span> What is JobScheduler? When to use?</span></div><div class="answer"><p>JobScheduler schedules background jobs with constraints (network, charging, idle). Android 5.0+. For backward compatibility, use WorkManager.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">33</span> What is AlarmManager? When to use?</span></div><div class="answer"><p>AlarmManager schedules exact or inexact alarms at specific times. Use for precise timing (reminders, alarms). For non-critical tasks, use WorkManager.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">34</span> What are App Components vs Process vs Thread?</span></div><div class="answer"><p>App Components (Activity, Service, etc.) run in main thread by default. Process is an isolated execution environment. Thread is lightweight execution unit. Use background threads for long operations.</p></div></div>
+    </div>
+
+    <!-- SECTION 8: SCENARIO BASED -->
+    <div id="scenarios" class="section">
+        <h2>🎬 8. Scenario-Based Questions</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">S1</span> User receives a phone call while app is open. What happens to Activity lifecycle?</span></div><div class="answer"><p>Activity goes: onPause() → onStop(). When call ends: onRestart() → onStart() → onResume(). Save critical data in onPause().</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">S2</span> How to play music in background when app is closed?</span></div><div class="answer"><p>Use Foreground Service with notification. Start service from Activity, call startForeground(). Service continues even when Activity destroyed.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">S3</span> User rotates screen while a dialog is showing. What happens?</span></div><div class="answer"><p>Activity recreates, Dialog is dismissed. Use DialogFragment instead of Dialog - it survives rotation. ViewModel can also retain dialog state.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">S4</span> How to share data between two completely different apps?</span></div><div class="answer"><p>Use ContentProvider (structured data), share files via FileProvider, share text/images via Intent (ACTION_SEND), or use SharedPreferences with MODE_WORLD_READABLE (deprecated).</p></div></div>
+    </div>
+
+    <!-- SECTION 9: COMPARISONS -->
+    <div id="comparisons" class="section">
+        <h2>📊 9. Important Comparisons</h2>
+
+        <div class="card"><div class="question"><span><span class="q-num">C1</span> Activity vs Fragment vs View (when to use which?)</span></div><div class="answer"><p><strong>Activity:</strong> Standalone screen, entry point.<br><strong>Fragment:</strong> Reusable UI portion, tablet layouts, ViewPager.<br><strong>View:</strong> Individual UI elements, custom components.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">C2</span> Service vs Thread vs AsyncTask (deprecated) vs Coroutines</span></div><div class="answer"><p><strong>Service:</strong> Background processing with lifecycle (system-managed).<br><strong>Thread:</strong> Pure Java thread, no Android lifecycle.<br><strong>Coroutines:</strong> Modern concurrency, lifecycle-aware (viewModelScope).<br><strong>AsyncTask:</strong> Deprecated, use Coroutines/WorkManager.</p></div></div>
+
+        <div class="card"><div class="question"><span><span class="q-num">C3</span> Implicit vs Explicit Intent - Real examples</span></div><div class="answer"><p><strong>Explicit:</strong> Opening your own activity: Intent(this, MyActivity::class.java)<br><strong>Implicit:</strong> Opening browser, making call, picking photo.</p></div></div>
+    </div>
+
+    <!-- SECTION 10: QUICK REFERENCE -->
+    <div class="section">
+        <h2>📌 10. Quick Interview Checklist</h2>
+        <div class="important-note">
+            <strong>🎯 Must-Know Topics:</strong><br>
+            • Activity and Fragment lifecycle with state changes<br>
+            • Launch modes and task management<br>
+            • Service types and background execution limits (Android 8+ & 10+)<br>
+            • WorkManager vs Service vs JobScheduler<br>
+            • PendingIntent flags and mutability<br>
+            • ContentProvider URI structure and MIME types<br>
+            • BroadcastReceiver restrictions<br>
+            • Process death and state saving strategies
+        </div>
+    </div>
+
+    <footer>
+        <p>🎯 Master Android Components — Essential for every Android Interview</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Click on any question to reveal answer | Updated for latest Android versions (API 33+)</p>
+    </footer>
+</div>
+
+<script>
+    // Interactive Q&A toggle
+    document.querySelectorAll('.card').forEach(card => {
+        const questionDiv = card.querySelector('.question');
+        const answerDiv = card.querySelector('.answer');
+        if (questionDiv && answerDiv) {
+            questionDiv.style.cursor = 'pointer';
+            questionDiv.addEventListener('click', (e) => {
+                if (e.target.classList && e.target.classList.contains('difficulty')) return;
+                answerDiv.classList.toggle('show');
+            });
+        }
+    });
+</script>
+</body>
+</html>

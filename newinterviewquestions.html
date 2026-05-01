@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Top 50 Android Interview Q&A</title>
+    <style>
+        body { font-family: Arial; line-height: 1.6; margin: 20px; }
+        h1, h2 { color: #2c3e50; }
+        .qa { margin-bottom: 15px; }
+        .q { font-weight: bold; }
+        .a { margin-left: 10px; color: #333; }
+    </style>
+</head>
+<body>
+
+<h1>Top 50 Android Interview Questions & Answers</h1>
+
+<h2>Kotlin & Core Java</h2>
+
+<div class="qa"><div class="q">1. What are the key differences between Kotlin and Java?</div>
+    <div class="a">Kotlin is concise, null-safe, and supports coroutines. Java is more verbose and lacks built-in null safety.</div></div>
+
+<div class="qa"><div class="q">2. Explain val vs var.</div>
+    <div class="a">val is immutable (read-only), var is mutable.</div></div>
+
+<div class="qa"><div class="q">3. What are coroutines?</div>
+    <div class="a">Lightweight threads used for asynchronous programming.</div></div>
+
+<div class="qa"><div class="q">4. suspend vs normal function?</div>
+    <div class="a">Suspend functions can pause without blocking threads.</div></div>
+
+<div class="qa"><div class="q">5. What is Flow?</div>
+    <div class="a">A stream of asynchronous data that emits multiple values over time.</div></div>
+
+<div class="qa"><div class="q">6. Null safety?</div>
+    <div class="a">Kotlin prevents null pointer exceptions using nullable and non-null types.</div></div>
+
+<h2>Jetpack Compose</h2>
+
+<div class="qa"><div class="q">7. What is Jetpack Compose?</div>
+    <div class="a">Modern declarative UI toolkit for Android.</div></div>
+
+<div class="qa"><div class="q">8. What is recomposition?</div>
+    <div class="a">UI updates when state changes.</div></div>
+
+<div class="qa"><div class="q">9. remember vs mutableStateOf?</div>
+    <div class="a">remember stores state, mutableStateOf makes it observable.</div></div>
+
+<div class="qa"><div class="q">10. LazyColumn?</div>
+    <div class="a">Efficient list that loads items lazily.</div></div>
+
+<div class="qa"><div class="q">11. State hoisting?</div>
+    <div class="a">Moving state to a higher-level component.</div></div>
+
+<div class="qa"><div class="q">12. Side effects?</div>
+    <div class="a">Operations outside UI like API calls using LaunchedEffect.</div></div>
+
+<h2>MVVM & Clean Architecture</h2>
+
+<div class="qa"><div class="q">13. What is MVVM?</div>
+    <div class="a">Separates UI, logic, and data using ViewModel.</div></div>
+
+<div class="qa"><div class="q">14. Role of ViewModel?</div>
+    <div class="a">Holds UI data and survives configuration changes.</div></div>
+
+<div class="qa"><div class="q">15. Clean Architecture?</div>
+    <div class="a">Separates app into layers: UI, Domain, Data.</div></div>
+
+<div class="qa"><div class="q">16. Use case?</div>
+    <div class="a">Represents a single business logic operation.</div></div>
+
+<div class="qa"><div class="q">17. Repository pattern?</div>
+    <div class="a">Abstracts data sources (API, DB).</div></div>
+
+<div class="qa"><div class="q">18. MVVM vs MVP?</div>
+    <div class="a">MVVM uses data binding; MVP uses presenter.</div></div>
+
+<h2>Dependency Injection</h2>
+
+<div class="qa"><div class="q">19. What is DI?</div>
+    <div class="a">Providing dependencies instead of creating them.</div></div>
+
+<div class="qa"><div class="q">20. Why Hilt?</div>
+    <div class="a">Simplifies dependency injection in Android.</div></div>
+
+<div class="qa"><div class="q">21. Dagger vs Hilt?</div>
+    <div class="a">Hilt is built on Dagger but easier to use.</div></div>
+
+<div class="qa"><div class="q">22. Scopes?</div>
+    <div class="a">Define lifecycle of dependencies.</div></div>
+
+<div class="qa"><div class="q">23. Singleton?</div>
+    <div class="a">Single instance throughout app lifecycle.</div></div>
+
+<div class="qa"><div class="q">24. @Inject?</div>
+    <div class="a">Used to request dependency injection.</div></div>
+
+<h2>Room Database</h2>
+
+<div class="qa"><div class="q">25. What is Room?</div>
+    <div class="a">SQLite abstraction library.</div></div>
+
+<div class="qa"><div class="q">26. Entity?</div>
+    <div class="a">Represents table in database.</div></div>
+
+<div class="qa"><div class="q">27. DAO?</div>
+    <div class="a">Handles database operations.</div></div>
+
+<div class="qa"><div class="q">28. Migration?</div>
+    <div class="a">Handles schema updates without data loss.</div></div>
+
+<div class="qa"><div class="q">29. Room vs SQLite?</div>
+    <div class="a">Room is easier and safer.</div></div>
+
+<div class="qa"><div class="q">30. Flow with Room?</div>
+    <div class="a">Observe real-time database changes.</div></div>
+
+<h2>Testing</h2>
+
+<div class="qa"><div class="q">31. Unit testing?</div>
+    <div class="a">Testing individual components.</div></div>
+
+<div class="qa"><div class="q">32. Integration testing?</div>
+    <div class="a">Testing combined components.</div></div>
+
+<div class="qa"><div class="q">33. Mockito?</div>
+    <div class="a">Mock dependencies in tests.</div></div>
+
+<div class="qa"><div class="q">34. Robolectric?</div>
+    <div class="a">Runs Android tests on JVM.</div></div>
+
+<div class="qa"><div class="q">35. Test ViewModel?</div>
+    <div class="a">Mock repository and verify outputs.</div></div>
+
+<div class="qa"><div class="q">36. Mocking?</div>
+    <div class="a">Simulating real objects.</div></div>
+
+<h2>Git</h2>
+
+<div class="qa"><div class="q">37. What is Git?</div>
+    <div class="a">Version control system.</div></div>
+
+<div class="qa"><div class="q">38. Merge vs Rebase?</div>
+    <div class="a">Merge keeps history; rebase rewrites it.</div></div>
+
+<div class="qa"><div class="q">39. Branching strategy?</div>
+    <div class="a">Method to manage branches (feature, develop).</div></div>
+
+<div class="qa"><div class="q">40. Pull request?</div>
+    <div class="a">Request to merge code.</div></div>
+
+<div class="qa"><div class="q">41. Merge conflicts?</div>
+    <div class="a">Resolve code differences manually.</div></div>
+
+<h2>IoT / BLE</h2>
+
+<div class="qa"><div class="q">42. What is BLE?</div>
+    <div class="a">Low-energy Bluetooth communication.</div></div>
+
+<div class="qa"><div class="q">43. Bluetooth vs BLE?</div>
+    <div class="a">BLE uses less power.</div></div>
+
+<div class="qa"><div class="q">44. BLE lifecycle?</div>
+    <div class="a">Scan → Connect → Discover → Communicate.</div></div>
+
+<div class="qa"><div class="q">45. GATT?</div>
+    <div class="a">Defines BLE data structure.</div></div>
+
+<div class="qa"><div class="q">46. Scan devices?</div>
+    <div class="a">Using BluetoothLeScanner.</div></div>
+
+<div class="qa"><div class="q">47. Handle disconnect?</div>
+    <div class="a">Retry or notify user.</div></div>
+
+<div class="qa"><div class="q">48. Permissions?</div>
+    <div class="a">Bluetooth + Location (Android 12+ specific permissions).</div></div>
+
+<div class="qa"><div class="q">49. Battery optimization?</div>
+    <div class="a">Reduce scan frequency.</div></div>
+
+<div class="qa"><div class="q">50. BLE use case?</div>
+    <div class="a">Fitness trackers, smart devices.</div></div>
+
+</body>
+</html>

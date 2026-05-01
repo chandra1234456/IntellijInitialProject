@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Top 50 Advanced Android Interview Q&A</title>
+    <style>
+        body { font-family: Arial; line-height: 1.7; margin: 20px; }
+        h1, h2 { color: #2c3e50; }
+        .qa { margin-bottom: 22px; }
+        .q { font-weight: bold; }
+        .a { margin-top: 6px; }
+        pre { background: #f4f4f4; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>Top 50 Android Interview Questions & Answers</h1>
+
+<h2>Kotlin</h2>
+
+<div class="qa">
+    <div class="q">1. Difference between val and var?</div>
+    <div class="a">
+        val is immutable (read-only reference), var is mutable.
+        Use val by default for safer code and immutability.
+    </div></div>
+
+<div class="qa">
+    <div class="q">2. What are coroutines?</div>
+    <div class="a">
+        Coroutines are lightweight threads used for async tasks.
+        They avoid blocking the main thread and are lifecycle-aware.
+
+        <pre>
+viewModelScope.launch {
+   val data = repo.getData()
+}
+</pre>
+    </div></div>
+
+<div class="qa">
+    <div class="q">3. suspend function?</div>
+    <div class="a">
+        A function that can pause and resume without blocking a thread.
+    </div></div>
+
+<div class="qa">
+    <div class="q">4. What is Flow?</div>
+    <div class="a">
+        Cold async stream emitting multiple values. Works well with Room and APIs.
+    </div></div>
+
+<div class="qa">
+    <div class="q">5. Null safety?</div>
+    <div class="a">
+        Kotlin avoids NullPointerException using nullable (?) and safe calls.
+    </div></div>
+
+<div class="qa">
+    <div class="q">6. Extension functions?</div>
+    <div class="a">
+        Allow adding functions to existing classes without modifying them.
+    </div></div>
+
+<h2>Jetpack Compose</h2>
+
+<div class="qa">
+    <div class="q">7. What is Compose?</div>
+    <div class="a">
+        Declarative UI toolkit where UI updates automatically based on state.
+    </div></div>
+
+<div class="qa">
+    <div class="q">8. Recomposition?</div>
+    <div class="a">
+        UI redraw triggered when state changes. Only affected parts update.
+    </div></div>
+
+<div class="qa">
+    <div class="q">9. remember?</div>
+    <div class="a">
+        Stores state across recompositions.
+    </div></div>
+
+<div class="qa">
+    <div class="q">10. mutableStateOf?</div>
+    <div class="a">
+        Creates observable state that triggers recomposition.
+    </div></div>
+
+<div class="qa">
+    <div class="q">11. LazyColumn?</div>
+    <div class="a">
+        Efficient scrolling list (like RecyclerView).
+    </div></div>
+
+<div class="qa">
+    <div class="q">12. State hoisting?</div>
+    <div class="a">
+        Move state to parent to make UI reusable and testable.
+    </div></div>
+
+<h2>MVVM + Clean Architecture</h2>
+
+<div class="qa">
+    <div class="q">13. MVVM?</div>
+    <div class="a">
+        Separates UI (View), logic (ViewModel), data (Model).
+    </div></div>
+
+<div class="qa">
+    <div class="q">14. ViewModel role?</div>
+    <div class="a">
+        Holds UI state and survives configuration changes.
+    </div></div>
+
+<div class="qa">
+    <div class="q">15. Clean Architecture?</div>
+    <div class="a">
+        Layers:
+        - UI
+        - Domain (business logic)
+        - Data
+    </div></div>
+
+<div class="qa">
+    <div class="q">16. UseCase?</div>
+    <div class="a">
+        Encapsulates a single business rule.
+    </div></div>
+
+<div class="qa">
+    <div class="q">17. Repository?</div>
+    <div class="a">
+        Abstracts data sources (API + DB).
+    </div></div>
+
+<div class="qa">
+    <div class="q">18. MVVM vs MVP?</div>
+    <div class="a">
+        MVVM uses reactive state; MVP uses manual callbacks.
+    </div></div>
+
+<h2>Dependency Injection</h2>
+
+<div class="qa">
+    <div class="q">19. DI?</div>
+    <div class="a">
+        Inject dependencies instead of creating them manually.
+    </div></div>
+
+<div class="qa">
+    <div class="q">20. Hilt?</div>
+    <div class="a">
+        Simplified DI framework built on Dagger.
+    </div></div>
+
+<div class="qa">
+    <div class="q">21. Dagger vs Hilt?</div>
+    <div class="a">
+        Hilt reduces boilerplate and integrates with Android lifecycle.
+    </div></div>
+
+<div class="qa">
+    <div class="q">22. Scope?</div>
+    <div class="a">
+        Defines lifecycle of dependency.
+    </div></div>
+
+<div class="qa">
+    <div class="q">23. Singleton?</div>
+    <div class="a">
+        One instance for entire app lifecycle.
+    </div></div>
+
+<div class="qa">
+    <div class="q">24. @Inject?</div>
+    <div class="a">
+        Requests dependency injection.
+    </div></div>
+
+<h2>Room</h2>
+
+<div class="qa">
+    <div class="q">25. Room?</div>
+    <div class="a">
+        SQLite abstraction with compile-time safety.
+    </div></div>
+
+<div class="qa">
+    <div class="q">26. Entity?</div>
+    <div class="a">
+        Represents DB table.
+    </div></div>
+
+<div class="qa">
+    <div class="q">27. DAO?</div>
+    <div class="a">
+        Handles DB queries.
+    </div></div>
+
+<div class="qa">
+    <div class="q">28. Migration?</div>
+    <div class="a">
+        Handles schema changes without losing data.
+    </div></div>
+
+<div class="qa">
+    <div class="q">29. Room vs SQLite?</div>
+    <div class="a">
+        Room is safer and easier.
+    </div></div>
+
+<div class="qa">
+    <div class="q">30. Flow with Room?</div>
+    <div class="a">
+        Observes real-time DB changes.
+    </div></div>
+
+<h2>Testing</h2>
+
+<div class="qa">
+    <div class="q">31. Unit testing?</div>
+    <div class="a">
+        Test individual components in isolation.
+    </div></div>
+
+<div class="qa">
+    <div class="q">32. Integration testing?</div>
+    <div class="a">
+        Test multiple components together.
+    </div></div>
+
+<div class="qa">
+    <div class="q">33. Mockito?</div>
+    <div class="a">
+        Mock dependencies.
+    </div></div>
+
+<div class="qa">
+    <div class="q">34. Robolectric?</div>
+    <div class="a">
+        Run Android tests on JVM without emulator.
+    </div></div>
+
+<div class="qa">
+    <div class="q">35. Test ViewModel?</div>
+    <div class="a">
+        Mock repo and verify state output.
+    </div></div>
+
+<div class="qa">
+    <div class="q">36. Mocking?</div>
+    <div class="a">
+        Simulate real objects in tests.
+    </div></div>
+
+<h2>Git</h2>
+
+<div class="qa">
+    <div class="q">37. Git?</div>
+    <div class="a">
+        Distributed version control system.
+    </div></div>
+
+<div class="qa">
+    <div class="q">38. Merge vs Rebase?</div>
+    <div class="a">
+        Merge keeps history; rebase rewrites history.
+    </div></div>
+
+<div class="qa">
+    <div class="q">39. Branching?</div>
+    <div class="a">
+        Feature-based workflow.
+    </div></div>
+
+<div class="qa">
+    <div class="q">40. Pull request?</div>
+    <div class="a">
+        Request to merge code after review.
+    </div></div>
+
+<div class="qa">
+    <div class="q">41. Conflict?</div>
+    <div class="a">
+        Resolve manually when changes overlap.
+    </div></div>
+
+<h2>IoT / BLE</h2>
+
+<div class="qa">
+    <div class="q">42. BLE?</div>
+    <div class="a">
+        Low-power Bluetooth communication.
+    </div></div>
+
+<div class="qa">
+    <div class="q">43. BLE lifecycle?</div>
+    <div class="a">
+        Scan → Connect → Discover → Communicate.
+    </div></div>
+
+<div class="qa">
+    <div class="q">44. GATT?</div>
+    <div class="a">
+        Defines BLE services & characteristics.
+    </div></div>
+
+<div class="qa">
+    <div class="q">45. Scan?</div>
+    <div class="a">
+        Use BluetoothLeScanner API.
+    </div></div>
+
+<div class="qa">
+    <div class="q">46. Disconnect handling?</div>
+    <div class="a">
+        Retry with backoff strategy.
+    </div></div>
+
+<div class="qa">
+    <div class="q">47. Permissions?</div>
+    <div class="a">
+        Bluetooth + Location (Android 12+ specific).
+    </div></div>
+
+<div class="qa">
+    <div class="q">48. Battery optimization?</div>
+    <div class="a">
+        Reduce scan intervals.
+    </div></div>
+
+<div class="qa">
+    <div class="q">49. BLE use case?</div>
+    <div class="a">
+        Wearables, smart devices.
+    </div></div>
+
+<div class="qa">
+    <div class="q">50. Biggest BLE challenge?</div>
+    <div class="a">
+        Unstable connections and device fragmentation.
+    </div></div>
+
+</body>
+</html>
