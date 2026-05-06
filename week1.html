@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotlin Interview Prep</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background: #f4f6f8;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .section {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        code {
+            background: #eee;
+            padding: 4px 6px;
+            border-radius: 4px;
+            display: block;
+            margin: 5px 0;
+            white-space: pre-wrap;
+        }
+        .question {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Kotlin Interview Questions & Answers</h1>
+
+<div class="section">
+    <h2>Null Safety</h2>
+    <div class="question">Q1: What does ?.let do?</div>
+    <p>Executes block only if value is non-null.</p>
+    <code>
+        val name: String? = "Kotlin"
+        name?.let {
+        println(it.length)
+        } </code>
+
+    <div class="question">Q2: Elvis operator ?: ?</div>
+    <code>
+
+
+        val len = name?.length ?: 0 </code>
+
+
+    <div class="question">Q3: What is !! ?</div>
+    <p>Forces non-null, may throw NullPointerException.</p>
+
+    <div class="question">Q4: requireNotNull vs !!</div>
+    <code>
+
+
+        requireNotNull(name) { "Cannot be null" } </code>
+
+</div>
+
+<div class="section">
+    <h2>Data Classes</h2>
+
+
+    <div class="question">Q5: copy()?</div>
+    <code>
+
+
+        val u2 = u1.copy(age = 25) </code>
+
+
+    <div class="question">Q6: equals/hashCode?</div>
+    <p>Based only on constructor properties.</p>
+
+    <div class="question">Q7: componentN()?</div>
+    <code>
+
+
+        val (name, age) = user </code>
+
+</div>
+
+<div class="section">
+    <h2>Sealed vs Enum vs Interface</h2>
+    <p><b>Enum:</b> Fixed constants</p>
+    <p><b>Sealed:</b> Restricted class hierarchy</p>
+    <p><b>Interface:</b> Flexible contracts</p>
+</div>
+
+<div class="section">
+    <h2>Extension Functions</h2>
+
+
+    <div class="question">Q8: How compiled?</div>
+    <p>Compiled as static functions.</p>
+
+    <div class="question">Q9: Access private members?</div>
+    <p>No.</p>
+
+
+</div>
+
+<div class="section">
+    <h2>Inline & Reified</h2>
+
+
+    <div class="question">Q10: Inline function?</div>
+    <p>Copies function body at call site.</p>
+
+    <div class="question">Q11: Reified?</div>
+    <code>
+
+
+        inline fun
+        <reified T> check(value: Any) {
+            if (value is T) println("Yes")
+            }
+    </code>
+
+
+    <div class="question">Q12: noinline?</div>
+    <p>Prevents lambda from being inlined.</p>
+
+
+</div>
+
+<div class="section">
+    <h2>Delegation</h2>
+
+
+    <div class="question">Q13: by lazy</div>
+    <code>
+
+
+        val value by lazy { 10 } </code>
+
+
+    <div class="question">Q14: observable</div>
+    <code>
+
+
+        var name by Delegates.observable("A") { _, old, new ->
+        println("$old -> $new")
+        } </code>
+
+</div>
+
+<div class="section">
+    <h2>Destructuring & Operators</h2>
+
+
+    <div class="question">Q15: Destructuring?</div>
+    <code>
+
+
+        val (name, age) = user </code>
+
+
+    <div class="question">Q16: Operator overloading?</div>
+    <code>
+
+
+        operator fun Int.plus(other: Int): Int {
+        return this + other
+        } </code>
+
+</div>
+
+<div class="section">
+    <h2>Object & Companion</h2>
+
+
+    <div class="question">Q17: Object?</div>
+    <code>
+
+
+        object Database {
+        fun connect() {}
+        } </code>
+
+
+    <div class="question">Q18: Companion object?</div>
+    <code>
+
+
+        class MyClass {
+        companion object {
+        fun create() = MyClass()
+        }
+        } </code>
+
+</div>
+
+</body>
+</html>
