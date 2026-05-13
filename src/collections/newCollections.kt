@@ -10,7 +10,6 @@ fun three(){
     val numbers = listOf(1, 2, 2, 3, 3, 3, 4)
     val numbersWords = numbers.groupBy { it.countOneBits() }
     println(numbersWords)
-
 }
 fun two(){
     val words = listOf("apple", "banana", "kiwi", "avocado", "cherry")

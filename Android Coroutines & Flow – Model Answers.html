@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android Coroutines & Flow – Model Answers</title>
+    <style>
+        body { font-family: Arial; padding: 20px; line-height: 1.6 }
+        h1 { color: #2c3e50 }
+        h2 { color: #34495e; margin-top: 30px }
+        .qa { margin-bottom: 20px }
+        .answer { background: #f4f6f7; padding: 12px; border-left: 4px solid #27ae60 }
+        code { background: #eee; padding: 2px 4px }
+    </style>
+</head>
+<body>
+
+<h1>Android Coroutines, Flow & Architecture – Model Answers</h1>
+
+<h2>Section 1: Coroutines & API Calls</h2>
+
+<div class="qa">
+    <b>Q1. Parallel API calls?</b>
+    <div class="answer">
+        Independent API calls should run in parallel using <code>async</code>.
+        <br><br>
+        <code>
+            coroutineScope {<br>
+            &nbsp;&nbsp;val user = async { getUser() }<br>
+            &nbsp;&nbsp;val orders = async { getOrders() }<br>
+            &nbsp;&nbsp;val notifications = async { getNotifications() }<br>
+            }
+        </code>
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q2. Sequential execution?</b>
+    <div class="answer">
+        Call APIs one after another when there is dependency.
+        <br><br>
+        <code>
+            val token = login()<br>
+            val profile = fetchProfile(token)
+        </code>
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q3. Why withContext instead of launch?</b>
+    <div class="answer">
+        <code>withContext</code> switches thread without creating a new coroutine.
+        It preserves structured concurrency and allows returning a result.
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q4. What if one async fails?</b>
+    <div class="answer">
+        In <code>coroutineScope</code>, if one async fails, all siblings are cancelled.
+        This ensures consistency and avoids partial results.
+    </div>
+</div>
+
+<h2>Section 2: Dispatcher & Scope</h2>
+
+<div class="qa">
+    <b>Q5. API call in viewModelScope without dispatcher?</b>
+    <div class="answer">
+        Runs on <code>Dispatchers.Main</code>.
+        Risk: UI freeze / ANR.
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q6. When to use SupervisorJob?</b>
+    <div class="answer">
+        When child coroutines should fail independently.
+        Example: parallel analytics uploads.
+    </div>
+</div>
+
+<h2>Section 3: Flow, StateFlow, SharedFlow</h2>
+
+<div class="qa">
+    <b>Q7. Why StateFlow for UI?</b>
+    <div class="answer">
+        StateFlow always holds the latest value and is lifecycle-friendly.
+        UI can re-render safely after configuration changes.
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q8. Navigation event triggered twice?</b>
+    <div class="answer">
+        Use <code>SharedFlow</code> because navigation is a one-time event,
+        not UI state.
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q9. Cold vs Hot Flow?</b>
+    <div class="answer">
+        Cold Flow starts when collected (Flow builder).
+        Hot Flow emits regardless of collectors (StateFlow, SharedFlow).
+    </div>
+</div>
+
+<h2>Section 4: Database + Coroutines</h2>
+
+<div class="qa">
+    <b>Q10. Dispatcher for DB insert?</b>
+    <div class="answer">
+        <code>Dispatchers.IO</code> because database operations are blocking I/O tasks.
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q11. Expose Room DB to UI?</b>
+    <div class="answer">
+        Use Room DAO returning Flow.
+        <br><br>
+        <code>
+            @Query("SELECT * FROM events")<br>
+            fun getEvents(): Flow&lt;List&lt;Event&gt;&gt;
+        </code>
+    </div>
+</div>
+
+<h2>Section 5: Analytics Scenario</h2>
+
+<div class="qa">
+    <b>Q12. Offline analytics design?</b>
+    <div class="answer">
+        Save events in Room DB using IO dispatcher.
+        Sync events using WorkManager + coroutines when network is available.
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q13. Why IO dispatcher for analytics?</b>
+    <div class="answer">
+        Analytics involves disk writes and network calls which are blocking operations.
+    </div>
+</div>
+
+<h2>Section 6: Lifecycle & Cancellation</h2>
+
+<div class="qa">
+    <b>Q14. API continues after Activity destroyed?</b>
+    <div class="answer">
+        Used wrong scope (GlobalScope or custom scope).
+        Fix: use <code>lifecycleScope</code> or <code>viewModelScope</code>.
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q15. Why repeatOnLifecycle?</b>
+    <div class="answer">
+        It automatically starts and stops Flow collection based on lifecycle state,
+        preventing memory leaks.
+    </div>
+</div>
+
+<h2>Section 7: Debugging & Tricky</h2>
+
+<div class="qa">
+    <b>Q16. Job cancelled but still running?</b>
+    <div class="answer">
+        Blocking code like <code>Thread.sleep()</code> or no suspension points.
+        Coroutines are cooperative.
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q17. Cancellation vs Exception?</b>
+    <div class="answer">
+        Cancellation is normal lifecycle behavior.
+        Exceptions indicate failure and cancel parent coroutines.
+    </div>
+</div>
+
+<h2>Final Round</h2>
+
+<div class="qa">
+    <b>Q18. End-to-end flow explanation?</b>
+    <div class="answer">
+        UI triggers ViewModel → API call on IO → save to DB →
+        DB exposes Flow → UI collects StateFlow.
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q19. Common ANR mistakes?</b>
+    <div class="answer">
+        Network on Main thread, heavy work on IO instead of Default,
+        using runBlocking on UI thread.
+    </div>
+</div>
+
+<div class="qa">
+    <b>Q20. Explain coroutines to junior?</b>
+    <div class="answer">
+        Coroutines allow writing async code like normal code,
+        without blocking threads, safely tied to lifecycle.
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SOLID Principles in Android Kotlin</title>
+
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          line-height: 1.7;
+          margin: 0;
+          padding: 20px;
+          background: #f5f7fb;
+          color: #222;
+        }
+
+        .container {
+          max-width: 1000px;
+          margin: auto;
+          background: white;
+          padding: 30px;
+          border-radius: 12px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+          text-align: center;
+          color: #1565c0;
+        }
+
+        h2 {
+          margin-top: 40px;
+          color: #0d47a1;
+          border-bottom: 2px solid #e3f2fd;
+          padding-bottom: 8px;
+        }
+
+        .card {
+          margin-top: 20px;
+          padding: 20px;
+          border-radius: 10px;
+        }
+
+        .bad {
+          background: #ffebee;
+          border-left: 6px solid #e53935;
+        }
+
+        .good {
+          background: #e8f5e9;
+          border-left: 6px solid #43a047;
+        }
+
+        pre {
+          background: #1e1e1e;
+          color: #dcdcdc;
+          padding: 15px;
+          border-radius: 8px;
+          overflow-x: auto;
+        }
+
+        code {
+          font-family: Consolas, monospace;
+        }
+
+        .summary {
+          background: #e3f2fd;
+          padding: 20px;
+          border-radius: 10px;
+          margin-top: 40px;
+        }
+
+        ul {
+          padding-left: 20px;
+        }
+
+        .emoji {
+          font-size: 22px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>SOLID Principles in Android Kotlin</h1>
+
+    <!-- SRP -->
+    <h2>1. Single Responsibility Principle (SRP)</h2>
+    <p>A class should have only one responsibility.</p>
+
+    <div class="card bad">
+        <h3>❌ Bad Example</h3>
+        <pre><code>class UserManager {
+
+    fun saveUser(user: User) {
+        // Save to database
+    }
+
+    fun validateUser(user: User): Boolean {
+        return user.name.isNotEmpty()
+    }
+
+    fun sendEmail(user: User) {
+        // Send email
+    }
+}</code></pre>
+    </div>
+
+    <div class="card good">
+        <h3>✅ Good Example</h3>
+        <pre><code>class UserValidator {
+    fun validate(user: User): Boolean {
+        return user.name.isNotEmpty()
+    }
+}
+
+class UserRepository {
+    fun save(user: User) {
+        // Save user
+    }
+}
+
+class EmailService {
+    fun send(user: User) {
+        // Send email
+    }
+}</code></pre>
+    </div>
+
+    <!-- OCP -->
+    <h2>2. Open/Closed Principle (OCP)</h2>
+    <p>Open for extension, closed for modification.</p>
+
+    <div class="card bad">
+        <h3>❌ Bad Example</h3>
+        <pre><code>class DiscountCalculator {
+
+    fun calculate(type: String): Double {
+        return when(type) {
+            "Regular" -> 10.0
+            "Premium" -> 20.0
+            else -> 0.0
+        }
+    }
+}</code></pre>
+    </div>
+
+    <div class="card good">
+        <h3>✅ Good Example</h3>
+        <pre><code>interface Discount {
+    fun calculate(): Double
+}
+
+class RegularDiscount : Discount {
+    override fun calculate() = 10.0
+}
+
+class PremiumDiscount : Discount {
+    override fun calculate() = 20.0
+}</code></pre>
+    </div>
+
+    <!-- LSP -->
+    <h2>3. Liskov Substitution Principle (LSP)</h2>
+    <p>Subclasses should replace parent classes without breaking behavior.</p>
+
+    <div class="card bad">
+        <h3>❌ Bad Example</h3>
+        <pre><code>open class Bird {
+    open fun fly() {}
+}
+
+class Penguin : Bird() {
+    override fun fly() {
+        throw Exception("Penguins can't fly")
+    }
+}</code></pre>
+    </div>
+
+    <div class="card good">
+        <h3>✅ Good Example</h3>
+        <pre><code>interface Bird
+
+interface FlyingBird {
+    fun fly()
+}
+
+class Sparrow : Bird, FlyingBird {
+    override fun fly() {
+        println("Flying")
+    }
+}
+
+class Penguin : Bird</code></pre>
+    </div>
+
+    <!-- ISP -->
+    <h2>4. Interface Segregation Principle (ISP)</h2>
+    <p>Clients should not depend on methods they don't use.</p>
+
+    <div class="card bad">
+        <h3>❌ Bad Example</h3>
+        <pre><code>interface Worker {
+    fun work()
+    fun eat()
+}
+
+class Robot : Worker {
+    override fun work() {}
+
+    override fun eat() {
+        // Robots don't eat
+    }
+}</code></pre>
+    </div>
+
+    <div class="card good">
+        <h3>✅ Good Example</h3>
+        <pre><code>interface Workable {
+    fun work()
+}
+
+interface Eatable {
+    fun eat()
+}
+
+class Human : Workable, Eatable {
+
+    override fun work() {}
+
+    override fun eat() {}
+}
+
+class Robot : Workable {
+
+    override fun work() {}
+}</code></pre>
+    </div>
+
+    <!-- DIP -->
+    <h2>5. Dependency Inversion Principle (DIP)</h2>
+    <p>Depend on abstractions, not concrete implementations.</p>
+
+    <div class="card bad">
+        <h3>❌ Bad Example</h3>
+        <pre><code>class UserViewModel {
+
+    private val repository = UserRepository()
+
+    fun loadUsers() {
+        repository.getUsers()
+    }
+}</code></pre>
+    </div>
+
+    <div class="card good">
+        <h3>✅ Good Example</h3>
+        <pre><code>interface UserRepository {
+    fun getUsers()
+}
+
+class UserRepositoryImpl : UserRepository {
+
+    override fun getUsers() {
+        // API call
+    }
+}
+
+class UserViewModel(
+    private val repository: UserRepository
+) {
+
+    fun loadUsers() {
+        repository.getUsers()
+    }
+}</code></pre>
+    </div>
+
+    <!-- Hilt -->
+    <h2>Dependency Injection with Hilt</h2>
+
+    <div class="card good">
+    <pre><code>@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
+
+    @Provides
+    fun provideRepository(): UserRepository {
+        return UserRepositoryImpl()
+    }
+}</code></pre>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary">
+        <h2>📌 SOLID Summary</h2>
+
+        <ul>
+            <li><strong>S</strong> → Single Responsibility Principle</li>
+            <li><strong>O</strong> → Open/Closed Principle</li>
+            <li><strong>L</strong> → Liskov Substitution Principle</li>
+            <li><strong>I</strong> → Interface Segregation Principle</li>
+            <li><strong>D</strong> → Dependency Inversion Principle</li>
+        </ul>
+
+        <h3>Benefits in Android Development</h3>
+
+        <ul>
+            <li>✅ Cleaner Architecture</li>
+            <li>✅ Easier Unit Testing</li>
+            <li>✅ Better Scalability</li>
+            <li>✅ Reusable Components</li>
+            <li>✅ Maintainable Codebase</li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>

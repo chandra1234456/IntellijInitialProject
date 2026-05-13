@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Android Coroutines & Flow Interview Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; line-height: 1.6 }
+        h1 { color: #2c3e50 }
+        h2 { color: #34495e }
+        .question { margin-bottom: 20px }
+        .scenario { background: #f4f6f7; padding: 10px; border-left: 4px solid #3498db }
+    </style>
+</head>
+<body>
+
+<h1>Android Coroutines, Flow & Architecture – Interview Test</h1>
+
+<h2>Section 1: Coroutines & API Calls</h2>
+
+<div class="question">
+    <div class="scenario">
+        You have 3 API calls:
+        1. getUser()
+        2. getOrders()
+        3. getNotifications()
+    </div>
+    <p><b>Q1.</b> Which calls can run in parallel and how would you implement this using coroutines?</p>
+</div>
+
+<div class="question">
+    <div class="scenario">
+        API A depends on API B response.
+    </div>
+    <p><b>Q2.</b> How will you ensure sequential execution using coroutines?</p>
+</div>
+
+<div class="question">
+    <p><b>Q3.</b> Why is <code>withContext</code> preferred over launching a new coroutine for dispatcher switching?</p>
+</div>
+
+<div class="question">
+    <p><b>Q4.</b> What happens if one API fails when using <code>async</code> inside <code>coroutineScope</code>?</p>
+</div>
+
+<h2>Section 2: Dispatcher & Scope Scenarios</h2>
+
+<div class="question">
+    <div class="scenario">
+        API call is made inside viewModelScope without dispatcher.
+    </div>
+    <p><b>Q5.</b> Which thread does it run on and what is the risk?</p>
+</div>
+
+<div class="question">
+    <p><b>Q6.</b> When should you use <code>SupervisorJob</code>?</p>
+</div>
+
+<h2>Section 3: Flow vs StateFlow vs SharedFlow</h2>
+
+<div class="question">
+    <p><b>Q7.</b> Why should UI state always be exposed as <code>StateFlow</code>?</p>
+</div>
+
+<div class="question">
+    <div class="scenario">
+        Navigation event is triggered twice on screen rotation.
+    </div>
+    <p><b>Q8.</b> Which Flow type should be used and why?</p>
+</div>
+
+<div class="question">
+    <p><b>Q9.</b> Difference between cold Flow and hot Flow with examples.</p>
+</div>
+
+<h2>Section 4: Database + Coroutines</h2>
+
+<div class="question">
+    <div class="scenario">
+        You fetch data from API and save to Room DB.
+    </div>
+    <p><b>Q10.</b> On which dispatcher should DB insert happen and why?</p>
+</div>
+
+<div class="question">
+    <p><b>Q11.</b> How do you expose Room DB updates to UI using Flow?</p>
+</div>
+
+<h2>Section 5: Analytics (Real-World Scenario)</h2>
+
+<div class="question">
+    <div class="scenario">
+        You are building a simple offline analytics system.
+        Events should be stored locally and uploaded later.
+    </div>
+    <p><b>Q12.</b> How would you design this using coroutines + DB?</p>
+</div>
+
+<div class="question">
+    <p><b>Q13.</b> Why should analytics events be processed using <code>Dispatchers.IO</code>?</p>
+</div>
+
+<h2>Section 6: Lifecycle & Cancellation</h2>
+
+<div class="question">
+    <div class="scenario">
+        API call continues after Activity is destroyed.
+    </div>
+    <p><b>Q14.</b> What went wrong and how do you fix it?</p>
+</div>
+
+<div class="question">
+    <p><b>Q15.</b> Why is <code>repeatOnLifecycle</code> preferred when collecting Flow?</p>
+</div>
+
+<h2>Section 7: Tricky Debugging</h2>
+
+<div class="question">
+    <div class="scenario">
+        Job is cancelled but coroutine keeps running.
+    </div>
+    <p><b>Q16.</b> What could be the reason?</p>
+</div>
+
+<div class="question">
+    <p><b>Q17.</b> Difference between cancellation and exception in coroutines?</p>
+</div>
+
+<h2>Final Round</h2>
+
+<div class="question">
+    <p><b>Q18.</b> Explain a complete flow: UI → ViewModel → API → DB → UI using coroutines and Flow.</p>
+</div>
+
+<div class="question">
+    <p><b>Q19.</b> Common coroutine mistakes that cause ANR.</p>
+</div>
+
+<div class="question">
+    <p><b>Q20.</b> If you had to explain coroutines to a junior developer, how would you do it?</p>
+</div>
+
+</body>
+</html>
