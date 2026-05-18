@@ -2,412 +2,333 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Kotlin Coroutines Interview Questions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotlin Coroutines - Complete Interview Q&A</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f5f7fc;
+            margin: 0;
+            padding: 24px 20px;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            padding: 32px 36px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #1E2A5E, #3b4b8e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            border-left: 6px solid #3b82f6;
+            padding-left: 20px;
+            margin-top: 0;
+        }
+        h2 {
+            margin-top: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #e2e8f0;
+            color: #0f172a;
+            font-weight: 600;
+        }
+        h3 {
+            color: #1e293b;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+        .qa-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .qa-list li {
+            background: #f8fafc;
+            margin: 12px 0;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #3b82f6;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+        .qa-list li strong {
+            color: #0f3b6a;
+            font-size: 1.05rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .answer {
+            color: #2d3a4e;
+            margin-top: 8px;
+            padding-left: 12px;
+            border-left: 2px solid #cbd5e1;
+        }
+        code {
+            background: #eef2ff;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #1e40af;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin: 1.2rem 0;
+        }
+        th {
+            background-color: #eef2ff;
+            text-align: left;
+            padding: 12px 16px;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .box {
+            background: #eef2ff;
+            padding: 16px 20px;
+            border-radius: 24px;
+            margin: 20px 0;
+            border: 1px solid #cbdffc;
+        }
+        .qa {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 14px 20px;
+            margin: 16px 0;
+        }
+        .scenario {
+            background: #fff7ed;
+            border-left: 6px solid #f97316;
+            padding: 16px 20px;
+            margin: 18px 0;
+            border-radius: 20px;
+        }
+        .fix {
+            background: #e6f7ec;
+            padding: 10px 15px;
+            border-radius: 16px;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+        .memory, .one-liner {
+            background: #1e293b;
+            color: #f1f5f9;
+            padding: 18px 24px;
+            border-radius: 28px;
+            font-weight: 500;
+            margin-top: 24px;
+        }
+        .rapid {
+            background: #f1f5f9;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-family: monospace;
+        }
+        .bonus {
+            background: #fef9c3;
+            border-radius: 20px;
+            padding: 16px 20px;
+            margin-top: 16px;
+        }
+        hr {
+            margin: 32px 0;
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, #cbd5e1, transparent);
+        }
+        .danger {
+            background: #fee2e2;
+            font-weight: bold;
+            color: #b91c1c;
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 20px 16px;
+            }
+            td, th {
+                padding: 8px 10px;
+            }
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <h1>🧠 Kotlin Coroutines – Complete Interview Q&A</h1>
+    <p style="font-size: 1.05rem; margin-bottom: 2rem;">All questions from the original document — answered in depth, with practical insights.</p>
 
-<h1>Kotlin Coroutines – Interview Questions</h1>
-
-<h2>Basics</h2>
-<ul>
-    <li>What are coroutines in Kotlin?</li>
-    <li>How are coroutines different from threads?</li>
-    <li>What problem do coroutines solve?</li>
-    <li>What is a suspending function?</li>
-    <li>Is <code>suspend fun</code> a coroutine? Explain.</li>
-</ul>
-
-<h2>Coroutine Builders</h2>
-<ul>
-    <li>What is <code>launch</code>?</li>
-    <li>What is <code>async</code>?</li>
-    <li>Difference between <code>launch</code> and <code>async</code>?</li>
-    <li>What is <code>runBlocking</code> and when should it be used?</li>
-</ul>
-
-<h2>Coroutine Scope & Context</h2>
-<ul>
-    <li>What is <code>CoroutineScope</code>?</li>
-    <li>What is <code>CoroutineContext</code>?</li>
-    <li>What is a Dispatcher?</li>
-    <li>Difference between <code>Dispatchers.Main</code>, <code>IO</code>, and <code>Default</code>?</li>
-    <li>What happens if no dispatcher is specified?</li>
-</ul>
-
-<h2>Suspension & Cancellation</h2>
-<ul>
-    <li>What does suspension mean in coroutines?</li>
-    <li>How does <code>delay()</code> work internally?</li>
-    <li>How do you cancel a coroutine?</li>
-    <li>What is cooperative cancellation?</li>
-    <li>What is <code>isActive</code>?</li>
-</ul>
-
-<h2>Exception Handling</h2>
-<ul>
-    <li>How are exceptions handled in coroutines?</li>
-    <li>Difference between exception handling in <code>launch</code> and <code>async</code>?</li>
-    <li>What is <code>CoroutineExceptionHandler</code>?</li>
-    <li>What happens when one coroutine fails?</li>
-</ul>
-
-<h2>Structured Concurrency</h2>
-<ul>
-    <li>What is structured concurrency?</li>
-    <li>Why is structured concurrency important?</li>
-    <li>What is a parent-child coroutine relationship?</li>
-    <li>What is <code>supervisorScope</code>?</li>
-</ul>
-
-<h2>Advanced</h2>
-<ul>
-    <li>What are cold vs hot streams?</li>
-    <li>Difference between <code>Flow</code> and <code>Sequence</code>?</li>
-    <li>What is <code>withContext</code>?</li>
-    <li>How do coroutines improve performance?</li>
-    <li>How do coroutines work internally?</li>
-</ul>
-
-<h2>Android-Specific</h2>
-<ul>
-    <li>What is <code>lifecycleScope</code>?</li>
-    <li>What is <code>viewModelScope</code>?</li>
-    <li>Why should coroutines be lifecycle-aware?</li>
-    <li>How do you avoid memory leaks with coroutines?</li>
-</ul>
-
-<h3>🔥 Coroutine Scopes – Interview Summary</h3>
-
-<table>
-    <thead>
-    <tr>
-        <th>Scope</th>
-        <th>Where Used</th>
-        <th>Cancelled When</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>viewModelScope</td>
-        <td>ViewModel</td>
-        <td>onCleared()</td>
-    </tr>
-    <tr>
-        <td>lifecycleScope</td>
-        <td>Activity / Fragment</td>
-        <td>onDestroy()</td>
-    </tr>
-    <tr>
-        <td>repeatOnLifecycle</td>
-        <td>UI + Flow</td>
-        <td>STOPPED</td>
-    </tr>
-    <tr>
-        <td>CoroutineScope()</td>
-        <td>Custom</td>
-        <td>Manual</td>
-    </tr>
-    <tr>
-        <td>runBlocking</td>
-        <td>main / tests</td>
-        <td>Blocking</td>
-    </tr>
-    <tr>
-        <td>coroutineScope</td>
-        <td>suspend fun</td>
-        <td>Children finish</td>
-    </tr>
-    <tr>
-        <td>supervisorScope</td>
-        <td>Parallel tasks</td>
-        <td>Parent</td>
-    </tr>
-    <tr>
-        <td>MainScope()</td>
-        <td>UI classes</td>
-        <td>Manual</td>
-    </tr>
-    <tr>
-        <td class="danger">GlobalScope ❌</td>
-        <td>—</td>
-        <td>Never</td>
-    </tr>
-    </tbody>
-</table>
-<td>—  ---------------------------------------------------------------------------------                                                 -</td>
-
-<div class="box">
-    <strong>withContext</strong> switches dispatcher without launching a new coroutine,
-    suspends the current coroutine, and returns the result once completed.
-</div>
-
-<h3>❓ Common Interview Follow-ups</h3>
-
-<div class="qa">
-    <p><strong>Q:</strong> Does <code>withContext</code> block the thread?</p>
-    <p>✔ No, it suspends the coroutine.</p>
-
-    <p><strong>Q:</strong> When NOT to use <code>withContext</code>?</p>
-    <p>✔ When you need parallel execution → use <code>async</code>.</p>
-
-    <p><strong>Q:</strong> Can we use <code>withContext(Dispatchers.Main)</code>?</p>
-    <p>✔ Yes, to return to the UI thread.</p>
-</div>
-
-<h3>🎯 Quick Rule to Remember</h3>
-
-<table>
-    <thead>
-    <tr>
-        <th>Task</th>
-        <th>Use</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>Thread switching</td>
-        <td><code>withContext</code></td>
-    </tr>
-    <tr>
-        <td>Parallel work</td>
-        <td><code>async</code></td>
-    </tr>
-    <tr>
-        <td>Fire &amp; forget</td>
-        <td><code>launch</code></td>
-    </tr>
-    </tbody>
-</table>
-
-<div class="qa">
-    <strong>1️⃣ What is a Coroutine Dispatcher?</strong><br>
-    A dispatcher decides which thread or thread pool a coroutine runs on.
-</div>
-
-<div class="qa">
-    <strong>2️⃣ How many main dispatchers are there?</strong><br>
-    Four commonly used dispatchers:
-    <ul>
-        <li>Dispatchers.Main</li>
-        <li>Dispatchers.IO</li>
-        <li>Dispatchers.Default</li>
-        <li>Dispatchers.Unconfined (rare)</li>
+    <h2>📘 Basics</h2>
+    <ul class="qa-list">
+        <li><strong>❓ What are coroutines in Kotlin?</strong><div class="answer">Coroutines are lightweight concurrency primitives that allow writing asynchronous, non-blocking code sequentially. They are provided by the Kotlin runtime and suspend execution without blocking threads.</div></li>
+        <li><strong>❓ How are coroutines different from threads?</strong><div class="answer">Threads are OS-level, expensive (memory, context switching). Coroutines are user-level, cheap (can create millions), and they are suspendable — a thread can run many coroutines. Coroutines rely on cooperative multitasking, threads use preemptive.</div></li>
+        <li><strong>❓ What problem do coroutines solve?</strong><div class="answer">Callback hell, thread blocking, resource waste. They simplify async tasks like network calls, database access, UI responsiveness, and structured concurrency.</div></li>
+        <li><strong>❓ What is a suspending function?</strong><div class="answer">A function marked with <code>suspend</code> that can pause execution without blocking the underlying thread. It can only be called from another suspend function or a coroutine builder.</div></li>
+        <li><strong>❓ Is <code>suspend fun</code> a coroutine? Explain.</strong><div class="answer">No. A suspend function is a building block; it needs a coroutine scope or builder to be invoked. The coroutine is the execution context that manages suspension and resumption.</div></li>
     </ul>
-</div>
 
-<div class="qa">
-    <strong>3️⃣ Difference between Dispatchers.IO and Dispatchers.Default?</strong>
+    <h2>🏗️ Coroutine Builders</h2>
+    <ul class="qa-list">
+        <li><strong>❓ What is <code>launch</code>?</strong><div class="answer">Fire-and-forget coroutine builder. Returns a <code>Job</code> and does not return a result. Used for operations where you don't need a return value.</div></li>
+        <li><strong>❓ What is <code>async</code>?</strong><div class="answer">Builder that returns a <code>Deferred<T></code> (a subclass of Job). Used to compute a result asynchronously, call <code>.await()</code> to get the result.</div></li>
+        <li><strong>❓ Difference between <code>launch</code> and <code>async</code>?</strong><div class="answer"><code>launch</code> returns <code>Job</code> for control, no result; <code>async</code> returns <code>Deferred<T></code> which holds a result. Both start coroutines, but <code>async</code> is for parallel decomposition.</div></li>
+        <li><strong>❓ What is <code>runBlocking</code> and when should it be used?</strong><div class="answer">Bridges blocking and suspendable worlds. It blocks the current thread until all coroutines inside complete. Use in <code>main()</code> functions, tests, or rare cases — never in production Android/UI.</div></li>
+    </ul>
+
+    <h2>🎯 Coroutine Scope & Context</h2>
+    <ul class="qa-list">
+        <li><strong>❓ What is <code>CoroutineScope</code>?</strong><div class="answer">Defines a lifecycle for coroutines. Provides methods like <code>launch</code>, <code>async</code> and ensures structured concurrency. Coroutines started within a scope are bound by its lifetime.</div></li>
+        <li><strong>❓ What is <code>CoroutineContext</code>?</strong><div class="answer">A set of elements that define behavior of a coroutine: <code>Job</code>, <code>Dispatcher</code>, <code>CoroutineName</code>, and <code>CoroutineExceptionHandler</code>. Immutable and union of elements.</div></li>
+        <li><strong>❓ What is a Dispatcher?</strong><div class="answer">Determines which thread(s) a coroutine runs on. Part of CoroutineContext. Examples: Main, IO, Default, Unconfined.</div></li>
+        <li><strong>❓ Difference between <code>Dispatchers.Main</code>, <code>IO</code>, and <code>Default</code>?</strong><div class="answer">Main → UI thread (Android/Swing). IO → blocking tasks (network, disk). Default → CPU-intensive work (sorting, parsing). IO has a flexible thread pool, Default uses limited threads equal to CPU cores.</div></li>
+        <li><strong>❓ What happens if no dispatcher is specified?</strong><div class="answer">Inherits dispatcher from outer <code>CoroutineScope</code>. If none, defaults to <code>Dispatchers.Default</code> for coroutine builders like <code>launch/async</code> when no context is present.</div></li>
+    </ul>
+
+    <h2>⏸️ Suspension & Cancellation</h2>
+    <ul class="qa-list">
+        <li><strong>❓ What does suspension mean in coroutines?</strong><div class="answer">Pausing a coroutine without blocking a thread. When suspended, the thread executes other coroutines; later, when ready, the coroutine resumes.</div></li>
+        <li><strong>❓ How does <code>delay()</code> work internally?</strong><div class="answer">Suspend function that schedules a timer and resumes the coroutine after given time without blocking the underlying thread. Uses cancellation-aware sleep.</div></li>
+        <li><strong>❓ How do you cancel a coroutine?</strong><div class="answer">Call <code>job.cancel()</code> or <code>cancel()</code> on the scope. Cancellation is cooperative: coroutine must check for cancellation (suspend functions like delay, yield, or explicit <code>isActive</code>).</div></li>
+        <li><strong>❓ What is cooperative cancellation?</strong><div class="answer">Coroutines do not stop immediately; they must voluntarily respond to cancellation by checking cancellation status or calling suspend functions that throw <code>CancellationException</code>.</div></li>
+        <li><strong>❓ What is <code>isActive</code>?</strong><div class="answer">Extension property inside coroutine that checks if the job is still active (not cancelled or completed). Used to exit heavy loops early.</div></li>
+    </ul>
+
+    <h2>⚠️ Exception Handling</h2>
+    <ul class="qa-list">
+        <li><strong>❓ How are exceptions handled in coroutines?</strong><div class="answer">Depends on builder: <code>launch</code> propagates exceptions to the parent by default (unless a handler is used). <code>async</code> wraps exceptions inside <code>Deferred</code> and throws when <code>.await()</code> is called.</div></li>
+        <li><strong>❓ Difference between exception handling in <code>launch</code> and <code>async</code>?</strong><div class="answer">In <code>launch</code>, uncaught exceptions crash the scope unless handled via <code>CoroutineExceptionHandler</code>. For <code>async</code>, exceptions are caught when calling <code>await()</code> — otherwise silent.</div></li>
+        <li><strong>❓ What is <code>CoroutineExceptionHandler</code>?</strong><div class="answer">Optional element in context that handles uncaught exceptions in coroutines (works only for <code>launch</code>, not for <code>async</code>). Acts as global catch-all for root coroutines.</div></li>
+        <li><strong>❓ What happens when one coroutine fails?</strong><div class="answer">In structured concurrency (regular scope), failure of a child cancels its parent and all siblings. With <code>supervisorScope</code> or <code>SupervisorJob</code>, siblings are not cancelled.</div></li>
+    </ul>
+
+    <h2>🔗 Structured Concurrency</h2>
+    <ul class="qa-list">
+        <li><strong>❓ What is structured concurrency?</strong><div class="answer">Principle that coroutines are launched in a specific scope, and the scope automatically manages their lifecycle: parent waits for children; cancellation propagates child-to-parent; no leaked coroutines.</div></li>
+        <li><strong>❓ Why is structured concurrency important?</strong><div class="answer">Prevents memory leaks, ensures cancellation works predictably, makes asynchronous code easier to reason about, avoids orphan coroutines.</div></li>
+        <li><strong>❓ What is a parent-child coroutine relationship?</strong><div class="answer">When a coroutine launches another coroutine inside its scope, the new coroutine becomes child. Parent job is responsible for completion and cancellation. Child failure normally cancels parent.</div></li>
+        <li><strong>❓ What is <code>supervisorScope</code>?</strong><div class="answer">A scope where child failures do NOT affect other children or the parent. Used when tasks are independent (e.g., UI updates + network calls).</div></li>
+    </ul>
+
+    <h2>🚀 Advanced Concepts</h2>
+    <ul class="qa-list">
+        <li><strong>❓ What are cold vs hot streams?</strong><div class="answer">Cold streams (Flow) produce values on demand per collector. Hot streams (SharedFlow, StateFlow) emit values independently of collectors; they are active even without subscribers.</div></li>
+        <li><strong>❓ Difference between <code>Flow</code> and <code>Sequence</code>?</strong><div class="answer"><code>Sequence</code> is blocking and uses CPU thread, no suspension. <code>Flow</code> is asynchronous, supports coroutines, backpressure, and cancellation. Flow can suspend on each emission.</div></li>
+        <li><strong>❓ What is <code>withContext</code>?</strong><div class="answer">Suspend function to switch dispatcher without creating a new coroutine. It suspends the current coroutine until block finishes, then returns result. Ideal for thread switching.</div></li>
+        <li><strong>❓ How do coroutines improve performance?</strong><div class="answer">Reduces thread blocking, lowers memory overhead, enables high concurrency with low resource usage, avoids expensive context switches.</div></li>
+        <li><strong>❓ How do coroutines work internally?</strong><div class="answer">Based on CPS (Continuation Passing Style). The compiler transforms suspend functions into state machines. Each suspension point is a state; continuations resume execution at next state.</div></li>
+    </ul>
+
+    <h2>📱 Android-Specific Coroutines</h2>
+    <ul class="qa-list">
+        <li><strong>❓ What is <code>lifecycleScope</code>?</strong><div class="answer">CoroutineScope tied to LifecycleOwner (Activity/Fragment). Cancelled when lifecycle destroys. Launches coroutines lifecycle-aware.</div></li>
+        <li><strong>❓ What is <code>viewModelScope</code>?</strong><div class="answer">CoroutineScope bound to ViewModel, cancelled automatically when ViewModel is cleared (<code>onCleared()</code>). Ideal for UI-related data operations.</div></li>
+        <li><strong>❓ Why should coroutines be lifecycle-aware?</strong><div class="answer">To avoid wasted resources, prevent crashes after destruction, stop unnecessary work when UI is not active, and ensure structured concurrency.</div></li>
+        <li><strong>❓ How do you avoid memory leaks with coroutines?</strong><div class="answer">Never use <code>GlobalScope</code> for long-lived operations tied to UI; always use lifecycle-aware scopes (<code>viewModelScope</code>, <code>lifecycleScope</code>) and cancel manual scopes properly.</div></li>
+    </ul>
+
+    <h3>🔥 Coroutine Scopes – Interview Summary Table</h3>
     <table>
-        <thead>
-        <tr>
-            <th>IO</th>
-            <th>Default</th>
-        </tr>
-        </thead>
+        <thead><tr><th>Scope</th><th>Where Used</th><th>Cancelled When</th></tr></thead>
         <tbody>
-        <tr>
-            <td>Blocking work</td>
-            <td>CPU-intensive work</td>
-        </tr>
-        <tr>
-            <td>Network, DB</td>
-            <td>Calculations</td>
-        </tr>
-        <tr>
-            <td>Large thread pool</td>
-            <td>Limited threads</td>
-        </tr>
+        <tr><td>viewModelScope</td><td>ViewModel</td><td>onCleared()</td></tr>
+        <tr><td>lifecycleScope</td><td>Activity / Fragment</td><td>onDestroy()</td></tr>
+        <tr><td>repeatOnLifecycle</td><td>UI + Flow</td><td>STOPPED state</td></tr>
+        <tr><td>CoroutineScope()</td><td>Custom</td><td>Manual cancel</td></tr>
+        <tr><td>runBlocking</td><td>main / tests</td><td>Blocking (end of block)</td></tr>
+        <tr><td>coroutineScope</td><td>suspend fun</td><td>After children finish</td></tr>
+        <tr><td>supervisorScope</td><td>Parallel independent tasks</td><td>Parent finishes or failure doesn’t cancel others</td></tr>
+        <tr><td>MainScope()</td><td>UI classes</td><td>Manual cancel</td></tr>
+        <tr><td class="danger">GlobalScope ❌</td><td>—</td><td>Never (application-lifetime)</td></tr>
         </tbody>
     </table>
-</div>
 
-<div class="qa">
-    <strong>4️⃣ What happens if you run a network call on Dispatchers.Main?</strong><br>
-    UI freezes → ANR (Application Not Responding).
-</div>
-
-<div class="qa">
-    <strong>5️⃣ When should you use Dispatchers.Default?</strong><br>
-    For CPU-heavy tasks like:
-    <ul>
-        <li>Sorting</li>
-        <li>Parsing JSON</li>
-        <li>Encryption</li>
-        <li>Calculations</li>
-    </ul>
-</div>
-
-<div class="qa">
-    <strong>6️⃣ What is Dispatchers.Unconfined?</strong><br>
-    It starts in the current thread and resumes in any thread after suspension.<br>
-    🚫 Avoid in production.
-</div>
-
-<div class="qa">
-    <strong>7️⃣ Can we change dispatcher inside a coroutine?</strong><br>
-    Yes, using <code>withContext</code>.
-</div>
-
-<div class="qa">
-    <strong>8️⃣ Does withContext create a new coroutine?</strong><br>
-    No. It suspends the current coroutine and switches the thread.
-</div>
-
-<div class="qa">
-    <strong>9️⃣ What dispatcher does viewModelScope.launch {} use by default?</strong><br>
-    Dispatchers.Main
-</div>
-
-<div class="qa">
-    <strong>🔟 What happens if you don’t specify a dispatcher?</strong><br>
-    The coroutine inherits the parent’s dispatcher.
-</div>
-
-<h2>🔥 BONUS (Very Common)</h2>
-
-<div class="qa">
-    <strong>Why is Dispatchers.IO not unlimited?</strong><br>
-    To avoid resource exhaustion; it expands up to a safe limit and reuses threads.
-</div>
-
-<h2>🎯 One-Page Memory Trick</h2>
-
-<div class="memory">
-    <strong>Main</strong> → UI<br>
-    <strong>IO</strong> → Network / DB<br>
-    <strong>Default</strong> → CPU<br>
-    <strong>Unconfined</strong> → Don’t use
-</div>
-
-<h2>🧠 Rapid-Fire Follow-ups (Practice)</h2>
-
-<div class="rapid">
-    Can IO replace Default? ❌<br>
-    Is Main dispatcher blocking? ❌<br>
-    Does delay block thread? ❌<br>
-    Does Thread.sleep block? ✅
-</div>
-<h2>🔥 Tricky Coroutine Interview Scenarios (Senior Level)</h2>
-
-<p>Read the scenario → think → then see the answer.</p>
-
-<div class="scenario">
-    <strong>1️⃣ UI Freeze Scenario</strong><br><br>
-    <strong>Scenario:</strong> API call inside <code>viewModelScope.launch {}</code> without dispatcher → UI freezes.<br><br>
-    <strong>Why?</strong><br>
-    viewModelScope uses <code>Dispatchers.Main</code> by default.
-    Network call runs on Main → ANR.
-    <div class="fix">
-        ✔ Fix: <code>withContext(Dispatchers.IO) { apiCall() }</code>
+    <div class="box">
+        🔁 <strong>withContext</strong> switches dispatcher without launching a new coroutine, suspends the current coroutine, and returns the result once completed. Ideal for thread hopping.
     </div>
-</div>
 
-<div class="scenario">
-    <strong>2️⃣ Parallel vs Sequential Confusion</strong><br><br>
-    <strong>Scenario:</strong>
-    <code>val a = getA()</code><br>
-    <code>val b = getB()</code><br><br>
-    <strong>Problem?</strong><br>
-    Runs sequentially, not parallel.
-    <div class="fix">
-        ✔ Fix: Use <code>async</code> for parallel work.
+    <h3>❓ Common Interview Follow-ups</h3>
+    <div class="qa"><strong>Q:</strong> Does <code>withContext</code> block the thread?<br>✔ No, it suspends the coroutine.</div>
+    <div class="qa"><strong>Q:</strong> When NOT to use <code>withContext</code>?<br>✔ When you need parallel execution → use <code>async</code>.</div>
+    <div class="qa"><strong>Q:</strong> Can we use <code>withContext(Dispatchers.Main)</code>?<br>✔ Yes, to return to the UI thread.</div>
+
+    <h3>🎯 Quick Rule to Remember</h3>
+    <table>
+        <thead><tr><th>Task</th><th>Use</th></tr></thead>
+        <tbody>
+        <tr><td>Thread switching</td><td><code>withContext</code></td></tr>
+        <tr><td>Parallel work</td><td><code>async</code></td></tr>
+        <tr><td>Fire &amp; forget</td><td><code>launch</code></td></tr>
+        </tbody>
+    </table>
+
+    <div class="qa"><strong>1️⃣ What is a Coroutine Dispatcher?</strong><br>A dispatcher decides which thread or thread pool a coroutine runs on.</div>
+    <div class="qa"><strong>2️⃣ How many main dispatchers are there?</strong><br>Four commonly used: Main, IO, Default, Unconfined (rare).</div>
+    <div class="qa"><strong>3️⃣ Difference between Dispatchers.IO and Dispatchers.Default?</strong><br>IO → blocking work (network, DB) with large thread pool. Default → CPU-intensive (calculations, sorting) with limited threads (cores).</div>
+    <div class="qa"><strong>4️⃣ What happens if you run a network call on Dispatchers.Main?</strong><br>UI freezes → ANR (Application Not Responding).</div>
+    <div class="qa"><strong>5️⃣ When should you use Dispatchers.Default?</strong><br>For sorting, JSON parsing, encryption, heavy calculations.</div>
+    <div class="qa"><strong>6️⃣ What is Dispatchers.Unconfined?</strong><br>Starts in current thread, resumes in any thread. 🚫 Avoid in production.</div>
+    <div class="qa"><strong>7️⃣ Can we change dispatcher inside a coroutine?</strong><br>Yes, using <code>withContext</code>.</div>
+    <div class="qa"><strong>8️⃣ Does withContext create a new coroutine?</strong><br>No. It suspends the current coroutine and switches the thread.</div>
+    <div class="qa"><strong>9️⃣ What dispatcher does viewModelScope.launch {} use by default?</strong><br>Dispatchers.Main</div>
+    <div class="qa"><strong>🔟 What happens if you don’t specify a dispatcher?</strong><br>Inherits parent’s dispatcher; otherwise Dispatchers.Default.</div>
+
+    <h2>🔥 BONUS (Very Common)</h2>
+    <div class="qa"><strong>Why is Dispatchers.IO not unlimited?</strong><br>To avoid resource exhaustion; it expands up to a safe limit (max 64 threads by default) and reuses threads.</div>
+
+    <div class="memory">
+        🧠 <strong>One-Page Memory Trick</strong><br>
+        Main → UI<br>
+        IO → Network / DB / Blocking<br>
+        Default → CPU heavy tasks<br>
+        Unconfined → Don’t use
     </div>
-</div>
 
-<div class="scenario">
-    <strong>3️⃣ Coroutine Not Executing</strong><br><br>
-    <strong>Scenario:</strong> <code>launch { delay(1000); println("Hi") }</code> inside <code>main()</code><br><br>
-    <strong>Answer:</strong><br>
-    No CoroutineScope; JVM exits immediately.
-    <div class="fix">
-        ✔ Fix: Use <code>runBlocking</code>
+    <h2>🧠 Rapid-Fire Follow-ups (Practice)</h2>
+    <div class="rapid">
+        Can IO replace Default? ❌<br>
+        Is Main dispatcher blocking? ❌<br>
+        Does delay block thread? ❌ (it suspends)<br>
+        Does Thread.sleep block? ✅
     </div>
-</div>
 
-<div class="scenario">
-    <strong>4️⃣ Child Coroutine Crash</strong><br><br>
-    <strong>Scenario:</strong> One child coroutine fails → all siblings cancel.<br><br>
-    <strong>Why?</strong><br>
-    Default structured concurrency behavior.
-    <div class="fix">
-        ✔ Fix: Use <code>supervisorScope { }</code>
-    </div>
-</div>
+    <h2>🔥 Tricky Coroutine Interview Scenarios (Senior Level)</h2>
+    <div class="scenario"><strong>1️⃣ UI Freeze Scenario</strong><br>API call inside <code>viewModelScope.launch {}</code> without dispatcher → UI freezes.<br><strong>Why?</strong> viewModelScope uses Dispatchers.Main by default. Network call on main thread → ANR.<div class="fix">✔ Fix: <code>withContext(Dispatchers.IO) { apiCall() }</code></div></div>
+    <div class="scenario"><strong>2️⃣ Parallel vs Sequential Confusion</strong><br><code>val a = getA()</code><br><code>val b = getB()</code><br>Runs sequentially → not parallel.<div class="fix">✔ Fix: Use <code>async</code> for parallel work.</div></div>
+    <div class="scenario"><strong>3️⃣ Coroutine Not Executing</strong><br><code>launch { delay(1000); println("Hi") }</code> inside <code>main()</code><br>No CoroutineScope, JVM exits immediately.<div class="fix">✔ Fix: Use <code>runBlocking</code> or create scope.</div></div>
+    <div class="scenario"><strong>4️⃣ Child Coroutine Crash</strong><br>One child fails → all siblings cancel.<br>Default structured concurrency behavior.<div class="fix">✔ Fix: Use <code>supervisorScope { }</code></div></div>
+    <div class="scenario"><strong>5️⃣ Exception Not Caught</strong><br>Exception inside <code>launch</code> not caught by try-catch.<br>launch is fire-and-forget.<div class="fix">✔ Fix: Use <code>CoroutineExceptionHandler</code> or <code>async + await</code>.</div></div>
+    <div class="scenario"><strong>6️⃣ Memory Leak Scenario</strong><br>Coroutine continues after Activity destroyed → used <code>GlobalScope</code>.<div class="fix">✔ Fix: Use <code>lifecycleScope.launch { }</code>.</div></div>
+    <div class="scenario"><strong>7️⃣ Cancellation Not Working</strong><br>Job cancelled but coroutine keeps running → No suspension points or blocking code.<div class="fix">✔ Fix: Use <code>delay()</code> or check <code>isActive</code> periodically.</div></div>
+    <div class="scenario"><strong>8️⃣ Wrong Dispatcher Used</strong><br>Heavy JSON parsing on Dispatchers.IO slows app.<br>CPU-heavy work → use Dispatchers.Default.</div>
+    <div class="scenario"><strong>9️⃣ Flow Collection Bug</strong><br>Flow collects multiple times after rotation → collector not lifecycle-aware.<div class="fix">✔ Fix: <code>repeatOnLifecycle(Lifecycle.State.STARTED)</code>.</div></div>
+    <div class="scenario"><strong>🔟 withContext Misuse</strong><br>Developer uses <code>launch(Dispatchers.IO)</code> everywhere → unnecessary coroutines, breaks structured concurrency.<div class="fix">✔ Fix: Prefer <code>withContext(Dispatchers.IO)</code> for short thread-switching.</div></div>
 
-<div class="scenario">
-    <strong>5️⃣ Exception Not Caught</strong><br><br>
-    <strong>Scenario:</strong> Exception inside <code>launch</code> not caught by try-catch.<br><br>
-    <strong>Answer:</strong><br>
-    <code>launch</code> is fire-and-forget.
-    <div class="fix">
-        ✔ Fix: Use <code>CoroutineExceptionHandler</code> or <code>async + await</code>
-    </div>
-</div>
-
-<div class="scenario">
-    <strong>6️⃣ Memory Leak Scenario</strong><br><br>
-    <strong>Scenario:</strong> Coroutine continues after Activity destroyed.<br><br>
-    <strong>Answer:</strong><br>
-    Used <code>GlobalScope</code>.
-    <div class="fix">
-        ✔ Fix: Use <code>lifecycleScope.launch { }</code>
-    </div>
-</div>
-
-<div class="scenario">
-    <strong>7️⃣ Cancellation Not Working</strong><br><br>
-    <strong>Scenario:</strong> Job cancelled but coroutine keeps running.<br><br>
-    <strong>Answer:</strong><br>
-    No suspension points or blocking code.
-    <div class="fix">
-        ✔ Fix: Use <code>delay()</code> or check <code>isActive</code>
-    </div>
-</div>
-
-<div class="scenario">
-    <strong>8️⃣ Wrong Dispatcher Used</strong><br><br>
-    <strong>Scenario:</strong> Heavy JSON parsing on <code>Dispatchers.IO</code> slows app.<br><br>
-    <strong>Answer:</strong><br>
-    CPU-heavy work should use <code>Dispatchers.Default</code>.
-</div>
-
-<div class="scenario">
-    <strong>9️⃣ Flow Collection Bug</strong><br><br>
-    <strong>Scenario:</strong> Flow collects multiple times after rotation.<br><br>
-    <strong>Answer:</strong><br>
-    Collector not lifecycle-aware.
-    <div class="fix">
-        ✔ Fix: <code>repeatOnLifecycle(Lifecycle.State.STARTED)</code>
-    </div>
-</div>
-
-<div class="scenario">
-    <strong>🔟 withContext Misuse</strong><br><br>
-    <strong>Scenario:</strong> Developer uses <code>launch(Dispatchers.IO)</code> everywhere.<br><br>
-    <strong>Problem?</strong><br>
-    Unnecessary coroutines; breaks structured concurrency.
-    <div class="fix">
-        ✔ Fix: Prefer <code>withContext(Dispatchers.IO)</code>
-    </div>
-</div>
-
-<h2>🔥 SUPER TRICKY BONUS</h2>
-
-<div class="bonus">
-    <strong>What happens here?</strong><br><br>
-    <code>
+    <h2>🔥 SUPER TRICKY BONUS</h2>
+    <div class="bonus"><strong>What happens here?</strong><br><code>
         runBlocking {<br>
         &nbsp;&nbsp;launch { delay(1000) }<br>
         &nbsp;&nbsp;println("Done")<br>
         }
-    </code><br><br>
-    <strong>Answer:</strong><br>
-    Prints after delay because <code>runBlocking</code> waits for all children.
-</div>
+    </code><br><strong>Answer:</strong> Prints "Done" after delay because <code>runBlocking</code> waits for all child coroutines to finish (structured concurrency).</div>
 
-<div class="one-liner">
-    🎯 Interview One-Liner (MEMORIZE)<br><br>
-    Coroutines follow structured concurrency: parent waits for children, cancellation propagates, and dispatcher decides thread — not execution order.
+    <div class="one-liner">
+        🎯 Interview One-Liner (MEMORIZE)<br><br>
+        Coroutines follow structured concurrency: parent waits for children, cancellation propagates, and dispatcher decides thread — not execution order.
+    </div>
+    <hr>
+    <p style="text-align: center; font-size: 0.85rem; opacity: 0.7;">Complete reference for Kotlin Coroutines interview — from basics to expert scenarios.</p>
 </div>
 </body>
 </html>

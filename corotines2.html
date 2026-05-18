@@ -2,184 +2,405 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Kotlin Coroutines – Scenario Based Sample Answers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotlin Coroutines – Advanced Scenario-Based Interview Q&A</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, Roboto, sans-serif;
+            background: #f4f7fd;
+            margin: 0;
+            padding: 28px 24px;
+            color: #0c1b33;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem 2.2rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.12);
+        }
+        h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(120deg, #0f2b5e, #1e4a8a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-top: 0;
+            border-left: 6px solid #2563eb;
+            padding-left: 20px;
+        }
+        h2 {
+            background: #eef2ff;
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            border-left: 5px solid #3b82f6;
+        }
+        h3 {
+            margin: 1.2rem 0 0.5rem;
+            color: #1e2a4a;
+        }
+        pre {
+            background: #0b1120;
+            color: #e2e8f0;
+            padding: 1rem 1.2rem;
+            border-radius: 1rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            margin: 0.8rem 0;
+            box-shadow: inset 0 0 0 1px #2d3a5e;
+        }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #eef2ff;
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            color: #1e40af;
+            font-size: 0.9rem;
+        }
+        .scenario-block {
+            background: #ffffff;
+            border: 1px solid #dce3ec;
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.5rem;
+            margin: 1.2rem 0;
+            transition: all 0.1s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .badge {
+            background: #2563eb10;
+            color: #1e3a8a;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 8px;
+            border: 0.5px solid #bfdbfe;
+        }
+        .answer-tip {
+            background: #f0f9ff;
+            padding: 0.8rem 1rem;
+            border-radius: 1rem;
+            margin-top: 12px;
+            border-left: 4px solid #0284c7;
+        }
+        .warning-note {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 0.8rem 1rem;
+            border-radius: 0.8rem;
+            margin-top: 10px;
+        }
+        hr {
+            margin: 1.2rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, #cbd5e1, transparent);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #f9fafb;
+            border-radius: 1rem;
+            margin: 1rem 0;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background: #e6edfa;
+        }
+        .comparison-grid {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        .card {
+            background: #f8fafc;
+            flex: 1;
+            padding: 1rem;
+            border-radius: 1rem;
+            border: 1px solid #e2edf7;
+        }
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #4a5b7a;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1.5rem;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <h1>🔥 Kotlin Coroutines – Advanced Scenario-Based Interview Q&A</h1>
+    <p>Master real interview questions: from cancellation to dispatcher internals, structured concurrency, Flow, testing, and anti-patterns. Includes original scenarios + <strong>10+ new advanced scenarios</strong> with expert explanations.</p>
 
-<h1>Scenario-Based Kotlin Coroutines – Sample Answers</h1>
+    <!-- Original Scenarios (improved) -->
+    <h2>📌 Core Scenarios (Must-Know)</h2>
 
-<h2>Scenario 1: Network Call on Background Thread</h2>
-<pre><code>
-suspend fun fetchUser(): String {
-    delay(2000)
-    return "User Data"
-}
-
+    <div class="scenario-block">
+        <span class="badge">#1 Network call</span> <strong>Scenario: Background thread network call & UI update</strong>
+        <pre><code>suspend fun fetchUser(): String { delay(2000); return "User Data" }
 fun main() = runBlocking {
     withContext(Dispatchers.IO) {
         val result = fetchUser()
-        withContext(Dispatchers.Main) {
-            println(result)
-        }
+        withContext(Dispatchers.Main) { println(result) }
     }
-}
-</code></pre>
+}</code></pre>
+        <div class="answer-tip">✅ <strong>Interview answer:</strong> <code>withContext(Dispatchers.IO)</code> moves work off main thread without blocking. <code>withContext(Dispatchers.Main)</code> switches back to UI. This is the preferred approach over <code>launch</code> + <code>async</code> for simple thread switching.</div>
+    </div>
 
-<hr>
-
-<h2>Scenario 2: Parallel API Calls</h2>
-<pre><code>
-suspend fun getProfile(): String {
-    delay(1000)
-    return "Profile"
-}
-
-suspend fun getPosts(): String {
-    delay(1500)
-    return "Posts"
-}
-
+    <div class="scenario-block">
+        <span class="badge">#2 Parallel API</span> <strong>Scenario: Parallel API calls (async/await)</strong>
+        <pre><code>suspend fun getProfile() = delay(1000).let { "Profile" }
+suspend fun getPosts() = delay(1500).let { "Posts" }
 fun main() = runBlocking {
     val profile = async { getProfile() }
     val posts = async { getPosts() }
-
     println("${profile.await()} + ${posts.await()}")
+}</code></pre>
+        <div class="answer-tip">💡 <strong>Key insight:</strong> Both requests run concurrently, total time ~1.5s (not 2.5s). <code>async</code> starts immediately, <code>await</code> suspends until result ready. Perfect for independent tasks.</div>
+    </div>
+
+    <div class="scenario-block">
+        <span class="badge">#3 Cancellation</span> <strong>Scenario: Cancel long-running task</strong>
+        <pre><code>val job = launch {
+    repeat(10) { delay(500); println("Downloading $it") }
 }
-</code></pre>
+delay(2000); job.cancel(); println("Download cancelled")</code></pre>
+        <div class="answer-tip">⚡ Explanation: <code>delay()</code> is cancellable; after cancellation, remaining iterations won't run. Always use cancellable suspend functions or check <code>isActive</code> for heavy loops.</div>
+    </div>
 
-<hr>
+    <div class="scenario-block">
+        <span class="badge">#4 Exception Handler</span> <strong>Scenario: Global exception handling</strong>
+        <pre><code>val handler = CoroutineExceptionHandler { _, ex -> println("Caught: ${ex.message}") }
+launch(handler) { throw RuntimeException("Something went wrong") }</code></pre>
+        <div class="answer-tip">⚠️ Note: <code>CoroutineExceptionHandler</code> only works for <strong>root coroutines</strong> (launch). Does NOT catch exceptions inside <code>async</code> — those are thrown in <code>await()</code>.</div>
+    </div>
 
-<h2>Scenario 3: Cancel Long Running Task</h2>
-<pre><code>
-fun main() = runBlocking {
-    val job = launch {
-        repeat(10) {
-            delay(500)
-            println("Downloading $it")
-        }
-    }
-
-    delay(2000)
-    job.cancel()
-    println("Download cancelled")
+    <div class="scenario-block">
+        <span class="badge">#5 Structured concurrency</span> <strong>Scenario: Parent-child cancellation</strong>
+        <pre><code>val parent = launch {
+    launch { delay(1000); println("Child 1") }
+    launch { delay(2000); println("Child 2") }
 }
-</code></pre>
+delay(500); parent.cancel() // both children cancelled</code></pre>
+        <div class="answer-tip">🏛️ Structured concurrency = parent waits for children, cancellation propagates downward. No orphan coroutines!</div>
+    </div>
 
-<hr>
+    <div class="scenario-block">
+        <span class="badge">#6 Thread switching</span> <strong>Scenario: CPU work → UI</strong>
+        <pre><code>withContext(Dispatchers.Default) {
+    val result = (1..1_000_000).sum()
+    withContext(Dispatchers.Main) { println("Result: $result") }
+}</code></pre>
+        <div class="answer-tip">🎯 Dispatchers.Default is optimized for CPU tasks (limited threads = core count). Never do heavy computation on Main or IO.</div>
+    </div>
 
-<h2>Scenario 4: Exception Handling</h2>
-<pre><code>
-fun main() = runBlocking {
-    val handler = CoroutineExceptionHandler { _, exception ->
-        println("Caught: ${exception.message}")
-    }
+    <div class="scenario-block">
+        <span class="badge">#7 Timeout</span> <strong>Scenario: Timeout handling</strong>
+        <pre><code>val result = withTimeoutOrNull(3000) { delay(5000); "Success" }
+println(result ?: "Timeout occurred")</code></pre>
+        <div class="answer-tip">⏱️ <code>withTimeoutOrNull</code> returns null on timeout (no exception). Use <code>withTimeout</code> when you need to throw TimeoutCancellationException.</div>
+    </div>
 
-    launch(handler) {
-        throw RuntimeException("Something went wrong")
+    <div class="scenario-block">
+        <span class="badge">#8 Flow</span> <strong>Scenario: Cold stream with backpressure</strong>
+        <pre><code>fun numberFlow() = flow { repeat(5) { emit(it); delay(1000) } }
+fun main() = runBlocking { numberFlow().collect { println(it) } }</code></pre>
+        <div class="answer-tip">🌊 Flow is cold: each collector triggers the producer. Use operators like <code>flowOn</code>, <code>catch</code>, <code>buffer</code> for production.</div>
+    </div>
+
+    <div class="scenario-block">
+        <span class="badge">#9 ViewModelScope</span> <strong>Scenario: Lifecycle-aware coroutine (Android)</strong>
+        <pre><code>viewModelScope.launch { delay(2000); println("Data loaded safely") }</code></pre>
+        <div class="answer-tip">📱 Automatically cancels when ViewModel cleared → prevents leaks. Always use instead of GlobalScope for UI-bound work.</div>
+    </div>
+
+    <div class="scenario-block">
+        <span class="badge">#10 Lightweight</span> <strong>Scenario: 10k coroutines vs threads</strong>
+        <pre><code>repeat(10_000) { launch { delay(1000); print(".") } }</code></pre>
+        <div class="answer-tip">🚀 Coroutines use ~KB memory vs MB per thread. This runs smoothly; threads would crash.</div>
+    </div>
+
+    <!-- ========= NEW IMPORTANT SCENARIOS ========= -->
+    <h2>🔐 Advanced + Tricky Interview Scenarios (New)</h2>
+
+    <div class="scenario-block">
+        <span class="badge">🔥 #11 supervisorScope vs coroutineScope</span> <strong>Scenario: Independent failure handling</strong>
+        <pre><code>supervisorScope {
+    launch { throw RuntimeException("Task A fails") }
+    launch { delay(500); println("Task B still runs!") }
+}
+// coroutineScope would cancel B immediately.</code></pre>
+        <div class="answer-tip">🎙️ <strong>Answer:</strong> <code>supervisorScope</code> isolates failure. Perfect for loading multiple UI widgets where one failure shouldn't crash the whole screen. Used heavily in Android.</div>
+    </div>
+
+    <div class="scenario-block">
+        <span class="badge">🧠 #12 Cancellation is cooperative — Why is my coroutine still running?</span>
+        <pre><code>val job = launch {
+    while (true) {
+        // heavy calculation — no suspension, no isActive check
     }
 }
-</code></pre>
+job.cancel() // DOES NOTHING 😱</code></pre>
+        <div class="answer-tip">✅ Fix: add <code>yield()</code> or <code>ensureActive()</code> or <code>if (!isActive) break</code>. Cancellation only works at suspension points or explicit checks.</div>
+        <div class="warning-note">💡 Interview hack: Mention <code>job.cancelAndJoin()</code> to wait for actual cancellation completion.</div>
+    </div>
 
-<hr>
+    <div class="scenario-block">
+        <span class="badge">⚠️ #13 Async exception swallowing</span> <strong>Scenario: Silent failure using async without await</strong>
+        <pre><code>val deferred = async { throw IllegalStateException("Crash") }
+// no await() → exception never observed! (potential bug)</code></pre>
+        <div class="answer-tip">🔥 <strong>Answer:</strong> Exceptions in <code>async</code> are only thrown when you call <code>await()</code>. Always attach a parent or use <code>coroutineScope</code> to propagate.</div>
+    </div>
 
-<h2>Scenario 5: Structured Concurrency</h2>
-<pre><code>
-fun main() = runBlocking {
-    val parent = launch {
-        launch {
-            delay(1000)
-            println("Child 1")
-        }
-        launch {
-            delay(2000)
-            println("Child 2")
-        }
+    <div class="scenario-block">
+        <span class="badge">🔄 #14 Dispatcher inheritance — tricky behavior</span>
+        <pre><code>runBlocking(Dispatchers.IO) {
+    launch {
+        println(Thread.currentThread().name) // still IO? Yes, inherits from parent
     }
-
-    delay(500)
-    parent.cancel()
-    println("Parent cancelled")
-}
-</code></pre>
-
-<hr>
-
-<h2>Scenario 6: Switching Threads</h2>
-<pre><code>
-fun main() = runBlocking {
     withContext(Dispatchers.Default) {
-        val result = (1..1_000_000).sum()
-        withContext(Dispatchers.Main) {
-            println("Result: $result")
+        launch { // inherits Default now
+            println(Thread.currentThread().name) // DefaultDispatcher
         }
     }
-}
-</code></pre>
+}</code></pre>
+        <div class="answer-tip">📌 Child coroutines inherit parent's context (including dispatcher) unless overridden. <code>withContext</code> does NOT change the parent context for new launches inside it.</div>
+    </div>
 
-<hr>
-
-<h2>Scenario 7: Timeout Handling</h2>
-<pre><code>
-fun main() = runBlocking {
-    val result = withTimeoutOrNull(3000) {
-        delay(5000)
-        "Success"
-    }
-    println(result ?: "Timeout occurred")
-}
-</code></pre>
-
-<hr>
-
-<h2>Scenario 8: Flow Example</h2>
-<pre><code>
-fun numberFlow() = flow {
-    repeat(5) {
-        emit(it)
-        delay(1000)
-    }
-}
-
-fun main() = runBlocking {
-    numberFlow().collect {
-        println(it)
-    }
-}
-</code></pre>
-
-<hr>
-
-<h2>Scenario 9: Lifecycle-Aware Coroutine (Android)</h2>
-<pre><code>
-viewModelScope.launch {
-    delay(2000)
-    println("Data loaded safely")
-}
-</code></pre>
-<p>
-    Explanation: <code>viewModelScope</code> automatically cancels coroutines when
-    ViewModel is cleared, preventing memory leaks.
-</p>
-
-<hr>
-
-<h2>Scenario 10: Thread vs Coroutine</h2>
-<pre><code>
-fun main() = runBlocking {
-    repeat(10_000) {
-        launch {
-            delay(1000)
-            print(".")
+    <div class="scenario-block">
+        <span class="badge">⛔ #15 GlobalScope is evil — leak scenario</span>
+        <pre><code>class MyActivity : AppCompatActivity() {
+    fun loadData() {
+        GlobalScope.launch { // ❌ memory leak
+            delay(10000)
+            updateUI() // might crash after Activity destroyed
         }
     }
-}
-</code></pre>
+}</code></pre>
+        <div class="answer-tip">🚫 GlobalScope runs for entire app lifetime. Never use it in Android. Replace with <code>lifecycleScope</code> or <code>viewModelScope</code>.</div>
+    </div>
 
-<p>
-    <b>Explanation:</b><br>
-    Coroutines are lightweight, use fewer resources, and can scale to thousands
-    unlike threads which are expensive and limited.
-</p>
+    <div class="scenario-block">
+        <span class="badge">🧪 #16 Testing coroutines (runTest)</span> <strong>Scenario: Unit test with virtual time</strong>
+        <pre><code>@Test
+fun testTimeout() = runTest {
+    val result = withTimeoutOrNull(1000) {
+        delay(2000)
+        "done"
+    }
+    assertNull(result) // passes instantly, no real delay
+}</code></pre>
+        <div class="answer-tip">⚙️ <code>runTest</code> automatically skips delays. You can also use <code>advanceTimeBy()</code> to test exact timing.</div>
+    </div>
 
+    <div class="scenario-block">
+        <span class="badge">📦 #17 Mutex vs synchronized</span> <strong>Scenario: Shared mutable state with coroutines</strong>
+        <pre><code>val mutex = Mutex()
+var counter = 0
+repeat(10_000) {
+    launch {
+        mutex.withLock { counter++ } // safe concurrency
+    }
+}</code></pre>
+        <div class="answer-tip">🔒 <code>Mutex</code> is suspend-friendly alternative to synchronized blocks (which block threads). Avoid thread blocking inside coroutines.</div>
+    </div>
+
+    <div class="scenario-block">
+        <span class="badge">🧩 #18 SharedFlow vs StateFlow — when to use each</span>
+        <pre><code>val state = MutableStateFlow(0)      // holds a single value (like LiveData)
+val events = MutableSharedFlow&lt;String&gt;() // for one-time events (toasts, navigation)</code></pre>
+        <div class="answer-tip">StateFlow: always has a value, suitable for UI state. SharedFlow: hot stream, can emit multiple values without "state", perfect for event bus.</div>
+    </div>
+
+    <div class="scenario-block">
+        <span class="badge">⏳ #19 Channel vs Flow</span> <strong>Scenario: Producer-consumer communication</strong>
+        <pre><code>val channel = Channel&lt;Int&gt;()
+launch { repeat(5) { channel.send(it) }; channel.close() }
+launch { for (x in channel) println(x) }</code></pre>
+        <div class="answer-tip">📡 Channel is hot, point-to-point communication. Flow is cold, reactive stream. Use Channels for coroutine coordination, Flow for declarative data pipelines.</div>
+    </div>
+
+    <div class="scenario-block">
+        <span class="badge">🧹 #20 NonCancellable block for cleanup</span>
+        <strong>Scenario: Ensure cleanup even after cancellation</strong>
+        <pre><code>launch {
+    try {
+        doWork()
+    } finally {
+        withContext(NonCancellable) {
+            closeResources() // this block won't be cancelled
+        }
+    }
+}</code></pre>
+        <div class="answer-tip">🧽 <code>NonCancellable</code> ensures cleanup code runs even if coroutine was cancelled. Essential for files, DB transactions, or network close.</div>
+    </div>
+
+    <h2>📊 Quick Reference Table: Exception Propagation</h2>
+    <table>
+        <thead><tr><th>Builder / Scope</th><th>Failure behavior</th><th>How to handle</th></tr></thead>
+        <tbody>
+        <tr><td><code>launch</code> (root)</td><td>Propagates to parent / crashes unless handled</td><td><code>CoroutineExceptionHandler</code> or try-catch inside</td></tr>
+        <tr><td><code>async</code></td><td>Silent until <code>await()</code> called</td><td>Wrap <code>await()</code> in try-catch</td></tr>
+        <tr><td><code>coroutineScope</code></td><td>Fails immediately (child failure → parent fails)</td><td>Use supervisorScope if isolation needed</td></tr>
+        <tr><td><code>supervisorScope</code></td><td>Child failures don't affect siblings</td><td>Handle per child, but parent continues</td></tr>
+        </tbody>
+    </table>
+
+    <h2>🎯 Dispatcher Comparison — Advanced Insight</h2>
+    <div class="comparison-grid">
+        <div class="card"><strong>Dispatchers.Main</strong><br>UI thread, bound to main looper. <span class="badge">Never block</span></div>
+        <div class="card"><strong>Dispatchers.IO</strong><br>Flexible pool (up to 64). For blocking calls (network, disk).</div>
+        <div class="card"><strong>Dispatchers.Default</strong><br>CPU bound, limited to #cores. Parsing, sorting, bitmap.</div>
+        <div class="card"><strong>Dispatchers.Unconfined</strong><br>Starts in caller, may resume anywhere. <span class="badge">Avoid, dangerous</span></div>
+    </div>
+
+    <div class="warning-note">
+        🧠 <strong>Senior-level twist:</strong> "What happens if I call <code>withContext(Dispatchers.IO)</code> from <code>Dispatchers.Main</code>?" → It suspends the Main coroutine, moves work to IO pool, then resumes on Main — completely safe.
+    </div>
+
+    <h2>💬 Bonus: Advanced Follow-up Questions & Answers</h2>
+    <div class="scenario-block">
+        <strong>❓ Q: How does <code>delay</code> differ from <code>Thread.sleep</code>?</strong><br>
+        ✔ <code>delay</code> is a suspending function: does NOT block the thread; other coroutines run on same thread. <code>Thread.sleep</code> blocks the entire thread — never use in coroutines.
+    </div>
+    <div class="scenario-block">
+        <strong>❓ Q: Can we cancel a coroutine that is inside a blocking call like <code>InputStream.read()</code>?</strong><br>
+        ✔ Not automatically, because blocking code doesn’t respond to cancellation. Wrap it with <code>withContext(Dispatchers.IO)</code> + use <code>suspendCancellableCoroutine</code> or <code>future.cancel()</code> for true interrupt.
+    </div>
+    <div class="scenario-block">
+        <strong>❓ Q: What is the difference between <code>Job</code> and <code>SupervisorJob</code>?</strong><br>
+        ✔ In a <code>Job</code>, child failure cancels parent → all children cancelled. In <code>SupervisorJob</code>, child failure does NOT affect other children — used with <code>supervisorScope</code>.
+    </div>
+    <div class="scenario-block">
+        <strong>❓ Q: How to retry a failed coroutine task?</strong><br>
+        ✔ Use <code>retry</code> operator from Flow, or wrap in a while loop with delay &amp; exception catch. For <code>async</code>, manually retry inside a suspend function.
+    </div>
+
+    <h2>🧪 Production-ready Pattern: Suspend function with timeout & fallback</h2>
+    <pre><code>suspend fun fetchDataWithFallback(): String = withTimeoutOrNull(2000) {
+        fetchRemote()
+    } ?: run {
+        getCachedData() ?: "Default fallback"
+    }</code></pre>
+    <div class="answer-tip">⏱️ Elegant timeout + fallback chain. Non-blocking + safe for production.</div>
+
+    <hr>
+    <footer>
+        ✅ Master these scenarios and you'll be ready for **mid-level to senior** Kotlin coroutines interviews.<br>
+        📌 Key takeways: structured concurrency, dispatcher selection, cooperative cancellation, supervisorScope, and lifecycle scoping.
+    </footer>
+</div>
 </body>
 </html>

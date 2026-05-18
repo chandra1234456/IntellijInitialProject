@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Interview Prep – 3.5 Years</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --bg: #0a0d14;
+          --surface: #111520;
+          --surface2: #181d2e;
+          --border: #1e2540;
+          --accent: #00e5ff;
+          --accent2: #a259ff;
+          --accent3: #ff6b35;
+          --green: #00f5a0;
+          --yellow: #ffd166;
+          --red: #ff4d6d;
+          --text: #e8eaf6;
+          --muted: #7b83a6;
+          --card-glow: rgba(0,229,255,0.07);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+          background: var(--bg);
+          color: var(--text);
+          font-family: 'DM Sans', sans-serif;
+          min-height: 100vh;
+          overflow-x: hidden;
+        }
+
+        /* Animated background grid */
+        body::before {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+          background-size: 60px 60px;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+        /* HEADER */
+        header {
+          padding: 60px 0 40px;
+          text-align: center;
+          position: relative;
+        }
+        .badge {
+          display: inline-block;
+          background: linear-gradient(135deg, var(--accent2), var(--accent));
+          color: #000;
+          font-family: 'Space Mono', monospace;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 2px;
+          padding: 5px 16px;
+          border-radius: 20px;
+          margin-bottom: 20px;
+          text-transform: uppercase;
+        }
+        h1 {
+          font-family: 'Syne', sans-serif;
+          font-size: clamp(2.2rem, 5vw, 3.8rem);
+          font-weight: 800;
+          line-height: 1.1;
+          letter-spacing: -1px;
+          background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin-bottom: 14px;
+        }
+        .subtitle {
+          color: var(--muted);
+          font-size: 1rem;
+          font-weight: 300;
+          max-width: 520px;
+          margin: 0 auto 36px;
+          line-height: 1.6;
+        }
+
+        /* STATS ROW */
+        .stats-row {
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+          flex-wrap: wrap;
+          margin-bottom: 60px;
+        }
+        .stat-chip {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 14px 24px;
+          text-align: center;
+          min-width: 120px;
+        }
+        .stat-chip .num {
+          font-family: 'Space Mono', monospace;
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: var(--accent);
+        }
+        .stat-chip .lbl {
+          font-size: 0.72rem;
+          color: var(--muted);
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          margin-top: 3px;
+        }
+
+        /* SECTION */
+        .section { margin-bottom: 56px; }
+        .section-header {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          margin-bottom: 24px;
+          padding-bottom: 14px;
+          border-bottom: 1px solid var(--border);
+        }
+        .section-icon {
+          width: 42px; height: 42px;
+          border-radius: 10px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1.2rem;
+          flex-shrink: 0;
+        }
+        .section-title {
+          font-family: 'Syne', sans-serif;
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: #fff;
+        }
+        .section-desc {
+          font-size: 0.82rem;
+          color: var(--muted);
+          margin-top: 2px;
+        }
+
+        /* TOPIC GRID */
+        .topic-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 16px;
+        }
+
+        .topic-card {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          padding: 20px;
+          position: relative;
+          overflow: hidden;
+          transition: border-color 0.2s, transform 0.2s;
+          cursor: default;
+        }
+        .topic-card:hover {
+          transform: translateY(-3px);
+          border-color: rgba(0,229,255,0.25);
+        }
+        .topic-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 3px;
+          border-radius: 14px 14px 0 0;
+        }
+
+        .topic-card.fire::before { background: linear-gradient(90deg, var(--red), var(--accent3)); }
+        .topic-card.high::before { background: linear-gradient(90deg, var(--yellow), #ff9f43); }
+        .topic-card.med::before  { background: linear-gradient(90deg, var(--green), #00c9ff); }
+        .topic-card.low::before  { background: linear-gradient(90deg, var(--accent2), #6c63ff); }
+
+        .card-top {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          margin-bottom: 12px;
+        }
+        .card-title {
+          font-family: 'Syne', sans-serif;
+          font-size: 1rem;
+          font-weight: 700;
+          color: #fff;
+          line-height: 1.3;
+        }
+        .priority-tag {
+          font-family: 'Space Mono', monospace;
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 1.5px;
+          padding: 3px 9px;
+          border-radius: 20px;
+          text-transform: uppercase;
+          flex-shrink: 0;
+          margin-left: 10px;
+          margin-top: 2px;
+        }
+        .tag-fire { background: rgba(255,77,109,0.15); color: var(--red); border: 1px solid rgba(255,77,109,0.3); }
+        .tag-high { background: rgba(255,209,102,0.12); color: var(--yellow); border: 1px solid rgba(255,209,102,0.3); }
+        .tag-med  { background: rgba(0,245,160,0.1); color: var(--green); border: 1px solid rgba(0,245,160,0.25); }
+        .tag-low  { background: rgba(162,89,255,0.1); color: var(--accent2); border: 1px solid rgba(162,89,255,0.25); }
+
+        /* TOPIC LIST */
+        .topic-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+        .topic-list li {
+          font-size: 0.85rem;
+          color: #b0b8d8;
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+          line-height: 1.5;
+        }
+        .topic-list li::before {
+          content: '▸';
+          color: var(--muted);
+          flex-shrink: 0;
+          margin-top: 1px;
+          font-size: 0.75rem;
+        }
+
+        /* HIGHLIGHT TAGS */
+        .highlights { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+        .hl-tag {
+          font-family: 'Space Mono', monospace;
+          font-size: 9.5px;
+          padding: 3px 10px;
+          border-radius: 6px;
+          letter-spacing: 0.5px;
+          background: rgba(0,229,255,0.07);
+          color: var(--accent);
+          border: 1px solid rgba(0,229,255,0.18);
+        }
+        .hl-tag.purple { background: rgba(162,89,255,0.08); color: var(--accent2); border-color: rgba(162,89,255,0.2); }
+        .hl-tag.orange { background: rgba(255,107,53,0.08); color: var(--accent3); border-color: rgba(255,107,53,0.2); }
+        .hl-tag.green  { background: rgba(0,245,160,0.08); color: var(--green); border-color: rgba(0,245,160,0.2); }
+        .hl-tag.yellow { background: rgba(255,209,102,0.08); color: var(--yellow); border-color: rgba(255,209,102,0.2); }
+
+        /* PRIORITY TABLE */
+        .priority-table {
+          width: 100%;
+          border-collapse: collapse;
+          background: var(--surface);
+          border-radius: 14px;
+          overflow: hidden;
+          border: 1px solid var(--border);
+        }
+        .priority-table th {
+          background: var(--surface2);
+          font-family: 'Space Mono', monospace;
+          font-size: 10px;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: var(--muted);
+          padding: 14px 20px;
+          text-align: left;
+          border-bottom: 1px solid var(--border);
+        }
+        .priority-table td {
+          padding: 13px 20px;
+          font-size: 0.87rem;
+          border-bottom: 1px solid var(--border);
+          color: #c4cadf;
+          vertical-align: middle;
+        }
+        .priority-table tr:last-child td { border-bottom: none; }
+        .priority-table tr:hover td { background: var(--surface2); }
+        .dot {
+          width: 8px; height: 8px; border-radius: 50%;
+          display: inline-block; margin-right: 8px; vertical-align: middle;
+        }
+        .dot-fire { background: var(--red); box-shadow: 0 0 6px var(--red); }
+        .dot-high { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+        .dot-med  { background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+        /* TIPS */
+        .tips-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+          gap: 14px;
+        }
+        .tip-card {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 18px;
+          display: flex;
+          gap: 14px;
+          align-items: flex-start;
+          transition: border-color 0.2s;
+        }
+        .tip-card:hover { border-color: rgba(162,89,255,0.3); }
+        .tip-icon { font-size: 1.5rem; flex-shrink: 0; }
+        .tip-title { font-family: 'Syne', sans-serif; font-size: 0.92rem; font-weight: 700; color: #fff; margin-bottom: 5px; }
+        .tip-text  { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+
+        /* FOOTER */
+        footer {
+          text-align: center;
+          padding: 40px 0 60px;
+          color: var(--muted);
+          font-size: 0.8rem;
+          border-top: 1px solid var(--border);
+          margin-top: 20px;
+        }
+        footer span { color: var(--accent); }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .section { animation: fadeUp 0.5s ease both; }
+        .section:nth-child(1) { animation-delay: 0.05s; }
+        .section:nth-child(2) { animation-delay: 0.10s; }
+        .section:nth-child(3) { animation-delay: 0.15s; }
+        .section:nth-child(4) { animation-delay: 0.20s; }
+        .section:nth-child(5) { animation-delay: 0.25s; }
+        .section:nth-child(6) { animation-delay: 0.30s; }
+        .section:nth-child(7) { animation-delay: 0.35s; }
+        .section:nth-child(8) { animation-delay: 0.40s; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <header>
+        <div class="badge">Android Interview Guide</div>
+        <h1>Crack Android Interviews<br>at 3.5 Years Level</h1>
+        <p class="subtitle">A curated, prioritized roadmap of topics you must master to land your next Android role.</p>
+    </header>
+
+    <!-- STATS -->
+    <div class="stats-row">
+        <div class="stat-chip"><div class="num">8</div><div class="lbl">Core Areas</div></div>
+        <div class="stat-chip"><div class="num">40+</div><div class="lbl">Topics</div></div>
+        <div class="stat-chip"><div class="num">3.5</div><div class="lbl">Yrs Target</div></div>
+        <div class="stat-chip"><div class="num">🔥</div><div class="lbl">Must Know</div></div>
+    </div>
+
+    <!-- 1. KOTLIN CORE -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon" style="background:rgba(0,229,255,0.12);">🔵</div>
+            <div>
+                <div class="section-title">Kotlin Core</div>
+                <div class="section-desc">Language fundamentals every interviewer will probe</div>
+            </div>
+        </div>
+        <div class="topic-grid">
+
+            <div class="topic-card fire">
+                <div class="card-top">
+                    <div class="card-title">Coroutines & Flow</div>
+                    <span class="priority-tag tag-fire">🔥 Must</span>
+                </div>
+                <ul class="topic-list">
+                    <li>launch vs async, Job hierarchy</li>
+                    <li>Dispatchers: IO, Main, Default, Unconfined</li>
+                    <li>suspend functions — how they compile</li>
+                    <li>Structured concurrency & cancellation</li>
+                    <li>Exception handling: try/catch, CoroutineExceptionHandler</li>
+                    <li>StateFlow vs SharedFlow vs LiveData</li>
+                    <li>Cold vs Hot streams</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">viewModelScope</span>
+                    <span class="hl-tag">lifecycleScope</span>
+                    <span class="hl-tag orange">flowOn()</span>
+                    <span class="hl-tag green">collectLatest</span>
+                </div>
+            </div>
+
+            <div class="topic-card fire">
+                <div class="card-top">
+                    <div class="card-title">Flow Operators</div>
+                    <span class="priority-tag tag-fire">🔥 Must</span>
+                </div>
+                <ul class="topic-list">
+                    <li>map, filter, transform, onEach</li>
+                    <li>combine, zip, merge</li>
+                    <li>flatMapLatest vs flatMapMerge vs flatMapConcat</li>
+                    <li>debounce, distinctUntilChanged</li>
+                    <li>buffer, conflate, flowOn</li>
+                    <li>stateIn, shareIn with SharingStarted</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">Search with debounce</span>
+                    <span class="hl-tag orange">flatMapLatest</span>
+                </div>
+            </div>
+
+            <div class="topic-card high">
+                <div class="card-top">
+                    <div class="card-title">Kotlin Language Features</div>
+                    <span class="priority-tag tag-high">⚡ High</span>
+                </div>
+                <ul class="topic-list">
+                    <li>Scope functions: let, apply, run, also, with</li>
+                    <li>Extension functions & properties</li>
+                    <li>Higher-order functions & lambdas</li>
+                    <li>Sealed classes vs enum classes vs ADTs</li>
+                    <li>Data classes — copy, equals, hashCode</li>
+                    <li>Generics: variance (in/out), reified, star projection</li>
+                    <li>Delegation: by lazy, observable, interface delegation</li>
+                    <li>Inline functions & noinline/crossinline</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag purple">reified T</span>
+                    <span class="hl-tag">sealed class</span>
+                    <span class="hl-tag yellow">by lazy</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 2. ANDROID ARCHITECTURE -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon" style="background:rgba(0,245,160,0.1);">🟢</div>
+            <div>
+                <div class="section-title">Android Architecture</div>
+                <div class="section-desc">Know the WHY behind architectural decisions</div>
+            </div>
+        </div>
+        <div class="topic-grid">
+
+            <div class="topic-card fire">
+                <div class="card-top">
+                    <div class="card-title">MVVM + Clean Architecture</div>
+                    <span class="priority-tag tag-fire">🔥 Must</span>
+                </div>
+                <ul class="topic-list">
+                    <li>ViewModel: survives config changes, no Activity ref</li>
+                    <li>LiveData vs StateFlow — when to use which</li>
+                    <li>UiState design with sealed classes</li>
+                    <li>Clean layers: Presentation → Domain → Data</li>
+                    <li>UseCases / Interactors — single responsibility</li>
+                    <li>Repository as single source of truth</li>
+                    <li>MVI pattern: Intent → State → Effect</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">UiState</span>
+                    <span class="hl-tag orange">UseCases</span>
+                    <span class="hl-tag green">Repository</span>
+                    <span class="hl-tag purple">MVI</span>
+                </div>
+            </div>
+
+            <div class="topic-card fire">
+                <div class="card-top">
+                    <div class="card-title">Dependency Injection – Hilt</div>
+                    <span class="priority-tag tag-fire">🔥 Must</span>
+                </div>
+                <ul class="topic-list">
+                    <li>@HiltAndroidApp, @AndroidEntryPoint, @HiltViewModel</li>
+                    <li>@Inject, @Provides, @Binds</li>
+                    <li>Component hierarchy: Singleton → Activity → ViewModel</li>
+                    <li>Scopes: @Singleton, @ActivityScoped, @ViewModelScoped</li>
+                    <li>Modules and component setup</li>
+                    <li>Dagger2 basics — understanding what Hilt abstracts</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">@Binds</span>
+                    <span class="hl-tag orange">@Singleton</span>
+                    <span class="hl-tag yellow">Component Hierarchy</span>
+                </div>
+            </div>
+
+            <div class="topic-card high">
+                <div class="card-top">
+                    <div class="card-title">Navigation Component</div>
+                    <span class="priority-tag tag-high">⚡ High</span>
+                </div>
+                <ul class="topic-list">
+                    <li>NavController, NavHost, NavGraph</li>
+                    <li>Safe Args for type-safe navigation</li>
+                    <li>Deep links — explicit & implicit</li>
+                    <li>Back stack management & popUpTo</li>
+                    <li>Nested navigation graphs</li>
+                    <li>Navigation in Compose: NavHostController</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">Safe Args</span>
+                    <span class="hl-tag green">Deep Links</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 3. JETPACK & COMPOSE -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon" style="background:rgba(255,209,102,0.1);">🟡</div>
+            <div>
+                <div class="section-title">Jetpack Components & Compose</div>
+                <div class="section-desc">Modern Android toolkit — Compose is the #1 hot topic now</div>
+            </div>
+        </div>
+        <div class="topic-grid">
+
+            <div class="topic-card fire">
+                <div class="card-top">
+                    <div class="card-title">Jetpack Compose</div>
+                    <span class="priority-tag tag-fire">🔥 Must</span>
+                </div>
+                <ul class="topic-list">
+                    <li>Recomposition — what triggers it, how to avoid unnecessary</li>
+                    <li>State: remember, rememberSaveable, hoisting</li>
+                    <li>Side effects: LaunchedEffect, SideEffect, DisposableEffect</li>
+                    <li>derivedStateOf — performance optimization</li>
+                    <li>Custom layouts: Layout composable, LayoutModifier</li>
+                    <li>CompositionLocal for implicit passing</li>
+                    <li>Stability: @Stable, @Immutable annotations</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">State Hoisting</span>
+                    <span class="hl-tag orange">derivedStateOf</span>
+                    <span class="hl-tag purple">@Stable</span>
+                    <span class="hl-tag green">LaunchedEffect</span>
+                </div>
+            </div>
+
+            <div class="topic-card high">
+                <div class="card-top">
+                    <div class="card-title">Room Database</div>
+                    <span class="priority-tag tag-high">⚡ High</span>
+                </div>
+                <ul class="topic-list">
+                    <li>@Entity, @Dao, @Database annotations</li>
+                    <li>Flow from DAO for reactive queries</li>
+                    <li>Migrations: addMigration, fallbackToDestructiveMigration</li>
+                    <li>Relations: @Embedded, @Relation, @Junction</li>
+                    <li>Type converters for complex types</li>
+                    <li>Database Inspector for debugging</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">@Transaction</span>
+                    <span class="hl-tag yellow">Migrations</span>
+                    <span class="hl-tag green">Flow DAO</span>
+                </div>
+            </div>
+
+            <div class="topic-card high">
+                <div class="card-top">
+                    <div class="card-title">WorkManager & DataStore</div>
+                    <span class="priority-tag tag-high">⚡ High</span>
+                </div>
+                <ul class="topic-list">
+                    <li>OneTimeWorkRequest vs PeriodicWorkRequest</li>
+                    <li>Constraints (network, battery, storage)</li>
+                    <li>Chaining work: then(), combine()</li>
+                    <li>Expedited work for urgent tasks</li>
+                    <li>DataStore Proto vs Preferences</li>
+                    <li>DataStore vs SharedPreferences tradeoffs</li>
+                    <li>Paging 3: PagingSource, RemoteMediator</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">Chaining</span>
+                    <span class="hl-tag purple">DataStore</span>
+                    <span class="hl-tag orange">Paging 3</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 4. ANDROID FUNDAMENTALS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon" style="background:rgba(255,77,109,0.1);">🔴</div>
+            <div>
+                <div class="section-title">Android Fundamentals (Deep)</div>
+                <div class="section-desc">Core concepts interviewers love to probe at senior level</div>
+            </div>
+        </div>
+        <div class="topic-grid">
+
+            <div class="topic-card fire">
+                <div class="card-top">
+                    <div class="card-title">Lifecycle Edge Cases</div>
+                    <span class="priority-tag tag-fire">🔥 Must</span>
+                </div>
+                <ul class="topic-list">
+                    <li>onSaveInstanceState vs ViewModel survival</li>
+                    <li>Fragment lifecycle vs Activity lifecycle interaction</li>
+                    <li>Process death & recreation scenario</li>
+                    <li>Configuration changes handling</li>
+                    <li>Lifecycle-aware components (LifecycleOwner, LifecycleObserver)</li>
+                    <li>repeatOnLifecycle vs launchWhenStarted differences</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">repeatOnLifecycle</span>
+                    <span class="hl-tag red" style="background:rgba(255,77,109,0.1);color:var(--red);border:1px solid rgba(255,77,109,0.25);">Process Death</span>
+                    <span class="hl-tag yellow">Config Change</span>
+                </div>
+            </div>
+
+            <div class="topic-card fire">
+                <div class="card-top">
+                    <div class="card-title">Memory Management & Leaks</div>
+                    <span class="priority-tag tag-fire">🔥 Must</span>
+                </div>
+                <ul class="topic-list">
+                    <li>Common leak causes: static context, listeners not removed</li>
+                    <li>WeakReference, SoftReference use cases</li>
+                    <li>LeakCanary setup and interpreting results</li>
+                    <li>Bitmap memory handling (recycle, BitmapFactory options)</li>
+                    <li>Android Profiler: heap dump, allocation tracking</li>
+                    <li>GC types and Android memory model</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag orange">LeakCanary</span>
+                    <span class="hl-tag">WeakReference</span>
+                    <span class="hl-tag green">Profiler</span>
+                </div>
+            </div>
+
+            <div class="topic-card high">
+                <div class="card-top">
+                    <div class="card-title">Services & Background Work</div>
+                    <span class="priority-tag tag-high">⚡ High</span>
+                </div>
+                <ul class="topic-list">
+                    <li>Foreground Service — startForeground, notification requirement</li>
+                    <li>Bound Service — IBinder, ServiceConnection</li>
+                    <li>Background execution limits (API 26+)</li>
+                    <li>BroadcastReceiver — ordered, sticky, dynamic vs static</li>
+                    <li>ContentProvider — sharing data across apps</li>
+                    <li>PendingIntent — flags (FLAG_UPDATE_CURRENT, FLAG_IMMUTABLE)</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">Foreground Service</span>
+                    <span class="hl-tag purple">PendingIntent</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 5. NETWORKING -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon" style="background:rgba(0,229,255,0.1);">🌐</div>
+            <div>
+                <div class="section-title">Networking & Data</div>
+                <div class="section-desc">Retrofit internals and offline-first patterns</div>
+            </div>
+        </div>
+        <div class="topic-grid">
+
+            <div class="topic-card fire">
+                <div class="card-top">
+                    <div class="card-title">Retrofit + OkHttp</div>
+                    <span class="priority-tag tag-fire">🔥 Must</span>
+                </div>
+                <ul class="topic-list">
+                    <li>Custom interceptors: auth header injection, logging</li>
+                    <li>Retrofit with suspend functions + Flow</li>
+                    <li>Error handling: Result wrapper, sealed ApiResponse</li>
+                    <li>OkHttp caching strategies (Cache-Control)</li>
+                    <li>Timeout configuration & retry logic</li>
+                    <li>Certificate pinning for security</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">Interceptors</span>
+                    <span class="hl-tag orange">ApiResponse</span>
+                    <span class="hl-tag green">Certificate Pinning</span>
+                </div>
+            </div>
+
+            <div class="topic-card high">
+                <div class="card-top">
+                    <div class="card-title">Offline-First Architecture</div>
+                    <span class="priority-tag tag-high">⚡ High</span>
+                </div>
+                <ul class="topic-list">
+                    <li>Single source of truth — Room as ground truth</li>
+                    <li>Network → DB → UI flow with Flow</li>
+                    <li>RemoteMediator for paged network + cache</li>
+                    <li>Conflict resolution strategies</li>
+                    <li>Optimistic updates pattern</li>
+                    <li>Sync strategies with WorkManager</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">RemoteMediator</span>
+                    <span class="hl-tag purple">SSOT</span>
+                    <span class="hl-tag yellow">Optimistic UI</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 6. PERFORMANCE -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon" style="background:rgba(255,107,53,0.1);">⚡</div>
+            <div>
+                <div class="section-title">Performance & Optimization</div>
+                <div class="section-desc">What separates good devs from great ones</div>
+            </div>
+        </div>
+        <div class="topic-grid">
+
+            <div class="topic-card high">
+                <div class="card-top">
+                    <div class="card-title">RecyclerView Deep Dive</div>
+                    <span class="priority-tag tag-high">⚡ High</span>
+                </div>
+                <ul class="topic-list">
+                    <li>DiffUtil & ListAdapter — why it matters</li>
+                    <li>AsyncListDiffer for background diffing</li>
+                    <li>ViewHolder pattern — scrap & recycle pool</li>
+                    <li>ItemDecoration, ItemAnimator customization</li>
+                    <li>ConcatAdapter for heterogeneous lists</li>
+                    <li>setHasFixedSize, setRecycledViewPool</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">DiffUtil</span>
+                    <span class="hl-tag orange">ConcatAdapter</span>
+                </div>
+            </div>
+
+            <div class="topic-card high">
+                <div class="card-top">
+                    <div class="card-title">Layout & Rendering</div>
+                    <span class="priority-tag tag-high">⚡ High</span>
+                </div>
+                <ul class="topic-list">
+                    <li>Overdraw detection and reduction</li>
+                    <li>&lt;merge&gt;, &lt;include&gt;, &lt;ViewStub&gt; tags</li>
+                    <li>ConstraintLayout to flatten hierarchies</li>
+                    <li>Hardware acceleration & layers</li>
+                    <li>Systrace / Perfetto for frame analysis</li>
+                    <li>Baseline Profiles for startup</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">Overdraw</span>
+                    <span class="hl-tag green">Baseline Profiles</span>
+                    <span class="hl-tag purple">Perfetto</span>
+                </div>
+            </div>
+
+            <div class="topic-card med">
+                <div class="card-top">
+                    <div class="card-title">App Size & Build</div>
+                    <span class="priority-tag tag-med">✅ Good</span>
+                </div>
+                <ul class="topic-list">
+                    <li>R8 / ProGuard — shrinking, obfuscation, optimization</li>
+                    <li>APK vs App Bundle (AAB) differences</li>
+                    <li>Dynamic delivery with Play Feature Delivery</li>
+                    <li>Resource shrinking with shrinkResources</li>
+                    <li>ABI splits for native libraries</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">R8</span>
+                    <span class="hl-tag orange">AAB</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 7. TESTING -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon" style="background:rgba(162,89,255,0.1);">🧪</div>
+            <div>
+                <div class="section-title">Testing</div>
+                <div class="section-desc">Show you write testable, maintainable code</div>
+            </div>
+        </div>
+        <div class="topic-grid">
+
+            <div class="topic-card fire">
+                <div class="card-top">
+                    <div class="card-title">Unit Testing</div>
+                    <span class="priority-tag tag-fire">🔥 Must</span>
+                </div>
+                <ul class="topic-list">
+                    <li>JUnit 5 — @Test, @BeforeEach, @ParameterizedTest</li>
+                    <li>MockK — every, coEvery, verify, slot</li>
+                    <li>Turbine for testing Flow emissions</li>
+                    <li>TestCoroutineDispatcher / StandardTestDispatcher</li>
+                    <li>Testing ViewModel with InstantTaskExecutorRule</li>
+                    <li>Test doubles: Mock, Stub, Spy, Fake, Dummy</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">Turbine</span>
+                    <span class="hl-tag orange">MockK coEvery</span>
+                    <span class="hl-tag purple">TestDispatcher</span>
+                </div>
+            </div>
+
+            <div class="topic-card high">
+                <div class="card-top">
+                    <div class="card-title">UI & Integration Testing</div>
+                    <span class="priority-tag tag-high">⚡ High</span>
+                </div>
+                <ul class="topic-list">
+                    <li>Espresso — onView, perform, check, Idling Resources</li>
+                    <li>Compose testing: composeTestRule, semantics</li>
+                    <li>Hilt testing: @HiltAndroidTest, TestApplicationComponent</li>
+                    <li>UI Automator for cross-app testing</li>
+                    <li>Screenshot testing basics</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">Compose Testing</span>
+                    <span class="hl-tag green">@HiltAndroidTest</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 8. SYSTEM DESIGN -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon" style="background:rgba(255,209,102,0.1);">🏗️</div>
+            <div>
+                <div class="section-title">System Design (3+ Yrs Expected)</div>
+                <div class="section-desc">Think scalability, tradeoffs, and architecture decisions</div>
+            </div>
+        </div>
+        <div class="topic-grid">
+
+            <div class="topic-card fire">
+                <div class="card-top">
+                    <div class="card-title">Common Design Problems</div>
+                    <span class="priority-tag tag-fire">🔥 Must</span>
+                </div>
+                <ul class="topic-list">
+                    <li>Design a Chat App — WebSocket, message queue, offline</li>
+                    <li>Design a News Feed — pagination, caching, infinite scroll</li>
+                    <li>Design an Image Loading Library — LRU cache, disk cache</li>
+                    <li>Design a Video Streaming app — buffering, ExoPlayer</li>
+                    <li>Design a Location Tracking app — battery, Fused API</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag">LRU Cache</span>
+                    <span class="hl-tag orange">WebSocket</span>
+                    <span class="hl-tag green">ExoPlayer</span>
+                </div>
+            </div>
+
+            <div class="topic-card high">
+                <div class="card-top">
+                    <div class="card-title">Architecture Patterns</div>
+                    <span class="priority-tag tag-high">⚡ High</span>
+                </div>
+                <ul class="topic-list">
+                    <li>Modularization: feature modules, core modules, dynamic</li>
+                    <li>Multi-module navigation strategies</li>
+                    <li>Push Notifications: FCM, notification channels, payloads</li>
+                    <li>App Startup library for init optimization</li>
+                    <li>Unidirectional Data Flow (UDF) principle</li>
+                </ul>
+                <div class="highlights">
+                    <span class="hl-tag purple">Modularization</span>
+                    <span class="hl-tag yellow">FCM</span>
+                    <span class="hl-tag">UDF</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PRIORITY TABLE -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon" style="background:rgba(0,229,255,0.1);">📊</div>
+            <div>
+                <div class="section-title">Priority Matrix</div>
+                <div class="section-desc">What to focus on first</div>
+            </div>
+        </div>
+        <table class="priority-table">
+            <thead>
+            <tr>
+                <th>Priority</th>
+                <th>Topic</th>
+                <th>Why It Matters</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td><span class="dot dot-fire"></span>🔥 Must</td><td>Coroutines + Flow</td><td>Asked in almost every Android interview</td></tr>
+            <tr><td><span class="dot dot-fire"></span>🔥 Must</td><td>MVVM + Clean Architecture</td><td>Project structure & design decisions</td></tr>
+            <tr><td><span class="dot dot-fire"></span>🔥 Must</td><td>Hilt DI</td><td>Industry standard for DI in Android</td></tr>
+            <tr><td><span class="dot dot-fire"></span>🔥 Must</td><td>Jetpack Compose</td><td>Modern UI — all new projects use this</td></tr>
+            <tr><td><span class="dot dot-fire"></span>🔥 Must</td><td>Lifecycle edge cases</td><td>Differentiates mid vs senior devs</td></tr>
+            <tr><td><span class="dot dot-fire"></span>🔥 Must</td><td>Memory leaks</td><td>Production code quality signal</td></tr>
+            <tr><td><span class="dot dot-high"></span>⚡ High</td><td>System Design</td><td>Expected at 3+ years</td></tr>
+            <tr><td><span class="dot dot-high"></span>⚡ High</td><td>Room + Offline-first</td><td>Real-world apps need offline support</td></tr>
+            <tr><td><span class="dot dot-high"></span>⚡ High</td><td>Unit Testing with MockK</td><td>Code quality & testability</td></tr>
+            <tr><td><span class="dot dot-med"></span>✅ Good</td><td>Modularization</td><td>Larger team/project scalability</td></tr>
+            <tr><td><span class="dot dot-med"></span>✅ Good</td><td>Baseline Profiles</td><td>Shows depth in performance tuning</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PRO TIPS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-icon" style="background:rgba(0,245,160,0.1);">💡</div>
+            <div>
+                <div class="section-title">Pro Interview Tips</div>
+                <div class="section-desc">What makes the difference on the day</div>
+            </div>
+        </div>
+        <div class="tips-grid">
+            <div class="tip-card">
+                <div class="tip-icon">✍️</div>
+                <div>
+                    <div class="tip-title">Write Live Code</div>
+                    <div class="tip-text">Practice writing ViewModel + Repository + Flow code on whiteboard or IDE without autocomplete.</div>
+                </div>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">🤔</div>
+                <div>
+                    <div class="tip-title">Explain the WHY</div>
+                    <div class="tip-text">Don't just say "I use Hilt" — explain why DI improves testability and decoupling.</div>
+                </div>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">🧩</div>
+                <div>
+                    <div class="tip-title">LeetCode Basics</div>
+                    <div class="tip-text">Practice easy/medium problems: arrays, hashmaps, strings. Many companies still ask these.</div>
+                </div>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">🔁</div>
+                <div>
+                    <div class="tip-title">Mock Interviews</div>
+                    <div class="tip-text">Simulate real interviews out loud. It reveals gaps faster than reading.</div>
+                </div>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">📱</div>
+                <div>
+                    <div class="tip-title">Build a Project</div>
+                    <div class="tip-text">One clean project with Compose + Hilt + Clean Arch + Tests shows everything at once.</div>
+                </div>
+            </div>
+            <div class="tip-card">
+                <div class="tip-icon">📰</div>
+                <div>
+                    <div class="tip-title">Stay Updated</div>
+                    <div class="tip-text">Follow Android Developers blog, Kotlin weekly, and Now in Android podcast.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Built for Android devs at <span>3.5 years</span> experience · Good luck with your interviews! 🚀
+    </footer>
+
+</div>
+</body>
+</html>
