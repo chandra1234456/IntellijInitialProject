@@ -1,0 +1,585 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Android Basics Interview Preparation - 30+ Q&A">
+    <title>Android Basics Interview Preparation</title>
+    <style>
+        /* --- CSS Variables & Theme --- */
+        :root {
+            /* Light Theme */
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --text-main: #2c3e50;
+            --text-muted: #546e7a;
+            --android-green: #3DDC84;
+            --android-dark: #073042;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+            --accent: #4285F4;
+            --important: #FFB900;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme */
+            --bg-gradient: linear-gradient(135deg, #121212 0%, #1e1e24 100%);
+            --text-main: #f0f0f0;
+            --text-muted: #b0bec5;
+            --android-green: #3DDC84;
+            --android-dark: #121212;
+            --glass-bg: rgba(30, 30, 30, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            --code-bg: #000000;
+            --code-text: #3DDC84;
+            --accent: #8AB4F8;
+            --important: #FFD54F;
+        }
+
+        /* --- Base Styles --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            background-attachment: fixed;
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3 { color: var(--text-main); margin-bottom: 10px; }
+        p { margin-bottom: 15px; }
+
+        /* --- Glassmorphism Utilities --- */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 100;
+            margin: 20px;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header-content h1 {
+            color: var(--android-green);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            font-size: 1.8rem;
+        }
+        .theme-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            box-shadow: var(--card-shadow);
+        }
+
+        /* --- Sticky Navigation --- */
+        nav.sticky-nav {
+            position: sticky;
+            top: 10px;
+            z-index: 99;
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            padding: 15px 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            margin-bottom: 15px;
+            outline: none;
+        }
+        .search-bar:focus { border-color: var(--android-green); }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: thin;
+        }
+        .filters::-webkit-scrollbar { height: 6px; }
+        .filters::-webkit-scrollbar-thumb { background: var(--android-green); border-radius: 10px; }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--android-green);
+            color: #000;
+            border-color: var(--android-green);
+        }
+
+        /* --- Progress Indicator --- */
+        .progress-container {
+            margin-bottom: 15px;
+        }
+        .progress-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            display: block;
+        }
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--android-green);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* --- Main Content Container --- */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Q&A Cards (Accordion) --- */
+        .qa-card {
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s ease;
+        }
+
+        .qa-header {
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            user-select: none;
+        }
+        .qa-header:hover { background: rgba(61, 220, 132, 0.1); }
+        .qa-header:focus { outline: 2px solid var(--android-green); }
+
+        .qa-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .category-tag {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: var(--accent);
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .qa-actions { display: flex; align-items: center; gap: 15px; }
+        .bookmark-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: transform 0.2s;
+        }
+        .bookmark-btn.active { color: var(--important); transform: scale(1.2); }
+        .toggle-icon { transition: transform 0.3s; color: var(--android-green); }
+
+        .qa-card.open .toggle-icon { transform: rotate(180deg); }
+
+        .qa-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease;
+            background: rgba(0,0,0,0.02);
+        }
+        .qa-card.open .qa-body {
+            max-height: 2000px; /* Arbitrary large max-height */
+            padding: 20px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .read-btn {
+            margin-top: 15px;
+            padding: 8px 16px;
+            background: var(--android-dark);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .read-btn.read {
+            background: var(--android-green);
+            color: #000;
+        }
+
+        /* --- Code Snippets --- */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+        code { font-family: inherit; }
+
+        /* --- FAQ & Footer --- */
+        .faq-section {
+            margin: 50px 0;
+            padding: 20px;
+            text-align: center;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+        footer span { color: var(--android-green); font-weight: bold; }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .header-content h1 { font-size: 1.4rem; }
+            .qa-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .qa-actions { align-self: flex-end; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="glass">
+    <div class="header-content">
+        <h1>Android Basics Interview Prep</h1>
+        <button id="theme-btn" class="theme-btn" aria-label="Toggle Dark Mode">🌙</button>
+    </div>
+</header>
+
+<nav class="sticky-nav glass" aria-label="Filters and Progress">
+    <input type="text" id="search-input" class="search-bar" placeholder="Search questions, keywords, classes..." aria-label="Search questions">
+
+    <div class="progress-container">
+        <span class="progress-text" id="progress-text">Progress: 0 / 30 Read</span>
+        <div class="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+    </div>
+
+    <div class="filters" id="filters" role="tablist">
+        <button class="filter-btn active" data-filter="All" role="tab" aria-selected="true">All</button>
+        <button class="filter-btn" data-filter="Important" role="tab">⭐ Important</button>
+        <button class="filter-btn" data-filter="Fundamentals" role="tab">Fundamentals</button>
+        <button class="filter-btn" data-filter="Core Components" role="tab">Core Components</button>
+        <button class="filter-btn" data-filter="UI & Layouts" role="tab">UI & Layouts</button>
+        <button class="filter-btn" data-filter="Architecture & Data" role="tab">Architecture & Data</button>
+        <button class="filter-btn" data-filter="Advanced & Jetpack" role="tab">Advanced & Jetpack</button>
+    </div>
+</nav>
+
+<main id="qa-container">
+</main>
+
+<section class="faq-section glass">
+    <h2>Interview Tips</h2>
+    <p>Stay calm, think aloud, and be honest if you don't know an exact API. Interviewers value problem-solving skills and architecture understanding over memorization.</p>
+</section>
+
+<footer>
+    <p>Prepared for <span>Android Developers</span> | Build with ❤️ using HTML, CSS & Vanilla JS</p>
+</footer>
+
+<script>
+    // --- DATA SET (30 Questions) ---
+    const qaData = [
+        // Fundamentals
+        { id: 1, category: "Fundamentals", q: "What is Android?", a: "Android is an open-source, Linux-based operating system designed primarily for touchscreen mobile devices. It is developed by a consortium of developers known as the Open Handset Alliance, commercially sponsored by Google." },
+        { id: 2, category: "Fundamentals", q: "Explain the Android Architecture Framework.", a: "The architecture consists of 5 main layers:<br>1. <strong>Linux Kernel:</strong> Hardware abstraction, drivers, memory management.<br>2. <strong>Hardware Abstraction Layer (HAL):</strong> Interfaces for device hardware.<br>3. <strong>Android Runtime (ART) & Native Libraries:</strong> Dalvik/ART virtual machines, WebKit, SQLite, OpenGL.<br>4. <strong>Application Framework:</strong> Activity Manager, Resource Manager, Content Providers (APIs).<br>5. <strong>Applications:</strong> System and user apps." },
+        { id: 3, category: "Fundamentals", q: "What is the difference between DVM and ART?", a: "<strong>DVM (Dalvik Virtual Machine)</strong> uses Just-In-Time (JIT) compilation, compiling code during execution, leading to slower app launches but taking up less storage.<br><strong>ART (Android Runtime)</strong> replaced DVM. It uses Ahead-Of-Time (AOT) compilation, compiling bytecode into native machine code upon installation. This improves runtime performance and battery life but increases installation time and app size." },
+        { id: 4, category: "Fundamentals", q: "What is an APK vs AAB?", a: "<strong>APK (Android Package Kit):</strong> The traditional executable file format for Android. It contains all code, resources, and assets for all device configurations.<br><strong>AAB (Android App Bundle):</strong> A publishing format that includes all compiled code and resources, but defers APK generation and signing to Google Play. Google Play uses AAB to generate optimized APKs specific to a user's device architecture and screen density, reducing download size." },
+        { id: 5, category: "Fundamentals", q: "What is the AndroidManifest.xml file?", a: "It is an essential XML file located at the root of every Android project. It describes essential information to the Android build tools, the Android OS, and Google Play. It declares app components (Activities, Services), permissions required, hardware features, and the minimum API level." },
+
+        // Core Components
+        { id: 6, category: "Core Components", q: "What are the four core components of an Android App?", a: "1. <strong>Activities:</strong> Represent a single screen with a user interface.<br>2. <strong>Services:</strong> Perform background operations without a UI.<br>3. <strong>Broadcast Receivers:</strong> Respond to system-wide broadcast announcements.<br>4. <strong>Content Providers:</strong> Manage shared sets of app data (e.g., Contacts)." },
+        { id: 7, category: "Core Components", q: "Explain the Activity Lifecycle.", a: "The Activity Lifecycle is controlled by callbacks:<br>- <code>onCreate()</code>: Activity created, UI initialized.<br>- <code>onStart()</code>: Activity becomes visible.<br>- <code>onResume()</code>: Activity is in the foreground, interacting with user.<br>- <code>onPause()</code>: Activity partially obscured/losing focus. Save lightweight state.<br>- <code>onStop()</code>: Activity no longer visible.<br>- <code>onDestroy()</code>: Activity is finished or system destroys it to free memory." },
+        { id: 8, category: "Core Components", q: "What is an Intent? (Implicit vs Explicit)", a: "An Intent is a messaging object used to request an action from another app component.<br>- <strong>Explicit Intent:</strong> Specifies the exact component to start by class name. Used inside your own app.<br><pre><code>val intent = Intent(this, TargetActivity::class.java)\nstartActivity(intent)</code></pre>- <strong>Implicit Intent:</strong> Declares a general action to perform, allowing the OS to find a suitable app (e.g., opening a URL).<br><pre><code>val intent = Intent(Intent.ACTION_VIEW, Uri.parse(\"https://google.com\"))\nstartActivity(intent)</code></pre>" },
+        { id: 9, category: "Core Components", q: "What is Context in Android?", a: "<code>Context</code> provides an interface to global information about an application environment. It allows access to resources, databases, and preferences. <br><strong>Application Context:</strong> Tied to the app's lifecycle. Use for singletons or long-running tasks to avoid memory leaks.<br><strong>Activity Context:</strong> Tied to the Activity's lifecycle. Use for UI operations like Dialogs or Inflating layouts." },
+        { id: 10, category: "Core Components", q: "What are Activity Launch Modes?", a: "Defined in the manifest or via Intent flags, they dictate how a new Activity instance is associated with the current task:<br>1. <strong>Standard (Default):</strong> Creates a new instance every time.<br>2. <strong>SingleTop:</strong> If an instance exists at the top of the stack, it routes the intent via <code>onNewIntent()</code> instead of creating a new one.<br>3. <strong>SingleTask:</strong> Creates a new task and instantiates the activity at its root, or routes to an existing one clearing activities above it.<br>4. <strong>SingleInstance:</strong> Like SingleTask, but the system doesn't launch any other activities into the task holding the instance." },
+        { id: 11, category: "Core Components", q: "What is the difference between a Fragment and an Activity?", a: "An <strong>Activity</strong> is a standalone entry point with a UI. A <strong>Fragment</strong> is a modular section of a UI that must be hosted by an Activity. Fragments have their own lifecycle (which is tied to the host Activity) and are used to build dynamic, multi-pane UIs for different screen sizes (phones vs. tablets)." },
+        { id: 12, category: "Core Components", q: "How do you handle screen rotation (Configuration Changes)?", a: "By default, the system destroys and recreates the Activity on rotation. To save data:<br>1. Use <strong>ViewModel</strong> (survives configuration changes).<br>2. Override <code>onSaveInstanceState()</code> to save primitive data in a Bundle.<br>3. Declare <code>android:configChanges=\"orientation|screenSize\"</code> in the manifest to handle it manually via <code>onConfigurationChanged()</code> (not recommended for general UI)." },
+
+        // UI & Layouts
+        { id: 13, category: "UI & Layouts", q: "What is the difference between View and ViewGroup?", a: "<strong>View:</strong> The basic building block for UI components (e.g., TextView, Button). Draws something on screen and handles interaction.<br><strong>ViewGroup:</strong> A subclass of View that acts as an invisible container, holding other Views or ViewGroups and defining their layout properties (e.g., LinearLayout, ConstraintLayout)." },
+        { id: 14, category: "UI & Layouts", q: "Explain ConstraintLayout.", a: "<code>ConstraintLayout</code> is a modern, flexible ViewGroup that allows you to position and size widgets based on spatial constraints relative to other widgets or the parent container. It is highly optimized, reduces deep view hierarchies (flat hierarchy), and improves UI performance." },
+        { id: 15, category: "UI & Layouts", q: "What is the difference between dp and sp?", a: "<strong>dp (Density-independent Pixels):</strong> Used for defining dimensions (margins, padding, view sizes). It scales based on screen density to maintain physical size across devices.<br><strong>sp (Scale-independent Pixels):</strong> Used for text sizes. It scales based on screen density AND the user's font size preference in system settings for accessibility." },
+        { id: 16, category: "UI & Layouts", q: "RecyclerView vs ListView?", a: "<code>RecyclerView</code> is a modern, highly optimized successor to <code>ListView</code>.<br>- <strong>Mandatory ViewHolder:</strong> RecyclerView forces the ViewHolder pattern to recycle view instances, saving memory.<br>- <strong>LayoutManager:</strong> Easily switch between Linear, Grid, or StaggeredGrid layouts.<br>- <strong>ItemAnimator & ItemDecoration:</strong> Built-in support for animations and dividers." },
+        { id: 17, category: "UI & Layouts", q: "Explain the ViewHolder Pattern.", a: "The ViewHolder pattern minimizes <code>findViewById()</code> calls by caching view references. When a list item scrolls off-screen, its view is 'recycled' and populated with new data for an item coming on-screen. This dramatically improves scrolling performance.<br><pre><code>class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {\n    val textView: TextView = view.findViewById(R.id.text)\n}</code></pre>" },
+        { id: 18, category: "UI & Layouts", q: "What is ViewBinding?", a: "View Binding is a feature that replaces <code>findViewById()</code>. It generates a binding class for each XML layout file. An instance of this binding class contains direct, type-safe, and null-safe references to all views that have an ID in the corresponding layout." },
+
+        // Architecture & Data
+        { id: 19, category: "Architecture & Data", q: "SharedPreferences vs SQLite vs Room?", a: "<strong>SharedPreferences:</strong> Key-value store for primitive data types (e.g., user settings, login state).<br><strong>SQLite:</strong> The native relational database in Android. Requires complex boilerplate code (SQLiteOpenHelper, raw SQL queries).<br><strong>Room:</strong> An abstraction layer over SQLite provided by Android Jetpack. It provides compile-time verification of SQL queries, easier migrations, and integrates seamlessly with Coroutines and LiveData." },
+        { id: 20, category: "Architecture & Data", q: "What is a ViewModel?", a: "A <code>ViewModel</code> is an architecture component designed to store and manage UI-related data in a lifecycle-conscious way. It survives configuration changes (like screen rotations), ensuring data is not lost and preventing memory leaks by not holding context references." },
+        { id: 21, category: "Architecture & Data", q: "What is LiveData vs StateFlow?", a: "<strong>LiveData:</strong> An observable, lifecycle-aware data holder. It only updates active observers (e.g., Activity in foreground), preventing crashes. Native to Java/Android.<br><strong>StateFlow:</strong> Part of Kotlin Coroutines. It is a state-holder observable flow. Unlike LiveData, it requires an initial state, is not strictly lifecycle-aware by default (requires <code>repeatOnLifecycle</code> to be safe in UI), but is preferred in modern Kotlin apps for its extensive operator support." },
+        { id: 22, category: "Architecture & Data", q: "What is MVVM Architecture?", a: "MVVM (Model-View-ViewModel) separates UI logic from business logic.<br>- <strong>Model (Repository):</strong> Manages data sources (Network, Database).<br>- <strong>View (Activity/Fragment):</strong> Observes ViewModel and displays UI. Has no business logic.<br>- <strong>ViewModel:</strong> Fetches data from Repository, exposes state to the View via observables (LiveData/StateFlow)." },
+        { id: 23, category: "Architecture & Data", q: "How do you define a Room Database?", a: "Room has 3 main components:<br>1. <strong>Entity:</strong> Represents a table (annotated with <code>@Entity</code>).<br>2. <strong>DAO (Data Access Object):</strong> Interface defining SQL operations (<code>@Insert, @Query</code>).<br>3. <strong>Database:</strong> Abstract class extending <code>RoomDatabase</code> holding the DAO.<br><pre><code>@Entity\ndata class User(@PrimaryKey val id: Int, val name: String)\n\n@Dao\ninterface UserDao {\n  @Query(\"SELECT * FROM user\")\n  fun getAll(): List&lt;User&gt;\n}</code></pre>" },
+
+        // Advanced & Jetpack
+        { id: 24, category: "Advanced & Jetpack", q: "What is an ANR and how to avoid it?", a: "<strong>ANR (Application Not Responding):</strong> A dialog triggered if the Main (UI) thread is blocked for more than ~5 seconds. <br><strong>Avoidance:</strong> Never perform long-running operations (Network requests, heavy DB queries, image processing) on the Main thread. Offload them to background threads using Kotlin Coroutines, WorkManager, or RxJava." },
+        { id: 25, category: "Advanced & Jetpack", q: "What are Kotlin Coroutines?", a: "Coroutines are a concurrency design pattern in Kotlin that simplifies asynchronous programming. They are lightweight threads that can be suspended and resumed without blocking the underlying thread, making network calls and database operations asynchronous yet readable like synchronous code.<br><pre><code>lifecycleScope.launch(Dispatchers.IO) {\n    val data = repository.fetchData() // Background\n    withContext(Dispatchers.Main) {\n        updateUI(data) // Main thread\n    }\n}</code></pre>" },
+        { id: 26, category: "Advanced & Jetpack", q: "What is WorkManager?", a: "WorkManager is an API for scheduling deferrable, guaranteed background work. It is battery-friendly and replaces older APIs like JobScheduler and AlarmManager. It guarantees execution even if the app exits or the device restarts. Excellent for background syncing or file uploads." },
+        { id: 27, category: "Advanced & Jetpack", q: "What is Retrofit?", a: "Retrofit is a type-safe HTTP client for Android and Java developed by Square. It converts REST API endpoints into Java/Kotlin interfaces, handling JSON parsing (via converters like Gson/Moshi) and network request execution cleanly, usually in combination with Coroutines." },
+        { id: 28, category: "Advanced & Jetpack", q: "What is ProGuard / R8?", a: "They are code shrinkers and obfuscators.<br>- <strong>Shrinking:</strong> Removes unused classes, fields, methods, and attributes to reduce APK size.<br>- <strong>Obfuscation:</strong> Renames classes and members to short, meaningless names (e.g., `a.b.c`), making it difficult to reverse-engineer the APK.<br>R8 is the modern compiler that replaces ProGuard in newer Android Studio versions." },
+        { id: 29, category: "Advanced & Jetpack", q: "What is Dependency Injection? (Hilt / Dagger)", a: "Dependency Injection (DI) is a technique where an object receives other objects that it depends on, rather than creating them itself. This makes code modular, testable, and reusable. <strong>Hilt</strong> is a Jetpack DI library built on top of Dagger, providing a standard way to incorporate DI into Android applications with minimal boilerplate." },
+        { id: 30, category: "Advanced & Jetpack", q: "What is Jetpack Compose?", a: "Jetpack Compose is Android's modern, declarative UI toolkit. It replaces XML layouts. You describe your UI in Kotlin using `@Composable` functions, and the framework automatically updates the UI when the underlying app state changes. It drastically reduces UI boilerplate and simplifies animations and theming." }
+    ];
+
+    // --- STATE ---
+    let bookmarks = JSON.parse(localStorage.getItem('androidPrepBookmarks')) || [];
+    let readStatus = JSON.parse(localStorage.getItem('androidPrepRead')) || [];
+
+    // --- DOM ELEMENTS ---
+    const container = document.getElementById('qa-container');
+    const searchInput = document.getElementById('search-input');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+    const themeBtn = document.getElementById('theme-btn');
+
+    // --- RENDER LOGIC ---
+    function renderQuestions(data) {
+        container.innerHTML = '';
+        if (data.length === 0) {
+            container.innerHTML = '<p style="text-align:center; padding:20px;">No questions found matching your criteria.</p>';
+            return;
+        }
+
+        data.forEach(q => {
+            const isBookmarked = bookmarks.includes(q.id);
+            const isRead = readStatus.includes(q.id);
+
+            const article = document.createElement('article');
+            article.className = `qa-card glass ${q.category.replace(/[^a-zA-Z]/g, '')}`;
+            article.dataset.id = q.id;
+
+            article.innerHTML = `
+                <div class="qa-header" tabindex="0" aria-expanded="false">
+                    <div class="qa-title-wrapper">
+                        <span class="category-tag">${q.category}</span>
+                        <span>${q.id}. ${q.q}</span>
+                    </div>
+                    <div class="qa-actions">
+                        <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" aria-label="Mark as important" data-id="${q.id}">
+                            ${isBookmarked ? '⭐' : '☆'}
+                        </button>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                </div>
+                <div class="qa-body">
+                    <div class="answer-content">
+                        <p>${q.a}</p>
+                        <button class="read-btn ${isRead ? 'read' : ''}" data-id="${q.id}">
+                            ${isRead ? '✓ Marked as Read' : 'Mark as Read'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(article);
+        });
+
+        attachEventListeners();
+        updateProgress();
+    }
+
+    // --- EVENT DELEGATION & LISTENERS ---
+    function attachEventListeners() {
+        const headers = document.querySelectorAll('.qa-header');
+        headers.forEach(header => {
+            header.addEventListener('click', (e) => {
+                // Prevent accordion toggle if clicking bookmark
+                if(e.target.closest('.bookmark-btn')) return;
+
+                const card = header.parentElement;
+                const isOpen = card.classList.contains('open');
+
+                // Close all others (optional accordion logic)
+                // document.querySelectorAll('.qa-card').forEach(c => { c.classList.remove('open'); c.querySelector('.qa-header').setAttribute('aria-expanded', 'false');});
+
+                if (!isOpen) {
+                    card.classList.add('open');
+                    header.setAttribute('aria-expanded', 'true');
+                } else {
+                    card.classList.remove('open');
+                    header.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Keyboard support
+            header.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    header.click();
+                }
+            });
+        });
+
+        const bookBtns = document.querySelectorAll('.bookmark-btn');
+        bookBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                if (bookmarks.includes(id)) {
+                    bookmarks = bookmarks.filter(b => b !== id);
+                    btn.classList.remove('active');
+                    btn.innerHTML = '☆';
+                } else {
+                    bookmarks.push(id);
+                    btn.classList.add('active');
+                    btn.innerHTML = '⭐';
+                }
+                localStorage.setItem('androidPrepBookmarks', JSON.stringify(bookmarks));
+            });
+        });
+
+        const readBtns = document.querySelectorAll('.read-btn');
+        readBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = parseInt(btn.dataset.id);
+                if (!readStatus.includes(id)) {
+                    readStatus.push(id);
+                    btn.classList.add('read');
+                    btn.innerHTML = '✓ Marked as Read';
+                    localStorage.setItem('androidPrepRead', JSON.stringify(readStatus));
+                    updateProgress();
+                } else {
+                    readStatus = readStatus.filter(r => r !== id);
+                    btn.classList.remove('read');
+                    btn.innerHTML = 'Mark as Read';
+                    localStorage.setItem('androidPrepRead', JSON.stringify(readStatus));
+                    updateProgress();
+                }
+            });
+        });
+    }
+
+    // --- FILTER & SEARCH ---
+    function applyFilters() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+
+        let filtered = qaData.filter(q => {
+            const matchesSearch = q.q.toLowerCase().includes(searchTerm) || q.a.toLowerCase().includes(searchTerm);
+            let matchesCategory = true;
+
+            if (activeFilter === 'Important') {
+                matchesCategory = bookmarks.includes(q.id);
+            } else if (activeFilter !== 'All') {
+                matchesCategory = q.category === activeFilter;
+            }
+
+            return matchesSearch && matchesCategory;
+        });
+
+        renderQuestions(filtered);
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+            applyFilters();
+        });
+    });
+
+    // --- PROGRESS TRACKING ---
+    function updateProgress() {
+        const total = qaData.length;
+        const readCount = readStatus.length;
+        const percentage = (readCount / total) * 100;
+
+        progressFill.style.width = `${percentage}%`;
+        progressText.innerText = `Progress: ${readCount} / ${total} Read`;
+    }
+
+    // --- THEME TOGGLE ---
+    const savedTheme = localStorage.getItem('androidPrepTheme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeBtn.innerHTML = '☀️';
+    }
+
+    themeBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('androidPrepTheme', 'light');
+            themeBtn.innerHTML = '🌙';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('androidPrepTheme', 'dark');
+            themeBtn.innerHTML = '☀️';
+        }
+    });
+
+    // --- INITIALIZATION ---
+    renderQuestions(qaData);
+
+</script>
+</body>
+</html>
+
+```

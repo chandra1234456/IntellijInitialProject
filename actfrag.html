@@ -3,74 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Android Interview Questions</title>
+    <title>Android Interview Questions - Advanced</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 20px;
-            background-color: #f4f6f8;
+            background-color: #eef2f7;
             line-height: 1.6;
+            color: #1a2a3a;
         }
-        h1, h2, h3 {
-            color: #2c3e50;
+        h1 {
+            color: #1e466e;
+            border-bottom: 3px solid #3b82f6;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        h2 {
+            background: linear-gradient(135deg, #1e466e, #3b82f6);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-size: 1.4rem;
+            margin-top: 0;
+        }
+        h3 {
+            color: #0f2b3d;
+            border-left: 5px solid #3b82f6;
+            padding-left: 12px;
+            margin-top: 20px;
         }
         .section {
             background: #ffffff;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .section:hover {
+            transform: scale(1.01);
         }
         code {
             display: block;
-            background: #eee;
-            padding: 10px;
-            border-radius: 5px;
+            background: #1e2a36;
+            color: #e2e8f0;
+            padding: 12px;
+            border-radius: 12px;
             margin-top: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        ul, p {
+            margin: 8px 0;
+        }
+        .badge {
+            background-color: #3b82f6;
+            color: white;
+            font-size: 0.7rem;
+            border-radius: 20px;
+            padding: 2px 8px;
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        hr {
+            margin: 15px 0;
+            border: 0;
+            height: 1px;
+            background: #cbd5e1;
         }
     </style>
 </head>
 <body>
 
-<h1>📱 Android Interview Questions</h1>
+<h1>📱 Android Interview Questions <span style="font-size: 0.8rem;">(Advanced Edition)</span></h1>
 
+<!-- ACTIVITY SECTION (Enhanced) -->
 <div class="section">
-    <h2>🧠 Activity Lifecycle</h2>
+    <h2>🧠 Activity Lifecycle & Core Concepts</h2>
 
-    <h3>Q1. What are Activity lifecycle methods?</h3>
+    <h3>Q1. What are Activity lifecycle methods? <span class="badge">Basic</span></h3>
     <p>onCreate → onStart → onResume → onPause → onStop → onDestroy</p>
 
-    <h3>Q2. When is onPause() called?</h3>
-    <p>When activity is partially visible or another activity comes in front.</p>
+    <h3>Q2. When is onPause() called? <span class="badge">Basic</span></h3>
+    <p>When activity is partially visible or another activity comes in front (e.g., a dialog or transparent activity).</p>
 
-    <h3>Q3. Difference between onStop() and onDestroy()?</h3>
-    <p>onStop → activity not visible<br>
-        onDestroy → activity is finishing or destroyed</p>
+    <h3>Q3. Difference between onStop() and onDestroy()? <span class="badge">Basic</span></h3>
+    <p>onStop → activity not visible (still in memory).<br>
+        onDestroy → activity is finishing or destroyed by system (cleanup happens here).</p>
 
-    <h3>Q4. What is onSaveInstanceState()?</h3>
-    <p>Used to save UI state before destruction.</p>
+    <h3>Q4. What is onSaveInstanceState()? <span class="badge">Intermediate</span></h3>
+    <p>Used to save temporary UI state before destruction (e.g., rotation). Data is restored in onCreate() or onRestoreInstanceState().</p>
+
+    <h3>Q5. 🔥 What happens if an Activity is in background and system needs memory? <span class="badge">Advanced</span></h3>
+    <p>The system may kill the process. onSaveInstanceState() is called before it's killed. Then onRestoreInstanceState() or onCreate(Bundle) is called when user returns.</p>
+
+    <h3>Q6. 🔥 Difference between onRestart() and onResume()? <span class="badge">Intermediate</span></h3>
+    <p>onRestart() is called when activity comes from stopped state (after onStop). onResume() is always called when activity becomes interactive — from either start or restart.</p>
+
+    <h3>Q7. 🔥 What is the order when Activity A starts Activity B? <span class="badge">Advanced</span></h3>
+    <p>A: onPause → B: onCreate → onStart → onResume → A: onStop (if A no longer visible).</p>
+
+    <h3>Q8. 🔥 Can you call finish() in onCreate()? What happens? <span class="badge">Advanced</span></h3>
+    <p>Yes. It will destroy the activity immediately. onDestroy() is called directly after onCreate() without going through onStart/onResume.</p>
+
+    <h3>Q9. 🔥 What is android:configChanges and why use it? <span class="badge">Advanced</span></h3>
+    <p>It prevents activity recreation on specific configuration changes (like orientation). Use with caution — can cause view hierarchy issues if not handling changes manually.</p>
 </div>
 
+<!-- FRAGMENT SECTION (Enhanced) -->
 <div class="section">
-    <h2>🧩 Fragment Lifecycle</h2>
+    <h2>🧩 Fragment Lifecycle & Advanced Concepts</h2>
 
-    <h3>Q1. Fragment lifecycle flow?</h3>
-    <p>onAttach → onCreate → onCreateView → onViewCreated → onStart → onResume</p>
+    <h3>Q1. Fragment lifecycle flow? <span class="badge">Basic</span></h3>
+    <p>onAttach → onCreate → onCreateView → onViewCreated → onStart → onResume → onPause → onStop → onDestroyView → onDestroy → onDetach</p>
 
-    <h3>Q2. Difference between Activity & Fragment lifecycle?</h3>
-    <p>Fragment has additional view lifecycle methods.</p>
+    <h3>Q2. Difference between Activity & Fragment lifecycle? <span class="badge">Basic</span></h3>
+    <p>Fragment has additional view lifecycle methods (onCreateView, onDestroyView) and is attached to an activity (onAttach/onDetach).</p>
 
-    <h3>Q3. onCreateView vs onViewCreated?</h3>
-    <p>onCreateView → inflate layout<br>
-        onViewCreated → initialize UI</p>
+    <h3>Q3. onCreateView vs onViewCreated? <span class="badge">Intermediate</span></h3>
+    <p>onCreateView → inflate layout and return the root View.<br>
+        onViewCreated → called after view is created; ideal for UI initialization, button clicks, adapters.</p>
 
-    <h3>Q4. Why use Fragment?</h3>
+    <h3>Q4. Why use Fragment? <span class="badge">Basic</span></h3>
     <ul>
-        <li>Reusable UI</li>
-        <li>Better modularity</li>
+        <li>Reusable UI components across activities</li>
+        <li>Better modularity and easier for tablet/phone adaptation</li>
+        <li>Lifecycle management is more flexible</li>
     </ul>
+
+    <h3>Q5. 🔥 What is the difference between replace() and add() when using fragments? <span class="badge">Advanced</span></h3>
+    <p>replace() removes existing fragment and adds new one (calls onDestroyView/onCreateView).<br>
+        add() adds another fragment on top without destroying previous (useful for back stack management).</p>
+
+    <h3>Q6. 🔥 How to pass data from Fragment to Activity? <span class="badge">Intermediate</span></h3>
+    <ul>
+        <li>Interface callback (recommended)</li>
+        <li>Shared ViewModel (modern approach)</li>
+        <li>Using Fragment's arguments for Activity → Fragment communication</li>
+    </ul>
+
+    <h3>Q7. 🔥 What is FragmentManager and what does it do? <span class="badge">Intermediate</span></h3>
+    <p>Manages fragments in an activity: adding, removing, replacing, back stack operations, and finding fragments by ID or tag.</p>
+
+    <h3>Q8. 🔥 What is the difference between commit() and commitNow()? <span class="badge">Advanced</span></h3>
+    <p>commit() schedules transaction asynchronously on main thread. commitNow() executes immediately synchronously (only for non-backstack transactions).</p>
+
+    <h3>Q9. 🔥 Can a Fragment outlive its parent Activity? How? <span class="badge">Advanced</span></h3>
+    <p>Yes, with retainInstance = true (deprecated) or using ViewModel scoped to the activity. Also fragments added without UI (headless fragments) can survive config changes.</p>
+
+    <h3>Q10. 🔥 What is ViewPager2 with Fragments? When is onResume called for each fragment? <span class="badge">Advanced</span></h3>
+    <p>ViewPager2 uses FragmentStateAdapter. By default, it creates offscreen pages (default limit = 1). onResume is called only when fragment becomes visible to user, not just when created.</p>
 </div>
 
+<!-- INTENTS (unchanged but kept for completeness) -->
 <div class="section">
     <h2>🔗 Intents</h2>
 
@@ -97,14 +183,15 @@
     <p>Defines which intents an app can respond to.</p>
 </div>
 
+<!-- TASKS & BACK STACK (enhanced) -->
 <div class="section">
     <h2>🔄 Tasks & Back Stack</h2>
 
     <h3>Q1. What is Back Stack?</h3>
-    <p>A stack of activities managed by Android.</p>
+    <p>A stack of activities managed by Android. Pressing back button pops the top.</p>
 
     <h3>Q2. What happens when back button is pressed?</h3>
-    <p>Current activity is popped and previous is resumed.</p>
+    <p>Current activity is popped and previous is resumed. If stack is empty, user goes to launcher.</p>
 
     <h3>Q3. What is launchMode?</h3>
     <ul>
@@ -114,10 +201,17 @@
         <li>singleInstance</li>
     </ul>
 
-    <h3>Q4. What is taskAffinity?</h3>
-    <p>Defines which task an activity belongs to.</p>
+    <h3>Q4. 🔥 What is the difference between singleTask and singleInstance? <span class="badge">Advanced</span></h3>
+    <p>singleTask allows other activities from other apps to be in the same task; singleInstance creates a new task with only that one activity — no other activities allowed.</p>
+
+    <h3>Q5. What is taskAffinity?</h3>
+    <p>Defines which task an activity belongs to. Used with singleTask or singleInstance to separate tasks.</p>
+
+    <h3>Q6. 🔥 How to clear back stack programmatically? <span class="badge">Intermediate</span></h3>
+    <p>Use Intent.FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK, or call finishAffinity() on API 16+.</p>
 </div>
 
+<!-- CONTEXT (enhanced) -->
 <div class="section">
     <h2>🌍 Context</h2>
 
@@ -128,23 +222,44 @@
     <ul>
         <li>Application Context</li>
         <li>Activity Context</li>
+        <li>BaseContext (rarely used)</li>
     </ul>
 
     <h3>Q3. Difference between Application & Activity Context?</h3>
-    <p>
-        Application → global, long-lived<br>
-        Activity → tied to UI lifecycle
-    </p>
+    <p>Application → global, long-lived, tied to app lifecycle.<br>
+        Activity → tied to UI lifecycle, can show dialogs/themes.</p>
 
     <h3>Q4. When to use Application Context?</h3>
     <ul>
         <li>Singletons</li>
-        <li>Database</li>
+        <li>Database instances</li>
+        <li>Retrofit / Dagger / Koin (avoid memory leaks)</li>
     </ul>
 
     <h3>Q5. Memory leak example?</h3>
-    <p>Holding Activity context in static variable.</p>
+    <p>Holding Activity context in static variable or long-running background task holding reference to Activity.</p>
 
+    <h3>Q6. 🔥 Can you start an Activity from Application Context? Why? <span class="badge">Advanced</span></h3>
+    <p>No. You need FLAG_ACTIVITY_NEW_TASK to start from non-activity context. However, this may not behave as expected. Use Activity Context for starting activities.</p>
+</div>
+
+<!-- EXTRA: Advanced topics for good measure -->
+<div class="section">
+    <h2>⚡ Bonus: Activity & Fragment in Real Apps</h2>
+    <h3>🔥 What is the difference between getActivity() and requireActivity() in Fragment?</h3>
+    <p>getActivity() can return null if fragment not attached; requireActivity() throws exception if null — safer for post-attach code.</p>
+
+    <h3>🔥 When is onActivityResult called in Fragment? (Legacy)</h3>
+    <p>When an activity started with startActivityForResult from fragment returns — fragment's onActivityResult receives result before activity's.</p>
+
+    <h3>🔥 Explain the new Activity Result API (registerForActivityResult) vs deprecated onActivityResult.</h3>
+    <p>New API is type-safe, uses contracts, decouples result handling, and works across fragments/activities without runtime checks.</p>
+
+    <h3>🔥 How does setRetainInstance(true) work? (Deprecated but good to know)</h3>
+    <p>It retained fragment instance across configuration changes, but now replaced by ViewModels.</p>
+
+    <h3>🔥 What is android:parentActivityName and how does it affect back stack?</h3>
+    <p>Defines logical parent activity for Up navigation (action bar back). When set, system can navigate up the hierarchy properly.</p>
 </div>
 
 </body>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Android Kotlin Interview Q&A | Complete Answers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+          --bg:       #080C10;
+          --bg2:      #0E1419;
+          --bg3:      #141C24;
+          --border:   #1A2535;
+          --cyan:     #00E5FF;
+          --green:    #00FFB3;
+          --orange:   #FF6B35;
+          --purple:   #C084FC;
+          --yellow:   #FFD60A;
+          --red:      #FF4D6D;
+          --txt:      #D6E8FF;
+          --muted:    #4A6080;
+          --mono:     'Space Mono', monospace;
+          --sans:     'Syne', sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+          background: var(--bg);
+          color: var(--txt);
+          font-family: var(--mono);
+          min-height: 100vh;
+          overflow-x: hidden;
+        }
+
+        body::before {
+          content: '';
+          position: fixed; inset: 0;
+          background-image:
+            linear-gradient(var(--border) 1px, transparent 1px),
+            linear-gradient(90deg, var(--border) 1px, transparent 1px);
+          background-size: 40px 40px;
+          opacity: 0.35;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .orb {
+          position: fixed;
+          border-radius: 50%;
+          filter: blur(120px);
+          pointer-events: none;
+          z-index: 0;
+          opacity: 0.12;
+        }
+        .orb1 { width: 600px; height: 600px; background: var(--cyan);   top: -200px; left: -200px; }
+        .orb2 { width: 500px; height: 500px; background: var(--purple); bottom: -150px; right: -100px; }
+        .orb3 { width: 400px; height: 400px; background: var(--green);  top: 40%; left: 50%; }
+
+        .wrapper { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 0 24px 80px; }
+
+        header {
+          padding: 60px 0 48px;
+          border-bottom: 1px solid var(--border);
+          margin-bottom: 48px;
+        }
+        .header-tag {
+          font-family: var(--mono);
+          font-size: 11px;
+          color: var(--cyan);
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          margin-bottom: 16px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .header-tag::before {
+          content: '';
+          width: 32px; height: 1px;
+          background: var(--cyan);
+        }
+        h1 {
+          font-family: var(--sans);
+          font-size: clamp(36px, 5vw, 64px);
+          font-weight: 800;
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+          color: #fff;
+          margin-bottom: 16px;
+        }
+        h1 span { color: var(--cyan); }
+        .header-sub {
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.7;
+          max-width: 720px;
+        }
+        .header-stats {
+          display: flex;
+          gap: 32px;
+          margin-top: 32px;
+          flex-wrap: wrap;
+        }
+        .stat {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .stat-num {
+          font-family: var(--sans);
+          font-size: 28px;
+          font-weight: 800;
+          color: #fff;
+        }
+        .stat-lbl { font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+        .controls {
+          display: flex;
+          gap: 12px;
+          margin-bottom: 40px;
+          flex-wrap: wrap;
+          align-items: center;
+        }
+        .search-wrap {
+          position: relative;
+          flex: 1;
+          min-width: 220px;
+        }
+        .search-wrap::before {
+          content: '⌕';
+          position: absolute;
+          left: 14px; top: 50%;
+          transform: translateY(-50%);
+          color: var(--muted);
+          font-size: 18px;
+          pointer-events: none;
+        }
+        #search {
+          width: 100%;
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          padding: 10px 14px 10px 40px;
+          color: var(--txt);
+          font-family: var(--mono);
+          font-size: 13px;
+          outline: none;
+          transition: border-color 0.2s;
+        }
+        #search:focus { border-color: var(--cyan); }
+
+        .filter-btn {
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          padding: 9px 16px;
+          color: var(--muted);
+          font-family: var(--mono);
+          font-size: 11px;
+          letter-spacing: 0.08em;
+          cursor: pointer;
+          transition: all 0.15s;
+          white-space: nowrap;
+        }
+        .filter-btn:hover, .filter-btn.active {
+          border-color: currentColor;
+          color: var(--txt);
+        }
+        .filter-btn[data-color="cyan"].active   { color: var(--cyan);   border-color: var(--cyan); }
+        .filter-btn[data-color="green"].active  { color: var(--green);  border-color: var(--green); }
+        .filter-btn[data-color="orange"].active { color: var(--orange); border-color: var(--orange); }
+        .filter-btn[data-color="purple"].active { color: var(--purple); border-color: var(--purple); }
+        .filter-btn[data-color="yellow"].active { color: var(--yellow); border-color: var(--yellow); }
+        .filter-btn[data-color="red"].active    { color: var(--red);    border-color: var(--red); }
+
+        .topic-block { margin-bottom: 48px; }
+        .topic-header {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          margin-bottom: 20px;
+          padding-bottom: 14px;
+          border-bottom: 1px solid var(--border);
+          cursor: pointer;
+          user-select: none;
+        }
+        .topic-dot {
+          width: 10px; height: 10px;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+        .topic-title {
+          font-family: var(--sans);
+          font-size: 18px;
+          font-weight: 700;
+          color: #fff;
+          flex: 1;
+        }
+        .topic-count {
+          font-size: 11px;
+          color: var(--muted);
+          letter-spacing: 0.08em;
+          background: var(--bg3);
+          padding: 3px 10px;
+          border-radius: 99px;
+        }
+        .topic-toggle {
+          font-size: 14px;
+          color: var(--muted);
+          transition: transform 0.3s;
+        }
+        .topic-block.collapsed .topic-toggle { transform: rotate(-90deg); }
+        .topic-block.collapsed .questions-grid { display: none; }
+
+        .questions-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+          gap: 16px;
+        }
+
+        .q-card {
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 18px;
+          position: relative;
+          overflow: hidden;
+          transition: all 0.2s;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .q-card::before {
+          content: '';
+          position: absolute;
+          left: 0; top: 0; bottom: 0;
+          width: 3px;
+          border-radius: 10px 0 0 10px;
+        }
+        .q-card:hover { transform: translateY(-2px); border-color: var(--cyan); }
+
+        .q-card[data-diff="easy"]   { border-left-color: var(--green); }
+        .q-card[data-diff="easy"]::before   { background: var(--green); }
+        .q-card[data-diff="medium"] { border-left-color: var(--yellow); }
+        .q-card[data-diff="medium"]::before { background: var(--yellow); }
+        .q-card[data-diff="hard"]   { border-left-color: var(--red); }
+        .q-card[data-diff="hard"]::before   { background: var(--red); }
+        .q-card[data-diff="god"]    { border-left-color: var(--purple); }
+        .q-card[data-diff="god"]::before    { background: var(--purple); }
+
+        .q-meta {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+        .q-num {
+          font-size: 10px;
+          color: var(--muted);
+          letter-spacing: 0.06em;
+        }
+        .q-badge {
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          padding: 2px 8px;
+          border-radius: 4px;
+        }
+        .badge-easy   { background: #00FFB315; color: var(--green);  border: 1px solid #00FFB330; }
+        .badge-medium { background: #FFD60A15; color: var(--yellow); border: 1px solid #FFD60A30; }
+        .badge-hard   { background: #FF4D6D15; color: var(--red);    border: 1px solid #FF4D6D30; }
+        .badge-god    { background: #C084FC15; color: var(--purple); border: 1px solid #C084FC30; }
+
+        .q-text {
+          font-size: 13px;
+          line-height: 1.65;
+          color: var(--txt);
+          flex: 1;
+        }
+        .q-answer {
+          background: var(--bg3);
+          border-left: 2px solid var(--cyan);
+          padding: 12px;
+          margin-top: 8px;
+          font-size: 12px;
+          line-height: 1.6;
+          color: #bdd4ff;
+          border-radius: 6px;
+          display: none;
+        }
+        .q-answer a, .q-answer code {
+          background: #00000030;
+          color: var(--cyan);
+          font-family: var(--mono);
+          font-size: 11px;
+          padding: 2px 6px;
+          border-radius: 6px;
+        }
+        .show-answer-btn {
+          background: transparent;
+          border: 1px solid var(--border);
+          color: var(--muted);
+          font-size: 10px;
+          font-family: var(--mono);
+          padding: 5px 10px;
+          border-radius: 20px;
+          cursor: pointer;
+          transition: all 0.15s;
+          margin-top: 6px;
+          align-self: flex-start;
+        }
+        .show-answer-btn:hover {
+          border-color: var(--cyan);
+          color: var(--cyan);
+        }
+        .q-card.answer-visible .q-answer {
+          display: block;
+        }
+
+        .q-solved {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 10px;
+          color: var(--muted);
+          cursor: pointer;
+          width: fit-content;
+          transition: color 0.15s;
+          margin-top: 6px;
+          user-select: none;
+        }
+        .q-solved:hover { color: var(--green); }
+        .q-solved input { display: none; }
+        .check-box {
+          width: 14px; height: 14px;
+          border: 1px solid var(--border);
+          border-radius: 3px;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 9px;
+          transition: all 0.15s;
+        }
+        .q-solved.done .check-box {
+          background: var(--green);
+          border-color: var(--green);
+          color: #000;
+        }
+        .q-solved.done { color: var(--green); }
+
+        .progress-bar-wrap {
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 20px 24px;
+          margin-bottom: 40px;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+        .progress-label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+        .progress-track {
+          flex: 1;
+          min-width: 160px;
+          height: 6px;
+          background: var(--bg3);
+          border-radius: 99px;
+          overflow: hidden;
+        }
+        .progress-fill {
+          height: 100%;
+          width: 0%;
+          background: linear-gradient(90deg, var(--cyan), var(--green));
+          border-radius: 99px;
+          transition: width 0.5s ease;
+        }
+        .progress-num { font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap; }
+
+        #empty {
+          display: none;
+          text-align: center;
+          padding: 64px 0;
+          color: var(--muted);
+          font-size: 14px;
+        }
+
+        #scrollTop {
+          position: fixed;
+          bottom: 28px; right: 28px;
+          width: 40px; height: 40px;
+          background: var(--bg2);
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          display: flex; align-items: center; justify-content: center;
+          cursor: pointer;
+          font-size: 16px;
+          color: var(--muted);
+          z-index: 100;
+          transition: all 0.2s;
+          opacity: 0;
+          pointer-events: none;
+        }
+        #scrollTop.visible { opacity: 1; pointer-events: auto; }
+        #scrollTop:hover { border-color: var(--cyan); color: var(--cyan); }
+
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .topic-block { animation: fadeUp 0.4s ease both; }
+
+        @media (max-width: 600px) {
+          .questions-grid { grid-template-columns: 1fr; }
+          h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<div class="wrapper">
+    <header>
+        <div class="header-tag">Android · Kotlin · Interview Q&A</div>
+        <h1>Interview <span>Questions</span><br/>+ Complete Answers</h1>
+        <p class="header-sub">Every question includes a detailed answer. Click "Show answer" below each card. Track solved status, filter by difficulty, and search across all topics.</p>
+        <div class="header-stats">
+            <div class="stat"><span class="stat-num" id="totalCount">0</span><span class="stat-lbl">Total Questions</span></div>
+            <div class="stat"><span class="stat-num" id="solvedCount">0</span><span class="stat-lbl">Solved</span></div>
+            <div class="stat"><span class="stat-num" id="topicsCount">0</span><span class="stat-lbl">Topics</span></div>
+        </div>
+    </header>
+
+    <div class="progress-bar-wrap">
+        <span class="progress-label">Your progress</span>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <span class="progress-num" id="progressNum">0 / 0</span>
+    </div>
+
+    <div class="controls">
+        <div class="search-wrap">
+            <input type="text" id="search" placeholder="Search questions..." oninput="filterAll()"/>
+        </div>
+        <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" data-filter="easy"   data-color="green"  onclick="setFilter('easy',this)">Easy</button>
+        <button class="filter-btn" data-filter="medium" data-color="yellow" onclick="setFilter('medium',this)">Medium</button>
+        <button class="filter-btn" data-filter="hard"   data-color="red"    onclick="setFilter('hard',this)">Hard</button>
+        <button class="filter-btn" data-filter="god"    data-color="purple" onclick="setFilter('god',this)">⚡ God Level</button>
+    </div>
+
+    <div id="container"></div>
+    <div id="empty">No questions match your search.</div>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // FULL DATA WITH ANSWERS (complete QA collection)
+    // --------------------------------------------------------------
+    const topics = [
+      { id:"kotlin-basics", title:"Kotlin Basics", color:"#00E5FF", questions: [
+        { d:"easy", t:"What is the difference between <code>val</code> and <code>var</code> in Kotlin?", a:"<code>val</code> is read-only (immutable reference) — cannot be reassigned. <code>var</code> is mutable (reassignable). For objects, val doesn't make object immutable, only the reference." },
+        { d:"easy", t:"What are Kotlin's basic data types and how do they differ from Java primitives?", a:"Kotlin has types like Int, Double, Boolean, etc. They are compiled to Java primitives where possible, but can be objects when needed (generics). No distinction between primitive and wrapper." },
+        { d:"easy", t:"Explain <code>null safety</code> in Kotlin. What is the difference between <code>?</code> and <code>!!</code>?", a:"Types are non-nullable by default. <code>?</code> marks a type as nullable (String?). <code>!!</code> forces assertion — throws NPE if null. Use safe calls <code>?.let</code> or Elvis <code>?:</code> instead of !!." },
+        { d:"easy", t:"What is a <code>data class</code> in Kotlin? What does it auto-generate?", a:"Generates equals(), hashCode(), toString(), copy(), componentN(). Good for POJOs. Requires at least one primary constructor parameter." },
+        { d:"easy", t:"What is the difference between <code>==</code> and <code>===</code> in Kotlin?", a:"<code>==</code> is structural equality (calls equals). <code>===</code> is referential equality (same memory address)." },
+        { d:"easy", t:"Explain <code>when</code> expression in Kotlin. How is it different from Java's switch?", a:"when is more powerful — can match against any type, ranges, conditions without fallthrough. It's an expression (returns value). No break needed." },
+        { d:"easy", t:"What are <code>companion objects</code> and how do they differ from Java static members?", a:"Companion object provides class-level members. Unlike Java static, they are real objects, can implement interfaces, extend classes, and be passed around." },
+        { d:"medium", t:"What is the difference between <code>object</code>, <code>companion object</code>, and <code>class</code>?", a:"object = singleton declaration. companion object = singleton tied to a class (inside class). class = blueprint for multiple instances." },
+        { d:"medium", t:"Explain <code>sealed class</code> vs <code>enum class</code>. When would you use each?", a:"Sealed class allows multiple instances with different state (subclasses). Enum has fixed constants. Use sealed for hierarchies like Result<Success, Error>, enum for fixed options like Color.RED,GREEN." },
+        { d:"medium", t:"What are <code>extension functions</code>? Give a practical example.", a:"Add new functions to existing classes without inheritance. Example: <code>fun String.isEmail(): Boolean = contains(\"@\")</code>" },
+        { d:"medium", t:"How does Kotlin handle <code>operator overloading</code>? Give an example with <code>plus</code>.", a:"Define operator fun like <code>operator fun plus(other: MyClass): MyClass</code>. Then you can use <code>a + b</code>." },
+        { d:"medium", t:"What is the difference between <code>lateinit var</code> and <code>by lazy</code>?", a:"lateinit: mutable, can be set after construction, only for non-primitive types. lazy: immutable, initialized on first access, thread-safe by default." },
+        { d:"medium", t:"Explain <code>inline</code>, <code>noinline</code>, and <code>crossinline</code> function modifiers.", a:"inline: inline function body and lambdas to reduce overhead. noinline: prevent specific lambda from inlining. crossinline: prevent non-local returns in lambda." },
+        { d:"hard", t:"How does Kotlin achieve null-safety at the bytecode level? What does the compiler generate?", a:"Compiler adds null checks for platform types and nullable types. At bytecode, it inserts IFNULL instructions before calls on nullable types. Non-nullable types have no runtime checks unless interop occurs." },
+        { d:"hard", t:"What are <code>reified</code> type parameters? Why do they require <code>inline</code>?", a:"reified allows accessing the type at runtime inside inline functions, e.g., <code>inline fun <reified T> isA(value: Any) = value is T</code>. Requires inline because type info is only preserved when function body is inlined at call site." },
+        { d:"god", t:"Explain how Kotlin's <code>delegation</code> works internally. How does <code>by</code> keyword get compiled?", a:"Delegation generates a backing field holding the delegate object, and all interface methods forward to delegate by default. At bytecode, the compiler creates methods that call corresponding delegate methods. No reflection overhead." }
+      ]},
+      { id:"coroutines", title:"Kotlin Coroutines", color:"#FF6B35", questions: [
+        { d:"easy", t:"What is a coroutine? How is it different from a Thread?", a:"Lightweight concurrency primitive. Coroutines can suspend without blocking threads. Many coroutines can run on a single thread, cheaper than threads, less memory overhead." },
+        { d:"easy", t:"What are <code>suspend</code> functions? Can you call them from anywhere?", a:"Suspend functions can be suspended and resumed later. They can only be called from another suspend function or coroutine scope (launch/async). Not callable from regular functions." },
+        { d:"easy", t:"What is <code>CoroutineScope</code> and why is it important?", a:"Scope manages lifecycle of coroutines. It allows structured concurrency — child coroutines are bound to scope and cancelled together. Prevents leaks." },
+        { d:"easy", t:"Explain the difference between <code>launch</code> and <code>async</code>.", a:"launch returns Job (fire-and-forget). async returns Deferred (a future) and you call await() to get result. Both are coroutine builders." },
+        { d:"easy", t:"What is <code>Dispatchers.IO</code>, <code>Dispatchers.Main</code>, and <code>Dispatchers.Default</code>?", a:"IO: network/disk ops, Default: CPU-intensive work, Main: Android UI thread." },
+        { d:"medium", t:"What is structured concurrency? Why does it matter?", a:"Child coroutines live within parent's lifetime. If parent cancelled, all children cancel. Prevents orphan coroutines, ensures no leaks." },
+        { d:"medium", t:"Explain <code>Job</code>, <code>SupervisorJob</code>. How does cancellation propagate?", a:"Job propagates failure to parent and children. SupervisorJob isolates failures: child failure doesn't cancel siblings, but parent still cancels children." },
+        { d:"medium", t:"What is the difference between <code>coroutineScope</code> and <code>supervisorScope</code>?", a:"coroutineScope fails fast — any child failure cancels all. supervisorScope continues other children on failure." },
+        { d:"medium", t:"How does <code>withContext</code> differ from <code>async</code> + <code>await</code>?", a:"withContext switches context and returns result directly (sequential). async creates a separate coroutine; await suspends for result. Use async for parallel execution, withContext for sequential context switch." },
+        { d:"medium", t:"How do you handle exceptions in coroutines? <code>try-catch</code> vs <code>CoroutineExceptionHandler</code>.", a:"try-catch works within same coroutine. CoroutineExceptionHandler is global fallback for uncaught exceptions (doesn't catch in async, only launch). Use SupervisorJob and handler for controlled failure." },
+        { d:"hard", t:"Explain the coroutine state machine. How does the Kotlin compiler transform <code>suspend</code> functions?", a:"Each suspend function is compiled into a state machine with labels. Each suspension point becomes a label. Continuation stores state, and on resume it jumps to next label." },
+        { d:"hard", t:"What is <code>CancellationException</code>? Why should you never catch it silently?", a:"CancellationException is thrown when coroutine cancelled. Silently catching it breaks structured cancellation — parent won't know. Always rethrow or handle with finally." },
+        { d:"god", t:"How does <code>callbackFlow</code> work internally? Implement a callback to Flow converter.", a:"callbackFlow uses SendChannel under the hood. It provides awaitClose callback to clean up listeners. Converts callback-based APIs into flow." }
+      ]},
+      { id:"android-core", title:"Android Core Concepts", color:"#FFD60A", questions: [
+        { d:"easy", t:"What are the four major Android app components? Briefly describe each.", a:"Activity (UI screen), Service (background), BroadcastReceiver (system events), ContentProvider (data sharing)." },
+        { d:"easy", t:"What is the difference between <code>Activity</code> and <code>Fragment</code>?", a:"Activity is standalone UI component. Fragment lives inside Activity, has its own lifecycle, reusable across activities." },
+        { d:"easy", t:"Explain the Android Activity lifecycle methods in order.", a:"onCreate → onStart → onResume → onPause → onStop → onRestart (if returning) → onDestroy." },
+        { d:"easy", t:"What is an <code>Intent</code>? What is the difference between explicit and implicit intents?", a:"Intent is message between components. Explicit targets specific component (by class). Implicit declares action (ACTION_VIEW) and system resolves target." },
+        { d:"easy", t:"What is <code>Context</code>? What is the difference between <code>Activity Context</code> and <code>Application Context</code>?", a:"Context provides access to resources. Activity Context tied to UI (can show dialogs, themes). Application Context is singleton, app-wide, long-lived." },
+        { d:"medium", t:"Explain Fragment lifecycle vs Activity lifecycle. What is <code>onViewCreated</code>?", a:"Fragment adds: onAttach → onCreateView → onViewCreated (view ready). Activity has no view-specific methods. onViewCreated is best place to initialize views." },
+        { d:"hard", t:"Explain Android's process lifecycle. In what order does Android kill processes under memory pressure?", a:"Order: empty processes (no components) → background activities → service processes → visible process → foreground process. Lowest priority killed first." },
+        { d:"god", t:"Walk through what happens from the moment a user taps an app icon to the first frame being displayed.", a:"Launcher sends intent → ActivityManagerService creates process via Zygote fork → Application onCreate → Activity creation → inflation → measure/layout/draw → surface flinger displays first frame." }
+      ]},
+      { id:"compose", title:"Jetpack Compose", color:"#FF4D6D", questions: [
+        { d:"easy", t:"What is Jetpack Compose? How is it different from the traditional View system?", a:"Modern declarative UI toolkit. Instead of XML + imperative mutations, you describe UI as functions of state. Recomposition updates only changed parts." },
+        { d:"easy", t:"What is a <code>Composable</code> function? What makes a function composable?", a:"Function annotated @Composable. Compose runtime can track and recompose it when state changes. Calls other composables." },
+        { d:"easy", t:"Explain <code>remember</code> and <code>mutableStateOf</code>. Why is <code>remember</code> needed?", a:"mutableStateOf creates observable state. remember stores value across recompositions. Without remember, state reinitializes each recomposition." },
+        { d:"hard", t:"Explain the Compose rendering pipeline: Composition → Layout → Drawing. What happens in each phase?", a:"Composition runs composables, builds UI tree. Layout measures and places nodes. Drawing paints on Canvas. Phases can be skipped if unchanged." },
+        { d:"god", t:"How does Compose's slot table (Gap Buffer) work internally to track composables and their state?", a:"Slot table stores emitted UI nodes. Gap buffer allows fast insert/delete. Each group (composable call) gets a slot. State stored adjacent. Recomposition walks slots and matches previous state." }
+      ]},
+      { id:"architecture", title:"Android Architecture", color:"#FFD60A", questions: [
+        { d:"easy", t:"What is MVVM? What are the responsibilities of each layer?", a:"Model: data + business logic. View: UI (Activity/Fragment). ViewModel: exposes state, handles logic, survives config changes." },
+        { d:"easy", t:"What is the role of <code>ViewModel</code>? Why does it survive configuration changes?", a:"Stores UI-related data not destroyed on rotation. System retains ViewModel instance and attaches to new activity instance." },
+        { d:"hard", t:"How would you architect an offline-first Android app? What components are involved?", a:"Room (local cache), WorkManager/background sync, Repository pattern merging local + remote, Paging 3 with RemoteMediator, Conflict resolution strategy." }
+      ]},
+      { id:"performance", title:"Performance & Memory", color:"#C084FC", questions: [
+        { d:"easy", t:"What is ANR? What causes it and how do you prevent it?", a:"Application Not Responding (5 secs input or 10 secs broadcast). Causes: main thread disk I/O, network, heavy compute. Prevent: offload to coroutines/WorkManager." },
+        { d:"hard", t:"How would you use Android Profiler to find and fix a memory leak? Walk through process.", a:"Capture heap dump, filter by activity class, find references. Use GC button, analyze instance retention. LeakCanary automates detection. Fix by clearing references in onDestroy, using weak references." },
+        { d:"god", t:"Your app has 200ms jank on scroll in a RecyclerView with images. Systematically diagnose.", a:"1) Use Profile GPU Rendering / Perfetto. 2) Check if onBindViewHolder does heavy work. 3) Measure bitmap decoding (use Coil/Glide caching). 4) Check nested scrolling, overdraw. 5) Use Traceview to pinpoint method. 6) Fix by preloading images, optimizing layout, moving work off main thread." }
+      ]}
+    ];
+
+    let currentFilter = 'all';
+    let solved = JSON.parse(localStorage.getItem('aq_solved_full') || '{}');
+
+    function generateCardHTML(topic, q, idx, qid) {
+        const isSolved = !!solved[qid];
+        return `
+        <div class="q-card" data-diff="${q.d}" data-qid="${qid}">
+            <div class="q-meta">
+                <span class="q-num">Q${idx+1}</span>
+                <span class="q-badge badge-${q.d}">${q.d === 'god' ? '⚡ GOD' : q.d.toUpperCase()}</span>
+            </div>
+            <div class="q-text">${q.t}</div>
+            <div class="q-answer">${q.a || 'No answer provided.'}</div>
+            <button class="show-answer-btn" onclick="toggleAnswer(this)">Show answer</button>
+            <label class="q-solved ${isSolved ? 'done' : ''}" onclick="toggleSolved('${qid}', this)">
+                <span class="check-box">${isSolved ? '✓' : ''}</span>
+                ${isSolved ? 'Solved' : 'Mark as solved'}
+            </label>
+        </div>`;
+    }
+
+    function render() {
+      const container = document.getElementById('container');
+      const search = document.getElementById('search').value.toLowerCase();
+      container.innerHTML = '';
+      let visibleQ = 0;
+
+      topics.forEach(topic => {
+        const filtered = topic.questions.filter(q => {
+          const matchDiff = currentFilter === 'all' || q.d === currentFilter;
+          const matchSearch = q.t.toLowerCase().replace(/<[^>]+>/g,'').includes(search);
+          return matchDiff && matchSearch;
+        });
+        if (!filtered.length) return;
+        visibleQ += filtered.length;
+        const block = document.createElement('div');
+        block.className = 'topic-block';
+        block.innerHTML = `
+          <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-dot" style="background:${topic.color}; box-shadow:0 0 8px ${topic.color}60;"></div>
+            <span class="topic-title">${topic.title}</span>
+            <span class="topic-count">${filtered.length} questions</span>
+            <span class="topic-toggle">▾</span>
+          </div>
+          <div class="questions-grid">
+            ${filtered.map((q, idx) => {
+                const originalIdx = topic.questions.findIndex(orig => orig.t === q.t && orig.d === q.d);
+                const qid = `${topic.id}-${originalIdx}`;
+                return generateCardHTML(topic, q, idx, qid);
+            }).join('')}
+          </div>
+        `;
+        container.appendChild(block);
+      });
+      document.getElementById('empty').style.display = visibleQ === 0 ? 'block' : 'none';
+      updateStats();
+    }
+
+    function updateStats() {
+      let totalQ = 0;
+      topics.forEach(t => totalQ += t.questions.length);
+      const solvedCount = Object.values(solved).filter(v => v === true).length;
+      document.getElementById('totalCount').textContent = totalQ;
+      document.getElementById('solvedCount').textContent = solvedCount;
+      document.getElementById('topicsCount').textContent = topics.length;
+      document.getElementById('progressNum').textContent = `${solvedCount} / ${totalQ}`;
+      document.getElementById('progressFill').style.width = totalQ ? `${(solvedCount/totalQ*100).toFixed(1)}%` : '0%';
+    }
+
+    function toggleAnswer(btn) {
+      const card = btn.closest('.q-card');
+      card.classList.toggle('answer-visible');
+      btn.textContent = card.classList.contains('answer-visible') ? 'Hide answer' : 'Show answer';
+    }
+
+    function toggleSolved(qid, labelEl) {
+      event.stopPropagation();
+      solved[qid] = !solved[qid];
+      localStorage.setItem('aq_solved_full', JSON.stringify(solved));
+      const parentCard = labelEl.closest('.q-card');
+      const checkSpan = labelEl.querySelector('.check-box');
+      if (solved[qid]) {
+          labelEl.classList.add('done');
+          if(checkSpan) checkSpan.textContent = '✓';
+          labelEl.lastChild ? labelEl.lastChild.textContent = ' Solved' : null;
+      } else {
+          labelEl.classList.remove('done');
+          if(checkSpan) checkSpan.textContent = '';
+          labelEl.lastChild ? labelEl.lastChild.textContent = ' Mark as solved' : null;
+      }
+      updateStats();
+    }
+
+    function toggleTopic(header) { header.parentElement.classList.toggle('collapsed'); }
+    function setFilter(f, btn) {
+      currentFilter = f;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    }
+    function filterAll() { render(); }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 300);
+    });
+
+    window.toggleAnswer = toggleAnswer;
+    window.toggleSolved = toggleSolved;
+    window.toggleTopic = toggleTopic;
+    window.setFilter = setFilter;
+    window.filterAll = filterAll;
+
+    render();
+</script>
+</body>
+</html>

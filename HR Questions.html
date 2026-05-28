@@ -1,0 +1,497 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Android Developer HR Interview Prep</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+
+        :root{
+            --primary:#2563eb;
+            --secondary:#06b6d4;
+            --accent:#10b981;
+            --bg:#f3f6fb;
+            --card:#ffffffcc;
+            --text:#1e293b;
+            --muted:#64748b;
+            --border:rgba(255,255,255,0.3);
+            --shadow:0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .dark{
+            --bg:#0f172a;
+            --card:rgba(15,23,42,0.9);
+            --text:#f8fafc;
+            --muted:#cbd5e1;
+            --border:rgba(255,255,255,0.05);
+            --shadow:0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            background:linear-gradient(135deg,#dbeafe,#f0f9ff);
+            min-height:100vh;
+            color:var(--text);
+            padding:20px;
+            transition:0.3s;
+        }
+
+        .dark body{
+            background:#020617;
+        }
+
+        .container{
+            max-width:1000px;
+            margin:auto;
+        }
+
+        .hero{
+            background:var(--card);
+            backdrop-filter:blur(15px);
+            border:1px solid var(--border);
+            border-radius:28px;
+            padding:40px;
+            box-shadow:var(--shadow);
+            margin-bottom:25px;
+        }
+
+        .profile{
+            display:flex;
+            gap:20px;
+            align-items:center;
+            flex-wrap:wrap;
+        }
+
+        .avatar{
+            width:90px;
+            height:90px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#2563eb,#06b6d4);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:35px;
+            color:white;
+        }
+
+        .hero h1{
+            font-size:2.2rem;
+            margin-bottom:8px;
+        }
+
+        .hero p{
+            color:var(--muted);
+            line-height:1.7;
+        }
+
+        .badges{
+            margin-top:15px;
+            display:flex;
+            flex-wrap:wrap;
+            gap:10px;
+        }
+
+        .badge{
+            padding:8px 14px;
+            border-radius:999px;
+            background:#dbeafe;
+            color:#1d4ed8;
+            font-size:14px;
+            font-weight:600;
+        }
+
+        .controls{
+            display:flex;
+            gap:15px;
+            margin-top:25px;
+            flex-wrap:wrap;
+        }
+
+        .search{
+            flex:1;
+            min-width:220px;
+            position:relative;
+        }
+
+        .search input{
+            width:100%;
+            padding:15px 18px 15px 45px;
+            border:none;
+            border-radius:14px;
+            font-size:15px;
+            outline:none;
+        }
+
+        .search i{
+            position:absolute;
+            left:15px;
+            top:16px;
+            color:#64748b;
+        }
+
+        button{
+            border:none;
+            padding:14px 18px;
+            border-radius:14px;
+            background:linear-gradient(135deg,#2563eb,#06b6d4);
+            color:white;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            transform:translateY(-2px);
+        }
+
+        .progress-box{
+            margin-top:25px;
+        }
+
+        .progress-bar{
+            width:100%;
+            height:12px;
+            background:#dbeafe;
+            border-radius:999px;
+            overflow:hidden;
+        }
+
+        .progress-fill{
+            height:100%;
+            width:0%;
+            background:linear-gradient(90deg,#2563eb,#10b981);
+            transition:0.4s;
+        }
+
+        .progress-text{
+            margin-top:10px;
+            font-weight:600;
+            color:var(--primary);
+        }
+
+        .qa-card{
+            background:var(--card);
+            backdrop-filter:blur(10px);
+            border-radius:22px;
+            margin-bottom:20px;
+            border:1px solid var(--border);
+            overflow:hidden;
+            box-shadow:var(--shadow);
+        }
+
+        .question{
+            padding:22px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            cursor:pointer;
+            font-weight:700;
+            font-size:1.05rem;
+        }
+
+        .question:hover{
+            background:rgba(37,99,235,0.06);
+        }
+
+        .answer{
+            max-height:0;
+            overflow:hidden;
+            transition:0.4s ease;
+            padding:0 22px;
+        }
+
+        .qa-card.active .answer{
+            padding:22px;
+        }
+
+        .icon{
+            color:var(--primary);
+            font-size:1.3rem;
+            transition:0.3s;
+        }
+
+        .qa-card.active .icon{
+            transform:rotate(45deg);
+        }
+
+        .strategy,
+        .sample{
+            padding:18px;
+            border-radius:14px;
+            margin-bottom:15px;
+        }
+
+        .strategy{
+            background:#ecfeff;
+            border-left:5px solid #06b6d4;
+        }
+
+        .sample{
+            background:#eff6ff;
+            border-left:5px solid #2563eb;
+        }
+
+        .label{
+            font-weight:700;
+            margin-bottom:8px;
+        }
+
+        .footer{
+            text-align:center;
+            margin-top:40px;
+            color:var(--muted);
+        }
+
+        .floating{
+            position:fixed;
+            bottom:25px;
+            right:25px;
+        }
+
+        .floating button{
+            width:60px;
+            height:60px;
+            border-radius:50%;
+            font-size:20px;
+        }
+
+        @media(max-width:768px){
+
+        .hero{
+            padding:25px;
+        }
+
+        .hero h1{
+            font-size:1.8rem;
+        }
+
+        .profile{
+            flex-direction:column;
+            align-items:flex-start;
+        }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="hero">
+
+        <div class="profile">
+
+            <div class="avatar">
+                <i class="fa-brands fa-android"></i>
+            </div>
+
+            <div>
+
+                <h1>Android Developer Interview Prep</h1>
+
+                <p>
+                    3.4 Years Experience • Fintech Domain • Atyati Technologies
+                    <br>
+                    Worked on JLG Loans, FI Transactions, and Core Financial Products
+                </p>
+
+                <div class="badges">
+                    <div class="badge">Android</div>
+                    <div class="badge">Kotlin</div>
+                    <div class="badge">Fintech</div>
+                    <div class="badge">JLG Loans</div>
+                    <div class="badge">Transactions</div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="controls">
+
+            <div class="search">
+                <i class="fa fa-search"></i>
+                <input type="text" id="search" placeholder="Search questions...">
+            </div>
+
+            <button id="themeBtn">
+                🌙 Dark Mode
+            </button>
+
+        </div>
+
+        <div class="progress-box">
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="progress-text" id="progressText">
+                0% Completed
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CARD -->
+
+    <div class="qa-card">
+
+        <div class="question" onclick="toggleCard(this)">
+            Tell me about yourself
+            <span class="icon">+</span>
+        </div>
+
+        <div class="answer">
+
+            <div class="strategy">
+                <div class="label">Strategy</div>
+                Use Present → Past → Future structure.
+            </div>
+
+            <div class="sample">
+                <div class="label">Sample Answer</div>
+
+                I’m an Android Developer with 3.4 years of experience at Atyati Technologies,
+                primarily working in the fintech domain. I’ve contributed to applications related to
+                JLG loans, FI transactions, and core financial products where reliability and security
+                were critical.
+
+                I specialize in building scalable Android applications using Kotlin and modern Android
+                architecture components. In my current role, I’ve worked closely with backend teams,
+                improved app performance, and delivered features used in financial workflows.
+
+                I’m now looking for an opportunity where I can work on larger-scale mobile products,
+                enhance user experience, and continue growing technically.
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CARD -->
+
+    <div class="qa-card">
+
+        <div class="question" onclick="toggleCard(this)">
+            Why should we hire you?
+            <span class="icon">+</span>
+        </div>
+
+        <div class="answer">
+
+            <div class="strategy">
+                <div class="label">Strategy</div>
+                Connect technical skills with business impact.
+            </div>
+
+            <div class="sample">
+                <div class="label">Sample Answer</div>
+
+                You should hire me because I bring both technical expertise and real-world fintech
+                experience. I understand the importance of secure transactions, performance,
+                and reliability in financial applications.
+
+                With 3.4 years of Android development experience, I can quickly adapt,
+                collaborate effectively with teams, and deliver high-quality mobile solutions.
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Prepared for Android Interview Success 🚀
+    </div>
+
+</div>
+
+<div class="floating">
+    <button onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        ↑
+    </button>
+</div>
+
+<script>
+
+    const cards = document.querySelectorAll('.qa-card');
+    let viewed = 0;
+
+    function toggleCard(el){
+
+    const card = el.parentElement;
+    const answer = card.querySelector('.answer');
+
+    card.classList.toggle('active');
+
+    if(card.classList.contains('active')){
+
+    answer.style.maxHeight = answer.scrollHeight + "px";
+
+    if(!card.classList.contains('visited')){
+
+    card.classList.add('visited');
+    viewed++;
+
+    updateProgress();
+
+    }
+
+    }else{
+    answer.style.maxHeight = null;
+    }
+
+    }
+
+    function updateProgress(){
+
+    const total = cards.length;
+    const percent = Math.round((viewed/total)*100);
+
+    document.getElementById('progressFill').style.width = percent + '%';
+
+    document.getElementById('progressText').innerText =
+    `${percent}% Completed`;
+
+    }
+
+    document.getElementById('search').addEventListener('keyup',function(){
+
+    const val = this.value.toLowerCase();
+
+    cards.forEach(card=>{
+
+    const text = card.innerText.toLowerCase();
+
+    card.style.display = text.includes(val) ? 'block' : 'none';
+
+    });
+
+    });
+
+    document.getElementById('themeBtn').addEventListener('click',()=>{
+
+    document.body.classList.toggle('dark');
+
+    });
+
+</script>
+
+</body>
+</html>
+```
