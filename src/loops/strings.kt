@@ -1,9 +1,10 @@
 package loops
+
 //https://coderpad.io/interview-questions/kotlin-interview-questions/
 fun main() {
-   // val reversString = reverseStringValue("Hello")
-    val reversArray = arrayOf(1,2,3,4,5,6,7,8,9,10)
-   // reverseArrayValues(reversArray)
+    // val reversString = reverseStringValue("Hello")
+    val reversArray = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    // reverseArrayValues(reversArray)
     // print("Reverse String $reversString")
     val a = "abc"
     val b = "abc"
@@ -14,8 +15,8 @@ fun main() {
     //print(a===b)
     //String is a built-in immutable class in Kotlin used to represent text.
     //Strings is not a Kotlin data type and does not exist unless defined by the developer.
-   // One text = String
-     //Many texts = List<String>
+    // One text = String
+    //Many texts = List<String>
     val sentence = "Kotlin is easy to learn"
     val words = sentence.split(" ")
     val countTheWords = reverseWords(sentence)
@@ -25,7 +26,7 @@ fun main() {
 }
 
 fun reverseWord(string: String) {
-    for (i in string.lastIndex downTo 0){
+    for (i in string.lastIndex downTo 0) {
         print(string[i])
     }
 }
@@ -33,13 +34,12 @@ fun reverseWord(string: String) {
 fun reverseWords(sentence: String) {
     val eachWord = sentence.split(" ")
     val pleaseAddTheWords = ""
-    for (i in eachWord.lastIndex downTo 0){
+    for (i in eachWord.lastIndex downTo 0) {
         println(eachWord[i])
-        pleaseAddTheWords+i
+        pleaseAddTheWords + i
     }
     println(pleaseAddTheWords)
 }
-
 
 
 fun reverseArrayValues(reversArray: Array<Int>) {
@@ -65,6 +65,7 @@ fun reverseStringValue(value: String): String {
     }
     return ""
 }
+
 fun compressAString(input: String) {
     if (input.isEmpty()) {
         println("Compressed String: ")
