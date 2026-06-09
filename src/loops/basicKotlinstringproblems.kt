@@ -4,52 +4,65 @@ import kotlin.system.measureTimeMillis
 
 
 fun main() {
-    val returnString = reverseBasicString("Kotlin")
-    println("Reverse Value :: $returnString")
+    /* val returnString = reverseBasicString("Kotlin")
+     println("Reverse Value :: $returnString")
 
-    val isPalindrome = checkGiveStringIsPalindrome("Madam")
-    println("Palindrome Value :: $isPalindrome")
+     val isPalindrome = checkGiveStringIsPalindrome("Madam")
+     println("Palindrome Value :: $isPalindrome")
 
-    val count = countVowelsGivenString("Hello World")
-    println("Count Vowels :: $count")
+     val count = countVowelsGivenString("Hello World")
+     println("Count Vowels :: $count")
 
-    val countChars = countCharactersWithoutSpaces("Hello World")
-    println("Count Chars :: $countChars")
+     val countChars = countCharactersWithoutSpaces("Hello World")
+     println("Count Chars :: $countChars")
 
-    val lowerCase = convertToUpperCaseAndLowerCase("Hello World")
-    println("Lower Case :: $lowerCase")
+     val lowerCase = convertToUpperCaseAndLowerCase("Hello World")
+     println("Lower Case :: $lowerCase")
 
-    val upperCase = convertToLowerCaseAndUpperCase("Hello World")
-    println("Upper Case :: $upperCase")
+     val upperCase = convertToLowerCaseAndUpperCase("Hello World")
+     println("Upper Case :: $upperCase")
 
-    val nonRepeating = findFirstNonRepeatingCharacter("aabbcc")
-    println("Non Repeating :: $nonRepeating")
+     val nonRepeating = findFirstNonRepeatingCharacter("aabbcc")
+     println("Non Repeating :: $nonRepeating")
 
-    val removeAllWhitespaces = removeAllWhitespaces("Kotlin is fun")
-    println("remove All Whitespaces :: $removeAllWhitespaces")
+     val removeAllWhitespaces = removeAllWhitespaces("Kotlin is fun")
+     println("remove All Whitespaces :: $removeAllWhitespaces")
 
-    val replaceCharacter = replaceACharacter("banana", 'A', 'o')
-    println("replace Character :: $replaceCharacter")
+     val replaceCharacter = replaceACharacter("banana", 'A', 'o')
+     println("replace Character :: $replaceCharacter")
 
-    val countOccurrencesOfACharacter = countOccurrencesOfACharacter("banana", 'a')
-    println("Occurrences Character :: $countOccurrencesOfACharacter")
+     val countOccurrencesOfACharacter = countOccurrencesOfACharacter("banana", 'a')
+     println("Occurrences Character :: $countOccurrencesOfACharacter")
 
 
-    val checkAnagram = checkAnagram("listen", "sirment")
-    println("check Anagram  :: $checkAnagram")
+     val checkAnagram = checkAnagram("listen", "sirment")
+     println("check Anagram  :: $checkAnagram")
 
-    println("Sort String Manually :: ${sortStringManually("bbbbaaaaa")}")
-    normalLoop()
+     println("Sort String Manually :: ${sortStringManually("bbbbaaaaa")}")
+     normalLoop()*/
+    fun calculate(a: Int, b: Int, operation: (Int, Int) -> Int): Int {
+        return operation(a, b)
+    }
+    val result = calculate(10, 5) { x, y -> x + y }
+    println(result) // Output: 15
+    val text = "aabbccc"
+
+    val frequencyMap = text.groupingBy { it }.eachCount()
+
+    frequencyMap.forEach { (char, count) ->
+        println("$char = $count")
+    }
+
 
 }
 
 fun normalLoop() {
-  /*  val time = measureTimeMillis {
-        for (i in 0 until 100000000000000) {
-           // println("printed $i value")
-        }
-    }
-    println("Time taken: $time ms")*/
+    /*  val time = measureTimeMillis {
+          for (i in 0 until 100000000000000) {
+             // println("printed $i value")
+          }
+      }
+      println("Time taken: $time ms")*/
     val n: Long = 1_000_000 // small n for testing
     val time = measureTimeMillis {
         for (i in 0 until n) {

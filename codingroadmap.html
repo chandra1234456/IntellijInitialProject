@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming & Coding Problems Roadmap</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+          --bg: #f5f6fa;
+          --surface: #ffffff;
+          --border: #e4e6ed;
+          --text-primary: #1a1d2e;
+          --text-secondary: #6b7080;
+          --text-muted: #9ea3b5;
+
+          --teal-light: #e1f5ee;
+          --teal-mid: #1d9e75;
+          --teal-dark: #085041;
+
+          --blue-light: #e6f1fb;
+          --blue-mid: #378add;
+          --blue-dark: #0c447c;
+
+          --amber-light: #faeeda;
+          --amber-mid: #ef9f27;
+          --amber-dark: #633806;
+
+          --coral-light: #faece7;
+          --coral-mid: #d85a30;
+          --coral-dark: #4a1b0c;
+
+          --purple-light: #eeedfe;
+          --purple-mid: #7f77dd;
+          --purple-dark: #3c3489;
+
+          --gray-light: #f1efe8;
+          --gray-mid: #888780;
+          --gray-dark: #2c2c2a;
+        }
+
+        body {
+          font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+          background: var(--bg);
+          color: var(--text-primary);
+          min-height: 100vh;
+          padding: 2rem 1rem 4rem;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        /* Header */
+        .page-header {
+          margin-bottom: 2rem;
+          padding-bottom: 1.5rem;
+          border-bottom: 1px solid var(--border);
+        }
+        .page-header h1 {
+          font-size: 28px;
+          font-weight: 600;
+          color: var(--text-primary);
+          letter-spacing: -0.02em;
+        }
+        .page-header p {
+          font-size: 15px;
+          color: var(--text-secondary);
+          margin-top: 6px;
+        }
+
+        /* Stats */
+        .stats-row {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          margin-bottom: 1.5rem;
+        }
+        .stat-card {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 16px 20px;
+          text-align: center;
+        }
+        .stat-card .num {
+          font-size: 28px;
+          font-weight: 700;
+          color: var(--text-primary);
+          line-height: 1;
+        }
+        .stat-card .lbl {
+          font-size: 12px;
+          color: var(--text-secondary);
+          margin-top: 4px;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+        }
+
+        /* Filter pills */
+        .filters {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+          margin-bottom: 1.5rem;
+        }
+        .pill {
+          font-size: 13px;
+          padding: 6px 16px;
+          border-radius: 20px;
+          border: 1px solid var(--border);
+          cursor: pointer;
+          background: var(--surface);
+          color: var(--text-secondary);
+          transition: all 0.15s;
+          font-family: inherit;
+        }
+        .pill:hover { border-color: #aaa; color: var(--text-primary); }
+        .pill.active { background: var(--purple-light); color: var(--purple-dark); border-color: var(--purple-mid); font-weight: 500; }
+
+        /* Section */
+        .section {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 14px;
+          margin-bottom: 16px;
+          overflow: hidden;
+        }
+        .section-header {
+          padding: 16px 20px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+          user-select: none;
+          transition: background 0.1s;
+        }
+        .section-header:hover { background: var(--bg); }
+
+        .level-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .level-entry .level-dot { background: var(--teal-mid); }
+        .level-mid .level-dot { background: var(--blue-mid); }
+        .level-top .level-dot { background: var(--amber-mid); }
+
+        .section-title { font-size: 15px; font-weight: 600; flex: 1; }
+        .section-meta { font-size: 12px; color: var(--text-muted); }
+
+        .chevron {
+          width: 16px; height: 16px;
+          border-right: 2px solid var(--text-muted);
+          border-bottom: 2px solid var(--text-muted);
+          transform: rotate(45deg);
+          transition: transform 0.2s;
+          margin-right: 2px;
+        }
+        .chevron.open { transform: rotate(-135deg); }
+
+        .section-body { padding: 0 20px 20px; display: none; }
+        .section-body.open { display: block; }
+
+        /* Category */
+        .category { margin-top: 16px; }
+        .cat-label {
+          font-size: 11px;
+          font-weight: 600;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.07em;
+          margin-bottom: 10px;
+        }
+
+        .problems {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+          gap: 7px;
+        }
+
+        .problem-card {
+          padding: 9px 13px;
+          border-radius: 8px;
+          border: 1px solid var(--border);
+          font-size: 13px;
+          color: var(--text-primary);
+          background: var(--bg);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .problem-card.hot { border-color: #9fe1cb; background: var(--teal-light); color: var(--teal-dark); }
+        .problem-card.must { border-color: #fac775; background: var(--amber-light); color: var(--amber-dark); }
+        .problem-card.muted { color: var(--text-muted); }
+
+        .must-badge {
+          font-size: 10px;
+          padding: 2px 7px;
+          border-radius: 20px;
+          background: var(--amber-mid);
+          color: #fff;
+          margin-left: auto;
+          flex-shrink: 0;
+          font-weight: 500;
+          white-space: nowrap;
+        }
+
+        .divider { height: 1px; background: var(--border); margin: 16px 0 0; }
+
+        @media (max-width: 540px) {
+          .stats-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+          .stat-card { padding: 12px 8px; }
+          .stat-card .num { font-size: 22px; }
+          .problems { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header">
+        <h1>Programming &amp; Coding Problems Roadmap</h1>
+        <p>Organized by experience level — from fundamentals to advanced DSA &amp; system design</p>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-card"><div class="num">50+</div><div class="lbl">Total problems</div></div>
+        <div class="stat-card"><div class="num">25</div><div class="lbl">Interview must-knows</div></div>
+        <div class="stat-card"><div class="num">3</div><div class="lbl">Experience levels</div></div>
+    </div>
+
+    <div class="filters">
+        <button class="pill active" onclick="filter('all', this)">All levels</button>
+        <button class="pill" onclick="filter('entry', this)">Entry (0–2 yrs)</button>
+        <button class="pill" onclick="filter('mid', this)">Mid (3–5 yrs)</button>
+        <button class="pill" onclick="filter('top', this)">Top 25 interview</button>
+    </div>
+
+    <!-- Entry Level -->
+    <div class="section level-entry" data-level="entry">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="level-dot"></div>
+            <span class="section-title">Entry Level</span>
+            <span class="section-meta">0 – 2 years experience</span>
+            <div class="chevron open"></div>
+        </div>
+        <div class="section-body open">
+            <div class="category">
+                <div class="cat-label">Numbers &amp; Logic</div>
+                <div class="problems">
+                    <div class="problem-card hot">Reverse a number</div>
+                    <div class="problem-card hot">Palindrome number</div>
+                    <div class="problem-card hot">Prime number check</div>
+                    <div class="problem-card hot">Factorial</div>
+                    <div class="problem-card hot">Fibonacci series</div>
+                    <div class="problem-card hot">Armstrong number</div>
+                    <div class="problem-card hot">Swap two numbers</div>
+                    <div class="problem-card hot">Largest of 3 numbers</div>
+                    <div class="problem-card hot">Count digits</div>
+                    <div class="problem-card hot">Sum of digits</div>
+                </div>
+            </div>
+            <div class="category">
+                <div class="cat-label">Strings</div>
+                <div class="problems">
+                    <div class="problem-card hot">Reverse string</div>
+                    <div class="problem-card hot">Palindrome string</div>
+                    <div class="problem-card hot">Anagram check</div>
+                    <div class="problem-card hot">Count vowels &amp; consonants</div>
+                    <div class="problem-card hot">Character frequency</div>
+                </div>
+            </div>
+            <div class="category">
+                <div class="cat-label">Arrays</div>
+                <div class="problems">
+                    <div class="problem-card hot">Find largest element</div>
+                    <div class="problem-card hot">Second largest element</div>
+                    <div class="problem-card hot">Reverse array</div>
+                    <div class="problem-card hot">Remove duplicates</div>
+                    <div class="problem-card hot">Linear search</div>
+                    <div class="problem-card hot">Binary search</div>
+                    <div class="problem-card hot">Bubble sort</div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="category">
+                <div class="cat-label">Less Critical</div>
+                <div class="problems">
+                    <div class="problem-card muted">Pattern printing</div>
+                    <div class="problem-card muted">Calendar program</div>
+                    <div class="problem-card muted">Number pyramid</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mid Level -->
+    <div class="section level-mid" data-level="mid">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="level-dot"></div>
+            <span class="section-title">Mid Level</span>
+            <span class="section-meta">3 – 5 years experience</span>
+            <div class="chevron open"></div>
+        </div>
+        <div class="section-body open">
+            <div class="category">
+                <div class="cat-label">DSA Essentials</div>
+                <div class="problems">
+                    <div class="problem-card hot">Two sum</div>
+                    <div class="problem-card hot">Longest substring (no repeats)</div>
+                    <div class="problem-card hot">Sliding window problems</div>
+                    <div class="problem-card hot">Kadane's algorithm</div>
+                    <div class="problem-card hot">Merge intervals</div>
+                    <div class="problem-card hot">Rotate array</div>
+                    <div class="problem-card hot">Product except self</div>
+                    <div class="problem-card hot">Top K frequent elements</div>
+                    <div class="problem-card hot">Majority element</div>
+                </div>
+            </div>
+            <div class="category">
+                <div class="cat-label">Linked Lists</div>
+                <div class="problems">
+                    <div class="problem-card hot">Reverse linked list</div>
+                    <div class="problem-card hot">Detect loop</div>
+                    <div class="problem-card hot">Find middle node</div>
+                    <div class="problem-card hot">Merge two sorted lists</div>
+                    <div class="problem-card hot">Remove nth from end</div>
+                </div>
+            </div>
+            <div class="category">
+                <div class="cat-label">Stack &amp; Queue</div>
+                <div class="problems">
+                    <div class="problem-card hot">Valid parentheses</div>
+                    <div class="problem-card hot">Min stack</div>
+                    <div class="problem-card hot">Queue using stack</div>
+                    <div class="problem-card hot">Next greater element</div>
+                </div>
+            </div>
+            <div class="category">
+                <div class="cat-label">Trees</div>
+                <div class="problems">
+                    <div class="problem-card hot">Tree traversals</div>
+                    <div class="problem-card hot">Height of binary tree</div>
+                    <div class="problem-card hot">Lowest common ancestor</div>
+                    <div class="problem-card hot">BST validation</div>
+                    <div class="problem-card hot">Level order traversal</div>
+                </div>
+            </div>
+            <div class="category">
+                <div class="cat-label">Dynamic Programming</div>
+                <div class="problems">
+                    <div class="problem-card hot">Climbing stairs</div>
+                    <div class="problem-card hot">Coin change</div>
+                    <div class="problem-card hot">Longest common subsequence</div>
+                    <div class="problem-card hot">Knapsack problem</div>
+                    <div class="problem-card hot">House robber</div>
+                </div>
+            </div>
+            <div class="category">
+                <div class="cat-label">System Design Basics</div>
+                <div class="problems">
+                    <div class="problem-card hot">URL shortener</div>
+                    <div class="problem-card hot">Rate limiter</div>
+                    <div class="problem-card hot">Caching concepts</div>
+                    <div class="problem-card hot">Load balancer basics</div>
+                    <div class="problem-card hot">Database indexing</div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="category">
+                <div class="cat-label">Less Critical</div>
+                <div class="problems">
+                    <div class="problem-card muted">Advanced graph algorithms</div>
+                    <div class="problem-card muted">Compiler design questions</div>
+                    <div class="problem-card muted">OS simulators</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top 25 -->
+    <div class="section level-top" data-level="top">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="level-dot"></div>
+            <span class="section-title">Top 25 Interview Problems</span>
+            <span class="section-meta">Frequently asked across all levels</span>
+            <div class="chevron open"></div>
+        </div>
+        <div class="section-body open">
+            <div class="category">
+                <div class="cat-label">Must Know</div>
+                <div class="problems">
+                    <div class="problem-card must">Two sum <span class="must-badge">must know</span></div>
+                    <div class="problem-card must">Reverse string <span class="must-badge">must know</span></div>
+                    <div class="problem-card must">Palindrome check <span class="must-badge">must know</span></div>
+                    <div class="problem-card must">Binary search <span class="must-badge">must know</span></div>
+                    <div class="problem-card must">Reverse linked list <span class="must-badge">must know</span></div>
+                </div>
+            </div>
+            <div class="category">
+                <div class="cat-label">Also Frequently Asked</div>
+                <div class="problems">
+                    <div class="problem-card hot">Merge sorted arrays</div>
+                    <div class="problem-card hot">Valid parentheses</div>
+                    <div class="problem-card hot">Longest common prefix</div>
+                    <div class="problem-card hot">Maximum subarray</div>
+                    <div class="problem-card hot">Rotate array</div>
+                    <div class="problem-card hot">Tree traversal</div>
+                    <div class="problem-card hot">Find duplicates</div>
+                    <div class="problem-card hot">Group anagrams</div>
+                    <div class="problem-card hot">LRU cache</div>
+                    <div class="problem-card hot">Coin change</div>
+                    <div class="problem-card hot">Longest palindromic substring</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function toggle(header) {
+      const chevron = header.querySelector('.chevron');
+      const body = header.nextElementSibling;
+      const isOpen = body.classList.toggle('open');
+      chevron.classList.toggle('open', isOpen);
+    }
+
+    function filter(level, btn) {
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.section').forEach(s => {
+        s.style.display = (level === 'all' || s.dataset.level === level) ? '' : 'none';
+      });
+    }
+</script>
+</body>
+</html>
