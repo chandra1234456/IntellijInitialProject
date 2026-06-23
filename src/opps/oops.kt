@@ -1,6 +1,5 @@
 package opps
 
-import javax.swing.text.Position
 
 open class Car {
     open fun driving() {
@@ -23,7 +22,8 @@ fun main() {
     println(findMaxElement(arrayListOf(1,2,10,202,100,100)))
     println(findMaxKElement(arrayListOf(1,2,99,10,202,100,150),2))
    */ //reverseArray(arrayOf(1,2,3,4,6,7,8,9,10,5))
-    twoSumArray(arrayListOf(1,2,3,4,6,7,8,9,10,5),10)
+  //  twoSumArray(arrayListOf(1,2,3,4,6,7,8,9,10,5),10)
+    secondLargestUsingReverse(arrayListOf(1,2,3,4,6,7,8,9,10,5))
 }
 
 fun bubbleSortDescending(array: MutableList<Int>): MutableList<Int> {
@@ -83,3 +83,20 @@ fun twoSumArray(list :List<Int>,targetValue :Int){
         }
     }
 }
+fun secondLargest(list :List<Int>){
+    var maxValue = list[0]
+    for(i in 1 until list.size){
+        if (maxValue < list[i]){
+            maxValue = list[i]
+        }
+    }
+    println(maxValue)
+}
+fun secondLargestUsingReverse(list :List<Int>){
+    val newList = mutableListOf<Int>()
+    for(i in list.lastIndex downTo 0){
+        newList.add(list[i])
+    }
+    println(newList)
+}
+

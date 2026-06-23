@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programming & Coding Problems Roadmap</title>
+    <title>Java Developer Interview – Coding Problems Roadmap</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -27,17 +27,21 @@
           --amber-mid: #ef9f27;
           --amber-dark: #633806;
 
-          --coral-light: #faece7;
-          --coral-mid: #d85a30;
-          --coral-dark: #4a1b0c;
+          --red-light: #fdecea;
+          --red-mid: #e53935;
+          --red-dark: #7b1b18;
 
           --purple-light: #eeedfe;
           --purple-mid: #7f77dd;
           --purple-dark: #3c3489;
 
-          --gray-light: #f1efe8;
-          --gray-mid: #888780;
-          --gray-dark: #2c2c2a;
+          --pink-light: #fce8f3;
+          --pink-mid: #d63384;
+          --pink-dark: #6b1040;
+
+          --orange-light: #fff0e6;
+          --orange-mid: #e07020;
+          --orange-dark: #5c2900;
         }
 
         body {
@@ -48,30 +52,28 @@
           padding: 2rem 1rem 4rem;
         }
 
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 960px; margin: 0 auto; }
 
-        /* Header */
         .page-header {
           margin-bottom: 2rem;
           padding-bottom: 1.5rem;
           border-bottom: 1px solid var(--border);
         }
         .page-header h1 {
-          font-size: 28px;
-          font-weight: 600;
+          font-size: 26px;
+          font-weight: 700;
           color: var(--text-primary);
           letter-spacing: -0.02em;
         }
         .page-header p {
-          font-size: 15px;
+          font-size: 14px;
           color: var(--text-secondary);
           margin-top: 6px;
         }
 
-        /* Stats */
         .stats-row {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(4, 1fr);
           gap: 12px;
           margin-bottom: 1.5rem;
         }
@@ -79,24 +81,12 @@
           background: var(--surface);
           border: 1px solid var(--border);
           border-radius: 12px;
-          padding: 16px 20px;
+          padding: 14px 16px;
           text-align: center;
         }
-        .stat-card .num {
-          font-size: 28px;
-          font-weight: 700;
-          color: var(--text-primary);
-          line-height: 1;
-        }
-        .stat-card .lbl {
-          font-size: 12px;
-          color: var(--text-secondary);
-          margin-top: 4px;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-        }
+        .stat-card .num { font-size: 26px; font-weight: 700; color: var(--text-primary); line-height: 1; }
+        .stat-card .lbl { font-size: 11px; color: var(--text-secondary); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
 
-        /* Filter pills */
         .filters {
           display: flex;
           gap: 8px;
@@ -117,16 +107,15 @@
         .pill:hover { border-color: #aaa; color: var(--text-primary); }
         .pill.active { background: var(--purple-light); color: var(--purple-dark); border-color: var(--purple-mid); font-weight: 500; }
 
-        /* Section */
         .section {
           background: var(--surface);
           border: 1px solid var(--border);
           border-radius: 14px;
-          margin-bottom: 16px;
+          margin-bottom: 14px;
           overflow: hidden;
         }
         .section-header {
-          padding: 16px 20px;
+          padding: 15px 20px;
           display: flex;
           align-items: center;
           gap: 12px;
@@ -137,15 +126,17 @@
         .section-header:hover { background: var(--bg); }
 
         .level-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-        .level-entry .level-dot { background: var(--teal-mid); }
-        .level-mid .level-dot { background: var(--blue-mid); }
-        .level-top .level-dot { background: var(--amber-mid); }
+        .sec-java-full .level-dot  { background: var(--teal-mid); }
+        .sec-top25    .level-dot   { background: var(--blue-mid); }
+        .sec-tomorrow .level-dot   { background: var(--red-mid); }
+        .sec-entry    .level-dot   { background: #a855f7; }
+        .sec-mid      .level-dot   { background: var(--orange-mid); }
 
         .section-title { font-size: 15px; font-weight: 600; flex: 1; }
-        .section-meta { font-size: 12px; color: var(--text-muted); }
+        .section-meta  { font-size: 12px; color: var(--text-muted); }
 
         .chevron {
-          width: 16px; height: 16px;
+          width: 15px; height: 15px;
           border-right: 2px solid var(--text-muted);
           border-bottom: 2px solid var(--text-muted);
           transform: rotate(45deg);
@@ -157,7 +148,6 @@
         .section-body { padding: 0 20px 20px; display: none; }
         .section-body.open { display: block; }
 
-        /* Category */
         .category { margin-top: 16px; }
         .cat-label {
           font-size: 11px;
@@ -166,7 +156,11 @@
           text-transform: uppercase;
           letter-spacing: 0.07em;
           margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
         }
+        .cat-icon { font-size: 14px; }
 
         .problems {
           display: grid;
@@ -183,31 +177,52 @@
           background: var(--bg);
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 6px;
         }
-        .problem-card.hot { border-color: #9fe1cb; background: var(--teal-light); color: var(--teal-dark); }
-        .problem-card.must { border-color: #fac775; background: var(--amber-light); color: var(--amber-dark); }
-        .problem-card.muted { color: var(--text-muted); }
+        .problem-card .num-badge {
+          font-size: 10px;
+          font-weight: 700;
+          color: var(--text-muted);
+          min-width: 18px;
+        }
 
-        .must-badge {
+        /* colour variants */
+        .hot  { border-color: #9fe1cb; background: var(--teal-light); color: var(--teal-dark); }
+        .must { border-color: #fac775; background: var(--amber-light); color: var(--amber-dark); }
+        .crit { border-color: #f5a5a3; background: var(--red-light); color: var(--red-dark); }
+        .blue { border-color: #a3c8f5; background: var(--blue-light); color: var(--blue-dark); }
+        .muted-card { color: var(--text-muted); }
+
+        .tag {
           font-size: 10px;
           padding: 2px 7px;
           border-radius: 20px;
-          background: var(--amber-mid);
-          color: #fff;
           margin-left: auto;
           flex-shrink: 0;
           font-weight: 500;
           white-space: nowrap;
         }
+        .tag-must     { background: var(--amber-mid);  color: #fff; }
+        .tag-tonight  { background: var(--red-mid);    color: #fff; }
+        .tag-java8    { background: var(--purple-mid); color: #fff; }
 
         .divider { height: 1px; background: var(--border); margin: 16px 0 0; }
 
-        @media (max-width: 540px) {
-          .stats-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-          .stat-card { padding: 12px 8px; }
-          .stat-card .num { font-size: 22px; }
-          .problems { grid-template-columns: 1fr 1fr; }
+        .section-group-label {
+          font-size: 12px;
+          font-weight: 600;
+          color: var(--text-secondary);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin: 24px 0 10px;
+          padding-left: 4px;
+          border-left: 3px solid var(--border);
+          padding-left: 8px;
+        }
+
+        @media (max-width: 600px) {
+          .stats-row { grid-template-columns: repeat(2, 1fr); }
+          .problems  { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -215,34 +230,273 @@
 <div class="container">
 
     <div class="page-header">
-        <h1>Programming &amp; Coding Problems Roadmap</h1>
-        <p>Organized by experience level — from fundamentals to advanced DSA &amp; system design</p>
+        <h1>Java Developer – Coding Problems Roadmap</h1>
+        <p>Full topic bank · Top 25 for 3.5-year interviews · Must-do if interview is tomorrow</p>
     </div>
 
     <div class="stats-row">
-        <div class="stat-card"><div class="num">50+</div><div class="lbl">Total problems</div></div>
-        <div class="stat-card"><div class="num">25</div><div class="lbl">Interview must-knows</div></div>
-        <div class="stat-card"><div class="num">3</div><div class="lbl">Experience levels</div></div>
+        <div class="stat-card"><div class="num">70+</div><div class="lbl">Total problems</div></div>
+        <div class="stat-card"><div class="num">25</div><div class="lbl">Top interview Qs</div></div>
+        <div class="stat-card"><div class="num">18</div><div class="lbl">Practice tonight</div></div>
+        <div class="stat-card"><div class="num">6</div><div class="lbl">Topic categories</div></div>
     </div>
 
     <div class="filters">
-        <button class="pill active" onclick="filter('all', this)">All levels</button>
-        <button class="pill" onclick="filter('entry', this)">Entry (0–2 yrs)</button>
-        <button class="pill" onclick="filter('mid', this)">Mid (3–5 yrs)</button>
-        <button class="pill" onclick="filter('top', this)">Top 25 interview</button>
+        <button class="pill active" onclick="filter('all',this)">All sections</button>
+        <button class="pill" onclick="filter('java-full',this)">Full topic bank</button>
+        <button class="pill" onclick="filter('top25',this)">Top 25 (3.5 yrs)</button>
+        <button class="pill" onclick="filter('tomorrow',this)">🔥 Interview tomorrow</button>
+        <button class="pill" onclick="filter('entry',this)">Entry level</button>
+        <button class="pill" onclick="filter('mid',this)">Mid level</button>
     </div>
 
-    <!-- Entry Level -->
-    <div class="section level-entry" data-level="entry">
+    <!-- ══════════════════════════════════════
+         SECTION 1 – FULL JAVA TOPIC BANK
+    ══════════════════════════════════════ -->
+    <div class="section sec-java-full" data-level="java-full">
         <div class="section-header" onclick="toggle(this)">
             <div class="level-dot"></div>
-            <span class="section-title">Entry Level</span>
-            <span class="section-meta">0 – 2 years experience</span>
+            <span class="section-title">Full Java Topic Bank</span>
+            <span class="section-meta">All categories · strings, arrays, collections, HashMap, numbers, Java 8</span>
             <div class="chevron open"></div>
         </div>
         <div class="section-body open">
+
+            <!-- Strings -->
             <div class="category">
-                <div class="cat-label">Numbers &amp; Logic</div>
+                <div class="cat-label"><span class="cat-icon">🔤</span> Strings</div>
+                <div class="problems">
+                    <div class="problem-card hot">Reverse string</div>
+                    <div class="problem-card hot">Palindrome string</div>
+                    <div class="problem-card hot">Anagram strings</div>
+                    <div class="problem-card hot">First non-repeated character</div>
+                    <div class="problem-card hot">Count character frequency</div>
+                    <div class="problem-card hot">Duplicate characters</div>
+                    <div class="problem-card hot">Reverse words in sentence</div>
+                    <div class="problem-card hot">Longest substring without repeating chars</div>
+                    <div class="problem-card hot">Count vowels</div>
+                    <div class="problem-card hot">Largest palindrome in string</div>
+                    <div class="problem-card hot">Missing character in string</div>
+                    <div class="problem-card hot">Valid number string</div>
+                </div>
+            </div>
+
+            <!-- Arrays -->
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">📦</span> Arrays</div>
+                <div class="problems">
+                    <div class="problem-card hot">Maximum element</div>
+                    <div class="problem-card hot">Second largest element</div>
+                    <div class="problem-card hot">Third largest element</div>
+                    <div class="problem-card hot">Missing number</div>
+                    <div class="problem-card hot">Duplicates in array</div>
+                    <div class="problem-card hot">Element appearing once</div>
+                    <div class="problem-card hot">Merge two sorted arrays</div>
+                    <div class="problem-card hot">Common elements in two arrays</div>
+                    <div class="problem-card hot">Intersection of two arrays</div>
+                    <div class="problem-card hot">Majority element</div>
+                    <div class="problem-card hot">Maximum product of two numbers</div>
+                    <div class="problem-card hot">Bubble sort (ascending)</div>
+                    <div class="problem-card hot">Bubble sort (descending)</div>
+                </div>
+            </div>
+
+            <!-- Collections / List -->
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">📋</span> Collections / List</div>
+                <div class="problems">
+                    <div class="problem-card hot">Remove duplicates from list</div>
+                    <div class="problem-card hot">Find duplicates from list</div>
+                    <div class="problem-card hot">Sort strings by length</div>
+                    <div class="problem-card hot">Sort employee objects using Comparator</div>
+                </div>
+            </div>
+
+            <!-- HashMap -->
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🗺️</span> HashMap</div>
+                <div class="problems">
+                    <div class="problem-card hot">Character frequency</div>
+                    <div class="problem-card hot">Word frequency</div>
+                    <div class="problem-card hot">Most frequent element</div>
+                    <div class="problem-card hot">Group anagrams</div>
+                </div>
+            </div>
+
+            <!-- Numbers -->
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔢</span> Numbers</div>
+                <div class="problems">
+                    <div class="problem-card hot">Prime number</div>
+                    <div class="problem-card hot">Palindrome number</div>
+                    <div class="problem-card hot">Reverse number</div>
+                    <div class="problem-card hot">Sum of digits</div>
+                    <div class="problem-card hot">Fibonacci series</div>
+                </div>
+            </div>
+
+            <!-- Java 8 Stream API -->
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">☕</span> Java 8 Stream API</div>
+                <div class="problems">
+                    <div class="problem-card blue">Find duplicate elements</div>
+                    <div class="problem-card blue">Find second highest salary</div>
+                    <div class="problem-card blue">Group employees by department</div>
+                    <div class="problem-card blue">Count employees by department</div>
+                    <div class="problem-card blue">First non-repeated char using streams</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 2 – TOP 25 (3.5 YR JAVA DEV)
+    ══════════════════════════════════════ -->
+    <div class="section sec-top25" data-level="top25">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="level-dot"></div>
+            <span class="section-title">Top 25 — 3.5-Year Java Developer Interview</span>
+            <span class="section-meta">Most commonly asked · numbered in priority order</span>
+            <div class="chevron open"></div>
+        </div>
+        <div class="section-body open">
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔤</span> Strings</div>
+                <div class="problems">
+                    <div class="problem-card must"><span class="num-badge">1</span>Reverse string <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">2</span>Palindrome string <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">3</span>Anagram string <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">4</span>First non-repeated character <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">5</span>Character frequency <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">6</span>Duplicate characters <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">7</span>Reverse words in sentence <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">8</span>Longest substring without repeating <span class="tag tag-must">must</span></div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">📦</span> Arrays</div>
+                <div class="problems">
+                    <div class="problem-card must"><span class="num-badge">9</span>Second largest element <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">10</span>Third largest element <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">11</span>Missing number <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">12</span>Duplicates in array <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">13</span>Merge two sorted arrays <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">14</span>Majority element <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">15</span>Maximum product of two numbers <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">16</span>Element appearing once <span class="tag tag-must">must</span></div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">📋</span> Collections</div>
+                <div class="problems">
+                    <div class="problem-card must"><span class="num-badge">17</span>Remove duplicates from list <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">18</span>Find duplicates from list <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">19</span>Sort strings by length <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">20</span>Sort employee objects using Comparator <span class="tag tag-must">must</span></div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔢</span> Numbers</div>
+                <div class="problems">
+                    <div class="problem-card must"><span class="num-badge">21</span>Prime number <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">22</span>Palindrome number <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">23</span>Reverse number <span class="tag tag-must">must</span></div>
+                    <div class="problem-card must"><span class="num-badge">24</span>Sum of digits <span class="tag tag-must">must</span></div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔃</span> Sorting</div>
+                <div class="problems">
+                    <div class="problem-card must"><span class="num-badge">25</span>Bubble sort (ascending &amp; descending) <span class="tag tag-must">must</span></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 3 – INTERVIEW TOMORROW
+    ══════════════════════════════════════ -->
+    <div class="section sec-tomorrow" data-level="tomorrow">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="level-dot"></div>
+            <span class="section-title">🔥 Interview Tomorrow — Must Practice Tonight</span>
+            <span class="section-meta">18 highest-priority problems · cover these first</span>
+            <div class="chevron open"></div>
+        </div>
+        <div class="section-body open">
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔤</span> Strings</div>
+                <div class="problems">
+                    <div class="problem-card crit">Reverse string <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Palindrome string <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Anagram string <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">First non-repeated character <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Character frequency <span class="tag tag-tonight">tonight</span></div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">📦</span> Arrays</div>
+                <div class="problems">
+                    <div class="problem-card crit">Second largest element <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Third largest element <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Missing number <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Duplicates in array <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Merge two sorted arrays <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Majority element <span class="tag tag-tonight">tonight</span></div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">📋</span> Collections</div>
+                <div class="problems">
+                    <div class="problem-card crit">Remove duplicates from list <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Find duplicates from list <span class="tag tag-tonight">tonight</span></div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔃</span> Sorting</div>
+                <div class="problems">
+                    <div class="problem-card crit">Bubble sort ascending <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Bubble sort descending <span class="tag tag-tonight">tonight</span></div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔢</span> Numbers</div>
+                <div class="problems">
+                    <div class="problem-card crit">Prime number <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Reverse number <span class="tag tag-tonight">tonight</span></div>
+                    <div class="problem-card crit">Palindrome number <span class="tag tag-tonight">tonight</span></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SECTION 4 – ENTRY LEVEL
+    ══════════════════════════════════════ -->
+    <div class="section sec-entry" data-level="entry">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="level-dot"></div>
+            <span class="section-title">Entry Level</span>
+            <span class="section-meta">0 – 2 years experience · fundamentals</span>
+            <div class="chevron open"></div>
+        </div>
+        <div class="section-body open">
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔢</span> Numbers &amp; Logic</div>
                 <div class="problems">
                     <div class="problem-card hot">Reverse a number</div>
                     <div class="problem-card hot">Palindrome number</div>
@@ -256,8 +510,9 @@
                     <div class="problem-card hot">Sum of digits</div>
                 </div>
             </div>
+
             <div class="category">
-                <div class="cat-label">Strings</div>
+                <div class="cat-label"><span class="cat-icon">🔤</span> Strings</div>
                 <div class="problems">
                     <div class="problem-card hot">Reverse string</div>
                     <div class="problem-card hot">Palindrome string</div>
@@ -266,8 +521,9 @@
                     <div class="problem-card hot">Character frequency</div>
                 </div>
             </div>
+
             <div class="category">
-                <div class="cat-label">Arrays</div>
+                <div class="cat-label"><span class="cat-icon">📦</span> Arrays</div>
                 <div class="problems">
                     <div class="problem-card hot">Find largest element</div>
                     <div class="problem-card hot">Second largest element</div>
@@ -278,29 +534,34 @@
                     <div class="problem-card hot">Bubble sort</div>
                 </div>
             </div>
+
             <div class="divider"></div>
             <div class="category">
                 <div class="cat-label">Less Critical</div>
                 <div class="problems">
-                    <div class="problem-card muted">Pattern printing</div>
-                    <div class="problem-card muted">Calendar program</div>
-                    <div class="problem-card muted">Number pyramid</div>
+                    <div class="problem-card muted-card">Pattern printing</div>
+                    <div class="problem-card muted-card">Calendar program</div>
+                    <div class="problem-card muted-card">Number pyramid</div>
                 </div>
             </div>
+
         </div>
     </div>
 
-    <!-- Mid Level -->
-    <div class="section level-mid" data-level="mid">
+    <!-- ══════════════════════════════════════
+         SECTION 5 – MID LEVEL
+    ══════════════════════════════════════ -->
+    <div class="section sec-mid" data-level="mid">
         <div class="section-header" onclick="toggle(this)">
             <div class="level-dot"></div>
             <span class="section-title">Mid Level</span>
-            <span class="section-meta">3 – 5 years experience</span>
+            <span class="section-meta">3 – 5 years experience · DSA, DP, system design</span>
             <div class="chevron open"></div>
         </div>
         <div class="section-body open">
+
             <div class="category">
-                <div class="cat-label">DSA Essentials</div>
+                <div class="cat-label"><span class="cat-icon">🧮</span> DSA Essentials</div>
                 <div class="problems">
                     <div class="problem-card hot">Two sum</div>
                     <div class="problem-card hot">Longest substring (no repeats)</div>
@@ -313,8 +574,9 @@
                     <div class="problem-card hot">Majority element</div>
                 </div>
             </div>
+
             <div class="category">
-                <div class="cat-label">Linked Lists</div>
+                <div class="cat-label"><span class="cat-icon">🔗</span> Linked Lists</div>
                 <div class="problems">
                     <div class="problem-card hot">Reverse linked list</div>
                     <div class="problem-card hot">Detect loop</div>
@@ -323,8 +585,9 @@
                     <div class="problem-card hot">Remove nth from end</div>
                 </div>
             </div>
+
             <div class="category">
-                <div class="cat-label">Stack &amp; Queue</div>
+                <div class="cat-label"><span class="cat-icon">📚</span> Stack &amp; Queue</div>
                 <div class="problems">
                     <div class="problem-card hot">Valid parentheses</div>
                     <div class="problem-card hot">Min stack</div>
@@ -332,8 +595,9 @@
                     <div class="problem-card hot">Next greater element</div>
                 </div>
             </div>
+
             <div class="category">
-                <div class="cat-label">Trees</div>
+                <div class="cat-label"><span class="cat-icon">🌲</span> Trees</div>
                 <div class="problems">
                     <div class="problem-card hot">Tree traversals</div>
                     <div class="problem-card hot">Height of binary tree</div>
@@ -342,8 +606,9 @@
                     <div class="problem-card hot">Level order traversal</div>
                 </div>
             </div>
+
             <div class="category">
-                <div class="cat-label">Dynamic Programming</div>
+                <div class="cat-label"><span class="cat-icon">💡</span> Dynamic Programming</div>
                 <div class="problems">
                     <div class="problem-card hot">Climbing stairs</div>
                     <div class="problem-card hot">Coin change</div>
@@ -352,8 +617,9 @@
                     <div class="problem-card hot">House robber</div>
                 </div>
             </div>
+
             <div class="category">
-                <div class="cat-label">System Design Basics</div>
+                <div class="cat-label"><span class="cat-icon">🏗️</span> System Design Basics</div>
                 <div class="problems">
                     <div class="problem-card hot">URL shortener</div>
                     <div class="problem-card hot">Rate limiter</div>
@@ -362,53 +628,17 @@
                     <div class="problem-card hot">Database indexing</div>
                 </div>
             </div>
+
             <div class="divider"></div>
             <div class="category">
                 <div class="cat-label">Less Critical</div>
                 <div class="problems">
-                    <div class="problem-card muted">Advanced graph algorithms</div>
-                    <div class="problem-card muted">Compiler design questions</div>
-                    <div class="problem-card muted">OS simulators</div>
+                    <div class="problem-card muted-card">Advanced graph algorithms</div>
+                    <div class="problem-card muted-card">Compiler design questions</div>
+                    <div class="problem-card muted-card">OS simulators</div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Top 25 -->
-    <div class="section level-top" data-level="top">
-        <div class="section-header" onclick="toggle(this)">
-            <div class="level-dot"></div>
-            <span class="section-title">Top 25 Interview Problems</span>
-            <span class="section-meta">Frequently asked across all levels</span>
-            <div class="chevron open"></div>
-        </div>
-        <div class="section-body open">
-            <div class="category">
-                <div class="cat-label">Must Know</div>
-                <div class="problems">
-                    <div class="problem-card must">Two sum <span class="must-badge">must know</span></div>
-                    <div class="problem-card must">Reverse string <span class="must-badge">must know</span></div>
-                    <div class="problem-card must">Palindrome check <span class="must-badge">must know</span></div>
-                    <div class="problem-card must">Binary search <span class="must-badge">must know</span></div>
-                    <div class="problem-card must">Reverse linked list <span class="must-badge">must know</span></div>
-                </div>
-            </div>
-            <div class="category">
-                <div class="cat-label">Also Frequently Asked</div>
-                <div class="problems">
-                    <div class="problem-card hot">Merge sorted arrays</div>
-                    <div class="problem-card hot">Valid parentheses</div>
-                    <div class="problem-card hot">Longest common prefix</div>
-                    <div class="problem-card hot">Maximum subarray</div>
-                    <div class="problem-card hot">Rotate array</div>
-                    <div class="problem-card hot">Tree traversal</div>
-                    <div class="problem-card hot">Find duplicates</div>
-                    <div class="problem-card hot">Group anagrams</div>
-                    <div class="problem-card hot">LRU cache</div>
-                    <div class="problem-card hot">Coin change</div>
-                    <div class="problem-card hot">Longest palindromic substring</div>
-                </div>
-            </div>
         </div>
     </div>
 
