@@ -1,0 +1,280 @@
+For an **Android SDK Developer** role, your preparation should go beyond regular Android app development. Interviewers usually focus on how to build **reusable, stable, secure, and backward-compatible libraries** that work inside other developers' apps.
+
+Here's a prioritized roadmap.
+
+## 1. Kotlin (Highest Priority) ⭐⭐⭐⭐⭐
+
+Master:
+
+* OOP concepts
+* Data classes
+* Sealed classes
+* Extension functions
+* Generics
+* Inline functions
+* Coroutines
+* Exception handling
+* Collections
+* Scope functions (`let`, `apply`, `run`, `also`, `with`)
+
+Interview questions:
+
+* Difference between `launch` and `async`
+* What are inline functions?
+* What are sealed classes?
+* How does structured concurrency work?
+
+---
+
+## 2. Android SDK & Library Development ⭐⭐⭐⭐⭐
+
+This is the most important topic.
+
+Learn:
+
+* Creating an Android Library module
+* Generating `.aar` files
+* Public API design
+* API vs Implementation
+* Backward compatibility
+* Semantic Versioning
+* SDK initialization
+* Error handling
+* Logging
+* Thread safety
+
+Interview questions:
+
+* What is an AAR?
+* How do you ensure your SDK doesn't crash the host app?
+* How do you maintain backward compatibility?
+
+---
+
+## 3. Android Architecture ⭐⭐⭐⭐☆
+
+Learn:
+
+* MVVM
+* MVI
+* Clean Architecture
+* SOLID Principles
+* Repository Pattern
+* Dependency Injection (Hilt/Koin)
+
+Interview questions:
+
+* MVVM vs MVI
+* Explain Repository Pattern
+* What are SOLID principles?
+
+---
+
+## 4. Coroutines & Flow ⭐⭐⭐⭐⭐
+
+Learn:
+
+* CoroutineScope
+* SupervisorJob
+* Dispatchers
+* Cancellation
+* Exception handling
+
+Flow:
+
+* Flow
+* StateFlow
+* SharedFlow
+* Cold vs Hot Flow
+* Combine
+* Zip
+* FlatMapLatest
+
+Interview questions:
+
+* StateFlow vs SharedFlow
+* Why use SupervisorJob?
+* Flow vs LiveData?
+
+---
+
+## 5. Networking ⭐⭐⭐⭐☆
+
+Learn:
+
+* Retrofit
+* OkHttp
+* Interceptors
+* Authentication
+* SSL Pinning
+* JSON parsing (Moshi/Gson/Kotlin Serialization)
+
+Interview questions:
+
+* Explain Retrofit flow.
+* How does SSL Pinning work?
+
+---
+
+## 6. Performance & Memory ⭐⭐⭐⭐⭐
+
+Learn:
+
+* Memory leaks
+* LeakCanary
+* Android Profiler
+* ANR
+* Lazy initialization
+* R8
+* ProGuard
+* Resource shrinking
+
+Interview questions:
+
+* How do you detect memory leaks?
+* How do you reduce SDK size?
+
+---
+
+## 7. Security ⭐⭐⭐⭐☆
+
+Learn:
+
+* Android Keystore
+* Encryption
+* EncryptedSharedPreferences
+* SSL Pinning
+* API key protection
+* ProGuard keep rules
+
+---
+
+## 8. Cross-Platform Integration ⭐⭐⭐⭐☆
+
+Many SDK companies support Flutter and React Native.
+
+Learn:
+
+* Flutter MethodChannel
+* EventChannel
+* React Native Native Modules
+* TurboModules (basic understanding)
+
+Interview questions:
+
+* How do you send callbacks from native code to Flutter?
+* How do you expose native APIs to React Native?
+
+---
+
+## 9. Testing ⭐⭐⭐⭐☆
+
+Learn:
+
+* JUnit
+* MockK
+* Mockito
+* Turbine (Flow testing)
+* Espresso
+* Compose Testing
+
+Interview questions:
+
+* How do you test an SDK?
+* MockK vs Mockito?
+
+---
+
+## 10. Build System ⭐⭐⭐⭐☆
+
+Learn:
+
+* Gradle
+* `api` vs `implementation`
+* Build variants
+* Product flavors
+* Maven Publish
+* Dependency resolution
+
+---
+
+## 11. Jetpack Compose ⭐⭐⭐☆
+
+Learn:
+
+* State
+* remember
+* rememberSaveable
+* Recomposition
+* Side effects
+* Performance optimization
+
+---
+
+## 12. Git & CI/CD ⭐⭐⭐☆
+
+Learn:
+
+* Git
+* Pull Requests
+* GitHub Actions
+* Jenkins (basics)
+* Maven publishing
+
+---
+
+# Important Android Topics
+
+* Activity lifecycle
+* Fragment lifecycle
+* Services
+* Broadcast Receivers
+* WorkManager
+* Permissions
+* Deep Links
+* Intents
+* Content Providers (basics)
+
+---
+
+# Most Frequently Asked SDK Interview Questions
+
+* What is an Android SDK?
+* What is an AAR file?
+* APK vs AAR
+* API vs Implementation
+* How do you design a reusable SDK?
+* How do you avoid memory leaks?
+* What is backward compatibility?
+* How do you version an SDK?
+* How do you publish an SDK?
+* How do you secure an SDK?
+* How do you prevent the SDK from crashing the host application?
+* Explain Coroutines and Flow.
+* StateFlow vs SharedFlow.
+* How do you expose your SDK to Flutter?
+* What are ProGuard keep rules?
+* How do you reduce SDK size?
+* How do you test an SDK?
+
+## Suggested Preparation Order (2–3 Weeks)
+
+1. **Kotlin (2–3 days)**
+2. **Android Architecture (2 days)**
+3. **Coroutines & Flow (3 days)**
+4. **SDK Development (4 days)** – AAR, API design, versioning, publishing
+5. **Networking & Security (2 days)**
+6. **Performance & Memory (2 days)**
+7. **Testing (2 days)**
+8. **Flutter/React Native Bridge (1–2 days)**
+9. **Mock Interviews & Revision (2 days)**
+
+### Best way to stand out
+
+Build a **sample Android SDK** (for example, a logging, authentication, or analytics SDK), package it as an **AAR**, publish it to a local Maven repository, and integrate it into:
+
+* An Android app
+* A Flutter app (using `MethodChannel`)
+* A React Native app (using a Native Module)
+
+Being able to demonstrate a working SDK project during an interview is often more impactful than only discussing the concepts.

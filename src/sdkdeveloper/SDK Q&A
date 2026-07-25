@@ -1,0 +1,252 @@
+If you're interviewing for an **Android SDK Developer** role, expect questions that go beyond Android app development. Interviewers typically focus on **SDK design, stability, performance, compatibility, and API usability**.
+
+---
+
+# 1. Android SDK Fundamentals
+
+### Beginner
+
+1. What is an Android SDK?
+2. What is the difference between an SDK and an Android application?
+3. What is an AAR file?
+4. What is the difference between APK and AAR?
+5. Why do companies build SDKs instead of apps?
+6. What components should an SDK expose?
+7. How do you initialize an SDK?
+
+---
+
+### Intermediate
+
+8. How do you design a reusable SDK?
+9. How do you make your SDK configurable?
+10. How do you support multiple Android versions?
+11. How do you avoid dependency conflicts?
+12. How do you maintain backward compatibility?
+13. What is Semantic Versioning?
+14. How do you deprecate APIs safely?
+
+---
+
+# 2. Kotlin Questions
+
+15. What are extension functions?
+16. What are sealed classes?
+17. What are inline functions?
+18. Difference between object and companion object.
+19. What is a data class?
+20. What are scope functions?
+21. What are higher-order functions?
+22. What is delegation?
+23. What is lazy initialization?
+24. Explain Kotlin null safety.
+
+---
+
+# 3. Coroutines
+
+25. What is Structured Concurrency?
+26. Difference between launch and async.
+27. What is CoroutineScope?
+28. What is SupervisorJob?
+29. Why use CoroutineExceptionHandler?
+30. How do you cancel coroutines?
+31. Difference between Main, IO, and Default dispatchers.
+32. How do you avoid coroutine leaks?
+
+---
+
+# 4. Kotlin Flow
+
+33. What is Flow?
+34. StateFlow vs SharedFlow.
+35. Hot Flow vs Cold Flow.
+36. combine() vs zip().
+37. flatMapLatest() vs map().
+38. What is replay in SharedFlow?
+39. How do you test Flow?
+40. Why use Flow instead of LiveData?
+
+---
+
+# 5. Android Architecture
+
+41. Explain MVVM.
+42. Explain MVI.
+43. MVVM vs MVI.
+44. What is Repository Pattern?
+45. Explain Clean Architecture.
+46. Explain SOLID principles.
+47. What is Dependency Injection?
+48. Hilt vs Koin.
+
+---
+
+# 6. SDK Design
+
+49. How do you prevent an SDK from crashing the host app?
+50. How do you expose only public APIs?
+51. Why shouldn't an SDK expose internal implementation?
+52. How do you design an SDK initialization API?
+53. How do you make an SDK thread-safe?
+54. How do you handle exceptions inside an SDK?
+55. How do you implement logging inside an SDK?
+56. How do you support offline mode?
+
+---
+
+# 7. Gradle & Dependencies
+
+57. Difference between api and implementation.
+58. What are transitive dependencies?
+59. What causes dependency conflicts?
+60. How do you resolve version conflicts?
+61. How do you reduce library size?
+62. Explain ProGuard.
+63. Explain R8.
+64. What are keep rules?
+
+---
+
+# 8. Networking
+
+65. Retrofit architecture.
+66. Explain OkHttp Interceptors.
+67. Authentication vs Authorization.
+68. What is SSL Pinning?
+69. How does Certificate Pinning work?
+70. How do you retry failed requests?
+71. How do you handle timeouts?
+
+---
+
+# 9. Performance
+
+72. What causes ANRs?
+73. How do you optimize startup time?
+74. How do you detect memory leaks?
+75. What is LeakCanary?
+76. How do you profile an application?
+77. How do you reduce SDK memory usage?
+78. How do you reduce battery usage?
+
+---
+
+# 10. Memory Management
+
+79. Difference between Application Context and Activity Context.
+80. Why is storing Activity Context in a singleton dangerous?
+81. What is a memory leak?
+82. Explain Garbage Collection.
+83. WeakReference vs SoftReference.
+84. How do you avoid Context leaks?
+
+---
+
+# 11. Security
+
+85. What is Android Keystore?
+86. How do you store tokens securely?
+87. Explain EncryptedSharedPreferences.
+88. What is SSL Pinning?
+89. Why use ProGuard?
+90. How do you secure API keys?
+
+---
+
+# 12. Jetpack Compose
+
+91. What is recomposition?
+92. What triggers recomposition?
+93. remember vs rememberSaveable.
+94. What is LaunchedEffect?
+95. DisposableEffect vs SideEffect.
+96. How do you improve Compose performance?
+
+---
+
+# 13. XML UI
+
+97. Custom Views.
+98. onMeasure().
+99. onLayout().
+100. ViewBinding vs DataBinding.
+
+---
+
+# 14. Flutter Integration
+
+101. What is MethodChannel?
+102. What is EventChannel?
+103. How do you pass callbacks to Flutter?
+104. How do you send continuous events?
+105. How do you convert Kotlin objects to Dart?
+
+---
+
+# 15. React Native
+
+106. What are Native Modules?
+107. What is the React Native Bridge?
+108. What are TurboModules?
+109. What is JSI?
+110. How do you return asynchronous results?
+
+---
+
+# 16. Testing
+
+111. JUnit vs Instrumentation Tests.
+112. MockK vs Mockito.
+113. How do you test Flow?
+114. What is Turbine?
+115. How do you mock suspend functions?
+116. How do you test an SDK?
+
+---
+
+# 17. Publishing
+
+117. How do you create an AAR?
+118. How do you publish to Maven?
+119. How do you version your SDK?
+120. How do you maintain backward compatibility?
+
+---
+
+# 18. Scenario-Based Questions
+
+121. Your SDK crashes due to a network timeout. How do you prevent the host app from crashing?
+
+122. The host app uses an older version of OkHttp than your SDK. How do you avoid dependency conflicts?
+
+123. Your SDK stores an Activity reference and causes a memory leak. How would you fix it?
+
+124. A customer reports that your SDK increases app startup time by 3 seconds. How would you investigate?
+
+125. Your SDK works on Android 14 but crashes on Android 11. What steps would you take to debug?
+
+126. Your SDK must send location updates to a Flutter app every second. How would you implement it?
+
+127. Your SDK needs to expose a login API that supports both callbacks and coroutines. How would you design it?
+
+128. Your SDK exposes a public API, but R8 obfuscates method names in release builds. How do you fix it?
+
+129. How would you migrate an SDK from callback-based APIs to Kotlin Coroutines while maintaining backward compatibility?
+
+130. How would you design an SDK that can be safely used by thousands of different Android applications with different dependencies and configurations?
+
+## Coding Questions
+
+* Implement a singleton SDK manager.
+* Create a coroutine-based API wrapper.
+* Implement a retry mechanism with exponential backoff.
+* Design an SDK initialization API.
+* Write a custom logger.
+* Build a simple event bus using `SharedFlow`.
+* Implement SSL pinning with OkHttp.
+* Create a Flutter `MethodChannel` plugin.
+* Write a custom Gradle configuration for an Android library.
+* Design a versioned public API that preserves backward compatibility.
+
+These questions cover the topics most commonly discussed in Android SDK developer interviews, from fundamentals through advanced, real-world design scenarios.

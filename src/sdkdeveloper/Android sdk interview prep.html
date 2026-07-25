@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>study-plan.gradle.kts — Android SDK Developer Prep</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+          --bg-deep:#15161f;
+          --bg-panel:#1c1e2a;
+          --bg-panel-2:#20222f;
+          --bg-sidebar:#111219;
+          --line:#2c2e3d;
+          --text-primary:#e7e7f0;
+          --text-muted:#8b8da8;
+          --text-faint:#5c5e75;
+          --kotlin:#a586ff;
+          --kotlin-dim:#7F52FF;
+          --orange:#f8a13d;
+          --green:#4fd8a4;
+          --red:#ef7987;
+          --blue:#6fb7ff;
+          --radius:10px;
+        }
+        *{box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+          margin:0;
+          background:var(--bg-deep);
+          color:var(--text-primary);
+          font-family:'Inter',sans-serif;
+          -webkit-font-smoothing:antialiased;
+        }
+        code,.mono{font-family:'JetBrains Mono',monospace;}
+
+        @media (prefers-reduced-motion: reduce){
+          html{scroll-behavior:auto;}
+          *{animation:none !important; transition:none !important;}
+        }
+
+        /* ---------- Top chrome ---------- */
+        .titlebar{
+          display:flex;
+          align-items:center;
+          gap:10px;
+          padding:10px 18px;
+          background:var(--bg-sidebar);
+          border-bottom:1px solid var(--line);
+          position:sticky;
+          top:0;
+          z-index:50;
+        }
+        .dots{display:flex;gap:6px;}
+        .dot{width:11px;height:11px;border-radius:50%;}
+        .dot.r{background:#ef7987;}
+        .dot.y{background:#f8a13d;}
+        .dot.g{background:#4fd8a4;}
+        .titlebar .filename{
+          margin-left:8px;
+          font-size:13px;
+          color:var(--text-muted);
+          font-family:'JetBrains Mono',monospace;
+        }
+        .titlebar .filename b{color:var(--text-primary);font-weight:600;}
+        .tabs{display:flex;margin-left:20px;gap:2px;overflow-x:auto;}
+        .tab{
+          font-family:'JetBrains Mono',monospace;
+          font-size:12px;
+          padding:7px 14px;
+          color:var(--text-faint);
+          white-space:nowrap;
+          border-bottom:2px solid transparent;
+        }
+        .tab.active{color:var(--kotlin);border-bottom-color:var(--kotlin);}
+
+        /* ---------- Layout ---------- */
+        .shell{
+          display:grid;
+          grid-template-columns:270px 1fr;
+          min-height:100vh;
+        }
+        @media (max-width:880px){
+          .shell{grid-template-columns:1fr;}
+          .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);}
+        }
+
+        /* ---------- Sidebar / explorer ---------- */
+        .sidebar{
+          background:var(--bg-sidebar);
+          border-right:1px solid var(--line);
+          padding:18px 0 40px;
+          position:sticky;
+          top:45px;
+          height:calc(100vh - 45px);
+          overflow-y:auto;
+        }
+        .explorer-label{
+          font-family:'JetBrains Mono',monospace;
+          font-size:10.5px;
+          letter-spacing:.12em;
+          color:var(--text-faint);
+          padding:0 18px 10px;
+          text-transform:uppercase;
+        }
+        .nav-group{margin-bottom:4px;}
+        .nav-item{
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:8px;
+          padding:6px 18px;
+          font-family:'JetBrains Mono',monospace;
+          font-size:12.5px;
+          color:var(--text-muted);
+          cursor:pointer;
+          border-left:2px solid transparent;
+          text-decoration:none;
+        }
+        .nav-item:hover{color:var(--text-primary);background:rgba(255,255,255,0.03);}
+        .nav-item.active{color:var(--kotlin);border-left-color:var(--kotlin);background:rgba(127,82,255,0.08);}
+        .nav-item .ext{color:var(--text-faint);}
+        .nav-item.active .ext{color:var(--kotlin-dim);}
+        .pbadge{
+          font-size:9.5px;
+          font-weight:700;
+          padding:1px 5px;
+          border-radius:4px;
+          letter-spacing:.03em;
+        }
+        .pbadge.p0{background:rgba(239,121,135,0.15);color:var(--red);}
+        .pbadge.p1{background:rgba(248,161,61,0.15);color:var(--orange);}
+        .pbadge.p2{background:rgba(111,183,255,0.15);color:var(--blue);}
+
+        /* ---------- Main / editor pane ---------- */
+        main{padding:36px 40px 100px; max-width:900px;}
+        @media (max-width:600px){main{padding:24px 18px 80px;}}
+
+        .hero{margin-bottom:44px;}
+        .hero .eyebrow{
+          font-family:'JetBrains Mono',monospace;
+          color:var(--kotlin);
+          font-size:12.5px;
+          letter-spacing:.08em;
+          margin-bottom:10px;
+          display:block;
+        }
+        .hero h1{
+          font-size:clamp(28px,4vw,42px);
+          line-height:1.15;
+          margin:0 0 14px;
+          font-weight:700;
+          letter-spacing:-0.01em;
+        }
+        .hero h1 span{color:var(--kotlin);}
+        .hero p{
+          color:var(--text-muted);
+          font-size:15.5px;
+          line-height:1.65;
+          max-width:640px;
+          margin:0 0 20px;
+        }
+        .hero-meta{
+          display:flex;
+          flex-wrap:wrap;
+          gap:10px;
+        }
+        .chip{
+          font-family:'JetBrains Mono',monospace;
+          font-size:11.5px;
+          padding:5px 11px;
+          border-radius:20px;
+          border:1px solid var(--line);
+          color:var(--text-muted);
+          background:var(--bg-panel);
+        }
+
+        /* line-numbered code frame wrapping the whole doc */
+        .code-frame{
+          background:var(--bg-panel);
+          border:1px solid var(--line);
+          border-radius:var(--radius);
+          overflow:hidden;
+          margin-bottom:26px;
+        }
+        .code-frame .frame-head{
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          padding:9px 16px;
+          border-bottom:1px solid var(--line);
+          font-family:'JetBrains Mono',monospace;
+          font-size:11px;
+          color:var(--text-faint);
+        }
+        .frame-body{padding:18px 20px 20px;}
+
+        section.topic{
+          scroll-margin-top:60px;
+          margin-bottom:34px;
+          background:var(--bg-panel);
+          border:1px solid var(--line);
+          border-radius:var(--radius);
+          overflow:hidden;
+        }
+        .topic-head{
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:14px;
+          padding:16px 22px;
+          border-bottom:1px solid var(--line);
+          background:var(--bg-panel-2);
+          flex-wrap:wrap;
+        }
+        .topic-head .htitle{
+          display:flex;
+          align-items:baseline;
+          gap:10px;
+        }
+        .topic-num{
+          font-family:'JetBrains Mono',monospace;
+          color:var(--text-faint);
+          font-size:13px;
+        }
+        .topic-head h2{
+          font-size:18px;
+          margin:0;
+          font-weight:600;
+        }
+        .priority{
+          display:flex;
+          align-items:center;
+          gap:8px;
+          font-family:'JetBrains Mono',monospace;
+          font-size:11px;
+          color:var(--text-faint);
+        }
+        .signal{display:flex;gap:3px;align-items:flex-end;}
+        .signal i{
+          display:block;
+          width:5px;
+          background:var(--line);
+          border-radius:1px;
+        }
+        .signal i:nth-child(1){height:6px;}
+        .signal i:nth-child(2){height:10px;}
+        .signal i:nth-child(3){height:14px;}
+        .signal i:nth-child(4){height:18px;}
+        .signal i:nth-child(5){height:22px;}
+        .signal.p5 i{background:var(--kotlin);}
+        .signal.p4 i:nth-child(-n+4){background:var(--orange);}
+        .signal.p3 i:nth-child(-n+3){background:var(--blue);}
+
+        .topic-body{padding:20px 22px 24px;}
+        .cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+        @media (max-width:640px){.cols{grid-template-columns:1fr;}}
+        .col h4{
+          font-family:'JetBrains Mono',monospace;
+          font-size:11px;
+          letter-spacing:.08em;
+          text-transform:uppercase;
+          color:var(--text-faint);
+          margin:0 0 10px;
+        }
+        ul.taglist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:7px;}
+        ul.taglist li{
+          font-family:'JetBrains Mono',monospace;
+          font-size:12px;
+          background:var(--bg-deep);
+          border:1px solid var(--line);
+          padding:4px 9px;
+          border-radius:6px;
+          color:var(--text-primary);
+        }
+        ul.qlist{margin:0;padding:0;list-style:none;}
+        ul.qlist li{
+          position:relative;
+          padding-left:18px;
+          margin-bottom:9px;
+          font-size:13.8px;
+          line-height:1.55;
+          color:var(--text-muted);
+        }
+        ul.qlist li::before{
+          content:"?";
+          position:absolute;
+          left:0;
+          top:1px;
+          color:var(--kotlin);
+          font-family:'JetBrains Mono',monospace;
+          font-weight:700;
+          font-size:12px;
+        }
+
+        /* ---------- Important android topics as compact tag cloud ---------- */
+        .tagcloud{display:flex;flex-wrap:wrap;gap:9px;}
+        .tagcloud span{
+          font-family:'JetBrains Mono',monospace;
+          font-size:12.5px;
+          padding:7px 13px;
+          border-radius:8px;
+          background:var(--bg-panel-2);
+          border:1px solid var(--line);
+          color:var(--text-muted);
+        }
+
+        /* ---------- FAQ ---------- */
+        details.faq{
+          border-bottom:1px solid var(--line);
+          padding:14px 0;
+        }
+        details.faq:last-child{border-bottom:none;}
+        details.faq summary{
+          cursor:pointer;
+          list-style:none;
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:14px;
+          font-size:14.5px;
+          font-weight:500;
+          color:var(--text-primary);
+        }
+        details.faq summary::-webkit-details-marker{display:none;}
+        details.faq summary::after{
+          content:"+";
+          font-family:'JetBrains Mono',monospace;
+          color:var(--kotlin);
+          font-size:18px;
+          flex-shrink:0;
+          transition:transform .18s ease;
+        }
+        details.faq[open] summary::after{transform:rotate(45deg);}
+        details.faq p{
+          margin:10px 0 0;
+          color:var(--text-muted);
+          font-size:13.8px;
+          line-height:1.6;
+        }
+
+        /* ---------- Timeline / gradle tasks ---------- */
+        .task-row{
+          display:grid;
+          grid-template-columns:110px 1fr 90px;
+          gap:14px;
+          align-items:center;
+          padding:12px 0;
+          border-bottom:1px solid var(--line);
+        }
+        .task-row:last-child{border-bottom:none;}
+        .task-row .day{
+          font-family:'JetBrains Mono',monospace;
+          font-size:12px;
+          color:var(--kotlin);
+        }
+        .task-row .desc{font-size:13.8px;color:var(--text-primary);}
+        .task-row .dur{
+          font-family:'JetBrains Mono',monospace;
+          font-size:11.5px;
+          color:var(--text-faint);
+          text-align:right;
+        }
+        .bar-track{
+          height:5px;
+          background:var(--bg-deep);
+          border-radius:3px;
+          overflow:hidden;
+          margin-top:6px;
+        }
+        .bar-fill{height:100%;background:linear-gradient(90deg,var(--kotlin-dim),var(--kotlin));border-radius:3px;}
+
+        /* ---------- Checklist / standout ---------- */
+        .checklist{margin:0;padding:0;list-style:none;}
+        .checklist li{
+          display:flex;
+          gap:11px;
+          align-items:flex-start;
+          padding:9px 0;
+          font-size:13.8px;
+          color:var(--text-muted);
+          border-bottom:1px dashed var(--line);
+        }
+        .checklist li:last-child{border-bottom:none;}
+        .checklist .box{
+          flex-shrink:0;
+          width:15px;height:15px;
+          margin-top:2px;
+          border:1.5px solid var(--green);
+          border-radius:4px;
+          position:relative;
+        }
+        .checklist .box::after{
+          content:"";
+          position:absolute;
+          left:3px;top:0px;
+          width:4px;height:8px;
+          border:solid var(--green);
+          border-width:0 2px 2px 0;
+          transform:rotate(45deg);
+        }
+
+        footer{
+          text-align:center;
+          padding:30px 20px 50px;
+          color:var(--text-faint);
+          font-family:'JetBrains Mono',monospace;
+          font-size:11.5px;
+        }
+        footer .rune{color:var(--kotlin);}
+
+        ::selection{background:rgba(127,82,255,0.35);}
+    </style>
+</head>
+<body>
+
+<div class="titlebar">
+    <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+    <span class="filename"><b>study-plan.gradle.kts</b> — android-sdk-developer</span>
+    <div class="tabs">
+        <span class="tab active">study-plan.gradle.kts</span>
+        <span class="tab">faq.kt</span>
+        <span class="tab">README.md</span>
+    </div>
+</div>
+
+<div class="shell">
+
+    <nav class="sidebar" id="sidebar">
+        <div class="explorer-label">// dependencies</div>
+        <div class="nav-group">
+            <a class="nav-item" href="#kotlin"><span><span class="ext">01</span> Kotlin</span><span class="pbadge p0">P0</span></a>
+            <a class="nav-item" href="#sdk"><span><span class="ext">02</span> SDK & Library Dev</span><span class="pbadge p0">P0</span></a>
+            <a class="nav-item" href="#arch"><span><span class="ext">03</span> Architecture</span><span class="pbadge p1">P1</span></a>
+            <a class="nav-item" href="#coroutines"><span><span class="ext">04</span> Coroutines & Flow</span><span class="pbadge p0">P0</span></a>
+            <a class="nav-item" href="#networking"><span><span class="ext">05</span> Networking</span><span class="pbadge p1">P1</span></a>
+            <a class="nav-item" href="#performance"><span><span class="ext">06</span> Performance & Memory</span><span class="pbadge p0">P0</span></a>
+            <a class="nav-item" href="#security"><span><span class="ext">07</span> Security</span><span class="pbadge p1">P1</span></a>
+            <a class="nav-item" href="#crossplatform"><span><span class="ext">08</span> Cross-Platform</span><span class="pbadge p1">P1</span></a>
+            <a class="nav-item" href="#testing"><span><span class="ext">09</span> Testing</span><span class="pbadge p1">P1</span></a>
+            <a class="nav-item" href="#build"><span><span class="ext">10</span> Build System</span><span class="pbadge p1">P1</span></a>
+            <a class="nav-item" href="#compose"><span><span class="ext">11</span> Jetpack Compose</span><span class="pbadge p2">P2</span></a>
+            <a class="nav-item" href="#gitci"><span><span class="ext">12</span> Git & CI/CD</span><span class="pbadge p2">P2</span></a>
+        </div>
+        <div class="explorer-label" style="margin-top:14px;">// resources</div>
+        <div class="nav-group">
+            <a class="nav-item" href="#android-basics"><span>platform-essentials.xml</span></a>
+            <a class="nav-item" href="#faq"><span>faq.kt</span></a>
+            <a class="nav-item" href="#timeline"><span>prep-schedule.yml</span></a>
+            <a class="nav-item" href="#standout"><span>README.md</span></a>
+        </div>
+    </nav>
+
+    <main>
+
+        <div class="hero">
+            <span class="eyebrow">// interview-prep :: build.gradle.kts</span>
+            <h1>Android <span>SDK</span> Developer<br>Interview Roadmap</h1>
+            <p>A prioritized dependency graph for interview prep — structured the way you'd structure the SDK itself: core modules first, everything else layered on top. P0 modules are non-negotiable; P1/P2 round out a strong candidate.</p>
+            <div class="hero-meta">
+                <span class="chip">12 modules</span>
+                <span class="chip">2–3 week build</span>
+                <span class="chip">target: reusable, crash-proof SDK</span>
+            </div>
+        </div>
+
+        <!-- 01 KOTLIN -->
+        <section class="topic" id="kotlin">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">01</span><h2>Kotlin</h2></div>
+                <div class="priority"><div class="signal p5"><i></i><i></i><i></i><i></i><i></i></div>Highest priority</div>
+            </div>
+            <div class="topic-body">
+                <div class="cols">
+                    <div class="col">
+                        <h4>Master</h4>
+                        <ul class="taglist">
+                            <li>OOP concepts</li><li>Data classes</li><li>Sealed classes</li><li>Extension functions</li>
+                            <li>Generics</li><li>Inline functions</li><li>Coroutines</li><li>Exception handling</li>
+                            <li>Collections</li><li>let / apply / run / also / with</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Likely questions</h4>
+                        <ul class="qlist">
+                            <li>Difference between <code>launch</code> and <code>async</code>?</li>
+                            <li>What are inline functions, and why use them?</li>
+                            <li>What are sealed classes, and where would you use one in SDK code?</li>
+                            <li>How does structured concurrency work?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02 SDK -->
+        <section class="topic" id="sdk">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">02</span><h2>Android SDK &amp; Library Development</h2></div>
+                <div class="priority"><div class="signal p5"><i></i><i></i><i></i><i></i><i></i></div>Most important topic</div>
+            </div>
+            <div class="topic-body">
+                <div class="cols">
+                    <div class="col">
+                        <h4>Learn</h4>
+                        <ul class="taglist">
+                            <li>Library module setup</li><li>.aar generation</li><li>Public API design</li>
+                            <li>api vs implementation</li><li>Backward compatibility</li><li>Semantic versioning</li>
+                            <li>SDK initialization</li><li>Error handling</li><li>Logging</li><li>Thread safety</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Likely questions</h4>
+                        <ul class="qlist">
+                            <li>What is an AAR, and how does it differ from an APK?</li>
+                            <li>How do you ensure your SDK never crashes the host app?</li>
+                            <li>How do you maintain backward compatibility across versions?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03 ARCH -->
+        <section class="topic" id="arch">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">03</span><h2>Android Architecture</h2></div>
+                <div class="priority"><div class="signal p4"><i></i><i></i><i></i><i></i><i></i></div>High priority</div>
+            </div>
+            <div class="topic-body">
+                <div class="cols">
+                    <div class="col">
+                        <h4>Learn</h4>
+                        <ul class="taglist">
+                            <li>MVVM</li><li>MVI</li><li>Clean Architecture</li><li>SOLID</li>
+                            <li>Repository pattern</li><li>DI (Hilt / Koin)</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Likely questions</h4>
+                        <ul class="qlist">
+                            <li>MVVM vs MVI — when would you choose one over the other?</li>
+                            <li>Explain the Repository pattern in your own words.</li>
+                            <li>Walk through the SOLID principles with an SDK example.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04 COROUTINES -->
+        <section class="topic" id="coroutines">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">04</span><h2>Coroutines &amp; Flow</h2></div>
+                <div class="priority"><div class="signal p5"><i></i><i></i><i></i><i></i><i></i></div>Highest priority</div>
+            </div>
+            <div class="topic-body">
+                <div class="cols">
+                    <div class="col">
+                        <h4>Learn</h4>
+                        <ul class="taglist">
+                            <li>CoroutineScope</li><li>SupervisorJob</li><li>Dispatchers</li><li>Cancellation</li>
+                            <li>Exception handling</li><li>Flow</li><li>StateFlow</li><li>SharedFlow</li>
+                            <li>Cold vs Hot Flow</li><li>combine</li><li>zip</li><li>flatMapLatest</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Likely questions</h4>
+                        <ul class="qlist">
+                            <li>StateFlow vs SharedFlow — when do you pick which?</li>
+                            <li>Why use a SupervisorJob instead of a regular Job?</li>
+                            <li>Flow vs LiveData — what's the real difference?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05 NETWORKING -->
+        <section class="topic" id="networking">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">05</span><h2>Networking</h2></div>
+                <div class="priority"><div class="signal p4"><i></i><i></i><i></i><i></i><i></i></div>High priority</div>
+            </div>
+            <div class="topic-body">
+                <div class="cols">
+                    <div class="col">
+                        <h4>Learn</h4>
+                        <ul class="taglist">
+                            <li>Retrofit</li><li>OkHttp</li><li>Interceptors</li><li>Authentication</li>
+                            <li>SSL Pinning</li><li>Moshi / Gson / kotlinx.serialization</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Likely questions</h4>
+                        <ul class="qlist">
+                            <li>Walk me through the Retrofit request/response flow.</li>
+                            <li>How does SSL Pinning actually work under the hood?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 06 PERFORMANCE -->
+        <section class="topic" id="performance">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">06</span><h2>Performance &amp; Memory</h2></div>
+                <div class="priority"><div class="signal p5"><i></i><i></i><i></i><i></i><i></i></div>Highest priority</div>
+            </div>
+            <div class="topic-body">
+                <div class="cols">
+                    <div class="col">
+                        <h4>Learn</h4>
+                        <ul class="taglist">
+                            <li>Memory leaks</li><li>LeakCanary</li><li>Android Profiler</li><li>ANR</li>
+                            <li>Lazy initialization</li><li>R8</li><li>ProGuard</li><li>Resource shrinking</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Likely questions</h4>
+                        <ul class="qlist">
+                            <li>How do you detect a memory leak with LeakCanary — walk through an example.</li>
+                            <li>What levers do you pull to reduce SDK binary size?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 07 SECURITY -->
+        <section class="topic" id="security">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">07</span><h2>Security</h2></div>
+                <div class="priority"><div class="signal p4"><i></i><i></i><i></i><i></i><i></i></div>High priority</div>
+            </div>
+            <div class="topic-body">
+                <div class="col">
+                    <h4>Learn</h4>
+                    <ul class="taglist">
+                        <li>Android Keystore</li><li>Encryption</li><li>EncryptedSharedPreferences</li>
+                        <li>SSL Pinning</li><li>API key protection</li><li>ProGuard keep rules</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 08 CROSS-PLATFORM -->
+        <section class="topic" id="crossplatform">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">08</span><h2>Cross-Platform Integration</h2></div>
+                <div class="priority"><div class="signal p4"><i></i><i></i><i></i><i></i><i></i></div>High priority</div>
+            </div>
+            <div class="topic-body">
+                <div class="cols">
+                    <div class="col">
+                        <h4>Learn</h4>
+                        <ul class="taglist">
+                            <li>Flutter MethodChannel</li><li>EventChannel</li><li>RN Native Modules</li><li>TurboModules (basics)</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Likely questions</h4>
+                        <ul class="qlist">
+                            <li>How do you send a callback from native code up to Flutter?</li>
+                            <li>How do you expose a native API to React Native?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 09 TESTING -->
+        <section class="topic" id="testing">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">09</span><h2>Testing</h2></div>
+                <div class="priority"><div class="signal p4"><i></i><i></i><i></i><i></i><i></i></div>High priority</div>
+            </div>
+            <div class="topic-body">
+                <div class="cols">
+                    <div class="col">
+                        <h4>Learn</h4>
+                        <ul class="taglist">
+                            <li>JUnit</li><li>MockK</li><li>Mockito</li><li>Turbine (Flow testing)</li>
+                            <li>Espresso</li><li>Compose testing</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>Likely questions</h4>
+                        <ul class="qlist">
+                            <li>How would you test an SDK end to end?</li>
+                            <li>MockK vs Mockito — practical differences?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10 BUILD SYSTEM -->
+        <section class="topic" id="build">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">10</span><h2>Build System</h2></div>
+                <div class="priority"><div class="signal p4"><i></i><i></i><i></i><i></i><i></i></div>High priority</div>
+            </div>
+            <div class="topic-body">
+                <div class="col">
+                    <h4>Learn</h4>
+                    <ul class="taglist">
+                        <li>Gradle</li><li>api vs implementation</li><li>Build variants</li>
+                        <li>Product flavors</li><li>Maven Publish</li><li>Dependency resolution</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11 COMPOSE -->
+        <section class="topic" id="compose">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">11</span><h2>Jetpack Compose</h2></div>
+                <div class="priority"><div class="signal p3"><i></i><i></i><i></i><i></i><i></i></div>Good to have</div>
+            </div>
+            <div class="topic-body">
+                <div class="col">
+                    <ul class="taglist">
+                        <li>State</li><li>remember</li><li>rememberSaveable</li><li>Recomposition</li>
+                        <li>Side effects</li><li>Performance optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 12 GIT CI -->
+        <section class="topic" id="gitci">
+            <div class="topic-head">
+                <div class="htitle"><span class="topic-num">12</span><h2>Git &amp; CI/CD</h2></div>
+                <div class="priority"><div class="signal p3"><i></i><i></i><i></i><i></i><i></i></div>Good to have</div>
+            </div>
+            <div class="topic-body">
+                <div class="col">
+                    <ul class="taglist">
+                        <li>Git</li><li>Pull requests</li><li>GitHub Actions</li><li>Jenkins (basics)</li><li>Maven publishing</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ANDROID ESSENTIALS -->
+        <section class="topic" id="android-basics">
+            <div class="topic-head">
+                <div class="htitle"><h2>Platform Essentials</h2></div>
+            </div>
+            <div class="topic-body">
+                <div class="tagcloud">
+                    <span>Activity lifecycle</span><span>Fragment lifecycle</span><span>Services</span>
+                    <span>Broadcast receivers</span><span>WorkManager</span><span>Permissions</span>
+                    <span>Deep links</span><span>Intents</span><span>Content providers (basics)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="topic" id="faq">
+            <div class="topic-head"><div class="htitle"><h2>Most Frequently Asked SDK Questions</h2></div></div>
+            <div class="topic-body">
+                <details class="faq" open>
+                    <summary>What is an Android SDK?</summary>
+                    <p>A packaged set of tools, libraries, and APIs that lets another app integrate specific functionality without rebuilding it from scratch — distributed to consumers rather than run as a standalone app.</p>
+                </details>
+                <details class="faq">
+                    <summary>What is an AAR file, and how is it different from an APK?</summary>
+                    <p>An AAR is a compiled Android library archive — code, resources, and manifest — meant to be consumed by another project. An APK is a runnable, installable app package. AARs can't run on a device on their own.</p>
+                </details>
+                <details class="faq">
+                    <summary>What's the difference between <code>api</code> and <code>implementation</code> in Gradle?</summary>
+                    <p><code>implementation</code> hides a dependency from consumers of your module (faster builds, smaller public surface); <code>api</code> exposes it transitively. SDKs should default to <code>implementation</code> unless a type genuinely needs to be exposed.</p>
+                </details>
+                <details class="faq">
+                    <summary>How do you design a reusable SDK?</summary>
+                    <p>Keep the public surface small and intentional, hide internals behind <code>internal</code>/private visibility, avoid leaking third-party types in your API, and design for the integrator's mental model rather than your own implementation.</p>
+                </details>
+                <details class="faq">
+                    <summary>How do you avoid memory leaks in an SDK?</summary>
+                    <p>Never hold static references to <code>Context</code> or <code>Activity</code>, unregister listeners/receivers in the correct lifecycle callback, scope coroutines properly, and verify with LeakCanary during development.</p>
+                </details>
+                <details class="faq">
+                    <summary>What is backward compatibility, and how do you preserve it?</summary>
+                    <p>Ensuring older integrations keep working after an SDK update. Preserve it with semantic versioning, deprecation windows instead of hard removals, and treating any public signature change as a breaking change.</p>
+                </details>
+                <details class="faq">
+                    <summary>How do you version and publish an SDK?</summary>
+                    <p>Semantic versioning (major.minor.patch), publish via Maven Central, JitPack, or an internal Artifactory/Nexus repo using the <code>maven-publish</code> Gradle plugin, with signed artifacts and clear release notes.</p>
+                </details>
+                <details class="faq">
+                    <summary>How do you secure an SDK?</summary>
+                    <p>SSL pinning for network calls, Android Keystore / EncryptedSharedPreferences for secrets, no hardcoded API keys, and ProGuard/R8 keep rules that protect internals without breaking consumers.</p>
+                </details>
+                <details class="faq">
+                    <summary>How do you prevent the SDK from crashing the host application?</summary>
+                    <p>Wrap every public entry point in defensive try/catch, return typed results or sealed error states instead of throwing, and never let an internal exception propagate uncaught across the SDK boundary.</p>
+                </details>
+                <details class="faq">
+                    <summary>How do you expose your SDK to Flutter?</summary>
+                    <p>Via a Flutter plugin using <code>MethodChannel</code> (and <code>EventChannel</code> for streams), serializing data to primitives/maps, and marshaling callbacks back onto the correct thread.</p>
+                </details>
+                <details class="faq">
+                    <summary>How do you reduce SDK size?</summary>
+                    <p>Enable R8/ProGuard shrinking, avoid heavy transitive dependencies, split optional features into separate artifacts, and audit resources that get bundled unnecessarily.</p>
+                </details>
+                <details class="faq">
+                    <summary>How do you test an SDK?</summary>
+                    <p>Unit tests (JUnit + MockK/Mockito) for logic, Turbine for Flow emissions, instrumented/Espresso tests sparingly for UI components, and a sample host app to validate real integration behavior.</p>
+                </details>
+            </div>
+        </section>
+
+        <!-- TIMELINE -->
+        <section class="topic" id="timeline">
+            <div class="topic-head"><div class="htitle"><h2>Suggested Prep Schedule</h2></div><span class="chip">2–3 weeks</span></div>
+            <div class="topic-body">
+                <div class="task-row">
+                    <span class="day mono">Days 1–3</span><span class="desc">Kotlin fundamentals<div class="bar-track"><div class="bar-fill" style="width:100%"></div></div></span><span class="dur mono">3d</span>
+                </div>
+                <div class="task-row">
+                    <span class="day mono">Days 4–5</span><span class="desc">Android architecture (MVVM / MVI / Clean)<div class="bar-track"><div class="bar-fill" style="width:70%"></div></div></span><span class="dur mono">2d</span>
+                </div>
+                <div class="task-row">
+                    <span class="day mono">Days 6–8</span><span class="desc">Coroutines &amp; Flow<div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></span><span class="dur mono">3d</span>
+                </div>
+                <div class="task-row">
+                    <span class="day mono">Days 9–12</span><span class="desc">SDK development — AAR, API design, versioning, publishing<div class="bar-track"><div class="bar-fill" style="width:100%"></div></div></span><span class="dur mono">4d</span>
+                </div>
+                <div class="task-row">
+                    <span class="day mono">Days 13–14</span><span class="desc">Networking &amp; security<div class="bar-track"><div class="bar-fill" style="width:60%"></div></div></span><span class="dur mono">2d</span>
+                </div>
+                <div class="task-row">
+                    <span class="day mono">Days 15–16</span><span class="desc">Performance &amp; memory<div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></span><span class="dur mono">2d</span>
+                </div>
+                <div class="task-row">
+                    <span class="day mono">Days 17–18</span><span class="desc">Testing<div class="bar-track"><div class="bar-fill" style="width:55%"></div></div></span><span class="dur mono">2d</span>
+                </div>
+                <div class="task-row">
+                    <span class="day mono">Days 19–20</span><span class="desc">Flutter / React Native bridge<div class="bar-track"><div class="bar-fill" style="width:50%"></div></div></span><span class="dur mono">2d</span>
+                </div>
+                <div class="task-row">
+                    <span class="day mono">Days 21–22</span><span class="desc">Mock interviews &amp; revision<div class="bar-track"><div class="bar-fill" style="width:100%"></div></div></span><span class="dur mono">2d</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- STANDOUT -->
+        <section class="topic" id="standout">
+            <div class="topic-head"><div class="htitle"><h2>Best Way to Stand Out</h2></div></div>
+            <div class="topic-body">
+                <p style="color:var(--text-muted);font-size:14px;line-height:1.65;margin-top:0;">Build a small sample SDK — a logging, authentication, or analytics module — and take it all the way through the pipeline a real SDK would go through:</p>
+                <ul class="checklist">
+                    <li><span class="box"></span>Package it as an AAR and publish it to a local Maven repository</li>
+                    <li><span class="box"></span>Integrate it into a native Android app</li>
+                    <li><span class="box"></span>Integrate it into a Flutter app via <code class="mono">MethodChannel</code></li>
+                    <li><span class="box"></span>Integrate it into a React Native app via a Native Module</li>
+                </ul>
+                <p style="color:var(--text-muted);font-size:13.5px;line-height:1.6;">Being able to demo a working SDK — even a small one — during the interview carries more weight than reciting concepts alone.</p>
+            </div>
+        </section>
+
+        <footer>
+            <span class="rune">▍</span> build successful — good luck with the interview
+        </footer>
+
+    </main>
+</div>
+
+<script>
+    // Active nav highlight on scroll
+    const sections = document.querySelectorAll('section.topic[id]');
+    const navItems = document.querySelectorAll('.nav-item');
+    const map = {};
+    navItems.forEach(item=>{
+      const id = item.getAttribute('href').slice(1);
+      map[id] = item;
+    });
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        const id = entry.target.getAttribute('id');
+        if(entry.isIntersecting){
+          navItems.forEach(i=>i.classList.remove('active'));
+          if(map[id]) map[id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    sections.forEach(s=>observer.observe(s));
+</script>
+
+</body>
+</html>
