@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Architecture &amp; Server-Driven UI — an interview-ready field guide</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap');
+
+        :root{
+          --bg:#0F1115;
+          --panel:#161922;
+          --panel-2:#1C202B;
+          --line:#2A2F3D;
+          --ink:#E7E7E2;
+          --ink-dim:#9DA3B4;
+          --kotlin:#B39DFF;
+          --android:#6FE3A6;
+          --amber:#F2C572;
+          --rose:#E58B8B;
+        }
+        *{box-sizing:border-box; margin:0; padding:0;}
+        html{scroll-behavior:smooth;}
+        body{
+          background:var(--bg); color:var(--ink);
+          font-family:'Inter', sans-serif; line-height:1.65;
+          padding-bottom:80px;
+        }
+        ::selection{background:var(--kotlin); color:#101014;}
+        a{color:var(--android); text-decoration:none; border-bottom:1px solid rgba(111,227,166,0.35);}
+        a:hover{border-bottom-color:var(--android);}
+        .wrap{max-width:920px; margin:0 auto; padding:0 28px;}
+
+        /* HERO */
+        header.hero{
+          border-bottom:1px solid var(--line);
+          padding:60px 0 40px;
+          background:
+            radial-gradient(circle at 88% -10%, rgba(179,157,255,0.16), transparent 45%),
+            radial-gradient(circle at 4% 0%, rgba(111,227,166,0.10), transparent 40%);
+        }
+        .kicker{
+          font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--android);
+          display:flex; align-items:center; gap:10px; margin-bottom:22px;
+        }
+        .kicker .dot{width:7px; height:7px; border-radius:50%; background:var(--android); box-shadow:0 0 10px var(--android);}
+        h1.title{
+          font-family:'Source Serif 4', serif; font-weight:700;
+          font-size:clamp(32px, 5vw, 50px); line-height:1.1; letter-spacing:-0.01em; max-width:17ch;
+        }
+        .subhead{margin-top:20px; max-width:60ch; color:var(--ink-dim); font-size:16.5px;}
+        nav.jump{
+          margin-top:30px; display:flex; flex-wrap:wrap; gap:8px;
+          font-family:'JetBrains Mono', monospace; font-size:12px;
+        }
+        nav.jump a{
+          border:1px solid var(--line); border-bottom:1px solid var(--line);
+          padding:6px 12px; border-radius:20px; color:var(--ink-dim);
+        }
+        nav.jump a:hover{color:var(--android); border-color:var(--android);}
+
+        /* SECTION HEAD */
+        section{padding:48px 0; border-bottom:1px solid var(--line);}
+        .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:10px;}
+        .sec-tag{
+          font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--bg);
+          background:var(--android); padding:3px 9px; border-radius:5px; font-weight:700; flex-shrink:0;
+        }
+        .sec-tag.k{background:var(--kotlin);}
+        .sec-tag.a{background:var(--amber);}
+        .sec-tag.r{background:var(--rose);}
+        h2.sec-title{font-family:'Source Serif 4', serif; font-size:28px; font-weight:600;}
+        .sec-sub{color:var(--ink-dim); font-size:15px; max-width:66ch; margin-bottom:28px;}
+
+        /* generic body copy */
+        p.body-p{margin-bottom:14px; font-size:15px; max-width:70ch;}
+        p.body-p:last-child{margin-bottom:0;}
+        .callout{
+          border-left:2px solid var(--android);
+          background:rgba(111,227,166,0.06);
+          padding:14px 16px; border-radius:0 8px 8px 0;
+          font-size:14px; color:var(--ink-dim); margin:18px 0;
+        }
+        .callout strong{color:var(--android); font-weight:600;}
+
+        /* diagram-ish flow */
+        .flow{
+          display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+          font-family:'JetBrains Mono', monospace; font-size:13px;
+          margin:22px 0; padding:18px; background:var(--panel); border:1px solid var(--line); border-radius:10px;
+        }
+        .flow .node{padding:8px 14px; border:1px solid var(--line); border-radius:8px; background:var(--panel-2);}
+        .flow .arrow{color:var(--ink-dim);}
+
+        /* two column layout */
+        .two-col{display:grid; grid-template-columns:1fr 1fr; gap:28px;}
+        @media (max-width:720px){.two-col{grid-template-columns:1fr;}}
+
+        /* pattern cards */
+        .pattern-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px; margin-top:8px;}
+        .pattern-card{
+          background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 20px;
+        }
+        .pattern-card .p-name{font-weight:600; font-size:15px; margin-bottom:6px; display:flex; align-items:center; gap:8px;}
+        .pattern-card .p-name .badge{
+          font-family:'JetBrains Mono', monospace; font-size:10px; color:var(--ink-dim);
+          border:1px solid var(--line); border-radius:20px; padding:2px 8px;
+        }
+        .pattern-card .p-desc{font-size:13.5px; color:var(--ink-dim); margin-bottom:10px;}
+        .pattern-card .p-use{font-size:12.5px; color:var(--ink);}
+        .pattern-card .p-use strong{color:var(--amber); font-weight:600;}
+
+        /* resource blocks (reused style) */
+        .res-block{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:20px 22px;}
+        .res-label{font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-dim); letter-spacing:0.03em; margin-bottom:12px;}
+        .res-item{margin-bottom:14px;}
+        .res-item:last-child{margin-bottom:0;}
+        .res-item .r-title{font-size:14.5px; font-weight:500;}
+        .res-item .r-note{font-size:12.5px; color:var(--ink-dim); margin-top:2px;}
+        .divider-mini{height:1px; background:var(--line); margin:16px 0;}
+
+        /* checklist / questions */
+        .q-list{list-style:none;}
+        .q-list li{
+          display:flex; gap:10px; padding:10px 0; border-bottom:1px dashed var(--line); font-size:14.5px;
+        }
+        .q-list li:last-child{border-bottom:none;}
+        .q-list li::before{content:"？"; color:var(--rose); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:12px;}
+
+        /* github grid */
+        .gh-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:14px;}
+        .gh-card{border:1px solid var(--line); border-radius:10px; padding:16px 18px; background:var(--panel);}
+        .gh-card .g-name{font-weight:600; font-size:14px; margin-bottom:4px; font-family:'JetBrains Mono', monospace;}
+        .gh-card .g-desc{font-size:13px; color:var(--ink-dim); margin-bottom:8px;}
+
+        footer{padding-top:40px; color:var(--ink-dim); font-size:13px;}
+        footer .sign{font-family:'JetBrains Mono', monospace; font-size:12px; margin-top:8px; color:#5b6172;}
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="wrap">
+        <div class="kicker"><span class="dot"></span>ARCHITECTURE + SDUI + DESIGN PATTERNS · INTERVIEW-FOCUSED</div>
+        <h1 class="title">How to talk about Android architecture like you've shipped it</h1>
+        <p class="subhead">Server-driven UI, Clean Architecture, MVVM/MVI, and the design patterns that actually come up in system-design rounds — with the articles, YouTube courses, and GitHub repos to go deep on each.</p>
+        <nav class="jump">
+            <a href="#sdui">Server-Driven UI</a>
+            <a href="#architecture">App Architecture</a>
+            <a href="#patterns">Design Patterns</a>
+            <a href="#interview">Interview Focus</a>
+            <a href="#repos">GitHub Repos</a>
+        </nav>
+    </div>
+</header>
+
+<div class="wrap">
+
+    <!-- ============ SDUI ============ -->
+    <section id="sdui">
+        <div class="sec-head"><span class="sec-tag">01</span><h2 class="sec-title">Server-Driven UI (SDUI)</h2></div>
+        <p class="sec-sub">The server sends a description of the screen — not just data — and the client renders it. It's the architecture behind why Instagram, Airbnb, and DoorDash can change parts of their UI without an app release.</p>
+
+        <p class="body-p">In a normal app, a screen's layout is compiled into the APK: if product wants to reorder a home-feed section, that's a code change, a review, a release, and a wait for Play Store rollout. SDUI moves that decision to the backend. The client ships a small set of generic, reusable components once — a card, a carousel, a banner — and the server sends JSON describing which components to show, in what order, and with what data. Change the JSON, and every installed app updates instantly, no release required.</p>
+
+        <div class="flow">
+            <div class="node">Server</div>
+            <div class="arrow">→ sends JSON screen spec →</div>
+            <div class="node">Client parser</div>
+            <div class="arrow">→ maps to →</div>
+            <div class="node">Registered Compose/View components</div>
+            <div class="arrow">→</div>
+            <div class="node">Rendered screen</div>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <div class="res-label" style="margin-bottom:10px;">WHERE IT'S USED IN THE WILD</div>
+                <p class="body-p" style="font-size:14px;">Airbnb, Yelp, Nubank, DoorDash, and Lyft have all publicly discussed backend-driven UI systems for parts of their apps — usually growth surfaces, home feeds, and onboarding, not the whole app. Google's own <strong>AndroidX Remote Compose</strong> library (alpha, actively developed through 2026) is the clearest sign the idea is moving toward being a first-class Jetpack tool rather than a custom-built-per-company hack.</p>
+            </div>
+            <div>
+                <div class="res-label" style="margin-bottom:10px;">WHEN NOT TO REACH FOR IT</div>
+                <p class="body-p" style="font-size:14px;">Performance-critical screens, OS-level integrations, offline-first flows, and anything needing pixel-perfect native feel usually stay fully native. Most real systems are <em>hybrid</em>: native shell + SDUI only where iteration speed matters (paywalls, promos, onboarding, A/B-tested surfaces).</p>
+            </div>
+        </div>
+
+        <div class="callout"><strong>Interview framing:</strong> "SDUI trades release-cycle speed for client complexity and a versioning/rollback problem" is a stronger answer than just describing what it is — interviewers are checking if you understand the trade-off, not just the buzzword.</div>
+
+        <div class="res-block" style="margin-top:20px;">
+            <div class="res-label">✎ ARTICLES</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://medium.com/@dfs.techblog/server-driven-ui-concept-db07d7946e94" target="_blank">Server-Driven UI — Concepts and Building Blocks</a></div>
+                <div class="r-note">A clear, framework-agnostic explainer of the core building blocks — good first read.</div>
+            </div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://developer.android.com/jetpack/androidx/releases/remotecompose" target="_blank">AndroidX Remote Compose — official docs</a></div>
+                <div class="r-note">Google's own take on rendering Compose UI from a server-sent description. Alpha, but worth knowing it exists.</div>
+            </div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://medium.com/@SrimanthChowdary/server-driven-ui-sdui-in-mobile-development-9dfb059a2eca" target="_blank">Server-Driven UI in Mobile Development</a></div>
+                <div class="r-note">Walks through the harder production pieces: caching, versioned pushes, and rollback — the part most tutorials skip.</div>
+            </div>
+            <div class="divider-mini"></div>
+            <div class="res-label">▶ VIDEO</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://www.youtube.com/results?search_query=server+driven+ui+android+jetpack+compose" target="_blank">"Server Driven UI Android Jetpack Compose" — search</a></div>
+                <div class="r-note">SDUI-on-Android talks turn over fast; search fresh rather than relying on one fixed link, and prefer recent droidcon/conference uploads.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ ARCHITECTURE ============ -->
+    <section id="architecture">
+        <div class="sec-head"><span class="sec-tag k">02</span><h2 class="sec-title">App Architecture: Clean Architecture, MVVM, MVI</h2></div>
+        <p class="sec-sub">This is the single most-asked topic in mid-to-senior Android interviews. Know the layers, know why each exists, and be ready to draw it.</p>
+
+        <div class="flow">
+            <div class="node">UI (Compose/View)</div>
+            <div class="arrow">↕</div>
+            <div class="node">ViewModel</div>
+            <div class="arrow">↕</div>
+            <div class="node">Domain (Use Cases)</div>
+            <div class="arrow">↕</div>
+            <div class="node">Data (Repository → Room / Retrofit)</div>
+        </div>
+
+        <p class="body-p"><strong>Clean Architecture</strong> separates the app into UI, domain, and data layers so business logic doesn't depend on Android framework classes — the domain layer is plain Kotlin, testable without a device or emulator. <strong>MVVM</strong> is about how the UI layer itself is organized: the View observes a ViewModel's exposed state (StateFlow/LiveData) instead of pulling data imperatively. <strong>MVI</strong> goes further — a single immutable UI state, and every user action becomes an explicit "Intent" that produces a new state, which makes state changes traceable and testable in a way MVVM alone doesn't guarantee.</p>
+
+        <div class="callout"><strong>Interview framing:</strong> "MVVM vs MVI" isn't really a rivalry — most teams run MVVM at the framework level and adopt MVI's single-state-object discipline inside it. Saying that shows you've used both, not just read about them.</div>
+
+        <div class="res-block" style="margin-top:20px;">
+            <div class="res-label">▶ VIDEO</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://www.youtube.com/c/PhilippLackner" target="_blank">Philipp Lackner — YouTube channel</a></div>
+                <div class="r-note">The most-referenced channel for Clean Architecture + MVVM/MVI in Jetpack Compose; his "Clean Architecture" and "MVVM vs MVI" videos are widely cited starting points.</div>
+            </div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://github.com/android/nowinandroid" target="_blank">Now in Android — Google's official sample app</a></div>
+                <div class="r-note">The reference implementation Google itself maintains: modularized, MVVM + unidirectional data flow, tested, production-grade. Read the code, not just the README.</div>
+            </div>
+            <div class="divider-mini"></div>
+            <div class="res-label">✎ ARTICLES</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://developer.android.com/topic/architecture" target="_blank">Guide to app architecture — Android Developers</a></div>
+                <div class="r-note">The canonical source. Skim this before any tutorial — it's what interviewers themselves learned from.</div>
+            </div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://medium.com/@sharmapraveen91/mastering-mvi-and-clean-architecture-20-advanced-interview-questions-every-android-developer-bf0d9e02d22b" target="_blank">Mastering MVI and Clean Architecture — 20 interview questions</a></div>
+                <div class="r-note">Genuinely interview-shaped; use it to test yourself, not just read passively.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ DESIGN PATTERNS ============ -->
+    <section id="patterns">
+        <div class="sec-head"><span class="sec-tag a">03</span><h2 class="sec-title">Design Patterns That Actually Come Up</h2></div>
+        <p class="sec-sub">Not the full Gang-of-Four catalogue — just the ones woven into the Android SDK and libraries you already use daily.</p>
+
+        <div class="pattern-grid">
+            <div class="pattern-card">
+                <div class="p-name">Repository <span class="badge">structural</span></div>
+                <div class="p-desc">Single source of truth that hides whether data came from network, disk, or cache behind one API.</div>
+                <div class="p-use"><strong>Where you've used it:</strong> every ViewModel that calls a Repository instead of Retrofit directly.</div>
+            </div>
+            <div class="pattern-card">
+                <div class="p-name">Observer <span class="badge">behavioral</span></div>
+                <div class="p-desc">Subjects notify observers of state changes without knowing who's listening.</div>
+                <div class="p-use"><strong>Where you've used it:</strong> LiveData, StateFlow/SharedFlow, RecyclerView's adapter notifyDataSetChanged.</div>
+            </div>
+            <div class="pattern-card">
+                <div class="p-name">Builder <span class="badge">creational</span></div>
+                <div class="p-desc">Constructs complex objects step by step instead of one giant constructor.</div>
+                <div class="p-use"><strong>Where you've used it:</strong> AlertDialog.Builder, Retrofit.Builder, NotificationCompat.Builder.</div>
+            </div>
+            <div class="pattern-card">
+                <div class="p-name">Singleton <span class="badge">creational</span></div>
+                <div class="p-desc">One instance, globally accessible — powerful, but easy to abuse into hidden global state.</div>
+                <div class="p-use"><strong>Where you've used it:</strong> Room database instance, Retrofit client, Hilt's @Singleton scope.</div>
+            </div>
+            <div class="pattern-card">
+                <div class="p-name">Factory <span class="badge">creational</span></div>
+                <div class="p-desc">Delegates object creation to a method so callers don't need to know the concrete class.</div>
+                <div class="p-use"><strong>Where you've used it:</strong> ViewModelProvider.Factory, LayoutInflater.</div>
+            </div>
+            <div class="pattern-card">
+                <div class="p-name">Adapter <span class="badge">structural</span></div>
+                <div class="p-desc">Converts one interface into another the client expects, without changing either side.</div>
+                <div class="p-use"><strong>Where you've used it:</strong> RecyclerView.Adapter — converting a data list into bindable view holders.</div>
+            </div>
+            <div class="pattern-card">
+                <div class="p-name">Strategy <span class="badge">behavioral</span></div>
+                <div class="p-desc">Encapsulates interchangeable algorithms behind a common interface, swappable at runtime.</div>
+                <div class="p-use"><strong>Where you've used it:</strong> RecyclerView.LayoutManager (Linear vs Grid vs Staggered — same interface, different layout strategy).</div>
+            </div>
+            <div class="pattern-card">
+                <div class="p-name">Dependency Injection <span class="badge">architectural</span></div>
+                <div class="p-desc">Objects receive their dependencies instead of constructing them, decoupling and enabling testing.</div>
+                <div class="p-use"><strong>Where you've used it:</strong> Hilt/Dagger, or manual constructor injection.</div>
+            </div>
+            <div class="pattern-card">
+                <div class="p-name">Facade <span class="badge">structural</span></div>
+                <div class="p-desc">A simple front door over a complex subsystem.</div>
+                <div class="p-use"><strong>Where you've used it:</strong> WorkManager hiding job scheduling across API levels; a Repository facading multiple data sources.</div>
+            </div>
+        </div>
+
+        <div class="res-block" style="margin-top:22px;">
+            <div class="res-label">✎ ARTICLE &amp; GITHUB</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://refactoring.guru/design-patterns" target="_blank">Refactoring Guru — Design Patterns</a></div>
+                <div class="r-note">The best visual, language-agnostic explanation of every classic pattern — read the ones above here first.</div>
+            </div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://github.com/iluwatar/java-design-patterns" target="_blank">iluwatar/java-design-patterns</a></div>
+                <div class="r-note">Real, runnable Java implementations of every GoF pattern — syntax carries over almost directly to Kotlin.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ INTERVIEW FOCUS ============ -->
+    <section id="interview">
+        <div class="sec-head"><span class="sec-tag r">04</span><h2 class="sec-title">What Interviewers Actually Probe For</h2></div>
+        <p class="sec-sub">Beyond "explain MVVM" — the follow-up questions that separate a memorized answer from real experience.</p>
+
+        <ul class="q-list">
+            <li>Why does the domain layer avoid importing anything from android.* packages?</li>
+            <li>How would you test a ViewModel without touching Android framework classes?</li>
+            <li>Where does configuration change (screen rotation) fit into this architecture, and what breaks if you get it wrong?</li>
+            <li>If two API calls both write to the same Room table, how do you avoid a race condition?</li>
+            <li>What's the actual difference between StateFlow and SharedFlow, and when would each cause a bug if swapped?</li>
+            <li>In an SDUI system, how do you handle a client that doesn't yet support a component the server just started sending?</li>
+            <li>How do you version an SDUI schema without breaking users on an old app version?</li>
+            <li>Single-Activity vs multi-Activity — what's the actual architectural argument, not just "Google recommends it"?</li>
+        </ul>
+
+        <div class="res-block" style="margin-top:22px;">
+            <div class="res-label">▶ VIDEO</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://www.youtube.com/results?search_query=android+architecture+mock+interview" target="_blank">"Android architecture mock interview" — search</a></div>
+                <div class="r-note">Watch a couple of full mock interviews end-to-end — the value is in hearing how a strong candidate structures the answer, not just the content.</div>
+            </div>
+            <div class="divider-mini"></div>
+            <div class="res-label">✎ ARTICLE</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://developer.android.com/topic/architecture/recommendations" target="_blank">Architecture recommendations — Android Developers</a></div>
+                <div class="r-note">Google's own opinionated "do this, not that" list — a strong source of "why" answers, straight from the source.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ GITHUB REPOS ============ -->
+    <section id="repos">
+        <div class="sec-head"><span class="sec-tag">05</span><h2 class="sec-title">GitHub Repos Worth Reading, Not Just Cloning</h2></div>
+        <p class="sec-sub">Reading production-shaped code teaches architecture faster than any tutorial — these are maintained, realistic, and small enough to actually finish reading.</p>
+
+        <div class="gh-grid">
+            <div class="gh-card">
+                <div class="g-name">android/nowinandroid</div>
+                <div class="g-desc">Google's own fully modularized, tested sample — the closest thing to an official architecture answer key.</div>
+                <a href="https://github.com/android/nowinandroid" target="_blank">github.com/android/nowinandroid</a>
+            </div>
+            <div class="gh-card">
+                <div class="g-name">android/architecture-samples</div>
+                <div class="g-desc">The same to-do app rebuilt across different architecture approaches — great for comparing MVVM variants side by side.</div>
+                <a href="https://github.com/android/architecture-samples" target="_blank">github.com/android/architecture-samples</a>
+            </div>
+            <div class="gh-card">
+                <div class="g-name">iluwatar/java-design-patterns</div>
+                <div class="g-desc">Every classic design pattern as small, runnable examples — the fastest way to move from "I read about it" to "I can write it."</div>
+                <a href="https://github.com/iluwatar/java-design-patterns" target="_blank">github.com/iluwatar/java-design-patterns</a>
+            </div>
+            <div class="gh-card">
+                <div class="g-name">github.com/topics/server-driven-ui</div>
+                <div class="g-desc">A live, filterable index of open-source SDUI frameworks across Android, iOS, and cross-platform — several are Kotlin/Compose specific.</div>
+                <a href="https://github.com/topics/server-driven-ui" target="_blank">github.com/topics/server-driven-ui</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Don't just read these — pick one repo, clone it, and trace a single user action from tap to database and back. That trace is what an interviewer is actually asking you to narrate.</p>
+        <div class="sign">// architecture is a story you tell about a codebase, not a diagram you memorize</div>
+    </footer>
+
+</div>
+
+</body>
+</html>

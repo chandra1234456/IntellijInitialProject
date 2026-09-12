@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Scratch to Problem Solver — a Kotlin coding ladder</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap');
+
+        :root{
+          --bg:#0F1115; --panel:#161922; --panel-2:#1C202B; --line:#2A2F3D;
+          --ink:#E7E7E2; --ink-dim:#9DA3B4;
+          --kotlin:#B39DFF; --android:#6FE3A6; --amber:#F2C572; --rose:#E58B8B;
+        }
+        *{box-sizing:border-box; margin:0; padding:0;}
+        html{scroll-behavior:smooth;}
+        body{background:var(--bg); color:var(--ink); font-family:'Inter', sans-serif; line-height:1.65; padding-bottom:80px;}
+        ::selection{background:var(--kotlin); color:#101014;}
+        a{color:var(--android); text-decoration:none; border-bottom:1px solid rgba(111,227,166,0.35);}
+        a:hover{border-bottom-color:var(--android);}
+        .wrap{max-width:900px; margin:0 auto; padding:0 28px;}
+
+        header.hero{
+          border-bottom:1px solid var(--line); padding:60px 0 40px;
+          background:
+            radial-gradient(circle at 90% -10%, rgba(179,157,255,0.16), transparent 45%),
+            radial-gradient(circle at 3% 0%, rgba(111,227,166,0.10), transparent 40%);
+        }
+        .kicker{font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--android); display:flex; align-items:center; gap:10px; margin-bottom:22px;}
+        .kicker .dot{width:7px; height:7px; border-radius:50%; background:var(--android); box-shadow:0 0 10px var(--android);}
+        h1.title{font-family:'Source Serif 4', serif; font-weight:700; font-size:clamp(30px, 5vw, 48px); line-height:1.12; letter-spacing:-0.01em; max-width:17ch;}
+        .subhead{margin-top:20px; max-width:60ch; color:var(--ink-dim); font-size:16.5px;}
+        .reassure{
+          margin-top:24px; padding:16px 18px; border-left:2px solid var(--kotlin);
+          background:rgba(179,157,255,0.07); border-radius:0 8px 8px 0; max-width:64ch; font-size:14.5px; color:var(--ink-dim);
+        }
+        .reassure strong{color:var(--kotlin); font-weight:600;}
+
+        section{padding:44px 0; border-bottom:1px solid var(--line);}
+
+        .rung-head{display:flex; align-items:baseline; gap:16px; margin-bottom:8px;}
+        .rung-num{
+          font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--bg);
+          background:var(--android); padding:3px 10px; border-radius:5px; font-weight:700; flex-shrink:0;
+        }
+        .rung-num.k{background:var(--kotlin);}
+        .rung-num.a{background:var(--amber);}
+        .rung-num.r{background:var(--rose);}
+        .rung-title{font-family:'Source Serif 4', serif; font-size:25px; font-weight:600;}
+        .rung-sub{color:var(--ink-dim); font-size:14.5px; max-width:66ch; margin:8px 0 24px;}
+
+        .rung-body{display:grid; grid-template-columns:1fr 1fr; gap:26px;}
+        @media (max-width:720px){.rung-body{grid-template-columns:1fr;}}
+
+        .plist{list-style:none;}
+        .plist li{padding:8px 0; border-bottom:1px dashed var(--line); font-size:14px; display:flex; gap:9px;}
+        .plist li:last-child{border-bottom:none;}
+        .plist li::before{content:"▹"; color:var(--android); flex-shrink:0;}
+
+        .res-block{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 20px;}
+        .res-label{font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-dim); letter-spacing:0.03em; margin-bottom:10px;}
+        .res-item{margin-bottom:12px;}
+        .res-item:last-child{margin-bottom:0;}
+        .res-item .r-title{font-size:14px; font-weight:500;}
+        .res-item .r-note{font-size:12.5px; color:var(--ink-dim); margin-top:2px;}
+        .divider-mini{height:1px; background:var(--line); margin:14px 0;}
+
+        .goal-tag{
+          display:inline-block; font-family:'JetBrains Mono', monospace; font-size:11px;
+          color:var(--ink-dim); border:1px solid var(--line); border-radius:20px; padding:4px 12px; margin-top:10px;
+        }
+
+        /* ladder progress rail */
+        .ladder{padding-top:44px;}
+        .rung{position:relative; padding-bottom:52px; margin-bottom:44px; border-bottom:1px solid var(--line);}
+        .rung:last-child{border-bottom:none; margin-bottom:0;}
+
+        /* cadence */
+        .cadence-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px;}
+        @media (max-width:600px){.cadence-grid{grid-template-columns:1fr;}}
+        .cadence-card{border:1px solid var(--line); border-radius:10px; padding:16px;}
+        .cadence-card .big{font-family:'JetBrains Mono', monospace; color:var(--android); font-size:19px; margin-bottom:6px;}
+        .cadence-card .lab{font-size:13px; color:var(--ink-dim);}
+
+        footer{padding-top:40px; color:var(--ink-dim); font-size:13px;}
+        footer .sign{font-family:'JetBrains Mono', monospace; font-size:12px; margin-top:8px; color:#5b6172;}
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="wrap">
+        <div class="kicker"><span class="dot"></span>SCRATCH → PROBLEM SOLVER · FOR A 3.8 YOE ANDROID/KOTLIN DEV</div>
+        <h1 class="title">You already ship apps. This rebuilds the muscle underneath that.</h1>
+        <p class="subhead">Shipping Android features and cold-solving a coding problem use different muscles — Android leans on frameworks doing the heavy lifting, interviews want you to build the logic yourself. This ladder rebuilds that muscle from plain Kotlin syntax up to real interview-level DSA, one rung at a time.</p>
+        <div class="reassure"><strong>This is common, not a red flag.</strong> Plenty of experienced Android developers can architect a whole app but freeze on "reverse a string without a library function" — because day-to-day work rarely asks you to write raw logic. The fix isn't intelligence, it's reps on the specific muscle. Start at Rung 1 even if it feels too easy; that's the point.</div>
+    </div>
+</header>
+
+<div class="wrap">
+
+    <section class="ladder">
+
+        <!-- RUNG 1 -->
+        <div class="rung">
+            <div class="rung-head"><span class="rung-num">1</span><span class="rung-title">Get fluent in plain Kotlin — no algorithms yet</span></div>
+            <p class="rung-sub">Before problem-solving, your fingers need to type Kotlin without hesitating — loops, conditionals, functions, collections — the way you'd type XML or Compose without thinking.</p>
+            <div class="rung-body">
+                <ul class="plist">
+                    <li>Variables, val vs var, basic types</li>
+                    <li>if/else, when, for, while — write each 10 times until boring</li>
+                    <li>Functions: parameters, return types, default args</li>
+                    <li>Lists, Maps, Sets and their common operations</li>
+                    <li>Null safety — ?., ?:, !! and why you rarely need the last one</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">✎ PRACTICE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://play.kotlinlang.org/koans/overview" target="_blank">Kotlin Koans (official, play.kotlinlang.org)</a></div>
+                        <div class="r-note">JetBrains' own exercise set — each task is a failing test you make pass. Run through all of it before Rung 2.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://exercism.org/tracks/kotlin" target="_blank">Exercism — Kotlin track</a></div>
+                        <div class="r-note">Free, with mentor-style feedback on style, not just correctness.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PLQkwcJG4YTCSpJ2NLhDTHhi6XBNfk9WiC" target="_blank">Kotlin Programming Tutorial — full playlist</a></div>
+                        <div class="r-note">Kotlin by JetBrains / freeCodeCamp-style walkthroughs. Skip anything Android-specific — this is pure language.</div>
+                    </div>
+                </div>
+            </div>
+            <span class="goal-tag">Goal: write a function from a blank file without googling syntax</span>
+        </div>
+
+        <!-- RUNG 2 -->
+        <div class="rung">
+            <div class="rung-head"><span class="rung-num k">2</span><span class="rung-title">Basic programs — the classic warm-up set</span></div>
+            <p class="rung-sub">Every language-learner's rite of passage. These feel trivial once you've done them, but skipping them is exactly why raw logic feels shaky later.</p>
+            <div class="rung-body">
+                <ul class="plist">
+                    <li>Swap two numbers (with and without a third variable)</li>
+                    <li>Factorial, Fibonacci (loop, then recursive)</li>
+                    <li>Check prime, check Armstrong number</li>
+                    <li>Reverse a string / number without built-in reverse()</li>
+                    <li>Check palindrome (string and number)</li>
+                    <li>Print number/star patterns (triangle, pyramid, diamond)</li>
+                    <li>Count vowels, count digits, sum of digits</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">✎ PRACTICE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/c-programming-examples/" target="_blank">GeeksforGeeks — Basic Programming Examples</a></div>
+                        <div class="r-note">Ignore the C syntax, rewrite every example in Kotlin yourself — that rewriting is the actual exercise.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.hackerrank.com/domains/tutorials/10-days-of-javascript" target="_blank">HackerRank — 30 Days of Code</a></div>
+                        <div class="r-note">Language-agnostic daily problems; solve each in Kotlin regardless of the sample language shown.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/results?search_query=kotlin+basic+programs+for+beginners+patterns" target="_blank">"Kotlin basic programs for beginners" — search</a></div>
+                        <div class="r-note">Watch one pattern-printing video fully, then write the rest yourself without watching further ones — the second half is where the learning actually happens.</div>
+                    </div>
+                </div>
+            </div>
+            <span class="goal-tag">Goal: solve any of the above in under 10 minutes, no hints</span>
+        </div>
+
+        <!-- RUNG 3 -->
+        <div class="rung">
+            <div class="rung-head"><span class="rung-num a">3</span><span class="rung-title">Arrays &amp; strings — where "basic" turns into "DSA"</span></div>
+            <p class="rung-sub">This is the bridge rung. Same comfort level as Rung 2, but now you're touching the actual building blocks — arrays and strings — that every DSA topic sits on top of.</p>
+            <div class="rung-body">
+                <ul class="plist">
+                    <li>Find max/min in an array without max()/min()</li>
+                    <li>Find the second largest element</li>
+                    <li>Remove duplicates from an array</li>
+                    <li>Count frequency of each element (build your own HashMap logic)</li>
+                    <li>Rotate an array by k positions</li>
+                    <li>Check if two strings are anagrams</li>
+                    <li>Merge two sorted arrays manually</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">✎ PRACTICE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/dsa/array-data-structure-guide/" target="_blank">GfG — Array Data Structure Guide</a></div>
+                        <div class="r-note">Has a curated "easy" section at the bottom — start there.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://leetcode.com/problem-list/rab938bg/" target="_blank">LeetCode — Easy problems, sorted by acceptance rate</a></div>
+                        <div class="r-note">Sort by highest acceptance first — that ordering is a genuine confidence ramp, not a shortcut.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0kswaMOJc_rB6zGtSFvj1RJ" target="_blank">Striver's A2Z DSA Course — Step 1 &amp; 2 only</a></div>
+                        <div class="r-note">takeUforward · stop after the array basics steps for now; the rest comes later.</div>
+                    </div>
+                </div>
+            </div>
+            <span class="goal-tag">Goal: given any array problem, write brute-force working code even if it's not optimal</span>
+        </div>
+
+        <!-- RUNG 4 -->
+        <div class="rung">
+            <div class="rung-head"><span class="rung-num">4</span><span class="rung-title">Easy DSA — real interview problems, low pressure</span></div>
+            <p class="rung-sub">Now you're doing the real thing, just at the gentlest difficulty. The goal here isn't speed — it's proving to yourself you can finish a "real" problem start to finish.</p>
+            <div class="rung-body">
+                <ul class="plist">
+                    <li>Two Sum, Contains Duplicate, Valid Anagram</li>
+                    <li>Reverse Linked List, Valid Parentheses</li>
+                    <li>Best Time to Buy/Sell Stock</li>
+                    <li>Binary Search, Maximum Subarray</li>
+                    <li>Merge Two Sorted Lists</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">✎ PRACTICE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://neetcode.io/practice?tab=blind75" target="_blank">NeetCode — Blind 75 tracker</a></div>
+                        <div class="r-note">Filter to "Easy" difficulty first — check off problems as you go, watch the video only after attempting.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/" target="_blank">Striver's A2Z Sheet</a></div>
+                        <div class="r-note">Every problem is tagged Easy/Medium/Hard — stay in Easy for this whole rung.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/@NeetCode" target="_blank">NeetCode — YouTube channel</a></div>
+                        <div class="r-note">Short, focused solution videos, usually under 15 minutes — perfect for "I tried, now show me."</div>
+                    </div>
+                </div>
+            </div>
+            <span class="goal-tag">Goal: 30 easy problems solved, un-timed, solutions allowed after 20 min of real effort</span>
+        </div>
+
+        <!-- RUNG 5 -->
+        <div class="rung">
+            <div class="rung-head"><span class="rung-num k">5</span><span class="rung-title">"Little medium" — the confidence-building step most people skip</span></div>
+            <p class="rung-sub">The jump from Easy straight to Medium is where most people bounce off and feel like they've hit a wall. This rung exists to soften that — mediums that lean easy, and easy problems with a twist.</p>
+            <div class="rung-body">
+                <ul class="plist">
+                    <li>Group Anagrams, Top K Frequent Elements</li>
+                    <li>Product of Array Except Self</li>
+                    <li>Longest Substring Without Repeating Characters</li>
+                    <li>3Sum, Container With Most Water</li>
+                    <li>Number of Islands (your first real graph problem)</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">✎ PRACTICE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://leetcode.com/problem-list/7p5x763/" target="_blank">LeetCode — Medium problems, sorted by acceptance rate</a></div>
+                        <div class="r-note">Same trick as Rung 3 — highest-acceptance mediums first, in order.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://neetcode.io/practice?tab=neetcode150" target="_blank">NeetCode 150</a></div>
+                        <div class="r-note">Broader coverage than Blind 75; use once Blind 75 Easy feels comfortable.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">✎ ARTICLE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/dsa/must-do-coding-questions-for-companies-like-amazon-microsoft-adobe/" target="_blank">Must-Do Coding Questions — GeeksforGeeks</a></div>
+                        <div class="r-note">Company-tagged list; useful once you know which companies you're targeting.</div>
+                    </div>
+                </div>
+            </div>
+            <span class="goal-tag">Goal: recognize the pattern (two pointer, hashmap, sliding window) within the first 2 minutes of reading</span>
+        </div>
+
+        <!-- RUNG 6 -->
+        <div class="rung">
+            <div class="rung-head"><span class="rung-num a">6</span><span class="rung-title">Medium DSA — where real interviews live</span></div>
+            <p class="rung-sub">This is the actual bar for most product-company interviews. By now brute-force should be automatic — the real skill being tested here is optimizing it.</p>
+            <div class="rung-body">
+                <ul class="plist">
+                    <li>Trees: level order, validate BST, LCA</li>
+                    <li>Backtracking: subsets, permutations, combination sum</li>
+                    <li>Graphs: course schedule, clone graph</li>
+                    <li>DP: coin change, longest increasing subsequence, house robber</li>
+                    <li>Heaps: k closest points, top-k problems</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PL_z_8CaSLPWekqhdCPmFohncHwz8TY2Go" target="_blank">Aditya Verma — Dynamic Programming playlist</a></div>
+                        <div class="r-note">Builds every DP solution up from brute-force recursion — the missing link most people skip straight past.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn" target="_blank">Striver's Graph series</a></div>
+                        <div class="r-note">takeUforward.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">✎ ARTICLE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/dsa/top-50-array-coding-problems-for-interviews/" target="_blank">Top interview problem lists — GeeksforGeeks</a></div>
+                        <div class="r-note">Use as a checklist to spot gaps once the main sheets feel done.</div>
+                    </div>
+                </div>
+            </div>
+            <span class="goal-tag">Goal: solve a fresh medium in 25–35 minutes, talking through your approach out loud</span>
+        </div>
+
+        <!-- RUNG 7 -->
+        <div class="rung">
+            <div class="rung-head"><span class="rung-num r">7</span><span class="rung-title">Mock interviews &amp; company-focused revision</span></div>
+            <p class="rung-sub">The last rung isn't about learning anything new — it's about proving the previous six under real interview conditions: a stranger watching, a timer running, a whiteboard or shared doc instead of an IDE with autocomplete.</p>
+            <div class="rung-body">
+                <ul class="plist">
+                    <li>Re-solve your "starred" problems from every rung above, cold</li>
+                    <li>2–3 timed mock interviews a week</li>
+                    <li>Practice narrating your approach before writing any code</li>
+                    <li>Target company-tagged question lists for your specific applications</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/watch?v=0YZzXfZBezM" target="_blank">Mock Google Technical Interview</a></div>
+                        <div class="r-note">Exponent · watch how the candidate thinks out loud, not just their final code.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">✎ PRACTICE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/interview-experiences/" target="_blank">Company-wise Interview Experiences — GeeksforGeeks</a></div>
+                        <div class="r-note">Search by company name to see what's actually been asked recently.</div>
+                    </div>
+                </div>
+            </div>
+            <span class="goal-tag">Goal: walk out of a mock interview able to say exactly what went wrong, not just "it went okay"</span>
+        </div>
+
+    </section>
+
+    <section class="cadence" style="border-bottom:none;">
+        <div class="rung-title" style="margin-bottom:6px;">A daily habit that survives a busy Android sprint</div>
+        <p class="rung-sub">Consistency beats intensity here — one solved problem a day for six months outperforms a weekend binge every time.</p>
+        <div class="cadence-grid">
+            <div class="cadence-card">
+                <div class="big">15 min</div>
+                <div class="lab">Read the day's problem, attempt it fully before looking anything up — even if you get stuck.</div>
+            </div>
+            <div class="cadence-card">
+                <div class="big">15 min</div>
+                <div class="lab">Watch or read the solution only after a real attempt — compare it to what you wrote, not instead of writing.</div>
+            </div>
+            <div class="cadence-card">
+                <div class="big">5 min</div>
+                <div class="lab">Write a one-line note on the pattern you used — this is what makes Rung 7 revision fast instead of starting over.</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>If a rung ever feels genuinely too easy, that's the signal to move faster, not a sign you wasted time on it — the goal was never to feel challenged at every step, just to never feel lost.</p>
+        <div class="sign">// fluency first, cleverness second</div>
+    </footer>
+
+</div>
+
+</body>
+</html>

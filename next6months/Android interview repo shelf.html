@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Android Interview Repo Shelf</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap');
+
+        :root{
+          --bg:#0F1115; --panel:#161922; --panel-2:#1C202B; --line:#2A2F3D;
+          --ink:#E7E7E2; --ink-dim:#9DA3B4;
+          --kotlin:#B39DFF; --android:#6FE3A6; --amber:#F2C572; --rose:#E58B8B;
+        }
+        *{box-sizing:border-box; margin:0; padding:0;}
+        html{scroll-behavior:smooth;}
+        body{background:var(--bg); color:var(--ink); font-family:'Inter', sans-serif; line-height:1.65; padding-bottom:80px;}
+        ::selection{background:var(--kotlin); color:#101014;}
+        a{color:var(--android); text-decoration:none; border-bottom:1px solid rgba(111,227,166,0.35);}
+        a:hover{border-bottom-color:var(--android);}
+        .wrap{max-width:940px; margin:0 auto; padding:0 28px;}
+
+        header.hero{
+          border-bottom:1px solid var(--line); padding:58px 0 38px;
+          background:
+            radial-gradient(circle at 90% -10%, rgba(179,157,255,0.16), transparent 45%),
+            radial-gradient(circle at 3% 0%, rgba(111,227,166,0.10), transparent 40%);
+        }
+        .kicker{font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--android); display:flex; align-items:center; gap:10px; margin-bottom:22px;}
+        .kicker .dot{width:7px; height:7px; border-radius:50%; background:var(--android); box-shadow:0 0 10px var(--android);}
+        h1.title{font-family:'Source Serif 4', serif; font-weight:700; font-size:clamp(30px, 4.8vw, 48px); line-height:1.12; letter-spacing:-0.01em; max-width:18ch;}
+        .subhead{margin-top:20px; max-width:62ch; color:var(--ink-dim); font-size:16px;}
+        nav.jump{margin-top:28px; display:flex; flex-wrap:wrap; gap:8px; font-family:'JetBrains Mono', monospace; font-size:12px;}
+        nav.jump a{border:1px solid var(--line); padding:6px 12px; border-radius:20px; color:var(--ink-dim);}
+        nav.jump a:hover{color:var(--android); border-color:var(--android);}
+
+        section{padding:44px 0; border-bottom:1px solid var(--line);}
+        .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:8px;}
+        .sec-tag{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--bg); background:var(--android); padding:3px 9px; border-radius:5px; font-weight:700; flex-shrink:0;}
+        .sec-tag.k{background:var(--kotlin);}
+        .sec-tag.a{background:var(--amber);}
+        .sec-tag.r{background:var(--rose);}
+        h2.sec-title{font-family:'Source Serif 4', serif; font-size:26px; font-weight:600;}
+        .sec-sub{color:var(--ink-dim); font-size:14.5px; max-width:68ch; margin-bottom:24px;}
+
+        /* repo card */
+        .repo-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:16px;}
+        .repo-card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 20px;}
+        .repo-card .r-top{display:flex; align-items:center; gap:8px; margin-bottom:6px;}
+        .repo-card .r-name{font-family:'JetBrains Mono', monospace; font-size:13.5px; font-weight:700; color:var(--ink);}
+        .repo-card .r-tag{font-size:10px; font-family:'JetBrains Mono', monospace; color:var(--bg); background:var(--amber); padding:2px 7px; border-radius:20px; flex-shrink:0;}
+        .repo-card .r-tag.official{background:var(--android);}
+        .repo-card .r-desc{font-size:13.5px; color:var(--ink-dim); margin-bottom:10px;}
+        .repo-card .r-link{font-family:'JetBrains Mono', monospace; font-size:12.5px;}
+
+        /* article/resource block */
+        .res-block{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:20px 22px; margin-top:8px;}
+        .res-label{font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-dim); letter-spacing:0.03em; margin-bottom:12px;}
+        .res-item{margin-bottom:14px;}
+        .res-item:last-child{margin-bottom:0;}
+        .res-item .r-title{font-size:14.5px; font-weight:500;}
+        .res-item .r-note{font-size:12.5px; color:var(--ink-dim); margin-top:2px;}
+        .divider-mini{height:1px; background:var(--line); margin:16px 0;}
+
+        /* pattern/topic pills */
+        .topic-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px; margin-top:8px;}
+        .topic-card{border:1px solid var(--line); border-radius:10px; padding:15px 17px; background:var(--panel);}
+        .topic-card .t-name{font-weight:600; font-size:14.5px; margin-bottom:5px;}
+        .topic-card .t-desc{font-size:13px; color:var(--ink-dim);}
+
+        /* SDLC timeline */
+        .sdlc-row{display:flex; gap:0; margin:24px 0; flex-wrap:wrap;}
+        .sdlc-step{
+          flex:1; min-width:120px; text-align:center; padding:14px 10px;
+          border:1px solid var(--line); font-family:'JetBrains Mono', monospace; font-size:12px;
+          background:var(--panel);
+        }
+        .sdlc-step:first-child{border-radius:8px 0 0 8px;}
+        .sdlc-step:last-child{border-radius:0 8px 8px 0;}
+        .sdlc-step + .sdlc-step{border-left:none;}
+        @media (max-width:720px){
+          .sdlc-step{border-radius:8px !important; border-left:1px solid var(--line) !important; margin-bottom:-1px;}
+        }
+
+        footer{padding-top:40px; color:var(--ink-dim); font-size:13px;}
+        footer .sign{font-family:'JetBrains Mono', monospace; font-size:12px; margin-top:8px; color:#5b6172;}
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="wrap">
+        <div class="kicker"><span class="dot"></span>REPO SHELF · ARCHITECTURE + SYSTEM DESIGN + SDLC + COMPOSE</div>
+        <h1 class="title">The repos, docs, and articles worth actually reading before your next interview</h1>
+        <p class="subhead">Not another list of 40 links you'll bookmark and never open. A short, ordered shelf — clone one, read one, and be able to explain what you saw.</p>
+        <nav class="jump">
+            <a href="#arch">Architecture Repos</a>
+            <a href="#sysdesign">System Design</a>
+            <a href="#patterns">Design Patterns</a>
+            <a href="#compose">Jetpack Compose</a>
+            <a href="#sdlc">SDLC</a>
+            <a href="#checklist">Interview Checklist</a>
+        </nav>
+    </div>
+</header>
+
+<div class="wrap">
+
+    <!-- ARCHITECTURE -->
+    <section id="arch">
+        <div class="sec-head"><span class="sec-tag">01</span><h2 class="sec-title">Architecture — Repos to Actually Clone</h2></div>
+        <p class="sec-sub">Reading production-shaped code teaches architecture faster than any article. These are maintained, realistic, and small enough to finish reading in a weekend.</p>
+
+        <div class="repo-grid">
+            <div class="repo-card">
+                <div class="r-top"><span class="r-name">android/nowinandroid</span><span class="r-tag official">Google</span></div>
+                <div class="r-desc">Google's own fully modularized, tested news app — MVVM, unidirectional data flow, Hilt, Compose. The closest thing to an official architecture answer key.</div>
+                <a class="r-link" href="https://github.com/android/nowinandroid" target="_blank">github.com/android/nowinandroid</a>
+            </div>
+            <div class="repo-card">
+                <div class="r-top"><span class="r-name">android/architecture-samples</span><span class="r-tag official">Google</span></div>
+                <div class="r-desc">The same to-do app rebuilt across different architecture approaches — great for comparing MVVM variants side by side, branch by branch.</div>
+                <a class="r-link" href="https://github.com/android/architecture-samples" target="_blank">github.com/android/architecture-samples</a>
+            </div>
+            <div class="repo-card">
+                <div class="r-top"><span class="r-name">android/compose-samples</span><span class="r-tag official">Google</span></div>
+                <div class="r-desc">Official Jetpack Compose sample apps (Jetsnack, Jetnews, Reply, Owl) — real apps, not toy snippets, each showcasing a different UI/architecture pattern.</div>
+                <a class="r-link" href="https://github.com/android/compose-samples" target="_blank">github.com/android/compose-samples</a>
+            </div>
+        </div>
+
+        <div class="res-block">
+            <div class="res-label">✎ ARTICLE</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://developer.android.com/topic/architecture" target="_blank">Guide to app architecture — Android Developers</a></div>
+                <div class="r-note">The canonical source; read this before any third-party tutorial.</div>
+            </div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://developer.android.com/topic/architecture/recommendations" target="_blank">Architecture recommendations — Android Developers</a></div>
+                <div class="r-note">Google's own opinionated "do this, not that" — strong source of "why" answers straight from the source.</div>
+            </div>
+            <div class="divider-mini"></div>
+            <div class="res-label">▶ VIDEO</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://www.youtube.com/c/PhilippLackner" target="_blank">Philipp Lackner — YouTube channel</a></div>
+                <div class="r-note">The most-referenced channel for Clean Architecture + MVVM/MVI in Compose.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SYSTEM DESIGN -->
+    <section id="sysdesign">
+        <div class="sec-head"><span class="sec-tag k">02</span><h2 class="sec-title">System Design — Mobile &amp; General</h2></div>
+        <p class="sec-sub">Mobile system-design rounds borrow heavily from general backend system design, then layer on offline-first, caching, and client-state concerns.</p>
+
+        <div class="repo-grid">
+            <div class="repo-card">
+                <div class="r-top"><span class="r-name">donnemartin/system-design-primer</span><span class="r-tag">70k+★</span></div>
+                <div class="r-desc">The most-starred system design repo on GitHub — scalability fundamentals, real interview questions with sample solutions and diagrams.</div>
+                <a class="r-link" href="https://github.com/donnemartin/system-design-primer" target="_blank">github.com/donnemartin/system-design-primer</a>
+            </div>
+            <div class="repo-card">
+                <div class="r-top"><span class="r-name">ByteByteGoHq/system-design-101</span><span class="r-tag">Alex Xu</span></div>
+                <div class="r-desc">From the author of the "System Design Interview" book series — visual, diagram-first explanations of core concepts.</div>
+                <a class="r-link" href="https://github.com/ByteByteGoHq/system-design-101" target="_blank">github.com/ByteByteGoHq/system-design-101</a>
+            </div>
+            <div class="repo-card">
+                <div class="r-top"><span class="r-name">ashishps1/awesome-system-design-resources</span><span class="r-tag">curated</span></div>
+                <div class="r-desc">Actively maintained curated list organized by topic — concepts, case studies, and interview-specific prep in one place.</div>
+                <a class="r-link" href="https://github.com/ashishps1/awesome-system-design-resources" target="_blank">github.com/ashishps1/awesome-system-design-resources</a>
+            </div>
+        </div>
+
+        <div class="res-block">
+            <div class="res-label">✎ ARTICLE — MOBILE-SPECIFIC</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://www.geeksforgeeks.org/system-design/mobile-system-design/" target="_blank">Mobile System Design — GeeksforGeeks</a></div>
+                <div class="r-note">Covers the mobile-specific angle general system-design resources skip: offline sync, local caching, battery/network constraints.</div>
+            </div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://www.geeksforgeeks.org/system-design/design-a-chat-application-system-design/" target="_blank">Design a Chat Application — GeeksforGeeks</a></div>
+                <div class="r-note">A classic mobile-relevant system-design walkthrough — practice explaining the client side, not just the backend.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DESIGN PATTERNS -->
+    <section id="patterns">
+        <div class="sec-head"><span class="sec-tag a">03</span><h2 class="sec-title">Design Patterns — Repos to Read</h2></div>
+        <p class="sec-sub">The patterns woven into the Android SDK itself — Repository, Observer, Builder, Factory, Adapter, Strategy — are what actually get asked, not the full Gang-of-Four catalogue.</p>
+
+        <div class="repo-grid">
+            <div class="repo-card">
+                <div class="r-top"><span class="r-name">iluwatar/java-design-patterns</span><span class="r-tag">90k+★</span></div>
+                <div class="r-desc">Every classic GoF pattern as small, runnable Java examples — syntax carries over almost directly to Kotlin.</div>
+                <a class="r-link" href="https://github.com/iluwatar/java-design-patterns" target="_blank">github.com/iluwatar/java-design-patterns</a>
+            </div>
+            <div class="repo-card">
+                <div class="r-top"><span class="r-name">rohitneel1234/Android-Interview-Questions</span><span class="r-tag">curated</span></div>
+                <div class="r-desc">Community-maintained collection covering architecture, Compose, and design-pattern questions in an Android-specific frame.</div>
+                <a class="r-link" href="https://github.com/rohitneel1234/Android-Interview-Questions" target="_blank">github.com/rohitneel1234/Android-Interview-Questions</a>
+            </div>
+        </div>
+
+        <div class="res-block">
+            <div class="res-label">✎ ARTICLE</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://refactoring.guru/design-patterns" target="_blank">Refactoring Guru — Design Patterns</a></div>
+                <div class="r-note">The best visual, language-agnostic explanation of every classic pattern, with a "when to use" section for each.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JETPACK COMPOSE -->
+    <section id="compose">
+        <div class="sec-head"><span class="sec-tag r">04</span><h2 class="sec-title">Jetpack Compose — What Interviewers Probe</h2></div>
+        <p class="sec-sub">Compose questions rarely stop at "what is a composable" — they probe recomposition, state hoisting, and performance.</p>
+
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="t-name">Recomposition</div>
+                <div class="t-desc">When exactly does a composable re-run, and how do you prove it with the Layout Inspector or recomposition counts?</div>
+            </div>
+            <div class="topic-card">
+                <div class="t-name">State hoisting</div>
+                <div class="t-desc">Why "stateless composables, stateful callers" is the pattern, not just a style preference.</div>
+            </div>
+            <div class="topic-card">
+                <div class="t-name">remember vs rememberSaveable</div>
+                <div class="t-desc">What survives recomposition vs configuration change vs process death — and why the difference matters.</div>
+            </div>
+            <div class="topic-card">
+                <div class="t-name">derivedStateOf</div>
+                <div class="t-desc">Avoiding unnecessary recomposition when a value is computed from other state.</div>
+            </div>
+            <div class="topic-card">
+                <div class="t-name">Side effects</div>
+                <div class="t-desc">LaunchedEffect vs SideEffect vs DisposableEffect — when each fires and what leaks if you pick wrong.</div>
+            </div>
+            <div class="topic-card">
+                <div class="t-name">Compose vs View interop</div>
+                <div class="t-desc">AndroidView / ComposeView — how a legacy screen and a new Compose screen coexist during migration.</div>
+            </div>
+        </div>
+
+        <div class="res-block">
+            <div class="res-label">✎ GITHUB &amp; ARTICLE</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://github.com/android/compose-samples" target="_blank">android/compose-samples</a></div>
+                <div class="r-note">Official — see above, worth a second mention here specifically for the Compose questions.</div>
+            </div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://developer.android.com/jetpack/compose/mental-model" target="_blank">Thinking in Compose — Android Developers</a></div>
+                <div class="r-note">The mental model doc every Compose interview question is quietly testing whether you've internalized.</div>
+            </div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://developer.android.com/jetpack/compose/performance" target="_blank">Compose performance — Android Developers</a></div>
+                <div class="r-note">Official guidance on avoiding unnecessary recomposition — directly maps to "how would you optimize this list" questions.</div>
+            </div>
+            <div class="divider-mini"></div>
+            <div class="res-label">▶ VIDEO</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://www.youtube.com/results?search_query=jetpack+compose+recomposition+deep+dive" target="_blank">"Jetpack Compose recomposition deep dive" — search</a></div>
+                <div class="r-note">Compose internals content ages fast with each Compose compiler release — search fresh rather than a fixed link.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SDLC -->
+    <section id="sdlc">
+        <div class="sec-head"><span class="sec-tag k">05</span><h2 class="sec-title">SDLC — Process Questions, Not Code</h2></div>
+        <p class="sec-sub">Mid/senior interviews often slip in one or two process questions — not to test if you know Agile jargon, but whether you've actually worked inside a release cycle.</p>
+
+        <div class="sdlc-row">
+            <div class="sdlc-step">Requirements</div>
+            <div class="sdlc-step">Design</div>
+            <div class="sdlc-step">Development</div>
+            <div class="sdlc-step">Testing</div>
+            <div class="sdlc-step">Deployment</div>
+            <div class="sdlc-step">Maintenance</div>
+        </div>
+
+        <p style="font-size:14.5px; color:var(--ink-dim); max-width:70ch; margin-bottom:20px;">Be ready to map this cycle onto Android specifically: how a feature flag lets you deploy code before "releasing" it, how Play Store staged rollouts fit the deployment step, and how crash reporting (Crashlytics) feeds back into maintenance.</p>
+
+        <div class="res-block">
+            <div class="res-label">✎ ARTICLE</div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://www.geeksforgeeks.org/software-engineering/software-development-life-cycle-sdlc/" target="_blank">Software Development Life Cycle (SDLC) — GeeksforGeeks</a></div>
+                <div class="r-note">Covers every model (Waterfall, Agile, Spiral, V-model) — you mainly need Agile/Scrum fluency for an Android interview.</div>
+            </div>
+            <div class="res-item">
+                <div class="r-title"><a href="https://www.atlassian.com/agile/scrum" target="_blank">Scrum — Atlassian's Agile Coach</a></div>
+                <div class="r-note">Sprints, standups, backlog grooming, story points — the actual vocabulary you'll be asked to use fluently, not just define.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHECKLIST -->
+    <section id="checklist" style="border-bottom:none;">
+        <div class="sec-head"><span class="sec-tag a">06</span><h2 class="sec-title">Before You Walk In — a Quick Self-Check</h2></div>
+        <p class="sec-sub">If you can explain each of these out loud, in your own words, you're ready for the architecture/system-design portion of the interview.</p>
+
+        <div class="topic-grid">
+            <div class="topic-card"><div class="t-name">Why domain layer is pure Kotlin</div><div class="t-desc">No android.* imports — and how that makes it unit-testable without a device.</div></div>
+            <div class="topic-card"><div class="t-name">MVVM vs MVI, honestly</div><div class="t-desc">Not a rivalry — most teams run MVVM with MVI's single-state discipline layered in.</div></div>
+            <div class="topic-card"><div class="t-name">One design pattern per SDK class</div><div class="t-desc">Retrofit.Builder → Builder, LiveData → Observer, Room instance → Singleton.</div></div>
+            <div class="topic-card"><div class="t-name">Recomposition, precisely</div><div class="t-desc">What triggers it, what state to hoist to avoid it firing unnecessarily.</div></div>
+            <div class="topic-card"><div class="t-name">A real offline-first trade-off</div><div class="t-desc">Single-source-of-truth repository pattern, and what breaks if two writes race.</div></div>
+            <div class="topic-card"><div class="t-name">Where your sprint fits SDLC</div><div class="t-desc">Feature flags, staged rollouts, and how a crash report loops back into planning.</div></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Pick one repo from Section 01 this week — clone it, and trace a single user action from tap to database and back before opening the next tab.</p>
+        <div class="sign">// a shelf you actually read beats a list you only save</div>
+    </footer>
+
+</div>
+
+</body>
+</html>

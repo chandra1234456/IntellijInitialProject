@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA in 6 Months — a roadmap for Android devs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap');
+
+        :root{
+          --bg: #0F1115;
+          --panel: #161922;
+          --panel-2: #1C202B;
+          --line: #2A2F3D;
+          --ink: #E7E7E2;
+          --ink-dim: #9DA3B4;
+          --kotlin: #B39DFF;
+          --android: #6FE3A6;
+          --amber: #F2C572;
+        }
+
+        *{box-sizing:border-box; margin:0; padding:0;}
+
+        html{scroll-behavior:smooth;}
+
+        body{
+          background:var(--bg);
+          color:var(--ink);
+          font-family:'Inter', sans-serif;
+          line-height:1.6;
+          padding-bottom:80px;
+        }
+
+        ::selection{background:var(--kotlin); color:#101014;}
+
+        a{color:var(--android); text-decoration:none; border-bottom:1px solid rgba(111,227,166,0.35);}
+        a:hover{border-bottom-color:var(--android);}
+
+        .wrap{max-width:900px; margin:0 auto; padding:0 28px;}
+
+        /* ---------- HERO ---------- */
+        header.hero{
+          border-bottom:1px solid var(--line);
+          padding:64px 0 40px;
+          background:
+            radial-gradient(circle at 85% -10%, rgba(179,157,255,0.16), transparent 45%),
+            radial-gradient(circle at 5% 0%, rgba(111,227,166,0.10), transparent 40%);
+        }
+        .kicker{
+          font-family:'JetBrains Mono', monospace;
+          font-size:13px;
+          color:var(--android);
+          display:flex;
+          align-items:center;
+          gap:10px;
+          margin-bottom:22px;
+        }
+        .kicker .dot{width:7px; height:7px; border-radius:50%; background:var(--android); box-shadow:0 0 10px var(--android);}
+        h1.title{
+          font-family:'Source Serif 4', serif;
+          font-weight:700;
+          font-size:clamp(34px, 5.4vw, 54px);
+          line-height:1.08;
+          letter-spacing:-0.01em;
+          max-width:14ch;
+        }
+        h1.title em{
+          font-style:normal;
+          color:var(--kotlin);
+        }
+        .subhead{
+          margin-top:20px;
+          max-width:56ch;
+          color:var(--ink-dim);
+          font-size:17px;
+        }
+        .hero-meta{
+          margin-top:32px;
+          display:flex;
+          gap:28px;
+          flex-wrap:wrap;
+          font-family:'JetBrains Mono', monospace;
+          font-size:12.5px;
+          color:var(--ink-dim);
+        }
+        .hero-meta strong{color:var(--ink); font-weight:500;}
+
+        /* ---------- TOOLKIT STRIP ---------- */
+        section.toolkit{
+          padding:36px 0;
+          border-bottom:1px solid var(--line);
+        }
+        .toolkit h2{
+          font-size:13px;
+          font-family:'JetBrains Mono', monospace;
+          color:var(--ink-dim);
+          margin-bottom:16px;
+        }
+        .toolkit-grid{
+          display:grid;
+          grid-template-columns:repeat(auto-fit, minmax(190px,1fr));
+          gap:14px;
+        }
+        .tool-card{
+          background:var(--panel);
+          border:1px solid var(--line);
+          border-radius:10px;
+          padding:16px 18px;
+        }
+        .tool-card .name{font-weight:600; font-size:14.5px; margin-bottom:4px;}
+        .tool-card .desc{font-size:13px; color:var(--ink-dim);}
+        .tool-card a{font-size:13px;}
+
+        /* ---------- PROBLEM BANK ---------- */
+        section.problem-bank{
+          padding:44px 0 8px;
+          border-bottom:1px solid var(--line);
+        }
+        .pb-head{
+          display:flex;
+          align-items:baseline;
+          justify-content:space-between;
+          flex-wrap:wrap;
+          gap:12px;
+          margin-bottom:8px;
+        }
+        .pb-head h2{
+          font-family:'Source Serif 4', serif;
+          font-size:26px;
+          font-weight:600;
+        }
+        .pb-count{
+          font-family:'JetBrains Mono', monospace;
+          font-size:12px;
+          color:var(--ink-dim);
+          border:1px solid var(--line);
+          border-radius:20px;
+          padding:4px 12px;
+        }
+        .pb-sub{
+          color:var(--ink-dim);
+          font-size:14.5px;
+          max-width:64ch;
+          margin-bottom:28px;
+        }
+        .pb-grid{
+          display:grid;
+          grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+          gap:22px;
+          margin-bottom:20px;
+        }
+        .pb-cat{
+          break-inside:avoid;
+        }
+        .pb-cat h3{
+          font-family:'JetBrains Mono', monospace;
+          font-size:11.5px;
+          letter-spacing:0.03em;
+          color:var(--amber);
+          margin-bottom:10px;
+          padding-bottom:8px;
+          border-bottom:1px solid var(--line);
+        }
+        .pb-list{
+          list-style:none;
+        }
+        .pb-list li{
+          display:flex;
+          gap:9px;
+          align-items:baseline;
+          padding:5px 0;
+          font-size:13.8px;
+        }
+        .pb-list li::before{
+          content:"☐";
+          color:#4A5064;
+          flex-shrink:0;
+          font-size:12px;
+        }
+        .pb-list li a{
+          border-bottom:1px solid transparent;
+          color:var(--ink);
+        }
+        .pb-list li a:hover{
+          color:var(--android);
+          border-bottom-color:var(--android);
+        }
+        .pb-note{
+          font-size:13px;
+          color:var(--ink-dim);
+          padding-top:6px;
+        }
+
+        /* ---------- TIMELINE ---------- */
+        section.timeline{ padding-top:48px; position:relative;}
+        .timeline-rail{
+          position:absolute;
+          left:28px;
+          top:48px;
+          bottom:0;
+          width:1px;
+          background:linear-gradient(var(--line), transparent);
+          display:none;
+        }
+
+        .month{
+          position:relative;
+          padding:0 0 56px 0;
+          border-bottom:1px solid var(--line);
+          margin-bottom:48px;
+        }
+        .month:last-child{border-bottom:none;}
+
+        .month-head{
+          display:flex;
+          align-items:baseline;
+          gap:18px;
+          margin-bottom:8px;
+        }
+        .month-num{
+          font-family:'JetBrains Mono', monospace;
+          font-size:13px;
+          color:var(--bg);
+          background:var(--android);
+          padding:3px 9px;
+          border-radius:5px;
+          font-weight:700;
+          flex-shrink:0;
+        }
+        .month-num.m2{background:var(--kotlin);}
+        .month-num.m3{background:var(--amber);}
+
+        .month-title{
+          font-family:'Source Serif 4', serif;
+          font-size:26px;
+          font-weight:600;
+        }
+        .month-sub{
+          color:var(--ink-dim);
+          font-size:14.5px;
+          margin:6px 0 26px;
+          max-width:64ch;
+        }
+
+        .month-body{
+          display:grid;
+          grid-template-columns:1.1fr 1fr;
+          gap:32px;
+        }
+        @media (max-width: 720px){
+          .month-body{grid-template-columns:1fr;}
+        }
+
+        .topics-list{
+          list-style:none;
+        }
+        .topics-list li{
+          padding:9px 0;
+          border-bottom:1px dashed var(--line);
+          font-size:14.5px;
+          display:flex;
+          gap:10px;
+        }
+        .topics-list li:last-child{border-bottom:none;}
+        .topics-list li::before{
+          content:"▹";
+          color:var(--android);
+          flex-shrink:0;
+        }
+
+        .res-block{
+          background:var(--panel);
+          border:1px solid var(--line);
+          border-radius:12px;
+          padding:20px 22px;
+        }
+        .res-label{
+          font-family:'JetBrains Mono', monospace;
+          font-size:11.5px;
+          color:var(--ink-dim);
+          letter-spacing:0.03em;
+          margin-bottom:12px;
+        }
+        .res-item{
+          margin-bottom:14px;
+        }
+        .res-item:last-child{margin-bottom:0;}
+        .res-item .r-title{font-size:14.5px; font-weight:500;}
+        .res-item .r-note{font-size:12.5px; color:var(--ink-dim); margin-top:2px;}
+
+        .divider-mini{height:1px; background:var(--line); margin:16px 0;}
+
+        /* ---------- ANDROID NOTE ---------- */
+        .android-note{
+          margin-top:22px;
+          padding:14px 16px;
+          border-left:2px solid var(--kotlin);
+          background:rgba(179,157,255,0.06);
+          border-radius:0 8px 8px 0;
+          font-size:13.5px;
+          color:var(--ink-dim);
+        }
+        .android-note strong{color:var(--kotlin); font-weight:600;}
+
+        /* ---------- CADENCE ---------- */
+        section.cadence{
+          padding:40px 0;
+          border-bottom:1px solid var(--line);
+        }
+        .cadence h2{
+          font-family:'Source Serif 4', serif;
+          font-size:24px;
+          margin-bottom:18px;
+        }
+        .cadence-grid{
+          display:grid;
+          grid-template-columns:repeat(3,1fr);
+          gap:16px;
+        }
+        @media (max-width:600px){ .cadence-grid{grid-template-columns:1fr;} }
+        .cadence-card{
+          border:1px solid var(--line);
+          border-radius:10px;
+          padding:16px;
+        }
+        .cadence-card .big{
+          font-family:'JetBrains Mono', monospace;
+          color:var(--android);
+          font-size:20px;
+          margin-bottom:6px;
+        }
+        .cadence-card .lab{font-size:13px; color:var(--ink-dim);}
+
+        /* ---------- FOOTER ---------- */
+        footer{
+          padding-top:40px;
+          color:var(--ink-dim);
+          font-size:13px;
+        }
+        footer .sign{
+          font-family:'JetBrains Mono', monospace;
+          font-size:12px;
+          margin-top:8px;
+          color:#5b6172;
+        }
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="wrap">
+        <div class="kicker"><span class="dot"></span>SIX-MONTH PLAN · BUILT FOR SOMEONE WHO ALREADY SHIPS ANDROID APPS</div>
+        <h1 class="title">DSA, on top of the Kotlin you already know</h1>
+        <p class="subhead">You already understand recursion from Compose's UI tree, hashmaps from every Room DAO, and graphs from your navigation component. This plan reuses that intuition instead of starting from zero — six months, one topic cluster a month, real YouTube playlists and articles at each stop.</p>
+        <div class="hero-meta">
+            <span><strong>Duration</strong> · 24 weeks</span>
+            <span><strong>Daily ask</strong> · 1–2 hrs</span>
+            <span><strong>Language</strong> · Kotlin or Java, your choice</span>
+            <span><strong>Outcome</strong> · interview-ready + sharper Android instincts</span>
+        </div>
+    </div>
+</header>
+
+<div class="wrap">
+
+    <section class="toolkit">
+        <h2>// set these up before week 1</h2>
+        <div class="toolkit-grid">
+            <div class="tool-card">
+                <div class="name">LeetCode</div>
+                <div class="desc">Where you'll actually solve problems daily.</div>
+                <a href="https://leetcode.com/" target="_blank">leetcode.com</a>
+            </div>
+            <div class="tool-card">
+                <div class="name">takeUforward A2Z Sheet</div>
+                <div class="desc">Striver's full topic-wise problem list — this roadmap follows its order loosely.</div>
+                <a href="https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/" target="_blank">takeuforward.org</a>
+            </div>
+            <div class="tool-card">
+                <div class="name">NeetCode 150</div>
+                <div class="desc">Curated, high-yield problem set with clean video explanations.</div>
+                <a href="https://neetcode.io/practice" target="_blank">neetcode.io</a>
+            </div>
+            <div class="tool-card">
+                <div class="name">VisualGo</div>
+                <div class="desc">Animates the exact thing you're implementing — great when a diagram beats a video.</div>
+                <a href="https://visualgo.net/en" target="_blank">visualgo.net</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem-bank">
+        <div class="pb-head">
+            <h2>The Blind 75</h2>
+            <span class="pb-count">73 problems · solve every one</span>
+        </div>
+        <p class="pb-sub">Originally put together by a Google/Facebook/Airbnb engineer as the minimum set that covers almost every pattern you'll be asked about. Treat this as your revision checklist for Month 6 — but you'll naturally hit most of these as you move through Months 1–5 above.</p>
+
+        <div class="pb-grid">
+            <div class="pb-cat">
+                <h3>ARRAY</h3>
+                <ul class="pb-list">
+                    <li><a href="https://leetcode.com/problems/two-sum/" target="_blank">Two Sum</a></li>
+                    <li><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank">Best Time to Buy/Sell Stock</a></li>
+                    <li><a href="https://leetcode.com/problems/contains-duplicate/" target="_blank">Contains Duplicate</a></li>
+                    <li><a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">Product of Array Except Self</a></li>
+                    <li><a href="https://leetcode.com/problems/maximum-subarray/" target="_blank">Maximum Subarray</a></li>
+                    <li><a href="https://leetcode.com/problems/maximum-product-subarray/" target="_blank">Maximum Product Subarray</a></li>
+                    <li><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank">Find Min in Rotated Sorted Array</a></li>
+                    <li><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank">Search in Rotated Sorted Array</a></li>
+                    <li><a href="https://leetcode.com/problems/3sum/" target="_blank">3Sum</a></li>
+                    <li><a href="https://leetcode.com/problems/container-with-most-water/" target="_blank">Container With Most Water</a></li>
+                </ul>
+            </div>
+
+            <div class="pb-cat">
+                <h3>BINARY / BIT</h3>
+                <ul class="pb-list">
+                    <li><a href="https://leetcode.com/problems/sum-of-two-integers/" target="_blank">Sum of Two Integers</a></li>
+                    <li><a href="https://leetcode.com/problems/number-of-1-bits/" target="_blank">Number of 1 Bits</a></li>
+                    <li><a href="https://leetcode.com/problems/counting-bits/" target="_blank">Counting Bits</a></li>
+                    <li><a href="https://leetcode.com/problems/missing-number/" target="_blank">Missing Number</a></li>
+                    <li><a href="https://leetcode.com/problems/reverse-bits/" target="_blank">Reverse Bits</a></li>
+                </ul>
+
+                <h3 style="margin-top:20px;">INTERVAL</h3>
+                <ul class="pb-list">
+                    <li><a href="https://leetcode.com/problems/insert-interval/" target="_blank">Insert Interval</a></li>
+                    <li><a href="https://leetcode.com/problems/merge-intervals/" target="_blank">Merge Intervals</a></li>
+                    <li><a href="https://leetcode.com/problems/non-overlapping-intervals/" target="_blank">Non-overlapping Intervals</a></li>
+                    <li><a href="https://leetcode.com/problems/meeting-rooms/" target="_blank">Meeting Rooms</a></li>
+                    <li><a href="https://leetcode.com/problems/meeting-rooms-ii/" target="_blank">Meeting Rooms II</a></li>
+                </ul>
+            </div>
+
+            <div class="pb-cat">
+                <h3>DYNAMIC PROGRAMMING</h3>
+                <ul class="pb-list">
+                    <li><a href="https://leetcode.com/problems/climbing-stairs/" target="_blank">Climbing Stairs</a></li>
+                    <li><a href="https://leetcode.com/problems/coin-change/" target="_blank">Coin Change</a></li>
+                    <li><a href="https://leetcode.com/problems/longest-increasing-subsequence/" target="_blank">Longest Increasing Subsequence</a></li>
+                    <li><a href="https://leetcode.com/problems/longest-common-subsequence/" target="_blank">Longest Common Subsequence</a></li>
+                    <li><a href="https://leetcode.com/problems/word-break/" target="_blank">Word Break</a></li>
+                    <li><a href="https://leetcode.com/problems/combination-sum-iv/" target="_blank">Combination Sum IV</a></li>
+                    <li><a href="https://leetcode.com/problems/house-robber/" target="_blank">House Robber</a></li>
+                    <li><a href="https://leetcode.com/problems/house-robber-ii/" target="_blank">House Robber II</a></li>
+                    <li><a href="https://leetcode.com/problems/decode-ways/" target="_blank">Decode Ways</a></li>
+                    <li><a href="https://leetcode.com/problems/unique-paths/" target="_blank">Unique Paths</a></li>
+                    <li><a href="https://leetcode.com/problems/jump-game/" target="_blank">Jump Game</a></li>
+                </ul>
+            </div>
+
+            <div class="pb-cat">
+                <h3>GRAPH</h3>
+                <ul class="pb-list">
+                    <li><a href="https://leetcode.com/problems/clone-graph/" target="_blank">Clone Graph</a></li>
+                    <li><a href="https://leetcode.com/problems/course-schedule/" target="_blank">Course Schedule</a></li>
+                    <li><a href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank">Pacific Atlantic Water Flow</a></li>
+                    <li><a href="https://leetcode.com/problems/number-of-islands/" target="_blank">Number of Islands</a></li>
+                    <li><a href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank">Longest Consecutive Sequence</a></li>
+                    <li><a href="https://leetcode.com/problems/alien-dictionary/" target="_blank">Alien Dictionary</a></li>
+                    <li><a href="https://leetcode.com/problems/graph-valid-tree/" target="_blank">Graph Valid Tree</a></li>
+                    <li><a href="https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/" target="_blank">Connected Components Count</a></li>
+                </ul>
+            </div>
+
+            <div class="pb-cat">
+                <h3>LINKED LIST</h3>
+                <ul class="pb-list">
+                    <li><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank">Reverse a Linked List</a></li>
+                    <li><a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank">Detect Cycle in Linked List</a></li>
+                    <li><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank">Merge Two Sorted Lists</a></li>
+                    <li><a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank">Merge K Sorted Lists</a></li>
+                    <li><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank">Remove Nth Node From End</a></li>
+                    <li><a href="https://leetcode.com/problems/reorder-list/" target="_blank">Reorder List</a></li>
+                </ul>
+
+                <h3 style="margin-top:20px;">MATRIX</h3>
+                <ul class="pb-list">
+                    <li><a href="https://leetcode.com/problems/set-matrix-zeroes/" target="_blank">Set Matrix Zeroes</a></li>
+                    <li><a href="https://leetcode.com/problems/spiral-matrix/" target="_blank">Spiral Matrix</a></li>
+                    <li><a href="https://leetcode.com/problems/rotate-image/" target="_blank">Rotate Image</a></li>
+                    <li><a href="https://leetcode.com/problems/word-search/" target="_blank">Word Search</a></li>
+                </ul>
+            </div>
+
+            <div class="pb-cat">
+                <h3>STRING</h3>
+                <ul class="pb-list">
+                    <li><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank">Longest Substring w/o Repeats</a></li>
+                    <li><a href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank">Longest Repeating Char Replacement</a></li>
+                    <li><a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank">Minimum Window Substring</a></li>
+                    <li><a href="https://leetcode.com/problems/valid-anagram/" target="_blank">Valid Anagram</a></li>
+                    <li><a href="https://leetcode.com/problems/group-anagrams/" target="_blank">Group Anagrams</a></li>
+                    <li><a href="https://leetcode.com/problems/valid-parentheses/" target="_blank">Valid Parentheses</a></li>
+                    <li><a href="https://leetcode.com/problems/valid-palindrome/" target="_blank">Valid Palindrome</a></li>
+                    <li><a href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank">Longest Palindromic Substring</a></li>
+                    <li><a href="https://leetcode.com/problems/palindromic-substrings/" target="_blank">Palindromic Substrings</a></li>
+                    <li><a href="https://leetcode.com/problems/encode-and-decode-strings/" target="_blank">Encode and Decode Strings</a></li>
+                </ul>
+            </div>
+
+            <div class="pb-cat">
+                <h3>TREE</h3>
+                <ul class="pb-list">
+                    <li><a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank">Maximum Depth of Binary Tree</a></li>
+                    <li><a href="https://leetcode.com/problems/same-tree/" target="_blank">Same Tree</a></li>
+                    <li><a href="https://leetcode.com/problems/invert-binary-tree/" target="_blank">Invert Binary Tree</a></li>
+                    <li><a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank">Binary Tree Max Path Sum</a></li>
+                    <li><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank">Level Order Traversal</a></li>
+                    <li><a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank">Serialize/Deserialize Tree</a></li>
+                    <li><a href="https://leetcode.com/problems/subtree-of-another-tree/" target="_blank">Subtree of Another Tree</a></li>
+                    <li><a href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/" target="_blank">Construct Tree from Pre/In-order</a></li>
+                    <li><a href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank">Validate BST</a></li>
+                    <li><a href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank">Kth Smallest Element in BST</a></li>
+                    <li><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank">Lowest Common Ancestor (BST)</a></li>
+                    <li><a href="https://leetcode.com/problems/implement-trie-prefix-tree/" target="_blank">Implement Trie</a></li>
+                    <li><a href="https://leetcode.com/problems/design-add-and-search-words-data-structure/" target="_blank">Add and Search Word</a></li>
+                    <li><a href="https://leetcode.com/problems/word-search-ii/" target="_blank">Word Search II</a></li>
+                </ul>
+            </div>
+
+            <div class="pb-cat">
+                <h3>HEAP</h3>
+                <ul class="pb-list">
+                    <li><a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank">Top K Frequent Elements</a></li>
+                    <li><a href="https://leetcode.com/problems/find-median-from-data-stream/" target="_blank">Find Median from Data Stream</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="pb-note">Running low on time? <a href="https://neetcode.io/practice?tab=blind75" target="_blank">NeetCode's Blind 75 tracker</a> lets you check off problems and watch a short solution video for each one. Once this list feels easy, move up to the <a href="https://neetcode.io/practice?tab=neetcode150" target="_blank">NeetCode 150</a> for broader coverage.</p>
+    </section>
+
+    <section class="timeline">
+
+        <!-- MONTH 1 -->
+        <div class="month">
+            <div class="month-head">
+                <span class="month-num">01</span>
+                <span class="month-title">Complexity, Arrays &amp; Strings</span>
+            </div>
+            <p class="month-sub">The month where you stop guessing whether your code is O(n) or O(n²) — and Android code is full of both.</p>
+            <div class="month-body">
+                <ul class="topics-list">
+                    <li>Big-O, time vs. space trade-offs</li>
+                    <li>Arrays: two pointers, sliding window, prefix sums</li>
+                    <li>Strings: pattern matching, anagrams, palindromes</li>
+                    <li>Basic recursion — factorial, Fibonacci, backtracking intro</li>
+                    <li>Math: GCD/LCM, primes, bit manipulation basics</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0kswaMOJc_rB6zGtSFvj1RJ" target="_blank">Striver's A2Z DSA Course — playlist</a></div>
+                        <div class="r-note">takeUforward · start from Step 1, do arrays + basic math here.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/watch?v=BgLTDT03QtU" target="_blank">Big-O Notation explained</a></div>
+                        <div class="r-note">NeetCode · 20 min, no fluff.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">✎ ARTICLE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/dsa/analysis-algorithms-big-o-analysis/" target="_blank">Analysis of Algorithms — GeeksforGeeks</a></div>
+                        <div class="r-note">Reference this whenever a Big-O question feels fuzzy.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="android-note"><strong>Android link:</strong> RecyclerView diffing (DiffUtil) is a string/array comparison problem in disguise — revisit it after this month and it'll click differently.</div>
+        </div>
+
+        <!-- MONTH 2 -->
+        <div class="month">
+            <div class="month-head">
+                <span class="month-num m2">02</span>
+                <span class="month-title">Linked Lists, Stacks &amp; Queues</span>
+            </div>
+            <p class="month-sub">Linear structures — the ones closest to what you already touch in Kotlin collections and coroutine channels.</p>
+            <div class="month-body">
+                <ul class="topics-list">
+                    <li>Singly / doubly linked lists, fast-slow pointers</li>
+                    <li>Stack: valid parentheses, monotonic stack</li>
+                    <li>Queue &amp; deque, circular queue</li>
+                    <li>Implementing an LRU cache from scratch</li>
+                    <li>Sorting: merge sort, quick sort, when each wins</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9" target="_blank">Striver's Linked List playlist</a></div>
+                        <div class="r-note">takeUforward.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/watch?v=WwtvGdTfEnE" target="_blank">Sorting Algorithms explained</a></div>
+                        <div class="r-note">Abdul Bari · the clearest visual walkthrough of merge/quick/heap sort out there.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">✎ ARTICLE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/dsa/implementing-a-linked-list-in-java-using-class/" target="_blank">Implementing a Linked List in Java — GeeksforGeeks</a></div>
+                        <div class="r-note">Maps almost 1:1 to Kotlin syntax.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="android-note"><strong>Android link:</strong> LruCache is literally in the Android SDK (android.util.LruCache) — build your own version this month, then read the SDK source and compare.</div>
+        </div>
+
+        <!-- MONTH 3 -->
+        <div class="month">
+            <div class="month-head">
+                <span class="month-num m3">03</span>
+                <span class="month-title">Trees, BSTs &amp; Recursion Depth</span>
+            </div>
+            <p class="month-sub">This is where Compose's UI tree, the View hierarchy, and JSON parsing all turn out to be the same shape.</p>
+            <div class="month-body">
+                <ul class="topics-list">
+                    <li>Binary trees: traversals (in/pre/post/level order)</li>
+                    <li>Binary Search Trees: insert, delete, validate</li>
+                    <li>Height, diameter, LCA, balanced tree checks</li>
+                    <li>Backtracking: subsets, permutations, N-Queens</li>
+                    <li>Heaps &amp; priority queues — intro</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0q8Hkd7bK2Bpryj2xVJk8Vk" target="_blank">Striver's Tree series</a></div>
+                        <div class="r-note">takeUforward.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PLU_1XtJEjPqjIQAyDb-4EOgxujMhCG9SS" target="_blank">Backtracking playlist</a></div>
+                        <div class="r-note">Aditya Verma · builds the recursion tree on the whiteboard for every problem.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">✎ ARTICLE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/dsa/binary-tree-data-structure/" target="_blank">Binary Tree Data Structure — GeeksforGeeks</a></div>
+                        <div class="r-note">Good for skimming traversal code before writing your own.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="android-note"><strong>Android link:</strong> findViewById traverses a tree; the Compose recomposition pass walks one too. Draw both as trees on paper this month — the DSA and the framework stop feeling separate.</div>
+        </div>
+
+        <!-- MONTH 4 -->
+        <div class="month">
+            <div class="month-head">
+                <span class="month-num">04</span>
+                <span class="month-title">Graphs, Tries &amp; Heaps</span>
+            </div>
+            <p class="month-sub">Denser structures — where most people's momentum drops. Budget slightly more time here than the other months.</p>
+            <div class="month-body">
+                <ul class="topics-list">
+                    <li>Graph representations, BFS &amp; DFS</li>
+                    <li>Topological sort, cycle detection</li>
+                    <li>Shortest paths: Dijkstra, Bellman-Ford (conceptual depth over memorizing)</li>
+                    <li>Union-Find / Disjoint Set</li>
+                    <li>Tries — prefix search, autocomplete</li>
+                    <li>Heaps: k-way merge, top-k problems</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn" target="_blank">Striver's Graph series</a></div>
+                        <div class="r-note">takeUforward.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/watch?v=oSWTXtMglKE" target="_blank">Graph Algorithms for Technical Interviews — full course</a></div>
+                        <div class="r-note">freeCodeCamp · good single-session refresher once you've done the playlist above.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">✎ ARTICLE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/dsa/trie-insert-and-search/" target="_blank">Trie — Insert and Search — GeeksforGeeks</a></div>
+                        <div class="r-note">Short, code-first.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="android-note"><strong>Android link:</strong> Gradle's dependency resolution is a topological sort over a graph with cycle detection — the errors you've seen for "circular dependency" are this algorithm failing loudly.</div>
+        </div>
+
+        <!-- MONTH 5 -->
+        <div class="month">
+            <div class="month-head">
+                <span class="month-num m2">05</span>
+                <span class="month-title">Dynamic Programming &amp; Greedy</span>
+            </div>
+            <p class="month-sub">The month people fear most, mostly because they skip straight to hard problems. Don't — build the pattern recognition slowly.</p>
+            <div class="month-body">
+                <ul class="topics-list">
+                    <li>1D DP: climbing stairs, house robber, coin change</li>
+                    <li>2D DP: knapsack, LCS, edit distance, grid paths</li>
+                    <li>DP on subsequences and partitions</li>
+                    <li>Greedy: interval scheduling, activity selection</li>
+                    <li>Recognizing "is this DP or greedy?" in an interview</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0oJ_QVi5wcuFgQm86w9WWXf" target="_blank">Striver's DP series</a></div>
+                        <div class="r-note">takeUforward · follows the "5 patterns" mental model.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/playlist?list=PL_z_8CaSLPWekqhdCPmFohncHwz8TY2Go" target="_blank">Dynamic Programming playlist</a></div>
+                        <div class="r-note">Aditya Verma · builds every solution up from brute-force recursion, which is the part most courses skip.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">✎ ARTICLE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/dsa/dynamic-programming/" target="_blank">Dynamic Programming — GeeksforGeeks</a></div>
+                        <div class="r-note">Use as an index of sub-topics, not a first read.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="android-note"><strong>Android link:</strong> ViewModel state restoration and memoized Compose calculations (remember / derivedStateOf) borrow the exact "don't recompute what you've already computed" idea DP is built on.</div>
+        </div>
+
+        <!-- MONTH 6 -->
+        <div class="month">
+            <div class="month-head">
+                <span class="month-num m3">06</span>
+                <span class="month-title">Revision, Mock Interviews &amp; Android-Flavored DSA</span>
+            </div>
+            <p class="month-sub">No new topics. This month is entirely about speed, retention, and talking through your solutions out loud.</p>
+            <div class="month-body">
+                <ul class="topics-list">
+                    <li>Re-solve every "starred" problem from months 1–5 cold, no notes</li>
+                    <li>Timed mock interviews, 2–3 per week</li>
+                    <li>Android-specific DSA questions: RecyclerView view recycling, image loading cache eviction, offline-sync conflict resolution</li>
+                    <li>Explaining trade-offs out loud, not just producing working code</li>
+                    <li>Light system design — since Android interviews often blend the two</li>
+                </ul>
+                <div class="res-block">
+                    <div class="res-label">▶ VIDEO</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/watch?v=0YZzXfZBezM" target="_blank">Mock Google Technical Interview</a></div>
+                        <div class="r-note">Exponent · watch how the candidate narrates their thought process.</div>
+                    </div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.youtube.com/c/NeetCode/playlists" target="_blank">NeetCode — all playlists</a></div>
+                        <div class="r-note">Use for rapid-fire revision of anything still shaky.</div>
+                    </div>
+                    <div class="divider-mini"></div>
+                    <div class="res-label">✎ ARTICLE</div>
+                    <div class="res-item">
+                        <div class="r-title"><a href="https://www.geeksforgeeks.org/interview-experiences/" target="_blank">Company-wise Interview Experiences — GeeksforGeeks</a></div>
+                        <div class="r-note">Search "Android" or specific companies to see what actually got asked.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="android-note"><strong>Android link:</strong> Practice explaining one real decision from your own codebase — like why you picked a SparseArray over a HashMap somewhere — the way you'd explain a DSA answer. Interviewers notice that fluency.</div>
+        </div>
+
+    </section>
+
+    <section class="cadence">
+        <h2>A weekday you can actually repeat</h2>
+        <div class="cadence-grid">
+            <div class="cadence-card">
+                <div class="big">20 min</div>
+                <div class="lab">Watch or read the concept for the day — don't skip this even when you're eager to jump into code.</div>
+            </div>
+            <div class="cadence-card">
+                <div class="big">40–60 min</div>
+                <div class="lab">Solve 1–2 problems on that concept. Struggle for real before checking a solution.</div>
+            </div>
+            <div class="cadence-card">
+                <div class="big">10 min</div>
+                <div class="lab">Write a two-line note on the pattern you used — this is what makes month 6 revision fast instead of painful.</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Skip a day — skip one, not the week. The plan bends; it doesn't break from a missed Tuesday.</p>
+        <div class="sign">// six months, one commit a day</div>
+    </footer>
+
+</div>
+
+</body>
+</html>
