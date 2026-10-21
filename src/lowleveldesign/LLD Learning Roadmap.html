@@ -1,0 +1,150 @@
+<title>LLD Learning Roadmap</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+    /* Layout: single readable column, stepped roadmap with tables and checklist; blueprint-ink palette */
+    :root{
+      --bg:#f5f7fa; --surface:#ffffff; --fg:#14202e; --muted:#5a6b7d; --line:#d8e0e8;
+      --accent:#1f5fbf; --accent-soft:#e3edfb; --code-bg:#eef2f7;
+      --display:'Fraunces',Georgia,serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',Consolas,monospace;
+    }
+    @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+      --bg:#0f1720; --surface:#16212e; --fg:#e4ebf3; --muted:#93a4b6; --line:#27384a;
+      --accent:#6fa3f0; --accent-soft:#1b2d46; --code-bg:#1a2736; color-scheme:dark}}
+    :root[data-theme="dark"]{
+      --bg:#0f1720; --surface:#16212e; --fg:#e4ebf3; --muted:#93a4b6; --line:#27384a;
+      --accent:#6fa3f0; --accent-soft:#1b2d46; --code-bg:#1a2736; color-scheme:dark}
+    body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;
+      padding-block:32px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+    .wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+    h1,h2{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0;line-height:1.2}
+    h1{font-size:clamp(2rem,6vw,2.8rem)}
+    h2{font-size:1.5rem;margin-bottom:12px}
+    h3{font-size:1rem;margin:0 0 4px}
+    p{margin:0 0 8px}
+    .lead{color:var(--muted);font-size:1.1rem;max-width:62ch}
+    .tag{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+    section{min-width:0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;min-width:0}
+    .card p{color:var(--muted);margin:0;font-size:.95rem}
+    .steps{display:flex;flex-direction:column;gap:10px;padding:0;margin:0;list-style:none;counter-reset:s}
+    .steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 16px 12px 52px;position:relative}
+    .steps li::before{content:counter(s);position:absolute;left:14px;top:12px;width:26px;height:26px;border-radius:50%;
+      background:var(--accent-soft);color:var(--accent);font-family:var(--mono);font-weight:500;display:grid;place-items:center;font-size:.85rem}
+    .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+    table{border-collapse:collapse;width:100%;min-width:520px;font-size:.95rem}
+    th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+    th{font-family:var(--mono);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+    tr:last-child td{border-bottom:0}
+    a{color:var(--accent)}
+    pre{background:var(--code-bg);border:1px solid var(--line);border-radius:6px;padding:14px;overflow-x:auto;font-family:var(--mono);font-size:.85rem;margin:0;line-height:1.5}
+    code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:3px}
+    .week{display:grid;grid-template-columns:90px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+    .week:last-child{border-bottom:0}
+    .week b{font-family:var(--mono);color:var(--accent);font-weight:500}
+    .check{display:flex;flex-direction:column;gap:6px}
+    .check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+    .check input{margin-top:5px;accent-color:var(--accent);width:16px;height:16px}
+    .check input:checked+span{text-decoration:line-through;color:var(--muted)}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    @media(max-width:480px){.week{grid-template-columns:1fr;gap:2px}}
+</style>
+
+<div class="wrap">
+    <header>
+        <div class="tag">Java · IntelliJ IDEA · Beginner</div>
+        <h1>Learn Low Level Design, theory first, then code</h1>
+        <p class="lead">A four-week plan: study OOP, SOLID and five core patterns, then build small projects in IntelliJ, starting with a Parking Lot.</p>
+    </header>
+
+    <section>
+        <h2>Step 1: Learn the theory</h2>
+        <div class="grid">
+            <div class="card"><h3>OOP basics</h3><p>Encapsulation, abstraction, inheritance, polymorphism, interface vs abstract class.</p></div>
+            <div class="card"><h3>SOLID principles</h3><p>The most important part of LLD. Learn each one with a small Java example.</p></div>
+            <div class="card"><h3>Basic UML</h3><p>Class diagrams only: association, composition, inheritance.</p></div>
+            <div class="card"><h3>5 core patterns</h3><p>Strategy, Factory, Singleton, Observer, Builder. Skip the rest for now.</p></div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Good learning sites</h2>
+        <div class="scroll"><table>
+            <tr><th>Resource</th><th>Best for</th></tr>
+            <tr><td><a href="https://www.youtube.com/watch?v=GCTEVZjxznc&list=PLAC2AM9O1C5KioUMeH9qIjbAV_RMmX8rd" target="_blank" rel="noopener">LINK</a></td><td>DOC</td></tr>
+            <tr><td><a href="https://www.cs.unibo.it/~cianca/wwwpages/ids/esempi/coffee.pdf" target="_blank" rel="noopener">LINK</a></td><td>DOC</td></tr>
+            <tr><td><a href="https://docs.google.com/document/d/17Chm2AvygUsf80mGm_6PrrETZAd3bKr9sQelOE1z9gY/edit?tab=t.0" target="_blank" rel="noopener">LINK</a></td><td>DOC</td></tr>
+            <tr><td><a href="https://refactoring.guru/design-patterns" target="_blank" rel="noopener">Refactoring.Guru</a></td><td>Clear design-pattern explanations with code examples</td></tr>
+            <tr><td><a href="https://www.geeksforgeeks.org/system-design/low-level-design-or-lld-tutorial/" target="_blank" rel="noopener">GeeksforGeeks: Low Level Design</a></td><td>Free SOLID principles, patterns, and classic problems</td></tr>
+            <tr><td><a href="https://github.com/ashishps1/awesome-low-level-design" target="_blank" rel="noopener">Awesome-LLD (GitHub)</a></td><td>Collection of LLD problems with code</td></tr>
+            <tr><td><a href="https://www.youtube.com/results?search_query=Concept+and+Coding+Shrayansh+Jain+LLD+playlist" target="_blank" rel="noopener">Concept &amp; Coding (YouTube)</a></td><td>LLD problems in Java, step by step</td></tr>
+            <tr><td><a href="https://www.youtube.com/watch?v=sOfUKkGLl_s" target="_blank" rel="noopener">designKarle (YouTube)</a></td><td>LLD fundamentals, UML, SOLID, and design patterns</td></tr>
+            <tr><td><a href="https://www.youtube.com/results?search_query=sudoCODE+low+level+design+machine+coding" target="_blank" rel="noopener">sudoCODE (YouTube)</a></td><td>Practical LLD and machine-coding interview problems</td></tr>
+            <tr><td><a href="https://www.youtube.com/results?search_query=Coding+Decoded+design+patterns+Java" target="_blank" rel="noopener">Coding Decoded (YouTube)</a></td><td>Design-pattern explanations and Java examples</td></tr>
+            <tr><td><a href="https://www.youtube.com/results?search_query=Coding+Minutes+low+level+design+playlist" target="_blank" rel="noopener">Coding Minutes (YouTube)</a></td><td>LLD learning resources for beginners</td></tr>
+            <tr><td><a href="https://www.youtube.com/results?search_query=Christopher+Okhravi+design+patterns" target="_blank" rel="noopener">Christopher Okhravi (YouTube)</a></td><td>In-depth design-pattern walkthroughs</td></tr>
+            <tr><td>Head First Design Patterns (book)</td><td>Beginner-friendly introduction to design patterns</td></tr>
+        </table></div>
+    </section>
+
+    <section>
+        <h2>Step 2: How to approach any LLD problem</h2>
+        <ol class="steps">
+            <li><h3>Requirements</h3><p>Write what the system must do, and what it will not do.</p></li>
+            <li><h3>Entities</h3><p>Pick the nouns. They become classes.</p></li>
+            <li><h3>Behaviors</h3><p>Pick the verbs. They become methods.</p></li>
+            <li><h3>Relationships</h3><p>Decide how classes connect and draw a simple class diagram.</p></li>
+            <li><h3>Patterns</h3><p>Apply a pattern only where it solves a real problem.</p></li>
+            <li><h3>Code and test</h3><p>Implement it and check behavior from a <code>main()</code> method.</p></li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>Step 3: Projects to build, in order</h2>
+        <div class="scroll"><table>
+            <tr><th>Project</th><th>What you practice</th></tr>
+            <tr><td>Parking Lot</td><td>Enums, inheritance, Strategy for pricing, Factory for vehicles</td></tr>
+            <tr><td>Library Management</td><td>Relationships between classes, basic CRUD logic</td></tr>
+            <tr><td>Vending Machine</td><td>State pattern</td></tr>
+            <tr><td>Tic-Tac-Toe</td><td>Clean separation of classes</td></tr>
+            <tr><td>Elevator or BookMyShow</td><td>Harder designs, once the first four feel easy</td></tr>
+        </table></div>
+    </section>
+
+    <section>
+        <h2>Step 4: IntelliJ setup</h2>
+        <div class="check" id="setup">
+            <label><input type="checkbox"><span>Create a new Java project (Maven or no build tool)</span></label>
+            <label><input type="checkbox"><span>Make packages: <code>model</code>, <code>service</code>, <code>strategy</code>, <code>factory</code>, plus <code>Main</code></span></label>
+            <label><input type="checkbox"><span>Generate a UML diagram with <code>Ctrl+Alt+Shift+U</code> and compare it to your design</span></label>
+            <label><input type="checkbox"><span>Test behavior with JUnit tests or a <code>Main</code> driver</span></label>
+        </div>
+        <p style="margin-top:14px">Starter layout for Parking Lot:</p>
+        <pre>src/
+  model/     Vehicle, Car, Bike, ParkingSpot, Ticket
+  strategy/  PricingStrategy, HourlyPricing
+  factory/   VehicleFactory
+  service/   ParkingLot
+  Main.java</pre>
+    </section>
+
+    <section>
+        <h2>Four-week plan</h2>
+        <div class="card">
+            <div class="week"><b>Week 1</b><span>OOP, SOLID and the 5 patterns. Read the Refactoring.Guru pages.</span></div>
+            <div class="week"><b>Week 2</b><span>Parking Lot. Design it on paper first, then code it.</span></div>
+            <div class="week"><b>Week 3</b><span>Library System and Vending Machine.</span></div>
+            <div class="week"><b>Week 4</b><span>Redo one problem from scratch without looking at a solution.</span></div>
+        </div>
+    </section>
+</div>
+<script>
+    (function(){
+      var boxes=document.querySelectorAll('#setup input'),k='lld-setup';
+      try{var s=JSON.parse(localStorage.getItem(k)||'[]');boxes.forEach(function(b,i){b.checked=!!s[i]})}catch(e){}
+      boxes.forEach(function(b){b.addEventListener('change',function(){
+        try{localStorage.setItem(k,JSON.stringify(Array.prototype.map.call(boxes,function(x){return x.checked})))}catch(e){}
+      })});
+    })();
+</script>
