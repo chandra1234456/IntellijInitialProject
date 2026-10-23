@@ -42,6 +42,10 @@
           --orange-light: #fff0e6;
           --orange-mid: #e07020;
           --orange-dark: #5c2900;
+
+          --indigo-light: #e8eaf9;
+          --indigo-mid: #3f51b5;
+          --indigo-dark: #1a237e;
         }
 
         body {
@@ -131,6 +135,7 @@
         .sec-tomorrow .level-dot   { background: var(--red-mid); }
         .sec-entry    .level-dot   { background: #a855f7; }
         .sec-mid      .level-dot   { background: var(--orange-mid); }
+        .sec-senior   .level-dot   { background: var(--indigo-mid); }
 
         .section-title { font-size: 15px; font-weight: 600; flex: 1; }
         .section-meta  { font-size: 12px; color: var(--text-muted); }
@@ -191,6 +196,7 @@
         .must { border-color: #fac775; background: var(--amber-light); color: var(--amber-dark); }
         .crit { border-color: #f5a5a3; background: var(--red-light); color: var(--red-dark); }
         .blue { border-color: #a3c8f5; background: var(--blue-light); color: var(--blue-dark); }
+        .senior { border-color: #b3baf0; background: var(--indigo-light); color: var(--indigo-dark); }
         .muted-card { color: var(--text-muted); }
 
         .tag {
@@ -205,6 +211,7 @@
         .tag-must     { background: var(--amber-mid);  color: #fff; }
         .tag-tonight  { background: var(--red-mid);    color: #fff; }
         .tag-java8    { background: var(--purple-mid); color: #fff; }
+        .tag-senior   { background: var(--indigo-mid); color: #fff; }
 
         .divider { height: 1px; background: var(--border); margin: 16px 0 0; }
 
@@ -231,14 +238,14 @@
 
     <div class="page-header">
         <h1>Java Developer – Coding Problems Roadmap</h1>
-        <p>Full topic bank · Top 25 for 3.5-year interviews · Must-do if interview is tomorrow</p>
+        <p>Full topic bank · Top 25 for 3.5-year interviews · Must-do if interview is tomorrow · 4.5+ years senior bank</p>
     </div>
 
     <div class="stats-row">
-        <div class="stat-card"><div class="num">70+</div><div class="lbl">Total problems</div></div>
+        <div class="stat-card"><div class="num">100+</div><div class="lbl">Total problems</div></div>
         <div class="stat-card"><div class="num">25</div><div class="lbl">Top interview Qs</div></div>
         <div class="stat-card"><div class="num">18</div><div class="lbl">Practice tonight</div></div>
-        <div class="stat-card"><div class="num">6</div><div class="lbl">Topic categories</div></div>
+        <div class="stat-card"><div class="num">9</div><div class="lbl">Topic categories</div></div>
     </div>
 
     <div class="filters">
@@ -248,11 +255,10 @@
         <button class="pill" onclick="filter('tomorrow',this)">🔥 Interview tomorrow</button>
         <button class="pill" onclick="filter('entry',this)">Entry level</button>
         <button class="pill" onclick="filter('mid',this)">Mid level</button>
+        <button class="pill" onclick="filter('senior',this)">🚀 4.5+ years</button>
     </div>
 
-    <!-- ══════════════════════════════════════
-         SECTION 1 – FULL JAVA TOPIC BANK
-    ══════════════════════════════════════ -->
+    <!-- SECTION 1 – FULL JAVA TOPIC BANK -->
     <div class="section sec-java-full" data-level="java-full">
         <div class="section-header" onclick="toggle(this)">
             <div class="level-dot"></div>
@@ -262,7 +268,6 @@
         </div>
         <div class="section-body open">
 
-            <!-- Strings -->
             <div class="category">
                 <div class="cat-label"><span class="cat-icon">🔤</span> Strings</div>
                 <div class="problems">
@@ -281,7 +286,6 @@
                 </div>
             </div>
 
-            <!-- Arrays -->
             <div class="category">
                 <div class="cat-label"><span class="cat-icon">📦</span> Arrays</div>
                 <div class="problems">
@@ -301,7 +305,6 @@
                 </div>
             </div>
 
-            <!-- Collections / List -->
             <div class="category">
                 <div class="cat-label"><span class="cat-icon">📋</span> Collections / List</div>
                 <div class="problems">
@@ -312,7 +315,6 @@
                 </div>
             </div>
 
-            <!-- HashMap -->
             <div class="category">
                 <div class="cat-label"><span class="cat-icon">🗺️</span> HashMap</div>
                 <div class="problems">
@@ -323,7 +325,6 @@
                 </div>
             </div>
 
-            <!-- Numbers -->
             <div class="category">
                 <div class="cat-label"><span class="cat-icon">🔢</span> Numbers</div>
                 <div class="problems">
@@ -335,7 +336,6 @@
                 </div>
             </div>
 
-            <!-- Java 8 Stream API -->
             <div class="category">
                 <div class="cat-label"><span class="cat-icon">☕</span> Java 8 Stream API</div>
                 <div class="problems">
@@ -350,9 +350,7 @@
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         SECTION 2 – TOP 25 (3.5 YR JAVA DEV)
-    ══════════════════════════════════════ -->
+    <!-- SECTION 2 – TOP 25 -->
     <div class="section sec-top25" data-level="top25">
         <div class="section-header" onclick="toggle(this)">
             <div class="level-dot"></div>
@@ -420,9 +418,7 @@
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         SECTION 3 – INTERVIEW TOMORROW
-    ══════════════════════════════════════ -->
+    <!-- SECTION 3 – INTERVIEW TOMORROW -->
     <div class="section sec-tomorrow" data-level="tomorrow">
         <div class="section-header" onclick="toggle(this)">
             <div class="level-dot"></div>
@@ -483,9 +479,7 @@
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         SECTION 4 – ENTRY LEVEL
-    ══════════════════════════════════════ -->
+    <!-- SECTION 4 – ENTRY LEVEL -->
     <div class="section sec-entry" data-level="entry">
         <div class="section-header" onclick="toggle(this)">
             <div class="level-dot"></div>
@@ -548,9 +542,7 @@
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════
-         SECTION 5 – MID LEVEL
-    ══════════════════════════════════════ -->
+    <!-- SECTION 5 – MID LEVEL -->
     <div class="section sec-mid" data-level="mid">
         <div class="section-header" onclick="toggle(this)">
             <div class="level-dot"></div>
@@ -638,6 +630,119 @@
                     <div class="problem-card muted-card">OS simulators</div>
                 </div>
             </div>
+
+        </div>
+    </div>
+
+    <!-- SECTION 6 – 4.5+ YEARS -->
+    <div class="section sec-senior" data-level="senior">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="level-dot"></div>
+            <span class="section-title">🚀 4.5+ Years Experience — Senior Java Developer</span>
+            <span class="section-meta">Coding programs only · streams, threads, custom collections, patterns, algorithms</span>
+            <div class="chevron open"></div>
+        </div>
+        <div class="section-body open">
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">☕</span> Advanced Java 8+ Streams</div>
+                <div class="problems">
+                    <div class="problem-card senior">Nth highest salary using streams <span class="tag tag-senior">senior</span></div>
+                    <div class="problem-card senior">Highest paid employee per department <span class="tag tag-senior">senior</span></div>
+                    <div class="problem-card senior">Partition employees by salary (partitioningBy)</div>
+                    <div class="problem-card senior">Flatten nested lists (flatMap)</div>
+                    <div class="problem-card senior">Word frequency with streams, sorted by count</div>
+                    <div class="problem-card senior">Custom Collector / toMap with merge function</div>
+                    <div class="problem-card senior">Average salary per department (averagingDouble)</div>
+                    <div class="problem-card senior">Optional chaining without null checks</div>
+                    <div class="problem-card senior">Group strings by first char / length</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🧵</span> Multithreading &amp; Concurrency</div>
+                <div class="problems">
+                    <div class="problem-card senior">Producer–Consumer (wait/notify) <span class="tag tag-senior">senior</span></div>
+                    <div class="problem-card senior">Producer–Consumer (BlockingQueue) <span class="tag tag-senior">senior</span></div>
+                    <div class="problem-card senior">Print odd/even using two threads <span class="tag tag-senior">senior</span></div>
+                    <div class="problem-card senior">Print 1..N with 3 threads in sequence</div>
+                    <div class="problem-card senior">Thread-safe Singleton (double-checked locking)</div>
+                    <div class="problem-card senior">ExecutorService with Callable &amp; Future</div>
+                    <div class="problem-card senior">CompletableFuture chaining &amp; combining</div>
+                    <div class="problem-card senior">CountDownLatch / CyclicBarrier / Semaphore</div>
+                    <div class="problem-card senior">Thread-safe counter (synchronized vs AtomicInteger)</div>
+                    <div class="problem-card senior">Custom thread pool</div>
+                    <div class="problem-card senior">Dining philosophers</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">⚙️</span> Collections Internals &amp; Custom Implementations</div>
+                <div class="problems">
+                    <div class="problem-card senior">Implement your own HashMap <span class="tag tag-senior">senior</span></div>
+                    <div class="problem-card senior">LRU Cache (LinkedHashMap &amp; custom) <span class="tag tag-senior">senior</span></div>
+                    <div class="problem-card senior">Custom ArrayList / LinkedList</div>
+                    <div class="problem-card senior">Custom immutable class</div>
+                    <div class="problem-card senior">equals() &amp; hashCode() contract</div>
+                    <div class="problem-card senior">Comparable vs Comparator (multi-field sort)</div>
+                    <div class="problem-card senior">Thread-safe bounded blocking queue</div>
+                    <div class="problem-card senior">Iterator over custom collection</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🎨</span> Design Patterns in Code</div>
+                <div class="problems">
+                    <div class="problem-card senior">Singleton (all variants, enum, reflection-safe)</div>
+                    <div class="problem-card senior">Factory &amp; Abstract Factory</div>
+                    <div class="problem-card senior">Builder pattern</div>
+                    <div class="problem-card senior">Strategy pattern</div>
+                    <div class="problem-card senior">Observer pattern</div>
+                    <div class="problem-card senior">Decorator pattern</div>
+                    <div class="problem-card senior">Proxy / Adapter</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🧮</span> Advanced Algorithms</div>
+                <div class="problems">
+                    <div class="problem-card senior">3Sum / 4Sum</div>
+                    <div class="problem-card senior">Trapping rain water</div>
+                    <div class="problem-card senior">Longest palindromic substring</div>
+                    <div class="problem-card senior">Longest increasing subsequence</div>
+                    <div class="problem-card senior">Word break / Edit distance</div>
+                    <div class="problem-card senior">Search in rotated sorted array</div>
+                    <div class="problem-card senior">Find first &amp; last position (binary search)</div>
+                    <div class="problem-card senior">Group anagrams (optimized)</div>
+                    <div class="problem-card senior">Subarray sum equals K</div>
+                    <div class="problem-card senior">Merge K sorted lists (PriorityQueue)</div>
+                    <div class="problem-card senior">Number of islands (BFS/DFS)</div>
+                    <div class="problem-card senior">Course schedule (topological sort)</div>
+                    <div class="problem-card senior">Serialize / deserialize binary tree</div>
+                    <div class="problem-card senior">Quick sort / Merge sort</div>
+                    <div class="problem-card senior">Generate all permutations / subsets (backtracking)</div>
+                    <div class="problem-card senior">N-Queens</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🛠️</span> Real-World Coding Tasks</div>
+                <div class="problems">
+                    <div class="problem-card senior">Rate limiter (token bucket / sliding window) <span class="tag tag-senior">senior</span></div>
+                    <div class="problem-card senior">Custom exception handling &amp; global handler</div>
+                    <div class="problem-card senior">Retry mechanism with backoff</div>
+                    <div class="problem-card senior">In-memory cache with TTL expiry</div>
+                    <div class="problem-card senior">Pagination &amp; sorting logic</div>
+                    <div class="problem-card senior">Parse CSV / JSON without library</div>
+                    <div class="problem-card senior">Bank account transfer (thread-safe)</div>
+                    <div class="problem-card senior">Parking lot / Library management (LLD)</div>
+                    <div class="problem-card senior">Custom annotation + reflection</div>
+                    <div class="problem-card senior">Custom ClassLoader / serialization (transient, serialVersionUID)</div>
+                </div>
+            </div>
+
+
+
 
         </div>
     </div>

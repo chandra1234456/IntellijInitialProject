@@ -11,6 +11,18 @@ fun main(){
     findTwoSum(listOf(2,11,15,7),9)
     findTwoSum(listOf(3,2,4),6)
     findTwoSum(listOf(3,3),6)
+    findCountVowelsConsonants("aeiourxc")
+
+}
+fun findCountVowelsConsonants(input :String){
+    val vowels = listOf('a','e','i','o','u')
+    var countVowels = 0
+    for(i in input){
+        if (vowels.contains(i)){
+            countVowels++
+        }
+    }
+    println(input.length-countVowels)
 }
 
 fun findTwoSum(list : List<Int>,target :Int){
