@@ -197,6 +197,10 @@
         .crit { border-color: #f5a5a3; background: var(--red-light); color: var(--red-dark); }
         .blue { border-color: #a3c8f5; background: var(--blue-light); color: var(--blue-dark); }
         .senior { border-color: #b3baf0; background: var(--indigo-light); color: var(--indigo-dark); }
+        .kt { border-color: #f0a8cf; background: var(--pink-light); color: var(--pink-dark); }
+        .all { border-color: #f5c9a3; background: var(--orange-light); color: var(--orange-dark); }
+        .sec-kotlin .level-dot { background: var(--pink-mid); }
+        .sec-allkinds .level-dot { background: var(--orange-mid); }
         .muted-card { color: var(--text-muted); }
 
         .tag {
@@ -242,10 +246,10 @@
     </div>
 
     <div class="stats-row">
-        <div class="stat-card"><div class="num">100+</div><div class="lbl">Total problems</div></div>
+        <div class="stat-card"><div class="num">250+</div><div class="lbl">Total problems</div></div>
         <div class="stat-card"><div class="num">25</div><div class="lbl">Top interview Qs</div></div>
         <div class="stat-card"><div class="num">18</div><div class="lbl">Practice tonight</div></div>
-        <div class="stat-card"><div class="num">9</div><div class="lbl">Topic categories</div></div>
+        <div class="stat-card"><div class="num">30+</div><div class="lbl">Topic categories</div></div>
     </div>
 
     <div class="filters">
@@ -256,6 +260,8 @@
         <button class="pill" onclick="filter('entry',this)">Entry level</button>
         <button class="pill" onclick="filter('mid',this)">Mid level</button>
         <button class="pill" onclick="filter('senior',this)">🚀 4.5+ years</button>
+        <button class="pill" onclick="filter('kotlin',this)">🟣 Kotlin</button>
+        <button class="pill" onclick="filter('allkinds',this)">🧩 All problem types</button>
     </div>
 
     <!-- SECTION 1 – FULL JAVA TOPIC BANK -->
@@ -743,6 +749,368 @@
 
 
 
+
+        </div>
+    </div>
+
+    <!-- SECTION 7 – KOTLIN -->
+    <div class="section sec-kotlin" data-level="kotlin">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="level-dot"></div>
+            <span class="section-title">🟣 Kotlin — Collections &amp; Coding Programs</span>
+            <span class="section-meta">Kotlin collections API, null safety, coroutines, idiomatic solutions</span>
+            <div class="chevron open"></div>
+        </div>
+        <div class="section-body open">
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">📋</span> Kotlin Collections</div>
+                <div class="problems">
+                    <div class="problem-card kt">List vs MutableList (listOf / mutableListOf)</div>
+                    <div class="problem-card kt">Set, LinkedHashSet, sortedSetOf</div>
+                    <div class="problem-card kt">Map, mutableMapOf, getOrPut, getOrDefault</div>
+                    <div class="problem-card kt">Array vs List (arrayOf, IntArray)</div>
+                    <div class="problem-card kt">Remove duplicates (distinct, distinctBy, toSet)</div>
+                    <div class="problem-card kt">Find duplicates (groupBy + filter)</div>
+                    <div class="problem-card kt">Sort (sorted, sortedBy, sortedWith, compareBy)</div>
+                    <div class="problem-card kt">Sort objects by multiple fields (thenBy)</div>
+                    <div class="problem-card kt">Filter, map, flatMap, mapNotNull</div>
+                    <div class="problem-card kt">fold &amp; reduce (sum, product, max)</div>
+                    <div class="problem-card kt">groupBy &amp; groupingBy().eachCount()</div>
+                    <div class="problem-card kt">partition list into two (partition)</div>
+                    <div class="problem-card kt">zip, unzip, zipWithNext</div>
+                    <div class="problem-card kt">chunked &amp; windowed (sliding window)</div>
+                    <div class="problem-card kt">associate, associateBy, associateWith</div>
+                    <div class="problem-card kt">Sequences vs Lists (lazy evaluation)</div>
+                    <div class="problem-card kt">take, drop, takeWhile, dropWhile</div>
+                    <div class="problem-card kt">any, all, none, count, find, first, last</div>
+                    <div class="problem-card kt">Intersect, union, subtract of two lists</div>
+                    <div class="problem-card kt">Immutable vs read-only collections</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔤</span> Kotlin Strings &amp; Numbers</div>
+                <div class="problems">
+                    <div class="problem-card kt">Reverse string (reversed())</div>
+                    <div class="problem-card kt">Palindrome check</div>
+                    <div class="problem-card kt">Anagram check (toCharArray().sorted())</div>
+                    <div class="problem-card kt">Character frequency (groupingBy)</div>
+                    <div class="problem-card kt">First non-repeated character</div>
+                    <div class="problem-card kt">Count vowels (count { it in "aeiou" })</div>
+                    <div class="problem-card kt">Reverse words in sentence</div>
+                    <div class="problem-card kt">Prime number (in-range checks)</div>
+                    <div class="problem-card kt">Fibonacci (generateSequence)</div>
+                    <div class="problem-card kt">Factorial (recursion &amp; fold)</div>
+                    <div class="problem-card kt">FizzBuzz (when expression)</div>
+                    <div class="problem-card kt">Second largest in list</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">✨</span> Kotlin Language Programs</div>
+                <div class="problems">
+                    <div class="problem-card kt">Null safety (?. ?: !! let)</div>
+                    <div class="problem-card kt">Data class (copy, equals, destructuring)</div>
+                    <div class="problem-card kt">Sealed class + when</div>
+                    <div class="problem-card kt">Extension functions</div>
+                    <div class="problem-card kt">Higher-order functions &amp; lambdas</div>
+                    <div class="problem-card kt">Scope functions (let, apply, also, run, with)</div>
+                    <div class="problem-card kt">object, companion object, singleton</div>
+                    <div class="problem-card kt">Operator overloading</div>
+                    <div class="problem-card kt">Delegation (by lazy, by Delegates)</div>
+                    <div class="problem-card kt">Generics (in / out variance)</div>
+                    <div class="problem-card kt">inline, noinline, crossinline, reified</div>
+                    <div class="problem-card kt">Infix &amp; DSL builder</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">⚡</span> Coroutines &amp; Flow</div>
+                <div class="problems">
+                    <div class="problem-card kt">launch vs async/await</div>
+                    <div class="problem-card kt">Parallel API calls with async</div>
+                    <div class="problem-card kt">withContext &amp; Dispatchers</div>
+                    <div class="problem-card kt">Coroutine exception handling</div>
+                    <div class="problem-card kt">Flow, StateFlow, SharedFlow</div>
+                    <div class="problem-card kt">Channel producer-consumer</div>
+                    <div class="problem-card kt">Mutex / thread-safe counter</div>
+                    <div class="problem-card kt">Retry with delay in coroutine</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🧮</span> Kotlin Algorithm Solutions</div>
+                <div class="problems">
+                    <div class="problem-card kt">Two sum (HashMap)</div>
+                    <div class="problem-card kt">Valid parentheses (ArrayDeque)</div>
+                    <div class="problem-card kt">Merge intervals</div>
+                    <div class="problem-card kt">Top K frequent elements</div>
+                    <div class="problem-card kt">Binary search</div>
+                    <div class="problem-card kt">LRU cache (LinkedHashMap)</div>
+                    <div class="problem-card kt">Employee: highest salary per department</div>
+                    <div class="problem-card kt">Group anagrams</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SECTION 8 – ALL KINDS OF PROBLEMS -->
+    <div class="section sec-allkinds" data-level="allkinds">
+        <div class="section-header" onclick="toggle(this)">
+            <div class="level-dot"></div>
+            <span class="section-title">🧩 All Kinds of Coding Problems</span>
+            <span class="section-meta">Every common problem type asked in interviews</span>
+            <div class="chevron open"></div>
+        </div>
+        <div class="section-body open">
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔢</span> More Number Problems</div>
+                <div class="problems">
+                    <div class="problem-card all">GCD &amp; LCM</div>
+                    <div class="problem-card all">Perfect number</div>
+                    <div class="problem-card all">Strong number</div>
+                    <div class="problem-card all">Automorphic number</div>
+                    <div class="problem-card all">Happy number</div>
+                    <div class="problem-card all">Prime numbers in a range</div>
+                    <div class="problem-card all">Sieve of Eratosthenes</div>
+                    <div class="problem-card all">Prime factors of a number</div>
+                    <div class="problem-card all">Decimal to binary / binary to decimal</div>
+                    <div class="problem-card all">Power of a number (fast exponent)</div>
+                    <div class="problem-card all">Square root without library</div>
+                    <div class="problem-card all">Number to words</div>
+                    <div class="problem-card all">Roman to integer / integer to Roman</div>
+                    <div class="problem-card all">Add two big numbers (strings)</div>
+                    <div class="problem-card all">Check power of two</div>
+                    <div class="problem-card all">Trailing zeros in factorial</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔤</span> More String Problems</div>
+                <div class="problems">
+                    <div class="problem-card all">Remove whitespace / special chars</div>
+                    <div class="problem-card all">Toggle case / capitalize each word</div>
+                    <div class="problem-card all">String compression (aabbb → a2b3)</div>
+                    <div class="problem-card all">Check rotation of string</div>
+                    <div class="problem-card all">Longest common prefix</div>
+                    <div class="problem-card all">Valid parentheses / balanced brackets</div>
+                    <div class="problem-card all">Count words in a sentence</div>
+                    <div class="problem-card all">Pangram check</div>
+                    <div class="problem-card all">Isomorphic strings</div>
+                    <div class="problem-card all">Permutations of a string</div>
+                    <div class="problem-card all">Substring search (indexOf, KMP)</div>
+                    <div class="problem-card all">Atoi (string to integer)</div>
+                    <div class="problem-card all">Reverse each word in place</div>
+                    <div class="problem-card all">Smallest window containing all chars</div>
+                    <div class="problem-card all">Count occurrences of a substring</div>
+                    <div class="problem-card all">Find all duplicates in a sentence</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">📦</span> More Array Problems</div>
+                <div class="problems">
+                    <div class="problem-card all">Rotate array by K</div>
+                    <div class="problem-card all">Move zeroes to end</div>
+                    <div class="problem-card all">Leaders in array</div>
+                    <div class="problem-card all">Equilibrium index</div>
+                    <div class="problem-card all">Sort 0s, 1s, 2s (Dutch flag)</div>
+                    <div class="problem-card all">Find pair with given sum</div>
+                    <div class="problem-card all">Contiguous subarray with max sum</div>
+                    <div class="problem-card all">Maximum &amp; minimum in one pass</div>
+                    <div class="problem-card all">Union &amp; intersection of arrays</div>
+                    <div class="problem-card all">Next permutation</div>
+                    <div class="problem-card all">Best time to buy &amp; sell stock</div>
+                    <div class="problem-card all">Container with most water</div>
+                    <div class="problem-card all">Longest consecutive sequence</div>
+                    <div class="problem-card all">Find peak element</div>
+                    <div class="problem-card all">Kth largest / smallest element</div>
+                    <div class="problem-card all">Count inversions</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔃</span> Sorting &amp; Searching Algorithms</div>
+                <div class="problems">
+                    <div class="problem-card all">Selection sort</div>
+                    <div class="problem-card all">Insertion sort</div>
+                    <div class="problem-card all">Merge sort</div>
+                    <div class="problem-card all">Quick sort</div>
+                    <div class="problem-card all">Heap sort</div>
+                    <div class="problem-card all">Counting sort</div>
+                    <div class="problem-card all">Binary search (iterative &amp; recursive)</div>
+                    <div class="problem-card all">Sqrt via binary search</div>
+                    <div class="problem-card all">Ternary / jump search</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🔗</span> Linked List (Full)</div>
+                <div class="problems">
+                    <div class="problem-card all">Implement singly linked list</div>
+                    <div class="problem-card all">Insert / delete at position</div>
+                    <div class="problem-card all">Reverse (iterative &amp; recursive)</div>
+                    <div class="problem-card all">Detect &amp; remove cycle</div>
+                    <div class="problem-card all">Palindrome linked list</div>
+                    <div class="problem-card all">Intersection of two lists</div>
+                    <div class="problem-card all">Remove duplicates from sorted list</div>
+                    <div class="problem-card all">Add two numbers (linked lists)</div>
+                    <div class="problem-card all">Clone list with random pointer</div>
+                    <div class="problem-card all">Doubly &amp; circular linked list</div>
+                    <div class="problem-card all">Reverse in groups of K</div>
+                    <div class="problem-card all">Sort a linked list</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">📚</span> Stack, Queue &amp; Deque</div>
+                <div class="problems">
+                    <div class="problem-card all">Implement stack (array &amp; list)</div>
+                    <div class="problem-card all">Implement queue / circular queue</div>
+                    <div class="problem-card all">Stack using two queues</div>
+                    <div class="problem-card all">Evaluate postfix expression</div>
+                    <div class="problem-card all">Infix to postfix</div>
+                    <div class="problem-card all">Daily temperatures</div>
+                    <div class="problem-card all">Largest rectangle in histogram</div>
+                    <div class="problem-card all">Sliding window maximum (Deque)</div>
+                    <div class="problem-card all">Reverse a stack using recursion</div>
+                    <div class="problem-card all">Sort a stack</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🌲</span> Trees &amp; BST (Full)</div>
+                <div class="problems">
+                    <div class="problem-card all">Inorder / preorder / postorder (recursive &amp; iterative)</div>
+                    <div class="problem-card all">Level order &amp; zigzag traversal</div>
+                    <div class="problem-card all">Insert / search / delete in BST</div>
+                    <div class="problem-card all">Maximum depth / diameter of tree</div>
+                    <div class="problem-card all">Check balanced tree</div>
+                    <div class="problem-card all">Mirror / invert binary tree</div>
+                    <div class="problem-card all">Same tree / symmetric tree</div>
+                    <div class="problem-card all">Path sum</div>
+                    <div class="problem-card all">Kth smallest in BST</div>
+                    <div class="problem-card all">Top / bottom / right view</div>
+                    <div class="problem-card all">Construct tree from inorder + preorder</div>
+                    <div class="problem-card all">Lowest common ancestor (BST &amp; BT)</div>
+                    <div class="problem-card all">Sorted array to BST</div>
+                    <div class="problem-card all">Trie (insert / search / prefix)</div>
+                    <div class="problem-card all">Min / max heap implementation</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🕸️</span> Graphs</div>
+                <div class="problems">
+                    <div class="problem-card all">Graph representation (adj list / matrix)</div>
+                    <div class="problem-card all">BFS &amp; DFS traversal</div>
+                    <div class="problem-card all">Detect cycle (directed &amp; undirected)</div>
+                    <div class="problem-card all">Shortest path (Dijkstra)</div>
+                    <div class="problem-card all">Connected components</div>
+                    <div class="problem-card all">Clone graph</div>
+                    <div class="problem-card all">Rotting oranges / flood fill</div>
+                    <div class="problem-card all">Word ladder</div>
+                    <div class="problem-card all">Union-Find (disjoint set)</div>
+                    <div class="problem-card all">Minimum spanning tree (Kruskal / Prim)</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">💡</span> Dynamic Programming &amp; Recursion</div>
+                <div class="problems">
+                    <div class="problem-card all">Fibonacci (memoization &amp; tabulation)</div>
+                    <div class="problem-card all">Tower of Hanoi</div>
+                    <div class="problem-card all">Power set / subsets</div>
+                    <div class="problem-card all">Permutations &amp; combinations</div>
+                    <div class="problem-card all">Combination sum</div>
+                    <div class="problem-card all">Palindrome partitioning</div>
+                    <div class="problem-card all">Rat in a maze</div>
+                    <div class="problem-card all">Sudoku solver</div>
+                    <div class="problem-card all">0/1 Knapsack</div>
+                    <div class="problem-card all">Longest common subsequence</div>
+                    <div class="problem-card all">Longest increasing subsequence</div>
+                    <div class="problem-card all">Edit distance</div>
+                    <div class="problem-card all">Coin change (ways &amp; min coins)</div>
+                    <div class="problem-card all">Unique paths in grid</div>
+                    <div class="problem-card all">Maximum product subarray</div>
+                    <div class="problem-card all">Partition equal subset sum</div>
+                    <div class="problem-card all">Decode ways</div>
+                    <div class="problem-card all">Minimum path sum</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🧱</span> Matrix / 2D Array</div>
+                <div class="problems">
+                    <div class="problem-card all">Transpose matrix</div>
+                    <div class="problem-card all">Rotate matrix 90°</div>
+                    <div class="problem-card all">Spiral traversal</div>
+                    <div class="problem-card all">Matrix multiplication</div>
+                    <div class="problem-card all">Search in sorted 2D matrix</div>
+                    <div class="problem-card all">Set matrix zeroes</div>
+                    <div class="problem-card all">Diagonal sum</div>
+                    <div class="problem-card all">Valid Sudoku</div>
+                    <div class="problem-card all">Word search in grid</div>
+                    <div class="problem-card all">Pascal's triangle</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">⚡</span> Bit Manipulation</div>
+                <div class="problems">
+                    <div class="problem-card all">Count set bits</div>
+                    <div class="problem-card all">Check even / odd using bits</div>
+                    <div class="problem-card all">Swap numbers using XOR</div>
+                    <div class="problem-card all">Single number (XOR)</div>
+                    <div class="problem-card all">Reverse bits</div>
+                    <div class="problem-card all">Missing number (XOR)</div>
+                    <div class="problem-card all">Power of two check</div>
+                    <div class="problem-card all">Generate subsets using bitmask</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🎯</span> Two Pointers &amp; Sliding Window</div>
+                <div class="problems">
+                    <div class="problem-card all">Two sum (sorted array)</div>
+                    <div class="problem-card all">Remove duplicates in-place</div>
+                    <div class="problem-card all">Valid palindrome (ignore non-alphanumeric)</div>
+                    <div class="problem-card all">Max sum subarray of size K</div>
+                    <div class="problem-card all">Longest substring with K distinct chars</div>
+                    <div class="problem-card all">Minimum size subarray sum</div>
+                    <div class="problem-card all">Permutation in string</div>
+                    <div class="problem-card all">Fruit into baskets</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🖨️</span> Pattern Printing</div>
+                <div class="problems">
+                    <div class="problem-card all">Right-angle &amp; inverted triangle</div>
+                    <div class="problem-card all">Pyramid &amp; diamond</div>
+                    <div class="problem-card all">Floyd's triangle</div>
+                    <div class="problem-card all">Number &amp; alphabet patterns</div>
+                    <div class="problem-card all">Hollow square / pyramid</div>
+                    <div class="problem-card all">Butterfly pattern</div>
+                </div>
+            </div>
+
+            <div class="category">
+                <div class="cat-label"><span class="cat-icon">🗃️</span> SQL Coding Queries</div>
+                <div class="problems">
+                    <div class="problem-card all">Second / Nth highest salary</div>
+                    <div class="problem-card all">Find duplicate rows</div>
+                    <div class="problem-card all">Delete duplicates (keep one)</div>
+                    <div class="problem-card all">Department-wise max salary</div>
+                    <div class="problem-card all">Employees earning more than manager</div>
+                    <div class="problem-card all">Top 3 per group (window functions)</div>
+                    <div class="problem-card all">Employees with no department (LEFT JOIN)</div>
+                    <div class="problem-card all">Consecutive numbers / running total</div>
+                </div>
+            </div>
 
         </div>
     </div>
