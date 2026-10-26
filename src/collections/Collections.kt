@@ -78,6 +78,8 @@ fun main() {
     findTheHighestPaidEmployee(list)
     filterEvenNumbers()
     filterOddNumbers()
+    groupWordsByTheirLength()
+    squareEveryNumber()
 }
 
 fun printAll(strings: Collection<String>) {
@@ -109,6 +111,11 @@ fun findTheHighestPaidEmployee(list : ArrayList<Employee>){
     }
     println(group)
 }
+val strings = listOf("one","two","three","four","o")
+fun groupWordsByTheirLength(){
+    val words = strings.groupBy { it.length }
+    println(words)
+}
 val numbers = listOf(1,2,3,4,5,6,7,8,9,10)
 fun filterEvenNumbers(){
    val evenNumbers = numbers.filter { it%2 ==0 }
@@ -117,4 +124,8 @@ fun filterEvenNumbers(){
 fun filterOddNumbers(){
     val evenNumbers = numbers.filter { it%2 !=0 }
     println(evenNumbers.joinToString())
+}
+fun squareEveryNumber(){
+    val values = numbers.map { it*2 }
+    println(values)
 }
