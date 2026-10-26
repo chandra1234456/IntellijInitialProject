@@ -12,7 +12,37 @@ fun main(){
     findTwoSum(listOf(3,2,4),6)
     findTwoSum(listOf(3,3),6)
     findCountVowelsConsonants("aeiourxc")
+    removeDuplicateLetters("bcabc")//abc
+    removeDuplicateLettersArray("cbacdcbc") //acdb
+}
 
+fun removeDuplicateLetters(input: String) {
+    var result = ""
+    for (char in input) {
+        if (char !in result) {
+            result += char
+        }
+    }
+    println(result)
+}
+fun removeDuplicateLettersArray(input: String) {
+    val listStrings = input.toCharArray()
+    var result = ""
+    for (i in listStrings.indices) {
+        var isDuplicate = false
+        for (j in 0 until i) {
+            if (listStrings[i] == listStrings[j]) {
+                isDuplicate = true
+                break
+            }
+        }
+
+        if (!isDuplicate) {
+            result += listStrings[i]
+        }
+    }
+
+    println(result)
 }
 fun findCountVowelsConsonants(input :String){
     val vowels = listOf('a','e','i','o','u')
