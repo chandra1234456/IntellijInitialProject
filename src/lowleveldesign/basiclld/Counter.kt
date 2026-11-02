@@ -17,9 +17,8 @@ data class Counter(
 ) {
     constructor() : this(0)
 
-    fun reset(): Int {
+    fun reset() {
         countValue = 0
-        return countValue
     }
 
     fun getValue(): Int {
