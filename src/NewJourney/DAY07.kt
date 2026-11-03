@@ -46,7 +46,47 @@ fun main(){
     findLargestOfThreeNumbers(70, 60,50)
     checkEvenOrOdd(7)
     checkPositiveNegativeZero(0)
+    swapTwoNumber()
+    findSquareOfaNumber(10)
+    findAreaOfaCircleInput(7)
+    findSumOfDigits(1234)
+    findSumOfDigitsValue(1234)
+}
+fun findSumOfDigitsValue(a: Int) {
+    var num = a
+    var sum = 0
 
+    while (num > 0) {
+        val digit = num % 10
+        sum += digit
+        num /= 10
+    }
+    println(sum)
+}
+
+fun findSumOfDigits(a: Int){
+    val numbers = a.toString().toCharArray()
+    var sum = 0
+    for (i in numbers.indices){
+        sum+=numbers[i].digitToInt()
+        println(sum)
+    }
+    //println(sum)
+}
+fun findAreaOfaCircleInput(a:Int){
+    println(3.14*a*a)
+}
+fun findSquareOfaNumber(a:Int){
+    println(a*a)
+}
+fun swapTwoNumber(){
+    var a= 20
+    var b=30
+    val temp = b
+    b = a
+    a = temp
+    println(a)
+    println(b)
 }
 fun checkPositiveNegativeZero(a:Int){
     if (0>a){
