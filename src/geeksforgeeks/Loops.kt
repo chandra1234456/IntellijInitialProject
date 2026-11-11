@@ -2,7 +2,7 @@ package geeksforgeeks
 
 
 fun main() {
-    println("Hello Kotlin")
+    //println("Hello Kotlin")
     //printLoop()
     //printAllEven()
     //sumOf()
@@ -10,12 +10,37 @@ fun main() {
     //val numbers = listOf(10, 45, 2, 78, 23)
     //findLargest(numbers)
    // println(numbers.maxOrNull())
-    countFrequency(listOf(1, 2, 2, 3, 3, 3))
-    countFrequencyMap(listOf(1, 2, 2, 3, 3, 3))
-    val result = listOf(1, 1,2, 2, 3, 3, 3).groupingBy { it }.eachCount()
-    println(result)
-    firstNonRepeatingElement(listOf(4, 5, 1, 2, 1, 2, 4))
+    //countFrequency(listOf(1, 2, 2, 3, 3, 3))
+    //countFrequencyMap(listOf(1, 2, 2, 3, 3, 3))
+    //val result = listOf(1, 1,2, 2, 3, 3, 3).groupingBy { it }.eachCount()
+    //println(result)
+    //firstNonRepeatingElement(listOf(4, 5, 1, 2, 1, 2, 4))
+    //alternateElementsOfAnArray(arrayOf(10, 20, 30, 40, 50))
+    leadersInAnArray(arrayListOf(16, 17, 4, 3, 5, 2))
 }
+
+/*fun alternateElementsOfAnArray(array: Array<Int>){
+    for(i in 0 until array.size step 2){
+       println(array[i])
+    }
+}*/
+fun leadersInAnArray(newList: ArrayList<Int>){
+    val leaderList = mutableListOf<Int>()
+    for (i in newList.indices){
+        for (j in i+1 until newList.size-1){
+            if (newList[i]<newList[j]){
+                break
+            }
+
+            if (newList[j]==newList.last()){
+                leaderList.add(newList[i])
+            }
+        }
+    }
+    println(leaderList.joinToString())
+}
+
+
 fun firstNonRepeatingElement(list: List<Int>) {
       for(i in list){
           for (j in i+1..list.lastIndex){
