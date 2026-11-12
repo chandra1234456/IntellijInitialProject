@@ -2,174 +2,74 @@ package geeksforgeeks
 
 
 fun main() {
-    //println("Hello Kotlin")
-    //printLoop()
-    //printAllEven()
-    //sumOf()
-    //  reverseNum(1234)
-    //val numbers = listOf(10, 45, 2, 78, 23)
-    //findLargest(numbers)
-   // println(numbers.maxOrNull())
-    //countFrequency(listOf(1, 2, 2, 3, 3, 3))
-    //countFrequencyMap(listOf(1, 2, 2, 3, 3, 3))
-    //val result = listOf(1, 1,2, 2, 3, 3, 3).groupingBy { it }.eachCount()
-    //println(result)
-    //firstNonRepeatingElement(listOf(4, 5, 1, 2, 1, 2, 4))
-    //alternateElementsOfAnArray(arrayOf(10, 20, 30, 40, 50))
-    leadersInAnArray(arrayListOf(16, 17, 4, 3, 5, 2))
+    removeDuplicatesFromSorted(arrayListOf(1, 2, 2, 3, 4, 4, 4, 5, 5))
+    arrayReverse(arrayListOf(1, 2, 2, 3, 4, 4, 4, 5, 5))
+    moveAllZerostoEndofArray(arrayListOf(1, 0, 3, 0, 5, 2))
+    moveAllZerostoEndofArrayNew(arrayListOf(1, 0, 3, 0, 5, 2))
+    removeDuplicateCharactersFromAString("Heelloo")
 }
-
-/*fun alternateElementsOfAnArray(array: Array<Int>){
-    for(i in 0 until array.size step 2){
-       println(array[i])
+fun removeDuplicateCharactersFromAString(input : String){
+     val newCharArray = input.toCharArray()
+     var uniqueString = ""
+     for(i in newCharArray){
+         if (i !in uniqueString){
+             uniqueString+=i
+         }
+     }
+    println(uniqueString)
+}
+fun moveAllZerosToEnd(newList: ArrayList<Int>) {
+    var index = 0
+    for (i in newList.indices) {
+        if (newList[i] != 0) {
+            val temp = newList[i]
+            newList[i] = newList[index]
+            newList[index] = temp
+            index++
+        }
     }
-}*/
-fun leadersInAnArray(newList: ArrayList<Int>){
-    val leaderList = mutableListOf<Int>()
+
+    println(newList.joinToString())
+}
+fun moveAllZerostoEndofArray(newList: ArrayList<Int>){
     for (i in newList.indices){
-        for (j in i+1 until newList.size-1){
-            if (newList[i]<newList[j]){
-                break
-            }
-
-            if (newList[j]==newList.last()){
-                leaderList.add(newList[i])
-            }
-        }
+       for (j in i+1 until newList.size){
+           if (newList[i]<newList[j]){
+               val temp = newList[j]
+               newList[j] = newList[i]
+               newList[i] = temp
+           }
+       }
     }
-    println(leaderList.joinToString())
+    println(newList.joinToString())
 }
-
-
-fun firstNonRepeatingElement(list: List<Int>) {
-      for(i in list){
-          for (j in i+1..list.lastIndex){
-              if (list[i]==list[j]){
-
-              }
-          }
-      }
-}
-fun countFrequency(list: List<Int>) {
-    for (i in list.indices) {
-        var count = 1
-        var alreadyCounted = false
-        // Check if already processed
-        for (k in 0 until i) {
-            if (list[k] == list[i]) {
-                alreadyCounted = true
-                break
-            }
-        }
-        if (alreadyCounted) continue
-        for (j in i + 1..list.lastIndex) {
-            if (list[i] == list[j]) {
-                count++
-            }
+fun moveAllZerostoEndofArrayNew(newList: ArrayList<Int>){
+    val allZeroList = ArrayList<Int>()
+    val nonZeroList = ArrayList<Int>()
+    for (i in newList){
+        if (i == 0){
+            allZeroList.add(i)
+        }else {
+            nonZeroList.add(i)
         }
 
-        println("${list[i]} -> $count")
     }
-}
-fun countFrequencyMap(list: List<Int>) {
-    val map = mutableMapOf<Int, Int>()
-
-    for (num in list) {
-        map[num] = (map[num] ?: 0) + 1
-    }
-
-    println(map)
+    println(nonZeroList+allZeroList.joinToString())
 }
 
-fun findLargest(numbers: List<Int>) {
-    if (numbers.isEmpty()) {
-        println("List is empty")
-        return
+fun arrayReverse(newList: ArrayList<Int>){
+    val reverseList = ArrayList<Int>()
+    for(i in newList.lastIndex downTo 0){
+        reverseList.add(newList[i])
     }
-    var largest = numbers[0]
-
-    for (num in numbers) {
-        if (num > largest) {
-            largest = num
+    println(reverseList.joinToString())
+}
+fun removeDuplicatesFromSorted(newList: ArrayList<Int>){
+    val distinctList = ArrayList<Int>()
+    for (i in newList){
+        if (i !in distinctList){
+            distinctList.add(i)
         }
     }
-    println(largest)
+   println(distinctList.joinToString())
 }
-fun findLargestLoops(numbers: List<Int>) {
-    if (numbers.isEmpty()) {
-        println("List is empty")
-        return
-    }
-    var largest = numbers[0]
-
-    for (i in numbers.indices) {
-        for (j in i + 1..numbers.lastIndex) {
-            if (numbers[j] > largest) {
-                largest = numbers[j]
-            }
-        }
-    }
-
-    println(largest)
-}
-fun printLoop() {
-    for (i in 1..11) {
-        print("$i ")
-    }
-}
-
-/*fun printAllEven() {
-    for (i in 2..20 step 2) {
-        print("$i ")
-    }
-}*/
-fun printAllEven() {
-    for (i in 1..20) {
-        if (i % 2 == 0) {
-            print("$i ")
-        }
-    }
-}
-
-//“Can you do this without a loop?”
-//val sum = 100 * 101 / 2
-fun sumOf() {
-    var totalSum = 0
-    for (i in 1..200) {
-        totalSum += i
-    }
-    println(totalSum)
-}
-
-//Leading zeros are not stored in integers, so:
-//1000 → reversed becomes 0001
-//But 0001 is just 1 as an Int
-fun reverseNum(i: Int) {
-    var number = 1000
-    var reverseValue = 0
-    while (number != 0) {
-        val digit = number % 10
-        reverseValue = reverseValue * 10 + digit
-        number /= 10
-    }
-    println(reverseValue)
-}
-fun reverseNumber(x: Int): Int {
-    var num = x
-    var reversed = 0
-
-    while (num != 0) {
-        val digit = num % 10
-        num /= 10
-
-        // Check for overflow before multiplying
-        if (reversed > Int.MAX_VALUE / 10 || reversed < Int.MIN_VALUE / 10) {
-            return 0
-        }
-
-        reversed = reversed * 10 + digit
-    }
-
-    return reversed
-}
-
