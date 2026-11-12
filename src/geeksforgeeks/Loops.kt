@@ -2,74 +2,48 @@ package geeksforgeeks
 
 
 fun main() {
-    removeDuplicatesFromSorted(arrayListOf(1, 2, 2, 3, 4, 4, 4, 5, 5))
-    arrayReverse(arrayListOf(1, 2, 2, 3, 4, 4, 4, 5, 5))
-    moveAllZerostoEndofArray(arrayListOf(1, 0, 3, 0, 5, 2))
-    moveAllZerostoEndofArrayNew(arrayListOf(1, 0, 3, 0, 5, 2))
-    removeDuplicateCharactersFromAString("Heelloo")
+    firstOne(arrayListOf(5, 2, 8, 1, 9, 4, 6))
+    secondOne(arrayListOf(10, 20, 10, 30, 20, 40, 30, 50))
+    thirdOne(arrayListOf(2, 4, 6, 7, 8, 10))
+    fourOne(arrayListOf(2, 4, 6, 7, 8, 10))
+    fiveOne(arrayListOf(1, 2, 3))
+    sixOne(arrayListOf("apple", "ant", "banana", "ball", "cat", "car"))
+    sevenOne(arrayListOf("Ram", "Ravi", "Raj", "Sam"))
+    eightOne(arrayListOf(1, 2, 3, 4, 5, 6, 7, 8))
 }
-fun removeDuplicateCharactersFromAString(input : String){
-     val newCharArray = input.toCharArray()
-     var uniqueString = ""
-     for(i in newCharArray){
-         if (i !in uniqueString){
-             uniqueString+=i
-         }
-     }
-    println(uniqueString)
+fun eightOne(list : ArrayList<Int>){
+    val newList = list.partition {it%2==0 }//.map { it }
+    println(newList)
 }
-fun moveAllZerosToEnd(newList: ArrayList<Int>) {
-    var index = 0
-    for (i in newList.indices) {
-        if (newList[i] != 0) {
-            val temp = newList[i]
-            newList[i] = newList[index]
-            newList[index] = temp
-            index++
-        }
-    }
-
-    println(newList.joinToString())
+fun sevenOne(list : ArrayList<String>){
+    val newList = list.mapIndexed {index,value -> list[index] }//.map { it }
+    println(newList)
 }
-fun moveAllZerostoEndofArray(newList: ArrayList<Int>){
-    for (i in newList.indices){
-       for (j in i+1 until newList.size){
-           if (newList[i]<newList[j]){
-               val temp = newList[j]
-               newList[j] = newList[i]
-               newList[i] = temp
-           }
-       }
-    }
-    println(newList.joinToString())
+fun sixOne(list : ArrayList<String>){
+    val newList = list.groupBy { it.get(0) }
+    println(newList)
 }
-fun moveAllZerostoEndofArrayNew(newList: ArrayList<Int>){
-    val allZeroList = ArrayList<Int>()
-    val nonZeroList = ArrayList<Int>()
-    for (i in newList){
-        if (i == 0){
-            allZeroList.add(i)
-        }else {
-            nonZeroList.add(i)
-        }
-
-    }
-    println(nonZeroList+allZeroList.joinToString())
+fun fiveOne(list : ArrayList<Int>){
+    val newList = list.flatMap{ num -> listOf(num, num * 2)}
+    println(newList)
 }
-
-fun arrayReverse(newList: ArrayList<Int>){
-    val reverseList = ArrayList<Int>()
-    for(i in newList.lastIndex downTo 0){
-        reverseList.add(newList[i])
-    }
-    println(reverseList.joinToString())
+fun firstOne(list : ArrayList<Int>){
+    val newList = list.filter { it > 4 }.map { it*2 }.sorted()
+    println(newList)
 }
-fun removeDuplicatesFromSorted(newList: ArrayList<Int>){
-    val distinctList = ArrayList<Int>()
-    for (i in newList){
-        if (i !in distinctList){
-            distinctList.add(i)
-        }
-    }
-   println(distinctList.joinToString())
+fun secondOne(list : ArrayList<Int>){
+   val newList = list.distinct().sortedDescending()
+   println(newList)
+}
+fun thirdOne(list : ArrayList<Int>){
+    val newList = list.takeWhile { it%2==0 }
+    println(newList)
+    val newList1 = list.filter { it%2==0 }
+    println(newList1)
+}
+fun fourOne(list : ArrayList<Int>){
+    val newList = list.dropWhile { it<7 }
+    println(newList)
+    val newList1 = list.filterNot  { it<7 }
+    println(newList1)
 }
