@@ -16,11 +16,11 @@ fun eightOne(list : ArrayList<Int>){
     println(newList)
 }
 fun sevenOne(list : ArrayList<String>){
-    val newList = list.mapIndexed {index,value -> list[index] }//.map { it }
+    val newList = list.mapIndexed {index,_ -> list[index] }//.map { it }
     println(newList)
 }
 fun sixOne(list : ArrayList<String>){
-    val newList = list.groupBy { it.get(0) }
+    val newList = list.groupBy { it[0] }
     println(newList)
 }
 fun fiveOne(list : ArrayList<Int>){
