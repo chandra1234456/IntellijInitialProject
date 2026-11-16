@@ -1,8 +1,7 @@
 package geeksforgeeks
 
-import kotlin.math.max
 
-
+//https://neetcode.io/courses/ood-interview/0
 fun main(){
     reverseAString("Hello")
     reverseWordSentence("I love learning programming")
